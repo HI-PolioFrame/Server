@@ -1,7 +1,7 @@
 import { oriUsers, oriPortfolios, oriProjects } from "../domain/startProgram.js";
 import { LinkedList } from "../DataStructure/linkedList.jsx"
 
-const sort = ( category, sortOption, filterOption, isSearched, searchedList=null ) => {
+const sort = ( category, sortOption, filterOption, searchedList=null ) => {
     // 카테고리, 정렬옵션, 필터옵션이 모두 null이면 종료한다.
     //
     // 이 부분은 filterOprion의 배열을 쪼개는 방법이 추가되어야 한다.
@@ -11,14 +11,7 @@ const sort = ( category, sortOption, filterOption, isSearched, searchedList=null
     }
 
     let sortedPortfolios = new LinkedList();
-
-    if (isSearched === true) {
-        let curPortfolios = new LinkedList();
-        curPortfolios = searchedList;
-    } else if (searchedList !== null) {
-        let curPortfolios = new Map();
-        curPortfolios = oriPortfolios;
-    }
+    curPortfolios = searchedList || oriPortfolios;
     
     // 카테고리에 따른 리스트 초기 추가
     if ( category == null ){ // 카테고리가 null이면 모든 템플릿 """이것은 포트폴리오이다"""을 저장한다.
@@ -80,7 +73,7 @@ const sort = ( category, sortOption, filterOption, isSearched, searchedList=null
                     pofol.projects.forEach(project => {
                         // 각 포폴의 progects 배열을 순회하면 progectId를 얻음
                         // project는 각 포폴 속 프로젝트아이디의 '스트링' 배열
-                        if(oriProjects.get(Number(project)).stack != element){
+                        if(oriProjects.get(Number(project)).stack != element){      // !=이 논리상 맞는데 why??? 
                             nonFilterCount++;
                         }
                     });

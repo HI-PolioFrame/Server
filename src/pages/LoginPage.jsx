@@ -8,14 +8,17 @@ import Eyeoff from "../assets/icons/Login/Eyeoff.png";
 
 import { userInfo } from "../components/commmon/dummydata/userInfo.jsx"; 
 
+
 const LoginPage = () => {
     const [eyeVisible, setEyeVisible] = useState(false);
     const [email, setEmail] = useState("");
     const [Id, setId] = useState("");
     const [password, setPassword] = useState("");
 
+    
     const navigate = useNavigate();
 
+    // 회원가입 페이지 이동
     // 회원가입 페이지 이동
     const onClickImg = () => {
         navigate("/MemberSelectionPage");
@@ -66,7 +69,29 @@ const LoginPage = () => {
                         }
                     }}
                 />
+                <IDinput
+                    placeholder="이메일 주소 또는 아이디"
+                    value={email || Id}
+                    onChange={(e) => {
+                        if (e.target.value.includes('@')) {
+                            setEmail(e.target.value);
+                        } else {
+                            setId(e.target.value);
+                        }
+                    }}
+                />
                 <PassWrapper>
+                    <PASSinput
+                        type={eyeVisible ? "text" : "password"}
+                        placeholder="비밀번호"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <EyeIcon
+                        src={eyeVisible ? Eyeoff : Eye}
+                        alt="eye"
+                        onClick={toggleEyeVisible}
+                    />
                     <PASSinput
                         type={eyeVisible ? "text" : "password"}
                         placeholder="비밀번호"
@@ -81,6 +106,7 @@ const LoginPage = () => {
                 </PassWrapper>
             </JoinWrapper>
             <LoginButton onClick={handleLogin}>로그인</LoginButton>
+            <LoginButton onClick={handleLogin}>로그인</LoginButton>
             <MemberWrapper>
                 <Text>회원이 아니신가요? |</Text>
                 <JoinButton onClick={onClickImg}>회원가입</JoinButton>
@@ -90,6 +116,7 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+
 
 
 //css Wrapper
