@@ -75,6 +75,8 @@ const MainText = styled.div`
   font-weight: 700;
   text-align: center;
   color: #fff;
+  font-family: "OTF B";
+
 `;
 
 const Text = styled.div`

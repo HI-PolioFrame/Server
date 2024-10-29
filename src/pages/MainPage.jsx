@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import { Navigate } from "react-router-dom";
-import MainCard from "../components/comm mon/MainCard";
+import MainCard from "../components/commmon/MainCard";
 
 // import search from "../assets/icons/Header/search.png";
 import Logo from "../assets/icons/Logo.png";
@@ -47,9 +47,9 @@ const MainPage = () => {
                 </CardWrapper>
                 
                 {/* 슬라이드 */}
-                {/* <SlideWrapper>
+                <SlideWrapper>
                     <Slide />
-                </SlideWrapper> */}
+                </SlideWrapper>
 
             </MainPageWrapper>
             

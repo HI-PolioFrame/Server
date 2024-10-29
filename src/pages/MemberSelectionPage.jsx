@@ -7,52 +7,40 @@ import { Navigate, useNavigate} from "react-router-dom";
 
 const MemberSelectionPage = () => {
     const navigate = useNavigate();
-    
+    const title1 = ["일반회원", "기업회원"];
     return (
         <>
         <Container>
             <MainText onClick={() => navigate("/")}>FolioFrame</MainText>
-            <MainWrapper>
-                
+            <Button onClick={onClick}>
+                <ImageWrapper>
+                    <TextOverlay>
+                        <MemberButton image={General} altText="일반회원" title="일반회원"  onClick={() => navigate("/SignUpPage2")}/>
+                        <Image src={image} alt={altText} />
+                        <Title>가입하기</Title>
+                    </TextOverlay>
 
-                {/* 일반회원 */}
-                <MemberButton image={General} altText="일반회원" title="일반회원"  onClick={() => navigate("/SignUpPage2")}/>
-                {/* 기업회원 */}
-                <MemberButton image={Business} altText="기업회원" title="기업회원" onClick={() => navigate("/SignUpPage")}/>
-            </MainWrapper>
+                    <TextOverlay>
+                        <MemberButton image={General} altText="일반회원" title="기업회원"  onClick={() => navigate("/SignUpPage2")}/>
+                        <Image src={image} alt={altText} />
+                        <Title>가입하기</Title>
+                    </TextOverlay>
+                </ImageWrapper>
+            </Button>
         </Container>
         </>
 
     );
 };
 
-const MemberButton = ({ image, altText, title, onClick }) => (
-    <Button onClick={onClick}>
-        <ImageWrapper>
-            <Image src={image} alt={altText} />
-            <TextOverlay>
-                <Title>{title}</Title>
-                {/* <ExplainText>
-                    설명설명설명설명설명설명설명설명
-                    설명설명설명설명설명설명설명설명
-                    설명설명설명설명설명설명설명설명
-                    설명설명설명설명설명설명설명설명
-                    설명설명설명설명설명설명설명설명
-                    설명설명설명설명설명설명설명설명
-                    설명설명설명설명설명설명설명설명
-                </ExplainText> */}
-            </TextOverlay>
-        </ImageWrapper>
-    </Button>
-);
 
 export default MemberSelectionPage;
 
 // CSS Wrapper
 const Container = styled.div`
-    background-color : #0A27A6;
+    background-color : #CFDDFB;
     width: 100%;
-    height: 10em;
+    height: 20em;
     margin : 0;
     padding : 0;
 `;
@@ -91,9 +79,10 @@ const Button = styled.button`
 
 // CSS Images
 const Image = styled.img`
-    width: 85%;
+    width: 70%;
     height: auto;
     border-radius: 1em;
+    margin-top : 5em;
 `;
 
 // CSS Text
@@ -115,10 +104,11 @@ const MainText = styled.p`
     font-family: "OTF B";
     font-weight: 700;
     font-size: 3em;
-    color: #fff;
+    color: #0A27A6;
     text-align: center;
-    // margin-top : 1em;
+    margin-top : 0em;
     cursor : pointer;
+    padding : 2em 0 ;
 `;
 const Title = styled.p`
     // font-size: 1.5em;
@@ -132,12 +122,22 @@ const Title = styled.p`
     color : #0A27A6;
     font-size : 1em;
     font-weight : 800;
+    // font-align : center;
     background-color: #fff;
     border : 1px solid #0A27A6;
     border-radius : 2em;
     height : 2em;
     width : 50%;
-    margin-top : -3em;
+    margin-top : 15em;
+
+    &:hover{
+        border : 1px solid #0A27A6;
+
+    button {
+            background-color: #0A27A6;
+            color: #fff;
+        }
+    }
 `;
 
 const ExplainText = styled.p`
