@@ -138,7 +138,12 @@ const SelectBox = () => {
         <StyledButton
           text={"적용"}
           onClick={() => {
-            console.log(selectedCategory, selectedSort, selectedFilters);
+            console.log(
+              selectedCategory,
+              selectedSort,
+              selectedFilters,
+              isSorted
+            );
             // 기능구현으로 선택된 카테고리, 정렬, 필터 보냄.
             //sort(selectedCategory, selectedSort, selectedFilters);
           }}
