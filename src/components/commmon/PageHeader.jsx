@@ -5,8 +5,8 @@ import SearchBar from './SearchBar';
 
 const PageHeader = ({
     pageTitle,
-   
     large,
+    
 }) => {
     return (
         <>

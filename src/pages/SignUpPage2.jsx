@@ -5,7 +5,7 @@ import Consent from "../components/Consent/Consent.jsx";
 import Eye from "../assets/icons/Login/Eye.png";
 import Eyeoff from "../assets/icons/Login/Eyeoff.png";
 import { userInfo } from "../components/commmon/dummydata/userInfo.jsx";
-
+// import { idSignUpDeveloper, setId, setPhoneNumber, changedId, changedPhoneNumber } from "../components/features/signUpDeveloper.jsx";
 
 const SignUpPage = () => {
     const navigate = useNavigate();
