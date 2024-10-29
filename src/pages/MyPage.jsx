@@ -72,6 +72,7 @@ function MyPage({ profilePicture, name, nickname }) {
             onClick={() => onSearchClick}
           />
         </MyTemplateMenuWrapper>
+ 
 
         <Line></Line>
 
@@ -79,11 +80,13 @@ function MyPage({ profilePicture, name, nickname }) {
           <TemplateGrid>
             {/* 기능구현으로부터 필터 기능 탑재된 filterData를 넣기 */}
             {/* {dummydata.map((data, index) => (
+            {/* {dummydata.map((data, index) => (
               <TemplateCard
                 key={index}
                 templateName={data.postTitle}
                 description={data.postContent}
                 templateThumnail={data.postBackgroundImg}
+                templateButton={"보기"}
                 templateButton={"보기"}
               />
             ))} */}

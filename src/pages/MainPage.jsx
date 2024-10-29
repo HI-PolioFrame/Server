@@ -15,6 +15,7 @@ import Slide from "../components/MainPage/Slide";
 const MainPage = () => {
     
     return (
+        
         <MainContainer>
             {/* 메인 비디오  */}
             <MainPageWrapper>
@@ -81,6 +82,9 @@ const MainPage = () => {
             </ThanksWrapper>
         </MainContainer>
     
+               
+    
+    
     );
 };
 
@@ -92,6 +96,7 @@ const MainContainer = styled.div`
     padding: 40px 40px;
     margin: 0 auto; 
 `;
+
 const MainPageWrapper = styled.div`
     display: flex;
     flex-direction: column;
@@ -99,6 +104,7 @@ const MainPageWrapper = styled.div`
     justify-content: center;
     position: relative;
 `;
+
 
 const SearchIconWrapper = styled.div`
   position: absolute; 
@@ -122,12 +128,15 @@ const CardWrapper = styled.div`
 
 const ThanksWrapper = styled.div`
     // margin : 0 6em;
+    // margin : 0 6em;
     margin-top : 6em;
 `;
 
 const CopyWrapper = styled.div`
     // display : flex;
 `;
+
+
 
 const SearchContainer = styled.div`
   position: relative; 
@@ -229,6 +238,12 @@ const PointText5 = styled.p`
     font-family: "OTF R";
     display : flex;
 `;
+
+
+
+
+
+
 
 
 
