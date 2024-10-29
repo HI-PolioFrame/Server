@@ -8,21 +8,22 @@ import { Navigate, useNavigate} from "react-router-dom";
 const MemberSelectionPage = () => {
     const navigate = useNavigate();
     const title1 = ["일반회원", "기업회원"];
+    
     return (
         <>
         <Container>
             <MainText onClick={() => navigate("/")}>FolioFrame</MainText>
-            <Button onClick={onClick}>
+            <Button>
                 <ImageWrapper>
                     <TextOverlay>
                         <MemberButton image={General} altText="일반회원" title="일반회원"  onClick={() => navigate("/SignUpPage2")}/>
-                        <Image src={image} alt={altText} />
+                        {/* <Image src={image} alt={altText} /> */}
                         <Title>가입하기</Title>
                     </TextOverlay>
 
                     <TextOverlay>
-                        <MemberButton image={General} altText="일반회원" title="기업회원"  onClick={() => navigate("/SignUpPage2")}/>
-                        <Image src={image} alt={altText} />
+                        <MemberButton image={Business} altText="일반회원" title="기업회원"  onClick={() => navigate("/SignUpPage2")}/>
+                        {/* <Image src={image} alt={altText} /> */}
                         <Title>가입하기</Title>
                     </TextOverlay>
                 </ImageWrapper>
@@ -145,4 +146,15 @@ const ExplainText = styled.p`
     color: #0A27A6;
     margin-bottom: 0.5em;
     padding: 2em;
+`;
+const MemberButton = styled.button`
+     display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 1em;
+    border: 2px solid #0A27A6;
+    background-color : #fff;
+    cursor: pointer;
+    width: 20em; 
+    height: 27em;
 `;
