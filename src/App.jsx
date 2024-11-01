@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import profileIcon from "./assets/icons/Header/profileIcon.png";
@@ -14,7 +14,16 @@ import ProfileEditPage from "./pages/ProfileEditPage";
 import HackathonPage from "./pages/HackathonPage";
 import CreatePortfolioPage from "./pages/CreatePortfolioPage";
 
+//
+import { initializeData } from "./components/domain/startProgram";
+
 function App() {
+  //
+  useEffect(() => {
+    // 데이터 초기화 함수 호출
+    initializeData();
+  }, []);
+
   return (
     <Routes>
       <Route>
