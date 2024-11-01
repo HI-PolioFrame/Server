@@ -29,26 +29,55 @@ templateInfo.forEach((data) => {
 }); */
 
 export const initializeData = () => {
-    userInfo.forEach((data) => {
-        let user = new User(data.id, data.pageId, data.password, data.name, data.phoneNumber, data.birthday, data.recruiter, data.email, data.nickname, data.link, data.career, data.education);
-        oriUsers.set(data.id, user);
-        if (user.recruiter === true) {
-            oriRecruiters.set(data.id, user);
-        }
-    });
+  userInfo.forEach((data) => {
+    let user = new User(
+      data.id,
+      data.pageId,
+      data.password,
+      data.name,
+      data.phoneNumber,
+      data.birthday,
+      data.recruiter,
+      data.email,
+      data.nickname,
+      data.link,
+      data.career,
+      data.education
+    );
+    oriUsers.set(data.id, user);
+    if (user.recruiter === true) {
+      oriRecruiters.set(data.id, user);
+    }
+  });
 
-    portfolioInfo.forEach((data) => {
-        let portfolio = new Portfolio(data.portfolioId, data.owner, data.setTemplate, data.title, data.explanation, data.share, data.projects, data.category, data.comments, data.likes);
-        oriPortfolios.set(data.portfolioId, portfolio);
-    });
+  portfolioInfo.forEach((data) => {
+    let portfolio = new Portfolio(
+      data.portfolioId,
+      data.owner,
+      data.setTemplate,
+      data.title,
+      data.explanation,
+      data.share,
+      data.projects,
+      data.category,
+      data.comments,
+      data.likes
+    );
+    oriPortfolios.set(data.portfolioId, portfolio);
+  });
 
-
-    projectInfo.forEach((data) => {
-        let project = new Project(data.projectId, null, null, null, null, data.stack);
-        oriProjects.set(data.projectId, project);
-    });
-
-    /* oriUsers.forEach((value, key) => {
+  projectInfo.forEach((data) => {
+    let project = new Project(
+      data.projectId,
+      null,
+      null,
+      null,
+      null,
+      data.stack
+    );
+    oriProjects.set(data.projectId, project);
+  });
+  /* oriUsers.forEach((value, key) => {
         console.log(value.id);
     });
     console.log("저장된 유저 아이디 확인 출력 끝");
