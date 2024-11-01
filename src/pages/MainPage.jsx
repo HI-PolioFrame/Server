@@ -48,9 +48,9 @@ const MainPage = () => {
                 </CardWrapper>
                 
                 {/* 슬라이드 */}
-                {/* <SlideWrapper>
+                <SlideWrapper>
                     <Slide />
-                </SlideWrapper> */}
+                </SlideWrapper>
 
             </MainPageWrapper>
             

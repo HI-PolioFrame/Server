@@ -19,7 +19,7 @@ const LoginPage = () => {
     const navigate = useNavigate();
 
     // 회원가입 페이지 이동
-    // 회원가입 페이지 이동
+
     const onClickImg = () => {
         navigate("/MemberSelectionPage");
     };
@@ -40,7 +40,7 @@ const LoginPage = () => {
 
         const user = userInfo.find(
             (user) => 
-                (user.email.toLowerCase() === trimmedEmail.toLowerCase() || user.Id.toString() === trimmedId) &&
+                (user.email.toLowerCase() === trimmedEmail.toLowerCase() || user.id.toString() === trimmedId) &&
                 user.password.toString() === trimmedPassword
         );
 
@@ -69,29 +69,7 @@ const LoginPage = () => {
                         }
                     }}
                 />
-                <IDinput
-                    placeholder="이메일 주소 또는 아이디"
-                    value={email || Id}
-                    onChange={(e) => {
-                        if (e.target.value.includes('@')) {
-                            setEmail(e.target.value);
-                        } else {
-                            setId(e.target.value);
-                        }
-                    }}
-                />
                 <PassWrapper>
-                    <PASSinput
-                        type={eyeVisible ? "text" : "password"}
-                        placeholder="비밀번호"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                    <EyeIcon
-                        src={eyeVisible ? Eyeoff : Eye}
-                        alt="eye"
-                        onClick={toggleEyeVisible}
-                    />
                     <PASSinput
                         type={eyeVisible ? "text" : "password"}
                         placeholder="비밀번호"
@@ -105,7 +83,6 @@ const LoginPage = () => {
                     />
                 </PassWrapper>
             </JoinWrapper>
-            <LoginButton onClick={handleLogin}>로그인</LoginButton>
             <LoginButton onClick={handleLogin}>로그인</LoginButton>
             <MemberWrapper>
                 <Text>회원이 아니신가요? |</Text>

@@ -1,3 +1,5 @@
+import {Queue} from './Queue.jsx';
+
 class Node {
     constructor(value = '', isWord = false) {
         this.value = value;
