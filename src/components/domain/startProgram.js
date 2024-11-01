@@ -17,6 +17,7 @@ import { projectInfo } from "../commmon/dummydata/projectInfo.jsx";
 import { userInfo } from "../commmon/dummydata/userInfo.jsx"; // 저장된 모든 유저 정보
 
 export const oriUsers = new Map();
+export const oriRecruiters = new Map();
 export const oriPortfolios = new Map();
 export const oriProjects = new Map();
 
@@ -29,10 +30,12 @@ templateInfo.forEach((data) => {
 
 export const initializeData = () => {
     userInfo.forEach((data) => {
-        let user = new User(data.id, data.id, data.name, data.email, data.nickname, null, data.career, data.education);
+        let user = new User(data.id, data.pageId, data.password, data.name, data.phoneNumber, data.birthday, data.recruiter, data.email, data.nickname, data.link, data.career, data.education);
         oriUsers.set(data.id, user);
+        if (user.recruiter === true) {
+            oriRecruiters.set(data.id, user);
+        }
     });
-
 
     portfolioInfo.forEach((data) => {
         let portfolio = new Portfolio(data.portfolioId, data.owner, data.setTemplate, data.title, data.explanation, data.share, data.projects, data.category, data.comments, data.likes);

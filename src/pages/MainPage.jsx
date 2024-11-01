@@ -55,11 +55,12 @@ const MainPage = () => {
       <ThanksWrapper>
         <PointText4>FolioFrame</PointText4>
         <PointText5>
-          FolioFrame은 팀프로젝트1의 작업물입니다. 우리의 팀명은
-          "포폴만들조"이며 김태연, 김예은, 조수연, 최현혜가 함께 했습니다.
-          <br></br> 포트폴리오를 만들때 도움을 줄 수 있는 사이트를 만드는 것이
-          우리의 목표입니다.<br></br>
-          지금보다 더 나은 서비스를 제공할 수 있도록 노력하겠습니다!!!
+          여러분께 소개드립니다. "포폴만들조" 팀은 김태연, 김예은, 조수연,
+          최현혜로 구성되어 있으며, 이번 팀 프로젝트1에서는 포트폴리오 제작을
+          지원하는 웹사이트 개발을 목표로 하고 있습니다. <br></br>
+          저희 팀은 사용자들이 더 나은 서비스를 통해 효과적으로 포트폴리오를
+          작성할 수 있도록 최선을 다해 노력하고 있습니다. <br></br>
+          앞으로도 지속적인 개선을 통해 더 높은 수준의 서비스를 제공하겠습니다.
         </PointText5>
         <CopyWrapper>
           {/* 구분선 */}
@@ -103,6 +104,7 @@ const MainContainer = styled.div`
   padding: 40px 40px;
   margin: 0 auto;
 `;
+
 const MainPageWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -132,6 +134,7 @@ const CardWrapper = styled.div`
 `;
 
 const ThanksWrapper = styled.div`
+  // margin : 0 6em;
   // margin : 0 6em;
   margin-top: 6em;
 `;

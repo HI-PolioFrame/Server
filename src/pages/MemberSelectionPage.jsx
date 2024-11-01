@@ -7,45 +7,44 @@ import { Navigate, useNavigate} from "react-router-dom";
 
 const MemberSelectionPage = () => {
     const navigate = useNavigate();
+    const title1 = ["일반회원", "기업회원"];
+    
     return (
         <>
-        <MainText onClick={() => navigate("/")}>FolioFrame</MainText>
-        <MainWrapper>
-            
+        <Container>
+            <MainText onClick={() => navigate("/")}>FolioFrame</MainText>
+            <Button>
+                <ImageWrapper>
+                    <TextOverlay>
+                        <MemberButton image={General} altText="일반회원" title="일반회원"  onClick={() => navigate("/SignUpPage2")}/>
+                        {/* <Image src={image} alt={altText} /> */}
+                        <Title>가입하기</Title>
+                    </TextOverlay>
 
-            {/* 일반회원 */}
-            <MemberButton image={General} altText="일반회원" title="일반회원"  onClick={() => navigate("/SignUpPage2")}/>
-            {/* 기업회원 */}
-            <MemberButton image={Business} altText="기업회원" title="기업회원" onClick={() => navigate("/SignUpPage")}/>
-        </MainWrapper>
+                    <TextOverlay>
+                        <MemberButton image={Business} altText="일반회원" title="기업회원"  onClick={() => navigate("/SignUpPage2")}/>
+                        {/* <Image src={image} alt={altText} /> */}
+                        <Title>가입하기</Title>
+                    </TextOverlay>
+                </ImageWrapper>
+            </Button>
+        </Container>
         </>
 
     );
 };
 
-const MemberButton = ({ image, altText, title, onClick }) => (
-    <Button onClick={onClick}>
-        <ImageWrapper>
-            <Image src={image} alt={altText} />
-            <TextOverlay>
-                <Title>{title}</Title>
-                <ExplainText>
-                    설명설명설명설명설명설명설명설명
-                    설명설명설명설명설명설명설명설명
-                    설명설명설명설명설명설명설명설명
-                    설명설명설명설명설명설명설명설명
-                    설명설명설명설명설명설명설명설명
-                    설명설명설명설명설명설명설명설명
-                    설명설명설명설명설명설명설명설명
-                </ExplainText>
-            </TextOverlay>
-        </ImageWrapper>
-    </Button>
-);
 
 export default MemberSelectionPage;
 
 // CSS Wrapper
+const Container = styled.div`
+    background-color : #CFDDFB;
+    width: 100%;
+    height: 20em;
+    margin : 0;
+    padding : 0;
+`;
 const MainWrapper = styled.div`
     display: flex;
     gap: 2em;
@@ -75,15 +74,16 @@ const Button = styled.button`
     border: 2px solid #0A27A6;
     background-color : #fff;
     cursor: pointer;
-    width: 30em; 
+    width: 20em; 
     height: 27em;
 `;
 
 // CSS Images
 const Image = styled.img`
-    width: 85%;
+    width: 70%;
     height: auto;
     border-radius: 1em;
+    margin-top : 5em;
 `;
 
 // CSS Text
@@ -105,19 +105,40 @@ const MainText = styled.p`
     font-family: "OTF B";
     font-weight: 700;
     font-size: 3em;
-    color: #0a27a6;
+    color: #0A27A6;
     text-align: center;
-    margin-top : 1em;
+    margin-top : 0em;
     cursor : pointer;
+    padding : 2em 0 ;
 `;
 const Title = styled.p`
-    font-size: 1.5em;
-    font-weight: bold;
-    margin-bottom: 0.5em;
-    border: 0.1em solid #0A27A6; 
-    border-radius: 0.5em;
-    padding: 0.5em 2em;
-    color :  #0A27A6; 
+    // font-size: 1.5em;
+    // font-weight: bold;
+    // margin-bottom: 0.5em;
+    // border: 0.1em solid #0A27A6; 
+    // border-radius: 50%;
+    // padding: 0.5em 2em;
+    // color :  #0A27A6; 
+
+    color : #0A27A6;
+    font-size : 1em;
+    font-weight : 800;
+    // font-align : center;
+    background-color: #fff;
+    border : 1px solid #0A27A6;
+    border-radius : 2em;
+    height : 2em;
+    width : 50%;
+    margin-top : 15em;
+
+    &:hover{
+        border : 1px solid #0A27A6;
+
+    button {
+            background-color: #0A27A6;
+            color: #fff;
+        }
+    }
 `;
 
 const ExplainText = styled.p`
@@ -125,4 +146,15 @@ const ExplainText = styled.p`
     color: #0A27A6;
     margin-bottom: 0.5em;
     padding: 2em;
+`;
+const MemberButton = styled.button`
+     display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 1em;
+    border: 2px solid #0A27A6;
+    background-color : #fff;
+    cursor: pointer;
+    width: 20em; 
+    height: 27em;
 `;

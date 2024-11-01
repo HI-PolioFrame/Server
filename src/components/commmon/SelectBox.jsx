@@ -3,6 +3,7 @@ import styled from "styled-components";
 import arrow from "../../assets/icons/SelectBox/arrow.png";
 import StyledButton from "./StyledButton";
 //sort 함수 imort 받아야함.
+import sort from "../features/sort";
 
 const categories = ["프론트엔드", "백엔드", "디자인"];
 const sortOptions = ["인기순", "댓글순", "최신순"];
@@ -145,7 +146,7 @@ const SelectBox = () => {
               isSorted
             );
             // 기능구현으로 선택된 카테고리, 정렬, 필터 보냄.
-            //sort(selectedCategory, selectedSort, selectedFilters);
+            // sort(selectedCategory, selectedSort, selectedFilters);
           }}
         />
       </StyledButtonContainer>

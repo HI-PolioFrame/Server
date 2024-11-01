@@ -9,7 +9,7 @@ const TemplateCard = () => {
   const navigate = useNavigate();
   const templateName = ["템플릿", "해커톤", "채용"];
   const description = ["나만의 포토폴리오 만들기", "함께 경험 쌓는 프로젝트", "나에게 맞는 채용 정보"];
-  const pages = ["/TemplatePage","/HackathonPage", "/MyPage"];
+  const pages = ["/PortfolioPage","/HackathonPage", "/MyPage"];
   const handleButtonClick = (index) => {
     navigate(pages[index]); // 해당 인덱스에 맞는 페이지로 이동
   };
