@@ -7,8 +7,8 @@ import Eyeoff from "../assets/icons/Login/Eyeoff.png";
 import { userInfo } from "../components/commmon/dummydata/userInfo.jsx";
 
 // 서버 연결
-import {setId} from "../components/features/signUpDeveloper.jsx";
-import {setPhoneNumber} from "../components/features/signUpDeveloper.jsx";
+import {setId} from "../components/features/signUpRecruiter.jsx";
+import {setPhoneNumber} from "../components/features/signUpRecruiter.jsx";
 
 const SignUpPage = () => {
     const navigate = useNavigate();
