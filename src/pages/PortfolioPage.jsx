@@ -1,4 +1,3 @@
-// TemplatePage.jsx
 import React from "react";
 import styled from "styled-components";
 import SearchBar from "../components/commmon/SearchBar";
@@ -6,22 +5,17 @@ import SelectBox from "../components/commmon/SelectBox";
 import TemplateCard from "../components/commmon/TemplateCard";
 import StyledButton from "../components/commmon/StyledButton";
 import { dummydata } from "../components/commmon/dummydata/dummydata"; // dummydata 파일을 import
-import { Navigate, useNavigate} from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 import PageHeader from "../components/commmon/PageHeader";
 
 const PortfolioPage = () => {
-
   const navigate = useNavigate();
 
-
   return (
-
     <TemplatePageContainer>
       {/* 각 페이지별 상단 -> 나중에 쉽게 모든 페이지에 적용할 수 있는 방법으로 수정 */}
-      <PageHeader
-        pageTitle="Portfolio"
-      />    
+      <PageHeader pageTitle="Portfolio" />
 
       <SelectBoxWrapper>
         <SelectBox />
@@ -41,12 +35,13 @@ const PortfolioPage = () => {
           ))}
         </TemplateGrid>
       </TemplateGridWrapper>
-       <ButtonWrapper>
-         {/* 포트폴리오 제작 페이지로 넘어갈 수 있는 버튼 추가 */}
-        <StartButton onClick={() => navigate("/CreatePortfolioPage")}>포트폴리오 제작하기</StartButton>
-       </ButtonWrapper>
+      <ButtonWrapper>
+        {/* 포트폴리오 제작 페이지로 넘어갈 수 있는 버튼 추가 */}
+        <StartButton onClick={() => navigate("/CreatePortfolioPage")}>
+          포트폴리오 제작하기
+        </StartButton>
+      </ButtonWrapper>
     </TemplatePageContainer>
-
   );
 };
 
@@ -55,7 +50,6 @@ export default PortfolioPage;
 const TemplatePageContainer = styled.div`
   width: 85%; //수정중...
   margin: 0 auto;
-
 `;
 
 const SelectBoxWrapper = styled.div`
@@ -71,7 +65,7 @@ const TemplateGridWrapper = styled.div`
 `;
 const ButtonWrapper = styled.div`
   display: flex;
-  justify-content: center; 
+  justify-content: center;
   margin-top: 2em;
 `;
 
@@ -95,7 +89,7 @@ const StartButton = styled.button`
   font-weight: 800;
   border-radius: 2em;
   border: none;
-  background-color: #0A27A6;
+  background-color: #0a27a6;
   height: 3em;
   width: 20%;
   margin-top: 2em;
@@ -105,5 +99,4 @@ const StartButton = styled.button`
   align-items: center;
   justify-content: center;
   position: relative;
-
 `;

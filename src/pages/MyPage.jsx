@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import DashBoard from "../components/MyPage/DashBoard";
 import SelectBox from "../components/commmon/SelectBox";
 import SearchBarMini from "../components/MyPage/SearchBarMini";
 import TemplateCard from "../components/commmon/TemplateCard";
@@ -8,9 +7,7 @@ import StyledButton from "../components/commmon/StyledButton";
 import { dummydata } from "../components/commmon/dummydata/dummydata"; // dummydata 파일을 import합니다.
 import { Navigate, useNavigate } from "react-router-dom";
 
-function MyPage({ profilePicture, name, nickname }) {
-  const navigate = useNavigate();
-
+function MyPage() {
   return (
     <MyPageContainer className="MyPageContainer">
       <MyContainer>
