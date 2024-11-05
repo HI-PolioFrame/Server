@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { dataList } from "../features/dataList"; // dataList를 import 할 경로 지정
+import { searchSortManager } from "../domain/startProgram";
 
 import searchImg from "../../assets/icons/Header/search.png";
 import { ImCancelCircle } from "react-icons/im";
@@ -15,7 +16,7 @@ import { ImCancelCircle } from "react-icons/im";
 //   "마라탕후루",
 // ];
 
-const SearchBar = () => {
+const SearchBar = ({ onSearch }) => {
   const [inputValue, setInputValue] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [nowIndex, setNowIndex] = useState(-1);
@@ -37,7 +38,7 @@ const SearchBar = () => {
   const handleSearchClick = () => {
     console.log(inputValue);
     console.log(suggestions);
-    //search(inputValue);
+    onSearch(inputValue); // PortfolioPage로 검색어 전달
   };
 
   const handleCancelClick = () => {
@@ -73,7 +74,7 @@ const SearchBar = () => {
           value={inputValue} // 입력 필드가 상태와 동기화
           onChange={handleInputChange}
           onKeyUp={handleKeyUp}
-          placeholder="제목, 공유자 이름 검색"
+          placeholder="포트폴리오 제목 검색"
           spellCheck="false"
         />
         <IconWrapper>
@@ -142,7 +143,7 @@ const SearchInput = styled.input`
   font-family: "Inria Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 1.25vw;
+  font-size: 1.5vw;
   color: #919194;
 
   border: none;
