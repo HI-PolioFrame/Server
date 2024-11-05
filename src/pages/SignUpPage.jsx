@@ -8,8 +8,9 @@ import { userInfo } from "../components/commmon/dummydata/userInfo.jsx";
 
 // 서버 연결
 import {setId} from "../components/features/signUpRecruiter.jsx";
-// import {changedId} from "../components/features/signUpRecruiter.jsx";
+import {changedId} from "../components/features/signUpRecruiter.jsx";
 import {setPhoneNumber} from "../components/features/signUpRecruiter.jsx";
+import {changedPhoneNumber} from "../components/features/signUpRecruiter.jsx";
 
 const SignUpPage = () => {
     const navigate = useNavigate();
@@ -47,24 +48,26 @@ const SignUpPage = () => {
     //아이디 중복 부분  
     const handleIdInputChange = (e) => {
         setIdInput(e.target.value);
+        setIdChecked(false);
         changedId(); 
     };
-
+    
     const handleIdCheck = () => {
         const isValid = setId(idInput);
         if (isValid) {
             setIdChecked(true); 
         } else {
+            setIdChecked(false);
             changedId(); 
         }
-    };
+    };;
    
     // 전화번호 인증 부분
     const handlePhoneChange = (event) => {
         const { value } = event.target;
         setPhone(autoHyphen(value));
+        setPhoneChecked(false);
         changedPhoneNumber();
-        // setPhoneChecked(false); 
     };
     const handlePhoneCheck = () => {
         const isValid = setPhoneNumber(phone);
@@ -72,6 +75,7 @@ const SignUpPage = () => {
         if (isValid) {
             setPhoneChecked(true); 
         } else {
+            setPhoneChecked(false);
             changedPhoneNumber(); 
         }
     };

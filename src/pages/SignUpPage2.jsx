@@ -8,6 +8,7 @@ import { userInfo } from "../components/commmon/dummydata/userInfo.jsx";
 
 //서버 연결
 import {setId} from "../components/features/signUpDeveloper.jsx";
+import {changedId} from "../components/features/signUpRecruiter.jsx";
 import {setPhoneNumber} from "../components/features/signUpDeveloper.jsx";
 import { setEmail } from "../components/features/signUpDeveloper.jsx";
 import {isPassword} from "../components/features/signUpDeveloper.jsx";
@@ -43,65 +44,34 @@ const SignUpPage2 = () => {
     //아이디 중복 부분
     const handleIdInputChange = (e) => {
         setIdInput(e.target.value);
-        setIdChecked(false); 
-    };
-    const handleIdCheck = () => {
-        const isValid = setId(idInput);
-        setIdChecked(isValid);  
+        changedId(); 
     };
 
+    const handleIdCheck = () => {
+        const isValid = setId(idInput);
+        if (isValid) {
+            setIdChecked(true); 
+        } else {
+            changedId(); 
+        }
+    };
+   
     // 전화번호 인증 부분
     const handlePhoneChange = (event) => {
         const { value } = event.target;
         setPhone(autoHyphen(value));
-        setPhoneChecked(false); 
+        changedPhoneNumber();
+        // setPhoneChecked(false); 
     };
     const handlePhoneCheck = () => {
         const isValid = setPhoneNumber(phone);
-        setPhoneChecked(isValid);
-    };
-    
-
-    // 만약에 아이디와 이메일을 한 input태그에 받을 경우에
-    const [emailChecked, setEmailChecked] = useState(false);
-    // const [errorMessage, setErrorMessage] = useState('');
-    const [inputValue, setInputValue] = useState(''); // 아이디 또는 이메일 입력값 관리
-
-    // 아이디/이메일 입력 핸들러
-    const handleInputChange = (e) => {
-        const value = e.target.value;
-        setInputValue(value);
-        setIdChecked(false);
-        setEmailChecked(false);
-        // setErrorMessage('');
-    };
-
-    // 아이디/이메일 확인 함수
-    const handleCheck = () => {
-        const isEmailFormat = /\S+@\S+\.\S+/.test(inputValue);
-
-        if (isEmailFormat) {
-            // 이메일 형식인 경우, 이메일 중복 확인
-            const emailValid = setEmail(inputValue);
-            if (!emailValid) {
-                setEmailChecked(false);
-            } else {
-                setEmailChecked(true);
-                setErrorMessage('');
-            }
+        // setPhoneChecked(isValid);
+        if (isValid) {
+            setPhoneChecked(true); 
         } else {
-            // 아이디 형식 확인
-            const idValid = setId(inputValue);
-            if (!idValid) {
-                setIdChecked(false);
-            } else {
-                setIdChecked(true);
-                setErrorMessage('');
-            }
+            changedPhoneNumber(); 
         }
     };
-
-
 
 
     return (
@@ -121,10 +91,6 @@ const SignUpPage2 = () => {
                          type="text" 
                          value={idInput} 
                          onChange={handleIdInputChange} 
-                        // type="text"
-                        // placeholder="아이디 또는 이메일"
-                        // value={inputValue}
-                        // onChange={handleInputChange}
                     />
                     <IDcheckWrapper>
                         <IDcheckInput 
@@ -132,8 +98,6 @@ const SignUpPage2 = () => {
                              id="IDcheck" 
                              onClick={handleIdCheck}
                              checked={idChecked} 
-                            // onClick={handleCheck}
-                            // checked={idChecked || emailChecked}
                         />
                         <label htmlFor="IDcheck">중복확인</label>
                     </IDcheckWrapper>
