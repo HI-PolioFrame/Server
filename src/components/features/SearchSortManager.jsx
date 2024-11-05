@@ -32,25 +32,25 @@ class SearchSortManager {
         return this.currentPortfolios;
     }
 
-    cancelSearch() {
-        this.state.searchState = false;
-        this.currentPortfolios = new LinkedList();
+    // cancelSearch() {
+    //     this.state.searchState = false;
+    //     this.currentPortfolios = new LinkedList();
 
-        if (this.state.sortState == true) {
-            this.currentPortfolios = this.doSort();
-            return this.currentPortfolios;
-        }
-    }
+    //     if (this.state.sortState == true) {
+    //         this.currentPortfolios = this.doSort();
+    //         return this.currentPortfolios;
+    //     }
+    // }
 
-    cancelSort() {
-        this.state.sortState = false;
-        this.currentPortfolios = new LinkedList();
+    // cancelSort() {
+    //     this.state.sortState = false;
+    //     this.currentPortfolios = new LinkedList();
 
-        if (this.state.searchState == true) {
-            this.currentPortfolios = this.doSearch();
-            return this.currentPortfolios;
-        }
-    }
+    //     if (this.state.searchState == true) {
+    //         this.currentPortfolios = this.doSearch();
+    //         return this.currentPortfolios;
+    //     }
+    // }
 
     doSearch() {
         if (!this.searchTerm) {
