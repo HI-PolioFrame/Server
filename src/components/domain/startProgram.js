@@ -93,4 +93,4 @@ export const initializeData = () => {
     console.log("저장된 프젝 아이디 확인 출력 끝"); */
 };
 
-export const searchSortManager = new SearchSortManager(oriProjects, oriUsers, oriPortfolios);
+export const searchSortManager = new SearchSortManager(oriPortfolios, oriUsers, oriProjects);
