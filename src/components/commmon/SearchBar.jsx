@@ -123,7 +123,7 @@ const SearchBarContainer = styled.div`
 
 const SearchBarWrapper = styled.div`
   width: 40vw;
-  height: 4.8vh;
+  height: 6.8vh;
 
   border: 0.0625em solid #c8c8c8;
   box-shadow: 0em 0.125em 0.125em rgba(12, 12, 13, 0.1),
