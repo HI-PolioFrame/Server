@@ -99,38 +99,27 @@ export const emailSignUpDeveloper = (name, birthday, email, password, rePassword
 }
 
 export const setId = (id) => {
-    // 유저 DB에 이미 해당 아이디가 존재하면 true 반환, 없으면 false
-    oriUsers.forEach((value, key) => {
-        if (key === id) {
-            alert('이미 사용 중인 아이디입니다.');
-            return false;
-        }
-    });
+   
+    idCheck = false;
 
-    // 아이디 설정 조건에 들어맞는가
-    // 영소문, 숫자, _, . 으로 이루어진 6자 이상 20자 이하
     const idPattern = /^[a-z0-9_.]{6,20}$/;
-    const idMatcher = id.match(idPattern);
-    if (!idMatcher) {
+    if (!id.match(idPattern)) {
         alert('아이디는 영소문, 숫자, _, .만을 이용하여 6자 이상, 20자 이하로 입력하세요.');
-        return false;
+        return idCheck;
     }
-    
-    return true;
-}
 
-export const setEmail = (email) => {
-    // 유저 DB에 이미 해당 이메일이 존재하면 true 반환, 없으면 false
-    oriUsers.forEach((value, key) => {
-        if (value.email === email) {
-            alert('이미 계정이 존재합니다.');
-            return;
+    for (const [key, user] of oriUsers){
+        if (key === id){
+            alert('이미 사용 중인 아이디입니다.');
+            return idCheck;
         }
-    });
+    }
 
-    // 임의처리한다.
-    emailCheck = true;
-}
+    idCheck = true;
+    return idCheck;
+};
+
+
 //현혜찡 코드
 // export const setPhoneNumber = (phoneNumber) => {
 //     // 유저 DB에 이미 해당 핸드폰 번호가 존재하면 true 반환, 없으면 false
@@ -155,29 +144,43 @@ export const setEmail = (email) => {
 //     phoneNumCheck = true;
 //     return phoneNumCheck; //phoneNumCheck = true;
 // }
-
-export const setPhoneNumber = (phoneNumber) => {
-    // 유저 DB에 이미 해당 핸드폰 번호가 존재하면 true 반환, 없으면 false
+export const setEmail = (email) => {
+    // 유저 DB에 이미 해당 이메일이 존재하면 true 반환, 없으면 false
     oriUsers.forEach((value, key) => {
-        if (value.phoneNumber === phoneNumber) {
+        if (value.email === email) {
             alert('이미 계정이 존재합니다.');
-            return false;
+            return;
         }
     });
 
-    // 이것은 번호인증을 실제로 진행할 수 없으므로 임의 처리하는 것이다.
-    // 이통통신기(010-XXXX-XXXX)의 형태를 갖추었는가
-    const firstThree = phoneNumber.slice(0, 4);
-    const mid = phoneNumber.slice(8, 9);
-    const second = phoneNumber.slice(4, 8);
-    const last = phoneNumber.slice(9, 13);
-    const numPattern = /^[0-9]$/;
-    if (firstThree !== "010-" || mid !== "-" || !(second.match(numPattern)) || !(last.match(numPattern))) {
-        alert('올바른 전화번호를 입력하세요.');
-        return;
+    // 임의처리한다.
+    emailCheck = true;
+} 
+
+export const setPhoneNumber = (phoneNumber) => {
+    let isDuplicate = false; 
+
+    // 유저 DB에 이미 해당 핸드폰 번호가 존재하면 true 반환, 없으면 false
+    oriUsers.forEach((value) => {
+        if (value.phoneNumber === phoneNumber) {
+            isDuplicate = true; // 중복 발견
+        }
+    });
+
+    if (isDuplicate) {
+        alert('이미 계정이 존재합니다.');
+        return false; 
     }
-    return true;
-    // phoneNumCheck = true;
+
+    // 전화번호 형식 검사
+    const phonePattern = /^010-\d{4}-\d{4}$/; // 올바른 전화번호 형식 패턴
+
+    if (!phoneNumber.match(phonePattern)) {
+        alert('올바른 전화번호를 입력하세요. 형식: 010-xxxx-xxxx');
+        return false; 
+    }
+
+    return true; 
 }
 
 

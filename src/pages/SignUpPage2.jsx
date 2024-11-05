@@ -10,6 +10,8 @@ import { userInfo } from "../components/commmon/dummydata/userInfo.jsx";
 import {setId} from "../components/features/signUpDeveloper.jsx";
 import {changedId} from "../components/features/signUpRecruiter.jsx";
 import {setPhoneNumber} from "../components/features/signUpDeveloper.jsx";
+import {changedPhoneNumber} from "../components/features/signUpRecruiter.jsx";
+
 import { setEmail } from "../components/features/signUpDeveloper.jsx";
 import {isPassword} from "../components/features/signUpDeveloper.jsx";
 
@@ -44,24 +46,26 @@ const SignUpPage2 = () => {
     //아이디 중복 부분
     const handleIdInputChange = (e) => {
         setIdInput(e.target.value);
+        setIdChecked(false);
         changedId(); 
     };
-
+    
     const handleIdCheck = () => {
         const isValid = setId(idInput);
         if (isValid) {
             setIdChecked(true); 
         } else {
+            setIdChecked(false);
             changedId(); 
         }
-    };
+    };;
    
     // 전화번호 인증 부분
     const handlePhoneChange = (event) => {
         const { value } = event.target;
         setPhone(autoHyphen(value));
+        setPhoneChecked(false);
         changedPhoneNumber();
-        // setPhoneChecked(false); 
     };
     const handlePhoneCheck = () => {
         const isValid = setPhoneNumber(phone);
@@ -69,10 +73,10 @@ const SignUpPage2 = () => {
         if (isValid) {
             setPhoneChecked(true); 
         } else {
+            setPhoneChecked(false);
             changedPhoneNumber(); 
         }
     };
-
 
     return (
         <LoginWrapper>
