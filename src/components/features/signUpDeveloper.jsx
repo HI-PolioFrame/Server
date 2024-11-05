@@ -156,30 +156,51 @@ export const setEmail = (email) => {
     // 임의처리한다.
     emailCheck = true;
 }
+//현혜찡 코드
+// export const setPhoneNumber = (phoneNumber) => {
+//     // 유저 DB에 이미 해당 핸드폰 번호가 존재하면 true 반환, 없으면 false
+//     for (const [key, user] of oriUsers) {//oriUsers.forEach((value, key) => {
+//         alert(`유저의 아이디는 ${key}, 유저의 전화번호는 ${user.phoneNumber}`)
+//         if (user.phoneNumber === phoneNumber) {
+//             alert('이미 계정이 존재합니다.');
+//             phoneNumCheck = false;
+//             return phoneNumCheck; //return;
+//         }
+//     }; //);
 
+//     // 이것은 번호인증을 실제로 진행할 수 없으므로 임의 처리하는 것이다.
+//     // 이통통신기(010-XXXX-XXXX)의 형태를 갖추었는가
+//     const phonePattern = /^010-\d{4}-\d{4}$/; 
+//     if (!phonePattern.test(phoneNumber)) {
+//         alert('올바른 전화번호를 입력하세요.');
+//         phoneNumCheck = false;
+//         return phoneNumCheck; //return;
+//     }
+
+//     phoneNumCheck = true;
+//     return phoneNumCheck; //phoneNumCheck = true;
+// }
 export const setPhoneNumber = (phoneNumber) => {
-    // 유저 DB에 이미 해당 핸드폰 번호가 존재하면 true 반환, 없으면 false
-    for (const [key, user] of oriUsers) {//oriUsers.forEach((value, key) => {
-        alert(`유저의 아이디는 ${key}, 유저의 전화번호는 ${user.phoneNumber}`)
-        if (user.phoneNumber === phoneNumber) {
-            alert('이미 계정이 존재합니다.');
-            phoneNumCheck = false;
-            return phoneNumCheck; //return;
-        }
-    }; //);
-
-    // 이것은 번호인증을 실제로 진행할 수 없으므로 임의 처리하는 것이다.
-    // 이통통신기(010-XXXX-XXXX)의 형태를 갖추었는가
-    const phonePattern = /^010-\d{4}-\d{4}$/; 
+    // 전번(010-XXXX-XXXX)의 형태를 갖추었는가
+    const phonePattern = /^010-\d{4}-\d{4}$/;
     if (!phonePattern.test(phoneNumber)) {
         alert('올바른 전화번호를 입력하세요.');
-        phoneNumCheck = false;
-        return phoneNumCheck; //return;
+        return false;
     }
 
-    phoneNumCheck = true;
-    return phoneNumCheck; //phoneNumCheck = true;
-}
+    // 중복 전화번호가 있는지 확인
+    for (const [key, user] of oriUsers.entries()) {
+        if (user.phoneNumber === phoneNumber) {
+            alert('이미 사용 중인 전화번호입니다.');
+            return false;
+        }
+    }
+
+    // 전화번호 유효하고 중복이 없을 경우
+    return true;
+};
+
+
 
 export const isIdExists = (id) => {
     oriUsers.forEach((value, key) => {
