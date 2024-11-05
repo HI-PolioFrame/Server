@@ -13,6 +13,7 @@
 import { oriUsers } from "../domain/startProgram";
 import { User } from "../domain/User";
 import { appendStringToFile, truncateFile, readNumberFromFile, removeFromFileEnd } from "../features/fileIO";
+import { userInfo } from '../commmon/dummydata/userInfo';
 
 let idCheck = false;
 let emailCheck = false;
@@ -106,7 +107,7 @@ export const setId = (id) => {
     }
 
     let isIdValid = true;
-    oriUsers.forEach((user) => {
+    userInfo.forEach((user) => {  
         if (user.id === id) {
             alert('이미 사용 중인 아이디입니다.');
             isIdValid = false;
@@ -132,7 +133,7 @@ export const setEmail = (email) => {
 }
 
 export const setPhoneNumber = (phoneNumber) => {
-    for (let value of oriUsers) {
+    for (let value of userInfo) {
         if (value.phoneNumber === phoneNumber) {
             alert('이미 계정이 존재합니다.');
             return false; 
