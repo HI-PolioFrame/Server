@@ -15,11 +15,14 @@ const SignUpPage = () => {
     const [eyeVisible, setEyeVisible] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false); 
     //아이디 중복 확인
-    const [idInput, setIdInput] = useState(''); // 입력된 아이디 상태
+    const [idInput, setIdInput] = useState(''); 
     const [idChecked, setIdChecked] = useState(false);
     //전화번호 중복 확인
     const [phone, setPhone] = useState('');
     const [phoneChecked, setPhoneChecked] = useState(false); 
+    //회사인증
+    const [company, setCompany] = useState('');
+    const [companyChecked, setcompanyChecked] = useState(false);
 
     const toggleEyeVisible = () => {
         setEyeVisible(!eyeVisible);
@@ -56,11 +59,21 @@ const SignUpPage = () => {
         setPhone(autoHyphen(value));
         setPhoneChecked(false); 
     };
-
     const handlePhoneCheck = () => {
         const isValid = setPhoneNumber(phone);
         setPhoneChecked(isValid);
     };
+
+    // 회사인증 부분
+    const handleCompanyChange = (e) => {
+        setCompany(e.target.value);
+        setcompanyChecked(false); 
+    };
+    const handleCompanyCheck = () => {
+        const isValid = setCompany(company);
+        setcompanyChecked(isValid);
+    };
+    
     
     return (
         <LoginWrapper>
@@ -142,10 +155,10 @@ const SignUpPage = () => {
 
                 {/* 회사인증 */}
                 <RowWrapper>
-                    <CertificInput placeholder="회사인증" type="email"></CertificInput>
+                    <CertificInput placeholder="회사인증" type="email" onChange={handleCompanyChange}></CertificInput>
                 </RowWrapper>
                     <CheckBoxWrapper>
-                            <CompanyCheckInput type="checkbox" id="company" onClick={handleCheckBoxClick} />
+                            <CompanyCheckInput type="checkbox" id="company" onClick={handleCompanyCheck} />
                             <label htmlFor="company">회사인증</label>
 
                             <CheckBoxInput type="checkbox" id="Join" onClick={handleCheckBoxClick} />
