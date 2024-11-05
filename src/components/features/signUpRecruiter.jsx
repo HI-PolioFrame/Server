@@ -95,12 +95,13 @@ const emailSignUpRecruiter = (name, birthday, email, password, rePassword, phone
     appendStringToFile(filePath, `,${string}\n];`);
 }
 
+//현혜찡 코드
 const setId = (id) => {
     // 유저 DB에 이미 해당 아이디가 존재하면 true 반환, 없으면 false
     oriUsers.forEach((value, key) => {
         if (key === id) {
             alert('이미 사용 중인 아이디입니다.');
-            return;
+            return false;
         }
     });
 
@@ -110,10 +111,10 @@ const setId = (id) => {
     const idMatcher = id.match(idPattern);
     if (!idMatcher) {
         alert('아이디는 영소문, 숫자, _, .만을 이용하여 6자 이상, 20자 이하로 입력하세요.');
-        return;
+        return false;
     }
-
-    idCheck = true;
+    
+    return true;
 }
 
 const setEmail = (email) => {
@@ -134,7 +135,7 @@ const setPhoneNumber = (phoneNumber) => {
     oriUsers.forEach((value, key) => {
         if (value.phoneNumber === phoneNumber) {
             alert('이미 계정이 존재합니다.');
-            return;
+            return false;
         }
     });
 
@@ -149,8 +150,8 @@ const setPhoneNumber = (phoneNumber) => {
         alert('올바른 전화번호를 입력하세요.');
         return;
     }
-
-    phoneNumCheck = true;
+    return true;
+    // phoneNumCheck = true;
 }
 
 const isIdExists = (id) => {
@@ -170,7 +171,7 @@ const setCompany = () => {
 }
 
 // 아이디나 이메일, 전화번호 중복 체크 후에 입력값이 변하면 다시 체크해야 하므로
-const changedId = () => idCheck = false;
+const changedId = () => idCheck = false;  
 const changedEmail = () => emailCheck = false;
 const changedPhoneNumber = () => phoneNumCheck = false;
 const changedCompany = () => companyCheck = false;
