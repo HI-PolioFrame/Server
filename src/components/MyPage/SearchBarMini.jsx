@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-//import { dataList } from "../path/to/data"; // dataList를 import 할 경로 지정
+import { dataList } from "../features/dataList"; // dataList를 import 할 경로 지정
 
 import searchImg from "../../assets/icons/Header/search.png";
 import { ImCancelCircle } from "react-icons/im";
 
-//나중에 삭제
-const dataList = [
-  "공유자",
-  "이름",
-  "템플릿",
-  "포트폴리오",
-  "폴리오프레임",
-  "마라탕후루",
-];
+// //나중에 삭제
+// const dataList = [
+//   "공유자",
+//   "이름",
+//   "템플릿",
+//   "포트폴리오",
+//   "폴리오프레임",
+//   "마라탕후루",
+// ];
 
 const SearchBarMini = () => {
   const [inputValue, setInputValue] = useState("");
@@ -25,10 +25,9 @@ const SearchBarMini = () => {
     setInputValue(newValue); // 입력 값을 상태에 저장
 
     if (newValue.trim()) {
-      const filteredSuggetstions = dataList.filter((label) =>
-        label.includes(newValue)
-      );
-      setSuggestions(filteredSuggetstions);
+      // dataList 함수로부터 자동완성 결과 가져오기
+      const results = Array.from(dataList(newValue) || []);
+      setSuggestions(results);
     } else {
       setSuggestions([]);
     }
