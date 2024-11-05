@@ -59,14 +59,16 @@ class SearchSortManager {
         }
     
         let curPortfolios = this.state.sortState == true ? this.currentPortfolios : this.oriPortfolios;
+
+        console.log(curPortfolios);
         
         let searchedPortfolios = new LinkedList(); // 검색 결과를 저장할 linked list, 초기화하여 이전 검색 결과를 지움
     
         curPortfolios.forEach((pofol) => {
             // 포트폴리오 이름, 포트폴리오 공유자의 닉네임으로 검색
-            let owner = oriUsers.get(pofol.owner);
+            let owner = this.oriUsers.get(pofol.owner);
             let isItTarget = false;
-            if (pofol.title.toLowerCase().includes(this.searchTerm.toLowerCase()) || (owner && this.oriUsers.get(pofol.owner).nickname.toLowerCase().includes(this.searchTerm.toLowerCase()))) {
+            if ((pofol.title && pofol.title.toLowerCase().includes(this.searchTerm.toLowerCase())) || (owner && this.oriUsers.get(pofol.owner).nickname.toLowerCase().includes(this.searchTerm.toLowerCase()))) {
                 isItTarget = true;
             }
             // const isItTarget = pofol.title.toLowerCase().includes(this.searchTerm.toLowerCase()) || this.oriUsers.get(pofol.owner).nickname.toLowerCase().includes(this.searchTerm.toLowerCase());
