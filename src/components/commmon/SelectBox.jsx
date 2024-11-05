@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import arrow from "../../assets/icons/SelectBox/arrow.png";
 import StyledButton from "./StyledButton";
-//sort 함수 imort 받아야함.
 
 const categories = ["프론트엔드", "백엔드", "디자인"];
 const sortOptions = ["인기순", "댓글순", "최신순"];
@@ -21,7 +20,7 @@ const filterOptions = [
 ];
 
 //기능구현으로부터 sort 함수 받음.
-const SelectBox = () => {
+const SelectBox = ({ onSort }) => {
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -140,7 +139,7 @@ const SelectBox = () => {
           onClick={() => {
             console.log(selectedCategory, selectedSort, selectedFilters);
             // 기능구현으로 선택된 카테고리, 정렬, 필터 보냄.
-            //sort(selectedCategory, selectedSort, selectedFilters);
+            onSort(selectedCategory, selectedSort, selectedFilters); // 정렬 적용 함수 호출
           }}
         />
       </StyledButtonContainer>

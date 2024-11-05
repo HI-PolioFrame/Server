@@ -1,5 +1,8 @@
-const fs = require('fs');
-const path = require('path');
+// const fs = require('fs');
+// const path = require('path');
+
+import fs from 'fs';
+import path from 'path';
 
 // 파일 수 읽기
 // filePath로 입력된 파일을 모두 읽어 Number로 변환해 반환한다.
@@ -69,4 +72,15 @@ const removeFromFileEnd = (filePath, numCharsToRemove) => {
     });
 };
 
-export { readNumberFromFile, truncateFile, appendStringToFile, removeFromFileEnd };
+// 파일 크기를 KB, MB 단위로 변환하여 나타내는 메소드
+const getFileSize = (number) => {
+    if(number < 1024) {      
+        return number + 'bytes';    
+    } else if(number > 1024 && number < 1048576) {
+          return (number/1024).toFixed(1) + 'KB';    
+    } else if(number > 1048576) {      
+        return (number/1048576).toFixed(1) + 'MB';    
+    }
+}
+
+export { readNumberFromFile, truncateFile, appendStringToFile, removeFromFileEnd, getFileSize };

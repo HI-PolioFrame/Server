@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import DashBoard from "../components/MyPage/DashBoard";
 import SelectBox from "../components/commmon/SelectBox";
 import SearchBarMini from "../components/MyPage/SearchBarMini";
 import TemplateCard from "../components/commmon/TemplateCard";
@@ -8,9 +7,7 @@ import StyledButton from "../components/commmon/StyledButton";
 import { dummydata } from "../components/commmon/dummydata/dummydata"; // dummydata 파일을 import합니다.
 import { Navigate, useNavigate } from "react-router-dom";
 
-function MyPage({ profilePicture, name, nickname }) {
-  const navigate = useNavigate();
-
+function MyPage() {
   return (
     <MyPageContainer className="MyPageContainer">
       <MyContainer>
@@ -72,6 +69,7 @@ function MyPage({ profilePicture, name, nickname }) {
             onClick={() => onSearchClick}
           />
         </MyTemplateMenuWrapper>
+ 
 
         <Line></Line>
 
@@ -79,11 +77,13 @@ function MyPage({ profilePicture, name, nickname }) {
           <TemplateGrid>
             {/* 기능구현으로부터 필터 기능 탑재된 filterData를 넣기 */}
             {/* {dummydata.map((data, index) => (
+            {/* {dummydata.map((data, index) => (
               <TemplateCard
                 key={index}
                 templateName={data.postTitle}
                 description={data.postContent}
                 templateThumnail={data.postBackgroundImg}
+                templateButton={"보기"}
                 templateButton={"보기"}
               />
             ))} */}

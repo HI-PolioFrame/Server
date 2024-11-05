@@ -6,143 +6,159 @@ import General from "../assets/images/MemberSelectionPage/General.png";
 import { Navigate, useNavigate} from "react-router-dom";
 
 const MemberSelectionPage = () => {
+
     const navigate = useNavigate();
-    
     return (
-        <>
-        <Container>
-            <MainText onClick={() => navigate("/")}>FolioFrame</MainText>
-            <MainWrapper>
-                
-
-                {/* 일반회원 */}
-                <MemberButton image={General} altText="일반회원" title="일반회원"  onClick={() => navigate("/SignUpPage2")}/>
-                {/* 기업회원 */}
-                <MemberButton image={Business} altText="기업회원" title="기업회원" onClick={() => navigate("/SignUpPage")}/>
-            </MainWrapper>
-        </Container>
-        </>
-
+        <MainWrapper>
+                <MainText>FolioFrame</MainText>
+                <ButtonWrapper>
+                    <GeneralButton>
+                        <Title>일반회원</Title>
+                        <ol>
+                           <ExplainText>포트폴리오 제작 및 공유</ExplainText>
+                           <ExplainText>해커톤 참여</ExplainText>
+                           <ExplainText>프로젝트 관리</ExplainText>
+                           <ExplainText>채용자와의 연결</ExplainText>
+                        </ol>
+                        <JoinGeneralButton  onClick={() => navigate("/SignUpPage2")}>참여하기</JoinGeneralButton>
+                    </GeneralButton>
+                    <BusinessButton>
+                        <Title>기업회원</Title>
+                        <ol>
+                           <ExplainText>포트폴리오 열람</ExplainText>
+                           <ExplainText>해커톤 열람</ExplainText>
+                           <ExplainText>일반회원 정보 열람 </ExplainText>
+                           <ExplainText>일반회원과 연결</ExplainText>
+                        </ol>
+                        <JoinBusinessButton  onClick={() => navigate("/SignUpPage")}>참여하기</JoinBusinessButton>
+                    </BusinessButton>
+                </ButtonWrapper>
+        </MainWrapper>
     );
 };
-
-const MemberButton = ({ image, altText, title, onClick }) => (
-    <Button onClick={onClick}>
-        <ImageWrapper>
-            <Image src={image} alt={altText} />
-            <TextOverlay>
-                <Title>{title}</Title>
-                {/* <ExplainText>
-                    설명설명설명설명설명설명설명설명
-                    설명설명설명설명설명설명설명설명
-                    설명설명설명설명설명설명설명설명
-                    설명설명설명설명설명설명설명설명
-                    설명설명설명설명설명설명설명설명
-                    설명설명설명설명설명설명설명설명
-                    설명설명설명설명설명설명설명설명
-                </ExplainText> */}
-            </TextOverlay>
-        </ImageWrapper>
-    </Button>
-);
 
 export default MemberSelectionPage;
 
 // CSS Wrapper
-const Container = styled.div`
-    background-color : #0A27A6;
-    width: 100%;
-    height: 10em;
-    margin : 0;
-    padding : 0;
-`;
 const MainWrapper = styled.div`
     display: flex;
+    flex-direction: column;  
     gap: 2em;
     align-items: center;
     justify-content: center;
+    padding: 1em 15em;
+    height: 100%;
+    width: 100%;
     box-sizing: border-box;
-    width : 85%;
-    padding: 40px 40px;
-    margin: 0 auto; 
-    
 `;
 
-const ImageWrapper = styled.div`
-    position: relative;
+const ButtonWrapper = styled.div`
+    display: flex;
+    gap: 2em;
     width: 100%;
     height: 100%;
+    margin-top : -2em;
 `;
 
 // CSS Buttons
-
-const Button = styled.button`
-    // margin-top : 2em;
+const GeneralButton = styled.button`
     display: flex;
     flex-direction: column;
     align-items: center;
     border-radius: 1em;
-    border: 2px solid #0A27A6;
-    background-color : #fff;
+    border: none;
     cursor: pointer;
-    width: 20em; 
-    height: 27em;
+    width: 30em; 
+    height: 25em;
+    border: 2px solid #0A27A6; 
+    background-color : #fff;
+`;
+const BusinessButton = styled.button`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 1em;
+    border: none;
+    cursor: pointer;
+    width: 30em; 
+    height: 25em;
+    border: 2px solid #0A27A6; 
+    background-color : #fff;
+`;
+const JoinBusinessButton = styled.button`
+    color: #fff;
+    font-size: 1em;
+    font-weight: 800;
+    font-family: "OTF R";
+    background-color: #0A27A6;
+    border: 1px solid #0A27A6;
+    border-radius: 2em;
+    height: 4em;
+    width: 50%;
+    margin-top: -1.5em;
+    transition: all 0.3s ease-out; 
+
+    &:hover {
+        background-color: #fff;
+        border: 1px solid #0A27A6;
+        color: #0A27A6;
+        padding: 12px 20px;
+        font-weight: bold;
+        opacity: 0.8;
+        cursor: pointer;
+        transition: all 0.3s ease-out;
+    }
+`;
+const JoinGeneralButton = styled.button`
+    color: #fff;
+    font-size: 1em;
+    font-weight: 800;
+    font-family: "OTF R";
+    background-color: #0A27A6;
+    border: 1px solid #0A27A6;
+    border-radius: 2em;
+    height: 4em;
+    width: 50%;
+    margin-top: -1.5em;
+    transition: all 0.3s ease-out; 
+
+    &:hover {
+        background-color: #fff;
+        border: 1px solid #0A27A6;
+        color: #0A27A6;
+        padding: 12px 20px;
+        font-weight: bold;
+        opacity: 0.8;
+        cursor: pointer;
+        transition: all 0.3s ease-out;
+    }
 `;
 
 // CSS Images
-const Image = styled.img`
-    width: 85%;
-    height: auto;
-    border-radius: 1em;
-`;
 
 // CSS Text
-const TextOverlay = styled.div`
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    text-align: center;
-`;
-
 const MainText = styled.p`
+    font-size : 4em;
+    font-weight : 800;
     font-family: "OTF B";
-    font-weight: 700;
-    font-size: 3em;
-    color: #fff;
-    text-align: center;
-    // margin-top : 1em;
-    cursor : pointer;
+    color : #0A27A6;
+    display : flex;
 `;
 const Title = styled.p`
-    // font-size: 1.5em;
-    // font-weight: bold;
-    // margin-bottom: 0.5em;
-    // border: 0.1em solid #0A27A6; 
-    // border-radius: 50%;
-    // padding: 0.5em 2em;
-    // color :  #0A27A6; 
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 0.5em;
+    // border: 0.2em solid #fff; 
+    // border-radius: 0.5em;
+    padding: 0.5em 2em;
+    font-family: "OTF B";
 
-    color : #0A27A6;
-    font-size : 1em;
-    font-weight : 800;
-    background-color: #fff;
-    border : 1px solid #0A27A6;
-    border-radius : 2em;
-    height : 2em;
-    width : 50%;
-    margin-top : -3em;
 `;
 
-const ExplainText = styled.p`
-    font-size: 1em;
-    color: #0A27A6;
-    margin-bottom: 0.5em;
-    padding: 2em;
+const ExplainText = styled.li`
+    font-size: 1.5em;
+    color : black;
+    font-family: "OTF R";
+    text-align: left;
+    margin-bottom : 1em;
 `;

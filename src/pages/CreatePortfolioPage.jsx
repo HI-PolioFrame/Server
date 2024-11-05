@@ -35,15 +35,18 @@ const CreatePortfolioPage = () => {
           </NameWrapper>
       </ColumnWrapper1>
         
+      <ColumnWrapper1>
         <NameWrapper>
-            <MainText>배운점</MainText>
-            <NameInput type="text"></NameInput>
-        </NameWrapper>
+              <MainText>배운점</MainText>
+              <NameInput type="text"></NameInput>
+          </NameWrapper>
 
-        <NameWrapper>
-            <MainText>링크</MainText>
-            <NameInput type="text"></NameInput>
-        </NameWrapper>
+          <NameWrapper>
+              <MainText>링크</MainText>
+              <NameInput type="text"></NameInput>
+          </NameWrapper>
+      </ColumnWrapper1>
+
 
         <NameWrapper>
             <MainText>데모 비디오</MainText>

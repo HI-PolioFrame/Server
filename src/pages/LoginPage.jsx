@@ -8,15 +8,18 @@ import Eyeoff from "../assets/icons/Login/Eyeoff.png";
 
 import { userInfo } from "../components/commmon/dummydata/userInfo.jsx"; 
 
+
 const LoginPage = () => {
     const [eyeVisible, setEyeVisible] = useState(false);
     const [email, setEmail] = useState("");
     const [Id, setId] = useState("");
     const [password, setPassword] = useState("");
 
+    
     const navigate = useNavigate();
 
     // 회원가입 페이지 이동
+
     const onClickImg = () => {
         navigate("/MemberSelectionPage");
     };
@@ -37,7 +40,7 @@ const LoginPage = () => {
 
         const user = userInfo.find(
             (user) => 
-                (user.email.toLowerCase() === trimmedEmail.toLowerCase() || user.Id.toString() === trimmedId) &&
+                (user.email.toLowerCase() === trimmedEmail.toLowerCase() || user.id.toString() === trimmedId) &&
                 user.password.toString() === trimmedPassword
         );
 
@@ -90,6 +93,7 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+
 
 
 //css Wrapper
