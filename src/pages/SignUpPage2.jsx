@@ -5,16 +5,15 @@ import Consent from "../components/Consent/Consent.jsx";
 import Eye from "../assets/icons/Login/Eye.png";
 import Eyeoff from "../assets/icons/Login/Eyeoff.png";
 import { userInfo } from "../components/commmon/dummydata/userInfo.jsx";
-// import { idSignUpDeveloper, setId, setPhoneNumber, changedId, changedPhoneNumber } from "../components/features/signUpDeveloper.jsx";
 
 //서버 연결
 import {setId} from "../components/features/signUpDeveloper.jsx";
 import {setPhoneNumber} from "../components/features/signUpDeveloper.jsx";
-const SignUpPage = () => {
+import { setEmail } from "../components/features/signUpDeveloper.jsx";
+import {isPassword} from "../components/features/signUpDeveloper.jsx";
+
+const SignUpPage2 = () => {
     const navigate = useNavigate();
-    const [eyeVisible, setEyeVisible] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false); 
-    const [isIdChecked, setIsIdChecked] = useState(false); // 아이디 중복 체크 활성화 상태
     
     //아이디 중복 확인
     const [idInput, setIdInput] = useState(''); // 입력된 아이디 상태
@@ -22,7 +21,9 @@ const SignUpPage = () => {
     //전화번호 중복 확인
     const [phone, setPhone] = useState('');
     const [phoneChecked, setPhoneChecked] = useState(false); 
-    
+    //비밀번호 확인
+    const [eyeVisible, setEyeVisible] = useState(false);
+
     const toggleEyeVisible = () => {
         setEyeVisible(!eyeVisible);
     };
@@ -55,12 +56,54 @@ const SignUpPage = () => {
         setPhone(autoHyphen(value));
         setPhoneChecked(false); 
     };
-
     const handlePhoneCheck = () => {
         const isValid = setPhoneNumber(phone);
         setPhoneChecked(isValid);
     };
     
+
+    // 만약에 아이디와 이메일을 한 input태그에 받을 경우에
+    const [emailChecked, setEmailChecked] = useState(false);
+    // const [errorMessage, setErrorMessage] = useState('');
+    const [inputValue, setInputValue] = useState(''); // 아이디 또는 이메일 입력값 관리
+
+    // 아이디/이메일 입력 핸들러
+    const handleInputChange = (e) => {
+        const value = e.target.value;
+        setInputValue(value);
+        setIdChecked(false);
+        setEmailChecked(false);
+        // setErrorMessage('');
+    };
+
+    // 아이디/이메일 확인 함수
+    const handleCheck = () => {
+        const isEmailFormat = /\S+@\S+\.\S+/.test(inputValue);
+
+        if (isEmailFormat) {
+            // 이메일 형식인 경우, 이메일 중복 확인
+            const emailValid = setEmail(inputValue);
+            if (!emailValid) {
+                setEmailChecked(false);
+            } else {
+                setEmailChecked(true);
+                setErrorMessage('');
+            }
+        } else {
+            // 아이디 형식 확인
+            const idValid = setId(inputValue);
+            if (!idValid) {
+                setIdChecked(false);
+            } else {
+                setIdChecked(true);
+                setErrorMessage('');
+            }
+        }
+    };
+
+
+
+
     return (
         <LoginWrapper>
             <MainText onClick={() => navigate("/")}>FolioFrame</MainText>
@@ -78,6 +121,10 @@ const SignUpPage = () => {
                          type="text" 
                          value={idInput} 
                          onChange={handleIdInputChange} 
+                        // type="text"
+                        // placeholder="아이디 또는 이메일"
+                        // value={inputValue}
+                        // onChange={handleInputChange}
                     />
                     <IDcheckWrapper>
                         <IDcheckInput 
@@ -85,10 +132,12 @@ const SignUpPage = () => {
                              id="IDcheck" 
                              onClick={handleIdCheck}
                              checked={idChecked} 
+                            // onClick={handleCheck}
+                            // checked={idChecked || emailChecked}
                         />
                         <label htmlFor="IDcheck">중복확인</label>
                     </IDcheckWrapper>
-                </RowWrapper>
+                </RowWrapper>   
                 <PassWrapper>
                     <PassInput
                         type={eyeVisible ? "text" : "password"}
@@ -139,19 +188,11 @@ const SignUpPage = () => {
                 <JoinButton onClick={() => navigate("../LoginPage")}>로그인</JoinButton>
             </MemberWrapper>
 
-            {/* 팝업창 */}
-            {isModalOpen && (
-                <ModalOverlay>
-                    <ModalContent>
-                       <Consent/>
-                    </ModalContent>
-                </ModalOverlay>
-            )}
         </LoginWrapper>
     );
 };
 
-export default SignUpPage;
+export default SignUpPage2;
 
 //css Wrapper
 const LoginWrapper = styled.div`

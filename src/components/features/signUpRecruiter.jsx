@@ -1,15 +1,3 @@
-
-
-
-
-// 정상작동하는지 확인되지 않음
-// 프론트와 연결 후 확인 필요
-
-
-
-
-
-
 import { oriUsers, oriRecruiters } from "../domain/startProgram";
 import { User } from "../domain/User";
 import { appendStringToFile, removeFromFileEnd } from "../features/fileIO";
@@ -181,7 +169,7 @@ export const setCompany = () => {
     companyCheck = true;
 }
 
-// 아이디나 이메일, 전화번호 중복 체크 후에 입력값이 변하면 다시 체크해야 하므로
+// 아이디나 이메일, 전화번호 중복 체크 후에 입력값이 변하면 다시 체크해야 하므로 -> X
 export const changedId = () => idCheck = false;
 export const changedEmail = () => emailCheck = false;
 export const changedPhoneNumber = () => phoneNumCheck = false;

@@ -105,32 +105,48 @@ export const setId = (id) => {
         alert('아이디는 영소문, 숫자, _, .만을 이용하여 6자 이상, 20자 이하로 입력하세요.');
         return false;
     }
-
-    let isIdValid = true;
+ 
+    let isIdValid = false;
     userInfo.forEach((user) => {  
         if (user.id === id) {
             alert('이미 사용 중인 아이디입니다.');
-            isIdValid = false;
+            changedId();
+            isIdValid = true;
             return;
         }
     });
-
-    return isIdValid;
+    if (!isIdValid) {
+        changedId();
+    }
+    return !isIdValid;
+    // changedId();
+    // return true;
 };
 // export default setId;
 
-export const setEmail = (email) => {
-    // 유저 DB에 이미 해당 이메일이 존재하면 true 반환, 없으면 false
-    oriUsers.forEach((value, key) => {
-        if (value.email === email) {
-            alert('이미 계정이 존재합니다.');
-            return;
-        }
-    });
+// export const setEmail = (email) => {
+//     // 유저 DB에 이미 해당 이메일이 존재하면 true 반환, 없으면 false
+//     oriUsers.forEach((value, key) => {
+//         if (value.email === email) {
+//             alert('이미 계정이 존재합니다.');
+//             return;
+//         }
+//     });
 
-    // 임의처리한다.
-    emailCheck = true;
-}
+//     // 임의처리한다.
+//     emailCheck = true;
+// }
+export const setEmail = (email) => {
+    // 이미 존재하는 이메일인지 확인
+    const emailExists = userInfo.some((user) => user.email === email);
+
+    if (emailExists) {
+        alert('이미 계정이 존재합니다.');
+        return false;
+    }
+
+    return true; // 이메일이 중복이 아닐 경우
+};
 
 export const setPhoneNumber = (phoneNumber) => {
     for (let value of userInfo) {
