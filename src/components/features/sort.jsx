@@ -21,7 +21,7 @@ const sort = ( category, sortOption, filterOption, isSearched, searchedList=null
     }
     
     // 카테고리에 따른 리스트 초기 추가
-    if ( category == null ){ // 카테고리가 null이면 모든 템플릿 """이것은 포트폴리오이다"""을 저장한다.
+    if ( category === null ){ // 카테고리가 null이면 모든 템플릿 """이것은 포트폴리오이다"""을 저장한다.
         curPortfolios.forEach((pofol) => {
             sortedPortfolios.append(pofol);
         });
