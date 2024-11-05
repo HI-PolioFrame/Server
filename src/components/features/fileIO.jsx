@@ -1,5 +1,8 @@
-const fs = require('fs');
-const path = require('path');
+// const fs = require('fs');
+// const path = require('path');
+
+import fs from 'fs';
+import path from 'path';
 
 // 파일 수 읽기
 // filePath로 입력된 파일을 모두 읽어 Number로 변환해 반환한다.

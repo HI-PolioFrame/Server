@@ -1,4 +1,4 @@
-class User {
+export class User {
     constructor(id, pageId=null, password, name, phoneNumber, birthday, recruiter=false, email=null, nickname=null, link=null, career=null, education=null) {
         this.id = id; // pk
         this.pageId = pageId; // fk to MyPage
