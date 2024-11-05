@@ -1,5 +1,5 @@
-import {Trie} from '../DataStructure/Trie.jsx';
-import { oriPortfolios } from '../domain/startProgram.js';
+import Trie from '../DataStructure/Trie.jsx';
+import {oriPortfolios} from '../domain/startProgram.js';
 
 export const dataList = (input) =>  {
 

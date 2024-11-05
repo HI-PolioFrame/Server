@@ -1,4 +1,4 @@
-import {Queue} from './Queue.jsx';
+import Queue from './Queue.jsx';
 
 class Node {
     constructor(value = '', isWord = false) {
