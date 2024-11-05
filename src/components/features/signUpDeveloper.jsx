@@ -13,7 +13,6 @@
 import { oriUsers } from "../domain/startProgram";
 import { User } from "../domain/User";
 import { appendStringToFile, truncateFile, readNumberFromFile, removeFromFileEnd } from "../features/fileIO";
-import { userInfo } from '../commmon/dummydata/userInfo';
 
 let idCheck = false;
 let emailCheck = false;
@@ -100,72 +99,89 @@ export const emailSignUpDeveloper = (name, birthday, email, password, rePassword
 }
 
 export const setId = (id) => {
+    // 유저 DB에 이미 해당 아이디가 존재하면 true 반환, 없으면 false
+    //oriUsers.forEach((value, key) => {
+    //    if (key === id) {
+    //        alert('이미 사용 중인 아이디입니다.');
+    //        return;
+    //    }
+    //});
+
+    idCheck = false;
+
     const idPattern = /^[a-z0-9_.]{6,20}$/;
     if (!id.match(idPattern)) {
         alert('아이디는 영소문, 숫자, _, .만을 이용하여 6자 이상, 20자 이하로 입력하세요.');
-        return false;
+        return idCheck;
     }
- 
-    let isIdValid = false;
-    userInfo.forEach((user) => {  
-        if (user.id === id) {
+
+    //let isIdValid = true;
+
+    //oriUsers.forEach((user) => {
+    //    if (user.id === id) {
+    //        alert('이미 사용 중인 아이디입니다.');
+    //        isIdValid = false;
+    //    }
+    //});
+    for (const [key, user] of oriUsers){
+        if (key === id){
             alert('이미 사용 중인 아이디입니다.');
-            changedId();
-            isIdValid = true;
+            return idCheck;
+        }
+    }
+
+    idCheck = true;
+    return idCheck;
+    // 아이디 설정 조건에 들어맞는가
+    // 영소문, 숫자, _, . 으로 이루어진 6자 이상 20자 이하
+    //const idPattern = /^[a-z0-9_.]{6,20}$/;
+    //const idMatcher = id.match(idPattern);
+    //if (!idMatcher) {
+    //    alert('아이디는 영소문, 숫자, _, .만을 이용하여 6자 이상, 20자 이하로 입력하세요.');
+    //    return;
+    //}
+
+    //idCheck = true;
+};
+
+export const setEmail = (email) => {
+    // 유저 DB에 이미 해당 이메일이 존재하면 true 반환, 없으면 false
+    oriUsers.forEach((value, key) => {
+        if (value.email === email) {
+            alert('이미 계정이 존재합니다.');
             return;
         }
     });
-    if (!isIdValid) {
-        changedId();
-    }
-    return !isIdValid;
-    // changedId();
-    // return true;
-};
-// export default setId;
 
-// export const setEmail = (email) => {
-//     // 유저 DB에 이미 해당 이메일이 존재하면 true 반환, 없으면 false
-//     oriUsers.forEach((value, key) => {
-//         if (value.email === email) {
-//             alert('이미 계정이 존재합니다.');
-//             return;
-//         }
-//     });
-
-//     // 임의처리한다.
-//     emailCheck = true;
-// }
-export const setEmail = (email) => {
-    // 이미 존재하는 이메일인지 확인
-    const emailExists = userInfo.some((user) => user.email === email);
-
-    if (emailExists) {
-        alert('이미 계정이 존재합니다.');
-        return false;
-    }
-
-    return true; // 이메일이 중복이 아닐 경우
-};
+    // 임의처리한다.
+    emailCheck = true;
+}
 
 export const setPhoneNumber = (phoneNumber) => {
-    for (let value of userInfo) {
-        if (value.phoneNumber === phoneNumber) {
+    // 유저 DB에 이미 해당 핸드폰 번호가 존재하면 true 반환, 없으면 false
+    for (const [key, user] of oriUsers) {//oriUsers.forEach((value, key) => {
+        alert(`유저의 아이디는 ${key}, 유저의 전화번호는 ${user.phoneNumber}`)
+        if (user.phoneNumber === phoneNumber) {
             alert('이미 계정이 존재합니다.');
-            return false; 
+            phoneNumCheck = false;
+            return phoneNumCheck; //return;
         }
-    }
+    }; //);
+
+    // 이것은 번호인증을 실제로 진행할 수 없으므로 임의 처리하는 것이다.
+    // 이통통신기(010-XXXX-XXXX)의 형태를 갖추었는가
     const phonePattern = /^010-\d{4}-\d{4}$/; 
     if (!phonePattern.test(phoneNumber)) {
-        alert('올바른 전화번호를 입력하세요.'); 
-        return false; 
+        alert('올바른 전화번호를 입력하세요.');
+        phoneNumCheck = false;
+        return phoneNumCheck; //return;
     }
 
-    return true; 
-};
+    phoneNumCheck = true;
+    return phoneNumCheck; //phoneNumCheck = true;
+}
 
-
-export  const isIdExists = (id) => {
+export const isIdExists = (id) => {
     oriUsers.forEach((value, key) => {
         if (key === id) {
             return true;
@@ -181,7 +197,7 @@ export const changedEmail = () => emailCheck = false;
 export const changedPhoneNumber = () => phoneNumCheck = false;
 
 // 중복 체크가 되어 있지 않으면 실행지 않는다
-export  const isIdChecked = () => {
+export const isIdChecked = () => {
     if (idCheck === false) {
         alert('아이디 중복 체크를 해야합니다.');
         return 0
@@ -189,7 +205,7 @@ export  const isIdChecked = () => {
     return 1;
 }
 
-export  const isEmailChecked = () => {
+export const isEmailChecked = () => {
     if (emailCheck === false) {
         alert('이메일 중복 체크를 해야 합니다.');
         return 0;
@@ -197,7 +213,7 @@ export  const isEmailChecked = () => {
     return 1;
 }
 
-export  const isPhoneNumberChecked = () => {
+export const isPhoneNumberChecked = () => {
     if (phoneNumCheck === false) {
         alert('전화번호 중복 체크를 해야 합니다.');
         return 0;
@@ -205,7 +221,7 @@ export  const isPhoneNumberChecked = () => {
     return 1;
 }
 
-export  const isPassword = (password, rePassword) => {
+export const isPassword = (password, rePassword) => {
     // 비밀번호와 비밀번호 확인란이 동일한가
     if (password !== rePassword) {
         alert('비밀번호와 재입력한 비밀번호가 일치하지 않습니다');
@@ -223,7 +239,7 @@ export  const isPassword = (password, rePassword) => {
     return 1;
 }
 
-export  const generateRandomString = (length) => {
+export const generateRandomString = (length) => {
     const characters = 'abcdefghijklmnopqrstuvwxyz0123456789_.';
     let result = '';
 
@@ -235,7 +251,7 @@ export  const generateRandomString = (length) => {
     return result;
 }
 
-export  const getRandomId = () => {
+export const getRandomId = () => {
     // 길이를 6에서 20 사이로 랜덤하게 설정
     const length = Math.floor(Math.random() * (20 - 6 + 1)) + 6;
     return generateRandomString(length);
@@ -250,4 +266,4 @@ export  const getRandomId = () => {
 //
 // 아이디 변경됐을 때: changedId
 // 전화번호 변경됐을 때: changedPhoneNumber
-export default { idSignUpDeveloper, emailSignUpDeveloper,setId, setEmail, setPhoneNumber, changedId, changedEmail, changedPhoneNumber };
+export default { idSignUpDeveloper, emailSignUpDeveloper, setId, setEmail, setPhoneNumber, changedId, changedEmail, changedPhoneNumber };
