@@ -12,6 +12,7 @@ const SignUpPage = () => {
     const [eyeVisible, setEyeVisible] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false); 
     const [isIdChecked, setIsIdChecked] = useState(false); // 아이디 중복 체크 활성화 상태
+    
     const [idInput, setIdInput] = useState(''); // 입력된 아이디 상태
 
     const toggleEyeVisible = () => {
