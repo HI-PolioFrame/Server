@@ -52,7 +52,7 @@ const PortfolioPage = () => {
   };
 
   return (
-    <TemplatePageContainer>
+    <TemplatePageContainer className="TemplatePageContainer">
       {/* 각 페이지별 상단 -> 나중에 쉽게 모든 페이지에 적용할 수 있는 방법으로 수정 */}
       <PageHeader pageTitle="Portfolio" onSearch={handleSearchApply} />
 

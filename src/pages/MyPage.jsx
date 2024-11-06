@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import SelectBox from "../components/commmon/SelectBox";
 import SearchBarMini from "../components/MyPage/SearchBarMini";
@@ -6,17 +6,48 @@ import TemplateCard from "../components/commmon/TemplateCard";
 import StyledButton from "../components/commmon/StyledButton";
 import { dummydata } from "../components/commmon/dummydata/dummydata"; // dummydata 파일을 import합니다.
 import { Navigate, useNavigate } from "react-router-dom";
+import { searchSortManager } from "../components/domain/startProgram";
 
 function MyPage() {
+  const [myPortfolioList, setMyPortfolioList] = useState([]); // 상태로 관리되는 포트폴리오 리스트
+
+  // LinkedList를 배열로 변환하는 유틸리티 함수
+  const linkedListToArray = (linkedList) => {
+    const array = [];
+    let currentNode = linkedList.head; // LinkedList의 시작점
+    while (currentNode) {
+      array.push(currentNode.value);
+      currentNode = currentNode.next;
+    }
+    return array;
+  };
+
+  // 검색어로 검색 시 호출되는 함수
+  const handleSearchApply = (searchTerm) => {
+    const searchedLinkedList = searchSortManager.search(searchTerm);
+    setMyPortfolioList(linkedListToArray(searchedLinkedList)); // 배열로 변환하여 상태 업데이트
+  };
+
+  // 정렬/필터 적용 시 호출되는 함수
+  const handleSortApply = (category, sortOption, filterOption) => {
+    const sortedLinkedList = searchSortManager.sort(
+      category,
+      sortOption,
+      filterOption
+    );
+    seMytPortfolioList(linkedListToArray(sortedLinkedList));
+  };
+
   return (
     <MyPageContainer className="MyPageContainer">
       <MyContainer>
         <MyTitle>내가 만든 프로젝트</MyTitle>
         <MyProtFolioMenuBarWrapper>
-          <SelectBox />
+          <SelectBox onSort={handleSortApply} />
           <SearchBarMini
             onChange={(e) => console.log(e.target.value)}
             onClick={() => onSearchClick}
+            onSearch={handleSearchApply}
           />
         </MyProtFolioMenuBarWrapper>
 
@@ -38,10 +69,11 @@ function MyPage() {
       <MyContainer>
         <MyTitle>내가 만든 포트폴리오</MyTitle>
         <MyProtFolioMenuBarWrapper>
-          <SelectBox />
+          <SelectBox onSort={handleSortApply} />
           <SearchBarMini
             onChange={(e) => console.log(e.target.value)}
             onClick={() => onSearchClick}
+            onSearch={handleSearchApply}
           />
         </MyProtFolioMenuBarWrapper>
 
@@ -67,9 +99,9 @@ function MyPage() {
           <SearchBarMini
             onChange={(e) => console.log(e.target.value)}
             onClick={() => onSearchClick}
+            onSearch={handleSearchApply}
           />
         </MyTemplateMenuWrapper>
- 
 
         <Line></Line>
 

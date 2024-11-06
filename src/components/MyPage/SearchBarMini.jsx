@@ -15,7 +15,7 @@ import { ImCancelCircle } from "react-icons/im";
 //   "마라탕후루",
 // ];
 
-const SearchBarMini = () => {
+const SearchBarMini = ({ onSearch }) => {
   const [inputValue, setInputValue] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [nowIndex, setNowIndex] = useState(-1);
@@ -37,7 +37,7 @@ const SearchBarMini = () => {
   const handleSearchClick = () => {
     console.log(inputValue);
     console.log(suggestions);
-    //search(inputValue);
+    onSearch(inputValue);
   };
 
   const handleCancelClick = () => {
