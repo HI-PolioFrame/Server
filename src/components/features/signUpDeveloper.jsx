@@ -105,13 +105,13 @@ export const setId = (id) => {
     const idPattern = /^[a-z0-9_.]{6,20}$/;
     if (!id.match(idPattern)) {
         alert('아이디는 영소문, 숫자, _, .만을 이용하여 6자 이상, 20자 이하로 입력하세요.');
-        return idCheck;
+        return false;
     }
 
     for (const [key, user] of oriUsers){
         if (key === id){
             alert('이미 사용 중인 아이디입니다.');
-            return idCheck;
+            return false;
         }
     }
 
@@ -158,16 +158,16 @@ export const setEmail = (email) => {
 } 
 
 export const setPhoneNumber = (phoneNumber) => {
-    let isDuplicate = false; 
+    phoneNumCheck = false; 
 
     // 유저 DB에 이미 해당 핸드폰 번호가 존재하면 true 반환, 없으면 false
     oriUsers.forEach((value) => {
         if (value.phoneNumber === phoneNumber) {
-            isDuplicate = true; // 중복 발견
+            phoneNumCheck = true; // 중복 발견
         }
     });
 
-    if (isDuplicate) {
+    if (phoneNumCheck) {
         alert('이미 계정이 존재합니다.');
         return false; 
     }
@@ -179,8 +179,8 @@ export const setPhoneNumber = (phoneNumber) => {
         alert('올바른 전화번호를 입력하세요. 형식: 010-xxxx-xxxx');
         return false; 
     }
-
-    return true; 
+    phoneNumCheck = true;
+    return phoneNumCheck; 
 }
 
 
@@ -230,9 +230,10 @@ export const isPassword = (password, rePassword) => {
         alert('비밀번호와 재입력한 비밀번호가 일치하지 않습니다');
         return 0;
     }
-
-    // 비밀번호가 조건에 들어맞는가
-    // 영문+특문+숫자로 12자 이상, 20자 이하
+    
+    return 1;
+}
+export const PasswordValidation = (password) => {
     const passPattern = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*\W).{12,20}$/;
     const passMatcher = password.match(passPattern);
     if (!passMatcher) {

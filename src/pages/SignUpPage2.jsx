@@ -4,47 +4,51 @@ import { Navigate, useNavigate } from "react-router-dom";
 import Consent from "../components/Consent/Consent.jsx";
 import Eye from "../assets/icons/Login/Eye.png";
 import Eyeoff from "../assets/icons/Login/Eyeoff.png";
-import { userInfo } from "../components/commmon/dummydata/userInfo.jsx";
 
 //서버 연결
 import {setId} from "../components/features/signUpDeveloper.jsx";
-import {changedId} from "../components/features/signUpRecruiter.jsx";
+import {changedId} from "../components/features/signUpDeveloper.jsx";
 import {setPhoneNumber} from "../components/features/signUpDeveloper.jsx";
-import {changedPhoneNumber} from "../components/features/signUpRecruiter.jsx";
-
-import { setEmail } from "../components/features/signUpDeveloper.jsx";
+import {changedPhoneNumber} from "../components/features/signUpDeveloper.jsx";
 import {isPassword} from "../components/features/signUpDeveloper.jsx";
+import { PasswordValidation } from "../components/features/signUpDeveloper.jsx";
+import {idSignUpDeveloper} from "../components/features/signUpDeveloper.jsx";
 
 const SignUpPage2 = () => {
     const navigate = useNavigate();
-    
+    const [name, setName] = useState('');
+    const [birthday, setBirthday] = useState('');    
     //아이디 중복 확인
-    const [idInput, setIdInput] = useState(''); // 입력된 아이디 상태
+    const [idInput, setIdInput] = useState('');
     const [idChecked, setIdChecked] = useState(false);
     //전화번호 중복 확인
     const [phone, setPhone] = useState('');
     const [phoneChecked, setPhoneChecked] = useState(false); 
     //비밀번호 확인
     const [eyeVisible, setEyeVisible] = useState(false);
+    const [eyeVisibleConfirm, setEyeVisibleConfirm] = useState(false);
+    const [password, setPassword] = useState('');
+    const [repassword, setrePassword] = useState('');
+    const [isPasswordValid, setIsPasswordValid] = useState(false); 
+    const [isRePasswordEnabled, setIsRePasswordEnabled] = useState(false); 
 
     const toggleEyeVisible = () => {
         setEyeVisible(!eyeVisible);
     };
 
-    const handleCheckBoxClick = () => {
-        setIsModalOpen(true); // 체크박스 클릭 시 팝업 열기
+    const toggleEyeVisibleConfirm = () => {
+        setEyeVisibleConfirm(!eyeVisibleConfirm);
     };
+
     const autoHyphen = (value) => {
-        // 숫자만 남기고 하이픈 추가
         const cleanedValue = value.replace(/[^0-9]/g, '');
         const formattedValue = cleanedValue
             .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/, "$1-$2-$3")
-            .replace(/(\-{1,2})$/, ''); // 연속된 하이픈 제거
+            .replace(/(\-{1,2})$/, ''); 
         return formattedValue;
     };
-    
-    //아이디 중복 부분
-    const handleIdInputChange = (e) => {
+      //아이디 중복 부분  
+      const handleIdInputChange = (e) => {
         setIdInput(e.target.value);
         setIdChecked(false);
         changedId(); 
@@ -78,18 +82,44 @@ const SignUpPage2 = () => {
         }
     };
 
+    // 비밀번호 유효성 검사 및 비밀번호 확인 
+    const handlePassValidation = () => {
+        if (PasswordValidation(password)) {
+            setIsPasswordValid(true); 
+            setIsRePasswordEnabled(true);
+        } else {
+            setIsPasswordValid(false); 
+            setPassword('');
+            setIsRePasswordEnabled(false);
+        }
+    };
+    const passwordCheck = () => {
+        if (isPassword(password, repassword)) {
+            alert("비밀번호가 인증되었습니다.");
+        } else {
+            setrePassword('');
+        }
+    };
+
+    const handlePassinputChange = (e) => {
+        setPassword(e.target.value);
+    };
+
+    const handleSignUp = () => {
+        idSignUpDeveloper(name, birthday, idInput, password, repassword, phone);
+    };
     return (
         <LoginWrapper>
             <MainText onClick={() => navigate("/")}>FolioFrame</MainText>
             <JoinWrapper>
                 <ColumnWrapper1>
-                    <NameInput placeholder="이름" type="text"></NameInput>
-                    <ColumnWrapper2>
+                    <NameInput placeholder="이름" type="text" onChange={(e) => setName(e.target.value)} />
+                <ColumnWrapper2>
                         <CalendarText>생년월일</CalendarText>
-                        <CalendarInput type="date"></CalendarInput>
+                        <CalendarInput type="date" onChange={(e) => setBirthday(e.target.value.split('-'))} />
                     </ColumnWrapper2>
                 </ColumnWrapper1>
-                <RowWrapper>
+                   <RowWrapper>
                     <IdInput 
                          placeholder="아이디 : 영소문, 숫자, _, .로 이루어진 6~20자" 
                          type="text" 
@@ -105,13 +135,17 @@ const SignUpPage2 = () => {
                         />
                         <label htmlFor="IDcheck">중복확인</label>
                     </IDcheckWrapper>
-                </RowWrapper>   
+                </RowWrapper>
                 <PassWrapper>
                     <PassInput
                         type={eyeVisible ? "text" : "password"}
-                        placeholder="비밀번호"
+                        placeholder="비밀번호 : 영문+특문+숫자로 12~20자"
+                        value={password}
+                        onChange={handlePassinputChange}
+                        onBlur={handlePassValidation}
+                        onKeyDown={(e) => e.key === 'Enter' && handlePassValidation()}
                     />
-                    <EyeIcon
+                   <EyeIcon
                         src={eyeVisible ? Eyeoff : Eye}
                         alt="eye"
                         onClick={toggleEyeVisible}
@@ -119,13 +153,18 @@ const SignUpPage2 = () => {
                 </PassWrapper>
                 <PassWrapper>
                     <PassInput
-                        type={eyeVisible ? "text" : "password"}
+                        type={eyeVisibleConfirm  ? "text" : "password"}
                         placeholder="비밀번호 확인"
+                        value={repassword}
+                        onChange={(e) => setrePassword(e.target.value)}
+                        onBlur={passwordCheck} 
+                        onKeyDown={(e) => e.key === 'Enter' && passwordCheck()}
+                        disabled={!isRePasswordEnabled} 
                     />
                     <EyeIcon
-                        src={eyeVisible ? Eyeoff : Eye}
+                        src={eyeVisibleConfirm ? Eyeoff : Eye}
                         alt="eye"
-                        onClick={toggleEyeVisible}
+                        onClick={toggleEyeVisibleConfirm}
                     />
                 </PassWrapper>
                 <RowWrapper>
@@ -148,14 +187,14 @@ const SignUpPage2 = () => {
                             />
                             <label htmlFor="Phonecheck">중복확인</label>
                         </PhonecheckWrapper>
-                </RowWrapper>                
+                </RowWrapper>
+     
             </JoinWrapper>
-            <LoginButton>시작하기</LoginButton>
+            <LoginButton  onClick={handleSignUp} >시작하기</LoginButton>
             <MemberWrapper>
                 <Text>이미 회원이신가요? |</Text>
-                <JoinButton onClick={() => navigate("../LoginPage")}>로그인</JoinButton>
+                <JoinButton onClick={() => navigate("/LoginPage")}>로그인</JoinButton>
             </MemberWrapper>
-
         </LoginWrapper>
     );
 };
