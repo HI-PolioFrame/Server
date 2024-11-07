@@ -1,16 +1,29 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useParams } from "react-router-dom";
+import { oriPortfolios } from "../components/domain/startProgram";
+
 import WritingBox from "../components/commmon/PortfolioDetailPage/WritingBox";
-import StyledButton from "../components/commmon/StyledButton";
 
 const PortfolioDetailPage = () => {
+  const { portfolioId } = useParams();
+  const [portfoliData, setPortfolioData] = useState(null);
+
+  useEffect(() => {
+    //포트폴리오 ID 사용해서 포트폴리오 데이터 가져오기
+    const portfolio = oriPortfolios.get(Number(portfolioId));
+    setPortfolioData(portfolio);
+  }, [portfolioId]);
+
+  if (!portfoliData) {
+    return <Loading>로딩 중...</Loading>;
+  }
+
   return (
     <DetailContainer>
       <TitleSection>
-        <ProjectTitle>프로젝트 이름</ProjectTitle>
-        <ProjectDescription>
-          설명설명설명설명설명설명설명설명설명설명설명설명설명설명설명설명설명설명설명설명
-        </ProjectDescription>
+        <ProjectTitle>{portfoliData.title}</ProjectTitle>
+        <ProjectDescription>{portfoliData.explanation}</ProjectDescription>
         <InfoButtons>
           <Button>조회수 0</Button>
           <Button>기업 연락 0</Button>
@@ -21,7 +34,7 @@ const PortfolioDetailPage = () => {
       <ContentSection>
         <ProjectLinkField>
           <Label>프로젝트 링크</Label>
-          <TextBox />
+          <TextBox /> {/*portfolioInfo에 추가해야함 */}
         </ProjectLinkField>
 
         <DeveloperField>
@@ -34,35 +47,66 @@ const PortfolioDetailPage = () => {
 
         <ParticipationPeriodField>
           <Label>참여 기간</Label>
-          <TextBox />
+          <TextBox
+            value={portfolioData.participationPeriod || "기간 정보 없음"}
+            readOnly
+          />{" "}
+          {/*portfolioInfo에 추가해야함*/}
         </ParticipationPeriodField>
 
         <ProblemSolvingField>
           <Label>문제 해결</Label>
-          <TextArea />
+          <TextArea
+            value={portfolioData.problemSolving || "문제 해결 내용 없음"}
+            readOnly
+          />{" "}
+          {/*portfolioInfo에 추가해야함*/}
         </ProblemSolvingField>
 
         <LearnedField>
           <Label>배운 점</Label>
-          <TextArea />
+          <TextArea
+            value={portfolioData.learned || "배운 점 없음"}
+            readOnly
+          />{" "}
+          {/*portfolioInfo에 추가해야함*/}
         </LearnedField>
 
         <LanguagesUsedField>
           <Label>사용한 언어</Label>
-          <TextBox />
+          <TextBox
+            value={portfolioData.languagesUsed.join(", ") || "언어 없음"}
+            readOnly
+          />{" "}
+          {/*portfolioInfo에 추가해야함*/}
         </LanguagesUsedField>
 
         <DemoVideoField>
           <Label>데모 비디오</Label>
-          <VideoBox></VideoBox>
+          {portfolioData.demoVideo ? (
+            <VideoBox>
+              <video width="100%" height="100%" controls>
+                <source src={portfolioData.demoVideo} type="video/mp4" />
+                비디오를 지원하지 않는 브라우저입니다.
+              </video>
+            </VideoBox>
+          ) : (
+            <VideoBox>비디오 없음</VideoBox>
+          )}
         </DemoVideoField>
 
         <ImagesField>
           <Label>사진</Label>
           <ImageContainer>
-            <ImageBox></ImageBox>
-            <ImageBox></ImageBox>
-            <ImageBox></ImageBox>
+            {portfolioData.images.length > 0 ? (
+              portfolioData.images.map((image, index) => (
+                <ImageBox key={index}>
+                  <img src={image} alt={`프로젝트 이미지 ${index + 1}`} />
+                </ImageBox>
+              ))
+            ) : (
+              <ImageBox>사진 없음</ImageBox>
+            )}
           </ImageContainer>
         </ImagesField>
       </ContentSection>
@@ -93,6 +137,14 @@ const PortfolioDetailPage = () => {
 export default PortfolioDetailPage;
 
 // Styled Components
+const Loading = styled.div`
+  display: flex;
+  justify-content: center;
+
+  font-size: 1vw;
+  font-weight: bold;
+`;
+
 const DetailContainer = styled.div`
   width: 85%;
   margin: 0 auto;
@@ -144,6 +196,7 @@ const Field = styled.div`
 
 const Label = styled.label`
   font-weight: bold;
+  font-size: 1.1vw;
   margin-bottom: 8px;
 `;
 

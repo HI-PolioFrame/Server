@@ -9,15 +9,16 @@ import { Navigate, useNavigate } from "react-router-dom";
 import {
   oriPortfolios,
   searchSortManager,
+  initializeData,
 } from "../components/domain/startProgram";
-import { initializeData } from "../components/domain/startProgram";
+//import { initializeData } from "../components/domain/startProgram";
 
 import PageHeader from "../components/commmon/PageHeader";
 
 const PortfolioPage = () => {
   const navigate = useNavigate();
 
-  const [portfolioList, setPortfolioList] = useState([]);
+  const [sharedPortfolioList, setSharedPortfolioList] = useState([]);
 
   //LinkedList를 배열로 바꾸는 함수
   const linkedListToArray = (linkedList) => {
@@ -33,8 +34,10 @@ const PortfolioPage = () => {
   // 페이지 최초 로드 시 oriPortfolios를 순회하여 상태에 설정
   useEffect(() => {
     initializeData(); // 데이터를 초기화
-    const initialPortfolios = Array.from(oriPortfolios.values()); // Map을 배열로 변환
-    setPortfolioList(initialPortfolios); // 초기 포트폴리오 목록을 상태로 설정
+    const sharedPortfolios = Array.from(oriPortfolios.values()).filter(
+      (portfolio) => portfolio.share === true
+    ); // Map을 배열로 변환
+    setSharedPortfolioList(sharedPortfolios); // 초기 포트폴리오 목록을 상태로 설정
   }, []);
 
   const handleSortApply = (category, sortOption, filterOption) => {
@@ -43,12 +46,12 @@ const PortfolioPage = () => {
       sortOption,
       filterOption
     );
-    setPortfolioList(linkedListToArray(sortedLinkedList));
+    setSharedPortfolioList(linkedListToArray(sortedLinkedList));
   };
 
   const handleSearchApply = (searchTerm) => {
     const searchedLinkedList = searchSortManager.search(searchTerm);
-    setPortfolioList(linkedListToArray(searchedLinkedList));
+    setSharedPortfolioList(linkedListToArray(searchedLinkedList));
   };
 
   return (
@@ -63,12 +66,10 @@ const PortfolioPage = () => {
 
       <TemplateGridWrapper>
         <TemplateGrid>
-          {portfolioList.map((data, index) => (
+          {sharedPortfolioList.map((portfolio) => (
             <TemplateCard
-              key={index}
-              templateName={data.title || "빈 제목"}
-              description={data.description || "빈 설명"}
-              templateThumbnail={data.thumbnail || "default-image.png"}
+              key={portfolio.portfolioId}
+              portfolioId={portfolio.portfolioId}
               templateButton={"보기"}
             />
           ))}

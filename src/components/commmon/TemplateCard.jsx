@@ -1,25 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { oriPortfolios } from "../domain/startProgram";
+
 import Logo from "../../assets/icons/Logo.png";
-// 템플릿 카드 1개
-//templateName, description, templateThumnail, templateButton을 props로!
-const TemplateCard = ({
-  templateName,
-  description,
-  templateThumnail,
-  templateButton,
-}) => {
+
+const TemplateCard = ({ portfolioId, templateButton }) => {
+  const navigate = useNavigate();
+  const [portfolioData, setPortfolioData] = useState(null);
+
+  useEffect(() => {
+    //프롭스로 받은 포트폴리오 ID 사용해서 oriPortfolios에서 포트폴리오 데이터 가져오기
+    const portfolio = oriPortfolios.get(portfolioId);
+    if (portfolio) {
+      setPortfolioData(portfolio);
+    }
+  }, [portfolioId]);
+
+  if (!portfolioData) {
+    return <Loading>로딩 중...</Loading>;
+  }
+
   return (
     <Card>
       <ImageContainer>
-        <Image src={Logo} alt="Template" />
+        <Image src={portfolioData.thumnail || Logo} alt="Template" />
       </ImageContainer>
-      <TemplateName>{templateName}</TemplateName>
-      <Description>{description}</Description>
+      <TemplateName>{portfolioData.title || "빈 제목"}</TemplateName>
+      <Description>{portfolioData.explanation || "빈 설명"}</Description>
       <Button
         onClick={() => {
           console.log("보기 버튼 클릭");
+          navigate(`/PortfolioDetailPage/${portfolioId}`);
         }}
       >
         {templateButton}
@@ -36,6 +49,14 @@ TemplateCard.propTypes = {
 };
 
 export default TemplateCard;
+
+const Loading = styled.div`
+  display: flex;
+  justify-content: center;
+
+  font-size: 1vw;
+  font-weight: bold;
+`;
 
 const Card = styled.div`
   position: relative;
