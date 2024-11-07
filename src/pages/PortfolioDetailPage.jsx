@@ -7,7 +7,7 @@ import WritingBox from "../components/commmon/PortfolioDetailPage/WritingBox";
 
 const PortfolioDetailPage = () => {
   const { portfolioId } = useParams();
-  const [portfoliData, setPortfolioData] = useState(null);
+  const [portfolioData, setPortfolioData] = useState(null);
 
   useEffect(() => {
     //포트폴리오 ID 사용해서 포트폴리오 데이터 가져오기
@@ -15,15 +15,15 @@ const PortfolioDetailPage = () => {
     setPortfolioData(portfolio);
   }, [portfolioId]);
 
-  if (!portfoliData) {
+  if (!portfolioData) {
     return <Loading>로딩 중...</Loading>;
   }
 
   return (
     <DetailContainer>
       <TitleSection>
-        <ProjectTitle>{portfoliData.title}</ProjectTitle>
-        <ProjectDescription>{portfoliData.explanation}</ProjectDescription>
+        <ProjectTitle>{portfolioData.title}</ProjectTitle>
+        <ProjectDescription>{portfolioData.explanation}</ProjectDescription>
         <InfoButtons>
           <Button>조회수 0</Button>
           <Button>기업 연락 0</Button>
@@ -75,9 +75,14 @@ const PortfolioDetailPage = () => {
         <LanguagesUsedField>
           <Label>사용한 언어</Label>
           <TextBox
-            value={portfolioData.languagesUsed.join(", ") || "언어 없음"}
+            value={
+              portfolioData.languagesUsed &&
+              portfolioData.languagesUsed.length > 0
+                ? portfolioData.languagesUsed.join(", ")
+                : "언어 없음"
+            }
             readOnly
-          />{" "}
+          />
           {/*portfolioInfo에 추가해야함*/}
         </LanguagesUsedField>
 
@@ -98,7 +103,7 @@ const PortfolioDetailPage = () => {
         <ImagesField>
           <Label>사진</Label>
           <ImageContainer>
-            {portfolioData.images.length > 0 ? (
+            {portfolioData.images && portfolioData.images.length > 0 ? (
               portfolioData.images.map((image, index) => (
                 <ImageBox key={index}>
                   <img src={image} alt={`프로젝트 이미지 ${index + 1}`} />

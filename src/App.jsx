@@ -77,7 +77,7 @@ function App() {
 
           {/* 포트폴리오 상세페이지*/}
           <Route
-            path="/PortfolioDetailPage"
+            path="/PortfolioDetailPage/:portfolioId"
             element={<PortfolioDetailPage />}
           />
         </Route>
