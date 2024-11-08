@@ -6,7 +6,7 @@ export const portfolioInfo = [
     setTemplate: 1, // 1번 템플릿 양식을 사용
     title: "마라탕후루",
     explanation: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
-    share: true, // 포폴 게시판에 공유 설정 O
+    share: false, // 포폴 게시판에 공유 설정 O
     projects: ["1", "2"], // 유저의 1, 2, 3, 4, 5번 포트폴리오를 담고 있음
     category: "백엔드",
     comments: [
