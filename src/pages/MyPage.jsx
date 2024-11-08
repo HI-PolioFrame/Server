@@ -6,10 +6,24 @@ import TemplateCard from "../components/commmon/TemplateCard";
 import StyledButton from "../components/commmon/StyledButton";
 import { dummydata } from "../components/commmon/dummydata/dummydata"; // dummydata 파일을 import합니다.
 import { Navigate, useNavigate } from "react-router-dom";
-import { searchSortManager } from "../components/domain/startProgram";
+import {
+  oriPortfolios,
+  searchSortManager,
+} from "../components/domain/startProgram";
+import { getCurrentUser } from "../components/features/currentUser";
 
 function MyPage() {
   const [myPortfolioList, setMyPortfolioList] = useState([]); // 상태로 관리되는 포트폴리오 리스트
+
+  useEffect(() => {
+    const currentUser = getCurrentUser();
+    if (currentUser) {
+      const userPortfolios = Array.from(oriPortfolios.values()).filter(
+        (portfolio) => portfolio.owner === currentUser.pageId
+      );
+      setMyPortfolioList(userPortfolios);
+    }
+  }, []);
 
   // LinkedList를 배열로 변환하는 유틸리티 함수
   const linkedListToArray = (linkedList) => {
@@ -54,7 +68,19 @@ function MyPage() {
         <Line></Line>
 
         <TemplateGridWrapper>
-          <TemplateGrid>{/* 기능구현으로부터 함수 받아서 구현 */}</TemplateGrid>
+          <TemplateGrid>
+            {myPortfolioList.length > 0 ? (
+              myPortfolioList.map((portfolio) => (
+                <TemplateCard
+                  key={portfolio.portfolioId}
+                  portfolioId={portfolio.portfolioId}
+                  templateButton={"보기"}
+                />
+              ))
+            ) : (
+              <p>프로젝트가 없습니다.</p>
+            )}
+          </TemplateGrid>
         </TemplateGridWrapper>
       </MyContainer>
 
@@ -176,15 +202,13 @@ const MyTemplateMenuWrapper = styled.div`
 
 const TemplateGridWrapper = styled.div`
   display: flex;
-  justify-content: center;
+  //justify-content: center;
   align-items: center;
 `;
 
 const TemplateGrid = styled.div`
-  //display: grid;
-  //grid-template-columns: repeat(4, 1fr);
-  //place-content: center center;
-  //gap: 3vw 1vw;
+  display: flex;
+  justify-content: flex-start;
   margin-top: 2em;
   max-width: 80em;
 `;

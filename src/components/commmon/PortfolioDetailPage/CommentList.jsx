@@ -1,13 +1,28 @@
 import React from "react";
 import styled from "styled-components";
+import { getCurrentUser } from "../../features/currentUser";
 
-const CommentList = ({ comments }) => {
+const CommentList = ({ comments, setComments }) => {
+  const handleDelete = (index) => {
+    const currentUser = getCurrentUser();
+    if (currentUser && comments[index].user === currentUser.nickname) {
+      setComments((prevComments) => prevComments.filter((_, i) => i !== index));
+    } else {
+      alert("본인이 작성한 댓글만 삭제할 수 있습니다.");
+    }
+  };
+
   return (
     <CommentListWrapper>
       {comments.map((comment, index) => (
         <Comment key={index}>
           <CommentHeader>
             <CommentUser>{comment.user}</CommentUser>
+            {comment.user === getCurrentUser().nickname && (
+              <DeleteButton onClick={() => handleDelete(index)}>
+                삭제
+              </DeleteButton>
+            )}
           </CommentHeader>
           <CommentText>{comment.text}</CommentText>
         </Comment>
@@ -42,4 +57,14 @@ const CommentUser = styled.span`
 
 const CommentText = styled.p`
   margin: 10px 0;
+`;
+
+const DeleteButton = styled.button`
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  background-color: #0a27a6;
+  color: white;
+  cursor: pointer;
+  margin-top: 5px;
 `;

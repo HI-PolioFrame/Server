@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { getCurrentUser } from "../../features/currentUser";
 
 import BoldIcon from "../../../assets/icons/boldIcon.svg";
 import ItalicIcon from "../../../assets/icons/italic-5.svg?react";
@@ -87,9 +88,10 @@ const WritingBox = ({ addComment }) => {
   };
 
   const handleSubmit = () => {
+    const currentUser = getCurrentUser();
     if (markdown.trim() !== "") {
       const newComment = {
-        user: "CurrentUser", // 사용자 이름은 실제 로그인한 사용자 정보 받아오기, getCurrentUser
+        user: currentUser.nickname, // 로그인된 사용자 이름
         text: markdown,
       };
       //console.log(newComment); -> 문제 없음.

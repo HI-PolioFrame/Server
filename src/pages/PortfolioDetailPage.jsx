@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import { oriPortfolios } from "../components/domain/startProgram";
+import { getCurrentUser } from "../components/features/currentUser";
 
 import WritingBox from "../components/commmon/PortfolioDetailPage/WritingBox";
 import CommentList from "../components/commmon/PortfolioDetailPage/CommentList";
@@ -10,6 +11,7 @@ const PortfolioDetailPage = () => {
   const { portfolioId } = useParams();
   const [portfolioData, setPortfolioData] = useState(null);
   const [comments, setComments] = useState([]);
+  const currentUser = getCurrentUser();
 
   useEffect(() => {
     //포트폴리오 ID 사용해서 포트폴리오 데이터 가져오기
@@ -21,7 +23,10 @@ const PortfolioDetailPage = () => {
     setComments((prevComments) => [newComment, ...prevComments]);
   };
 
-  console.log(comments);
+  // const isPortfolioOwner =
+  //   portfolioData && currentUser && portfolioData.owner === currentUser.id;
+
+  //console.log(comments);
 
   if (!portfolioData) {
     return <Loading>로딩 중...</Loading>;
@@ -48,8 +53,8 @@ const PortfolioDetailPage = () => {
         <DeveloperField>
           <Label>개발자</Label>
           <DevContainer>
-            <DevInput />
-            <DevInput />
+            <DevInput>{currentUser.nickname}</DevInput>
+            <DevInput>{currentUser.email}</DevInput>
           </DevContainer>
         </DeveloperField>
 
@@ -127,7 +132,7 @@ const PortfolioDetailPage = () => {
       <CommentsSection>
         <CommentsTitle>댓글</CommentsTitle>
         <WritingBox addComment={addComment} />
-        <CommentList comments={comments} />
+        <CommentList comments={comments} setComments={setComments} />
       </CommentsSection>
     </DetailContainer>
   );
