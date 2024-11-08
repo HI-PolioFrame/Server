@@ -4,16 +4,24 @@ import { useParams } from "react-router-dom";
 import { oriPortfolios } from "../components/domain/startProgram";
 
 import WritingBox from "../components/commmon/PortfolioDetailPage/WritingBox";
+import CommentList from "../components/commmon/PortfolioDetailPage/CommentList";
 
 const PortfolioDetailPage = () => {
   const { portfolioId } = useParams();
   const [portfolioData, setPortfolioData] = useState(null);
+  const [comments, setComments] = useState([]);
 
   useEffect(() => {
     //포트폴리오 ID 사용해서 포트폴리오 데이터 가져오기
     const portfolio = oriPortfolios.get(Number(portfolioId));
     setPortfolioData(portfolio);
   }, [portfolioId]);
+
+  const addComment = (newComment) => {
+    setComments((prevComments) => [newComment, ...prevComments]);
+  };
+
+  console.log(comments);
 
   if (!portfolioData) {
     return <Loading>로딩 중...</Loading>;
@@ -40,8 +48,8 @@ const PortfolioDetailPage = () => {
         <DeveloperField>
           <Label>개발자</Label>
           <DevContainer>
-            <DevInput placeholder="이름" />
-            <DevInput placeholder="이메일" />
+            <DevInput />
+            <DevInput />
           </DevContainer>
         </DeveloperField>
 
@@ -117,23 +125,9 @@ const PortfolioDetailPage = () => {
       </ContentSection>
 
       <CommentsSection>
-        <Comment>
-          <CommentsTitle>댓글</CommentsTitle>
-          <WritingBox />
-        </Comment>
-
-        <Comment>
-          <CommentHeader>
-            <CommentUser>KimYeEun</CommentUser>
-            <CommentTime>less than a minute ago</CommentTime>
-          </CommentHeader>
-          <CommentText>Good~!</CommentText>
-          <CommentActions>
-            <CommentButton>👍 0</CommentButton>
-            <CommentButton>👎 0</CommentButton>
-            <CommentButton>Reply</CommentButton>
-          </CommentActions>
-        </Comment>
+        <CommentsTitle>댓글</CommentsTitle>
+        <WritingBox addComment={addComment} />
+        <CommentList comments={comments} />
       </CommentsSection>
     </DetailContainer>
   );
@@ -201,7 +195,7 @@ const Field = styled.div`
 
 const Label = styled.label`
   font-weight: bold;
-  font-size: 1.1vw;
+  font-size: 1.2vw;
   margin-bottom: 8px;
 `;
 
@@ -237,7 +231,7 @@ const ImagesField = styled(Field)`
   grid-area: images;
 `;
 
-const TextBox = styled.input`
+const TextBox = styled.div`
   background-color: #f0f0f0;
   padding: 10px;
   border: 1px solid #ccc;
@@ -257,7 +251,7 @@ const DevContainer = styled.div`
   gap: 10px;
 `;
 
-const DevInput = styled.input`
+const DevInput = styled.div`
   background-color: #f0f0f0;
   padding: 10px;
   border: 1px solid #ccc;
@@ -272,7 +266,7 @@ const VideoBox = styled.div`
   justify-content: center;
   height: 200px;
   border: 1px dashed #ccc;
-  font-size: 24px;
+  font-size: 1vw;
 `;
 
 const ImageContainer = styled.div`
@@ -288,7 +282,7 @@ const ImageBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
+  font-size: 1vw;
 `;
 
 const CommentsSection = styled.div`

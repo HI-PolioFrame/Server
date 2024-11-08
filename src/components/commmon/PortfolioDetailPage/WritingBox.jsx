@@ -9,7 +9,7 @@ import StrikeThroughIcon from "../../../assets/icons/strikethrough-13.svg?react"
 import ImageIcon from "../../../assets/icons/imageIcon.svg?react";
 import LinkIcon from "../../../assets/icons/linkIcon.svg?react";
 
-const WritingBox = () => {
+const WritingBox = ({ addComment }) => {
   const [markdown, setMarkdown] = useState("");
   const [lengthCount, setLengthCount] = useState(markdown.length);
   const [fontSize, setFontSize] = useState("0");
@@ -86,6 +86,18 @@ const WritingBox = () => {
     setLengthCount(e.target.value.length);
   };
 
+  const handleSubmit = () => {
+    if (markdown.trim() !== "") {
+      const newComment = {
+        user: "CurrentUser", // 사용자 이름은 실제 로그인한 사용자 정보 받아오기, getCurrentUser
+        text: markdown,
+      };
+      //console.log(newComment); -> 문제 없음.
+      addComment(newComment);
+      setMarkdown("");
+    }
+  };
+
   return (
     <Wrapper>
       <ToolbarWrapper>
@@ -143,7 +155,12 @@ const WritingBox = () => {
       </TextareaWrapper>
 
       <ButtonWrapper>
-        <SubmitButton onClick={() => console.log("게시글 업로드")}>
+        <SubmitButton
+          onClick={
+            //console.log("게시글 업로드")
+            handleSubmit
+          }
+        >
           게시글 업로드
         </SubmitButton>
       </ButtonWrapper>
@@ -225,7 +242,7 @@ const StyledFontSizeSelect = styled.select`
   box-sizing: border-box;
   border: 0.1vw solid #0a27a6;
   border-radius: 0.4em;
-  font-size: 1.1vw;
+  font-size: 1vw;
   width: 6em;
   height: 1.75em;
   background-color: transparent;
@@ -347,7 +364,7 @@ const StyledTextarea = styled.textarea`
   height: 10vh;
   line-height: 1.845em;
   background-color: transparent;
-  font-size: 1.4vw;
+  font-size: 1vw;
   font-weight: 500;
   font-family: "NanumSquareNeo";
   &:focus {
@@ -385,7 +402,7 @@ const StyledContentHr = styled.hr`
 const StyledPreviewButton = styled.div`
   border: 0.1vw solid #0a27a6;
   border-radius: 0.4em;
-  font-size: 1.1vw;
+  font-size: 1vw;
   width: 6em;
   box-sizing: border-box;
   padding-left: 0.25em;
