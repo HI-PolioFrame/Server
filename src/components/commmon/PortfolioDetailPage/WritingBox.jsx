@@ -145,7 +145,7 @@ const WritingBox = ({ addComment }) => {
           value={markdown}
           onChange={handleMarkdownChange}
           onKeyDown={handleKeyDown}
-          placeholder="게시글의 내용을 입력해주세요."
+          placeholder="댓글의 내용을 입력해주세요."
           maxLength="100"
         />
         <TextareaBottom>
@@ -163,7 +163,7 @@ const WritingBox = ({ addComment }) => {
             handleSubmit
           }
         >
-          게시글 업로드
+          댓글 업로드
         </SubmitButton>
       </ButtonWrapper>
 
