@@ -17,10 +17,24 @@ const PortfolioDetailPage = () => {
     //포트폴리오 ID 사용해서 포트폴리오 데이터 가져오기
     const portfolio = oriPortfolios.get(Number(portfolioId));
     setPortfolioData(portfolio);
+
+    // 로컬 스토리지에서 댓글 불러오기
+    const savedComments = localStorage.getItem(`comments-${portfolioId}`);
+    if (savedComments) {
+      setComments(JSON.parse(savedComments));
+    }
   }, [portfolioId]);
 
   const addComment = (newComment) => {
-    setComments((prevComments) => [newComment, ...prevComments]);
+    setComments((prevComments) => {
+      const updatedComments = [newComment, ...prevComments];
+      // 로컬 스토리지에 댓글 저장
+      localStorage.setItem(
+        `comments-${portfolioId}`,
+        JSON.stringify(updatedComments)
+      );
+      return updatedComments;
+    });
   };
 
   // const isPortfolioOwner =
@@ -132,7 +146,11 @@ const PortfolioDetailPage = () => {
       <CommentsSection>
         <CommentsTitle>댓글</CommentsTitle>
         <WritingBox addComment={addComment} />
-        <CommentList comments={comments} setComments={setComments} />
+        <CommentList
+          comments={comments}
+          setComments={setComments}
+          portfolioId={portfolioId}
+        />
       </CommentsSection>
     </DetailContainer>
   );

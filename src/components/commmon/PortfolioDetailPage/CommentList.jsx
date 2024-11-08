@@ -2,11 +2,19 @@ import React from "react";
 import styled from "styled-components";
 import { getCurrentUser } from "../../features/currentUser";
 
-const CommentList = ({ comments, setComments }) => {
+const CommentList = ({ comments, setComments, portfolioId }) => {
   const handleDelete = (index) => {
     const currentUser = getCurrentUser();
     if (currentUser && comments[index].user === currentUser.nickname) {
-      setComments((prevComments) => prevComments.filter((_, i) => i !== index));
+      setComments((prevComments) => {
+        const updatedComments = prevComments.filter((_, i) => i !== index);
+        // 로컬 스토리지에 댓글 업데이트
+        localStorage.setItem(
+          `comments-${portfolioId}`,
+          JSON.stringify(updatedComments)
+        );
+        return updatedComments;
+      });
     } else {
       alert("본인이 작성한 댓글만 삭제할 수 있습니다.");
     }
