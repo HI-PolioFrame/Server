@@ -10,7 +10,7 @@ const MemberSelectionPage = () => {
     const navigate = useNavigate();
     return (
         <MainWrapper>
-                <MainText>FolioFrame</MainText>
+                <MainText onClick={() => navigate("/")}>FolioFrame</MainText>
                 <ButtonWrapper>
                     <GeneralButton>
                         <Title>일반회원</Title>
@@ -143,6 +143,7 @@ const MainText = styled.p`
     font-family: "OTF B";
     color : #0A27A6;
     display : flex;
+    cursor:pointer;
 `;
 const Title = styled.p`
     font-size: 2em;
