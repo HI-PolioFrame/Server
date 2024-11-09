@@ -2,7 +2,7 @@ export const userInfo = [
   {
     id: "user100000",
     pageId: 1,
-    password: "close12@@",
+    password: "close122222@@",
     name: "홍길동",
     phoneNumber: "010-2222-2222",
     birthday: "1990-01-01",

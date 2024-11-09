@@ -122,7 +122,7 @@ const Description = styled.div`
 const Button = styled.button`
   margin-top: 1vh;
   //width: 11.523em;
-  //height: 4.5vh;
+  height: 4.5vh;
   background-color: #0a27a6;
   border-radius: 62.5em;
   border: none;
