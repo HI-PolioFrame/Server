@@ -13,14 +13,7 @@ const sortMyPortfolios = ( category, sortOption, filterOption, isSearched, searc
     }
 
     let sortedPortfolios = new LinkedList();
-
-    if (isSearched === true) {
-        let curPortfolios = new LinkedList();
-        curPortfolios = searchedList;
-    } else if (searchedList !== null) {
-        let curPortfolios = new Map();
-        curPortfolios = oriPortfolios;
-    }
+    curPortfolios = searchedList || oriPortfolios;
     
     // 카테고리에 따른 리스트 초기 추가
     if ( category === null ){ // 카테고리가 null이면 모든 템플릿 """이것은 포트폴리오이다"""을 저장한다.
