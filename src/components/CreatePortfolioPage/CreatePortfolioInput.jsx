@@ -114,6 +114,7 @@ const CreatePortfolioInput = () => {
               </ImageWrapper>
           </InputWrapper>
         </ColumnWrapper>
+        
     </ChoiceWrapper>
 
     </>
