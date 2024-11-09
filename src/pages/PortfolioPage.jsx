@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import SearchBar from "../components/commmon/SearchBar";
 import SelectBox from "../components/commmon/SelectBox";
@@ -6,30 +6,70 @@ import TemplateCard from "../components/commmon/TemplateCard";
 import StyledButton from "../components/commmon/StyledButton";
 import { dummydata } from "../components/commmon/dummydata/dummydata"; // dummydata 파일을 import
 import { Navigate, useNavigate } from "react-router-dom";
+import {
+  oriPortfolios,
+  searchSortManager,
+  initializeData,
+} from "../components/domain/startProgram";
+//import { initializeData } from "../components/domain/startProgram";
 
 import PageHeader from "../components/commmon/PageHeader";
 
 const PortfolioPage = () => {
   const navigate = useNavigate();
 
+  const [sharedPortfolioList, setSharedPortfolioList] = useState([]);
+
+  //LinkedList를 배열로 바꾸는 함수
+  const linkedListToArray = (linkedList) => {
+    const array = [];
+    let currentNode = linkedList.head;
+    while (currentNode) {
+      array.push(currentNode.value);
+      currentNode = currentNode.next;
+    }
+    return array;
+  };
+
+  // 페이지 최초 로드 시 oriPortfolios를 순회하여 상태에 설정
+  useEffect(() => {
+    initializeData(); // 데이터를 초기화
+    const sharedPortfolios = Array.from(oriPortfolios.values()).filter(
+      (portfolio) => portfolio.share === true
+    ); // Map을 배열로 변환
+    setSharedPortfolioList(sharedPortfolios); // 초기 포트폴리오 목록을 상태로 설정
+  }, []);
+
+  const handleSortApply = (category, sortOption, filterOption) => {
+    const sortedLinkedList = searchSortManager.sort(
+      category,
+      sortOption,
+      filterOption
+    );
+    setSharedPortfolioList(linkedListToArray(sortedLinkedList));
+  };
+
+  const handleSearchApply = (searchTerm) => {
+    const searchedLinkedList = searchSortManager.search(searchTerm);
+    setSharedPortfolioList(linkedListToArray(searchedLinkedList));
+  };
+
   return (
-    <TemplatePageContainer>
+    <TemplatePageContainer className="TemplatePageContainer">
       {/* 각 페이지별 상단 -> 나중에 쉽게 모든 페이지에 적용할 수 있는 방법으로 수정 */}
-      <PageHeader pageTitle="Portfolio" />
+      <PageHeader pageTitle="Portfolio" onSearch={handleSearchApply} />
 
       <SelectBoxWrapper>
-        <SelectBox />
+        <SelectBox onSort={handleSortApply} />
       </SelectBoxWrapper>
       <Line></Line>
 
       <TemplateGridWrapper>
         <TemplateGrid>
-          {dummydata.map((data, index) => (
+          {sharedPortfolioList.map((portfolio) => (
             <TemplateCard
-              key={index}
-              templateName={data.postTitle || "빈 제목"}
-              description={data.postContent || "빈 설명"}
-              templateThumnail={data.postBackgroundImg || "default-image.png"}
+              key={portfolio.portfolioId}
+              portfolioId={portfolio.portfolioId}
               templateButton={"보기"}
             />
           ))}

@@ -13,8 +13,8 @@ import PortfolioPage from "./pages/PortfolioPage";
 import ProfileEditPage from "./pages/ProfileEditPage";
 import HackathonPage from "./pages/HackathonPage";
 import CreatePortfolioPage from "./pages/CreatePortfolioPage";
+import PortfolioDetailPage from "./pages/PortfolioDetailPage";
 
-//
 import { initializeData } from "./components/domain/startProgram";
 
 function App() {
@@ -74,6 +74,12 @@ function App() {
 
           {/*프로필 편집 화면*/}
           <Route path="/ProfileEditPage" element={<ProfileEditPage />} />
+
+          {/* 포트폴리오 상세페이지*/}
+          <Route
+            path="/PortfolioDetailPage/:portfolioId"
+            element={<PortfolioDetailPage />}
+          />
         </Route>
       </Route>
     </Routes>

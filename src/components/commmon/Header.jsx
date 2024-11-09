@@ -244,9 +244,9 @@ const TextWrapper = styled.nav`
 
 const Text = styled.a`
   font-family: "Inria Sans", sans-serif;
-  font-style: normal;
+  font-family: "OTF B";
   font-weight: 700;
-  font-size: 1em;
+  font-size: 1.2em;
   line-height: 36px;
   color: #919194;
   text-decoration: none;
