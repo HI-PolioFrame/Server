@@ -16,5 +16,7 @@ const saveTemplate = (templateName, description=null, picture=null, file) => {
     }
 
     const template = new Template(templateId, templateName, description, picture, file);
+
+    let filepath = "../"
     
 }

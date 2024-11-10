@@ -33,7 +33,7 @@ templateInfo.forEach((data) => {
 export const initializeData = () => {
   userInfo.forEach((data) => {
     let user = new User(
-      data.id,
+      Number(data.id),
       data.pageId,
       data.password,
       data.name,
@@ -46,7 +46,7 @@ export const initializeData = () => {
       data.career,
       data.education
     );
-    oriUsers.set(data.id, user);
+    oriUsers.set(Number(data.id), user);
     if (user.recruiter === true) {
       oriRecruiters.set(data.id, user);
     }
