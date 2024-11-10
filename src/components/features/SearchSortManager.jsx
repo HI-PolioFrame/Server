@@ -175,7 +175,7 @@ class SearchSortManager {
     
         sortedPortfolios.print();
         this.state.sortState = true;
-    
+
         return sortedPortfolios;
     }
     
