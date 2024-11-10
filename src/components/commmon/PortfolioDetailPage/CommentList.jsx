@@ -61,6 +61,7 @@ const CommentHeader = styled.div`
 
 const CommentUser = styled.span`
   font-weight: bold;
+  font-family: "OTF B";
 `;
 
 const CommentText = styled.p`
@@ -75,4 +76,5 @@ const DeleteButton = styled.button`
   color: white;
   cursor: pointer;
   margin-top: 5px;
+  font-family: "OTF B";
 `;

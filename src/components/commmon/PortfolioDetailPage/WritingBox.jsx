@@ -244,13 +244,17 @@ const StyledFontSizeSelect = styled.select`
   box-sizing: border-box;
   border: 0.1vw solid #0a27a6;
   border-radius: 0.4em;
+
   font-size: 1vw;
+  font-family: "OTF B";
+  font-weight: 800;
+
   width: 6em;
   height: 1.75em;
+
   background-color: transparent;
   color: #0a27a6;
-  //font-size: 1em;
-  font-weight: 800;
+
   cursor: pointer;
   &:focus {
     outline: none;
@@ -404,18 +408,23 @@ const StyledContentHr = styled.hr`
 const StyledPreviewButton = styled.div`
   border: 0.1vw solid #0a27a6;
   border-radius: 0.4em;
+
   font-size: 1vw;
+  font-family: "OTF B";
+  font-weight: 800;
+
   width: 6em;
+  height: 1.75em;
+
   box-sizing: border-box;
   padding-left: 0.25em;
   padding-right: 0.25em;
-  height: 1.75em;
   line-height: 1.75em;
   text-align: center;
+
   background-color: transparent;
   color: #0a27a6;
-  //font-size: 1em;
-  font-weight: 800;
+
   cursor: pointer;
   @media (max-width: 768px) {
     font-size: 0.75em;
@@ -440,6 +449,7 @@ const SubmitButton = styled.button`
   background-color: #0a27a6;
   color: white;
   font-size: 1.1vw;
+  font-family: "OTF B";
   font-weight: bold;
   cursor: pointer;
   &:hover {

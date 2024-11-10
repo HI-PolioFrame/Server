@@ -24,7 +24,10 @@ const Button = styled.button`
   color: white;
   border: none;
   border-radius: 0.4em;
+
   font-size: 1vw;
+  font-family: "OTF B";
+  font-weight: 400;
   cursor: pointer;
   text-align: center;
 

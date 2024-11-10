@@ -178,6 +178,7 @@ const TitleSection = styled.div`
 
 const ProjectTitle = styled.h1`
   font-weight: bold;
+  font-family: "OTF B";
 `;
 
 const ProjectDescription = styled.p``;
@@ -194,6 +195,7 @@ const Button = styled.button`
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  font-family: "OTF B";
 `;
 
 const ContentSection = styled.div`
@@ -314,6 +316,7 @@ const CommentsSection = styled.div`
 
 const CommentsTitle = styled.h2`
   font-weight: bold;
+  font-family: "OTF B";
   //margin-bottom: 20px;
 `;
 
