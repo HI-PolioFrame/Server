@@ -24,7 +24,7 @@ export const portfolioInfo = [
   },
   {
     portfolioId: 2,
-    owner: 2, // userId 2번을 가진 유저의 포폴
+    owner: 1, // userId 2번을 가진 유저의 포폴
     setTemplate: 1, // 1번 템플릿 양식을 사용
     title: "마탕탕",
     explanation: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
@@ -37,7 +37,7 @@ export const portfolioInfo = [
   },
   {
     portfolioId: 3,
-    owner: 2, // userId 2번을 가진 유저의 포폴
+    owner: 1, // userId 2번을 가진 유저의 포폴
     setTemplate: 1, // 1번 템플릿 양식을 사용
     title: "기본 포폴",
     explanation: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
@@ -50,7 +50,7 @@ export const portfolioInfo = [
   },
   {
     portfolioId: 4,
-    owner: 3, // userId 2번을 가진 유저의 포폴
+    owner: 1, // userId 2번을 가진 유저의 포폴
     setTemplate: 1, // 1번 템플릿 양식을 사용
     title: "기본 포폴",
     explanation: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
@@ -72,7 +72,7 @@ export const portfolioInfo = [
   },
   {
     portfolioId: 5,
-    owner: 4, // userId 2번을 가진 유저의 포폴
+    owner: 1, // userId 2번을 가진 유저의 포폴
     setTemplate: 1, // 1번 템플릿 양식을 사용
     title: "기본 포폴",
     explanation: "현재 제가 만든 모든 프로그램을 정리하였습니다.",

@@ -14,7 +14,7 @@ const sort = ( category, sortOption, filterOption, searchedList=null ) => {
     curPortfolios = searchedList || oriPortfolios;
     
     // 카테고리에 따른 리스트 초기 추가
-    if ( category == null ){ // 카테고리가 null이면 모든 템플릿 """이것은 포트폴리오이다"""을 저장한다.
+    if ( category === null ){ // 카테고리가 null이면 모든 템플릿 """이것은 포트폴리오이다"""을 저장한다.
         curPortfolios.forEach((pofol) => {
             sortedPortfolios.append(pofol);
         });
@@ -37,6 +37,7 @@ const sort = ( category, sortOption, filterOption, searchedList=null ) => {
             sortedPortfolios.quickSort("comments");
             break;
         case "최신순": // 최신순이면 리스트가 리버스된다.(애초 데이터가 생성된 순서로 저장되므로)
+            // 그런데 이미 최신순으로 정렬된 상태일 수 있다.
             sortedPortfolios.reverse(); // 함수 구현하기
             break;
     }
