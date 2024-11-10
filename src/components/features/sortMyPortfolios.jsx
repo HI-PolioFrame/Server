@@ -1,6 +1,7 @@
 // MyPage의 내 포트폴리오 정렬 기능
-import { oriUsers, oriPortfolios, oriProjects } from "../domain/startProgram.js";
+import { oriPortfolios, oriProjects } from "../domain/startProgram.js";
 import { LinkedList } from "../DataStructure/linkedList.jsx"
+import { getCurrentUser } from "./currentUser.js";
 
 const sortMyPortfolios = ( category, sortOption, filterOption, isSearched, searchedList=null ) => {
     // category: 프론트엔드, 백엔드, 디자인
@@ -13,7 +14,17 @@ const sortMyPortfolios = ( category, sortOption, filterOption, isSearched, searc
     }
 
     let sortedPortfolios = new LinkedList();
-    curPortfolios = searchedList || oriPortfolios;
+    let curPortfolios = searchedList;
+    // 주어진 searchedList가 null이면 oriPortfolios를 순회하며 내 포트폴리오를 추출
+    if ( curPortfolios === null ){
+        curPortfolios = new LinkedList();
+        const myId = getCurrentUser();
+        oriPortfolios.forEach((value, key) => {
+            if ( key === myId ){
+                curPortfolios.append(value);
+            }
+        });
+    }
     
     // 카테고리에 따른 리스트 초기 추가
     if ( category === null ){ // 카테고리가 null이면 모든 템플릿 """이것은 포트폴리오이다"""을 저장한다.
@@ -22,7 +33,7 @@ const sortMyPortfolios = ( category, sortOption, filterOption, isSearched, searc
         });
     } else{ // 각 카테고리에 맞는 것만 저장한다.
         curPortfolios.forEach((pofol) => {
-            if ( pofol.category == category ){
+            if ( pofol.category === category ){
                 sortedPortfolios.append(pofol);
             }
         });
@@ -45,23 +56,21 @@ const sortMyPortfolios = ( category, sortOption, filterOption, isSearched, searc
 
     // 필터옵션에 따른 리스트 수정
     //
-    // 필터옵션은 있음, 없음 중 1 + Java, Python, JavaScript 중 1 + 학사, 석사, 박사 중 1이거나
+    // 필터옵션은 Java, Python, JavaScript 중 1
     // 선택이 안 된 필터의 경우 값이 아예 들어있지 않은 배열이다.
     //
     // 배열을 처음부터 순회하면서 switch-case문으로
-    // case 1과 2: 각 '있음', '없음'
     // case 3과 4와 5: 각 '자바'...
-    // case 6과 7과 8: 각 학력으로 한다.
     for(const element of filterOption){
         switch(element){
-            case "있음":
-            case "없음":
-                sortedPortfolios.forEach(pofol => {
-                    if (oriUsers.get(pofol.owner).career != element){
-                        sortedPortfolios.remove(pofol);
-                    }
-                });
-                break;
+            //case "있음":
+            //case "없음":
+            //    sortedPortfolios.forEach(pofol => {
+            //        if (oriUsers.get(pofol.owner).career != element){
+            //            sortedPortfolios.remove(pofol);
+            //        }
+            //    });
+            //    break;
             case "Java":
             case "Python":
             case "JavaScript":
@@ -86,15 +95,15 @@ const sortMyPortfolios = ( category, sortOption, filterOption, isSearched, searc
                     }
                 });
                 break;
-            case "학사":
-            case "석사":
-            case "박사":
-                sortedPortfolios.forEach(pofol => {
-                    if (oriUsers.get(pofol.owner).education != element){
-                        sortedPortfolios.remove(pofol);
-                    }
-                });
-                break;
+            //case "학사":
+            //case "석사":
+            //case "박사":
+            //    sortedPortfolios.forEach(pofol => {
+            //        if (oriUsers.get(pofol.owner).education != element){
+            //            sortedPortfolios.remove(pofol);
+            //        }
+            //    });
+            //    break;
         }
     }
 
