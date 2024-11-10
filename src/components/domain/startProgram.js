@@ -11,7 +11,9 @@
 import User from "./User.js";
 import Portfolio from "./Portfolio.js";
 import Project from "./Project.js";
-// import { templateInfo } from "../commmon/dummydata/templateInfo"; // 저장된 모든 템플릿 정보
+import Template from "./Template.js";
+
+import { templateInfo } from "../commmon/dummydata/templateInfo"; // 저장된 모든 템플릿 정보
 import { portfolioInfo } from "../commmon/dummydata/portfolioInfo.jsx"; // 저장된 모든 포트폴리오 정보
 import { projectInfo } from "../commmon/dummydata/projectInfo.jsx";
 import { userInfo } from "../commmon/dummydata/userInfo.jsx"; // 저장된 모든 유저 정보
@@ -22,6 +24,7 @@ export const oriUsers = new Map();
 export const oriRecruiters = new Map();
 export const oriPortfolios = new Map();
 export const oriProjects = new Map();
+export const oriTemplates = new Map();
 
 // 유저에게 공유되는 템플릿들
 /* let oriTemplates = new Map();
@@ -78,6 +81,18 @@ export const initializeData = () => {
       data.stack
     );
     oriProjects.set(data.projectId, project);
+  });
+
+  templateInfo.forEach((data) => {
+    let template = new Template(
+      data.templateId,
+      data.templateName,
+      data.templateOwner,
+      data.description,
+      data.picture,
+      data.file
+    );
+    oriTemplates.set(data.templateId, template);
   });
   /* oriUsers.forEach((value, key) => {
         console.log(value.id);
