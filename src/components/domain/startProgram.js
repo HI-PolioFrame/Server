@@ -77,7 +77,7 @@ export const initializeData = () => {
 
   projectInfo.forEach((data) => {
     let project = new Project(
-      data.ownerNickname,
+      data.ownerName,
       data.ownerNickname,
       data.ownerEmail,
       data.usedTemplate,

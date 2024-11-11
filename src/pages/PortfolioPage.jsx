@@ -18,7 +18,7 @@ import PageHeader from "../components/commmon/PageHeader";
 const PortfolioPage = () => {
   const navigate = useNavigate();
 
-  const [sharedProjectList, setsharedProjectList] = useState([]);
+  const [sharedPortfolioList, setsharedPortfolioList] = useState([]);
 
   //LinkedList를 배열로 바꾸는 함수
   const linkedListToArray = (linkedList) => {
@@ -34,10 +34,10 @@ const PortfolioPage = () => {
   // 페이지 최초 로드 시 oriProjects를 순회하여 상태에 설정
   useEffect(() => {
     initializeData(); // 데이터를 초기화
-    const sharedProjects = Array.from(oriProjects.values()).filter(
-      (project) => project.share === true
+    const sharedPortfolios = Array.from(oriProjects.values()).filter(
+      (portfolio) => portfolio.share === true
     ); // Map을 배열로 변환
-    setsharedProjectList(sharedProjects); // 초기 포트폴리오 목록을 상태로 설정
+    setsharedPortfolioList(sharedPortfolios); // 초기 포트폴리오 목록을 상태로 설정
   }, []);
 
   const handleSortApply = (category, sortOption, filterOption) => {
@@ -46,12 +46,12 @@ const PortfolioPage = () => {
       sortOption,
       filterOption
     );
-    setsharedProjectList(linkedListToArray(sortedLinkedList));
+    setsharedPortfolioList(linkedListToArray(sortedLinkedList));
   };
 
   const handleSearchApply = (searchTerm) => {
     const searchedLinkedList = searchSortManager.search(searchTerm);
-    setsharedProjectList(linkedListToArray(searchedLinkedList));
+    setsharedPortfolioList(linkedListToArray(searchedLinkedList));
   };
 
   return (
@@ -66,10 +66,10 @@ const PortfolioPage = () => {
 
       <TemplateGridWrapper>
         <TemplateGrid>
-          {sharedProjectList.map((project) => (
+          {sharedPortfolioList.map((portfolio) => (
             <TemplateCard
-              key={project.projectId}
-              projectId={project.projectId}
+              key={portfolio.projectId}
+              portfolioId={portfolio.projectId}
               templateButton={"보기"}
             />
           ))}

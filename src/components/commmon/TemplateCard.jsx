@@ -6,33 +6,33 @@ import { oriProjects } from "../domain/startProgram";
 
 import Logo from "../../assets/icons/Logo.png";
 
-const TemplateCard = ({ projectId, templateButton }) => {
+const TemplateCard = ({ portfolioId, templateButton }) => {
   const navigate = useNavigate();
-  const [projectData, setprojectData] = useState(null);
+  const [portfolioData, setPortfolioData] = useState(null);
 
   useEffect(() => {
     //프롭스로 받은 포트폴리오 ID 사용해서 oriPortfolios에서 포트폴리오 데이터 가져오기
-    const project = oriProjects.get(projectId);
-    if (project) {
-      setprojectData(project);
+    const portfolio = oriProjects.get(portfolioId);
+    if (portfolio) {
+      setPortfolioData(portfolio);
     }
-  }, [projectId]);
+  }, [portfolioId]);
 
-  if (!projectData) {
+  if (!portfolioData) {
     return <Loading>로딩 중...</Loading>;
   }
 
   return (
     <Card>
       <ImageContainer>
-        <Image src={projectData.coverImage || Logo} alt="Template" />
+        <Image src={portfolioData.coverImage || Logo} alt="Template" />
       </ImageContainer>
-      <TemplateName>{projectData.projectTitle || "빈 제목"}</TemplateName>
-      <Description>{projectData.discription || "빈 설명"}</Description>
+      <TemplateName>{portfolioData.projectTitle || "빈 제목"}</TemplateName>
+      <Description>{portfolioData.discription || "빈 설명"}</Description>
       <Button
         onClick={() => {
           console.log("보기 버튼 클릭");
-          navigate(`/PortfolioDetailPage/${projectId}`);
+          navigate(`/PortfolioDetailPage/${portfolioId}`);
         }}
       >
         {templateButton}
@@ -41,12 +41,12 @@ const TemplateCard = ({ projectId, templateButton }) => {
   );
 };
 
-// TemplateCard의 프롭타입
-TemplateCard.propTypes = {
-  templateName: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  templateThumnail: PropTypes.string.isRequired,
-};
+// // TemplateCard의 프롭타입
+// TemplateCard.propTypes = {
+//   templateName: PropTypes.string.isRequired,
+//   description: PropTypes.string.isRequired,
+//   templateThumnail: PropTypes.string.isRequired,
+// };
 
 export default TemplateCard;
 
