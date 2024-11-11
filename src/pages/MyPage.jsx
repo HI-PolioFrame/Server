@@ -147,7 +147,7 @@ function MyPage() {
             ))} */}
             {/* 기능 구현이 어려움으로 일단 이렇게 해둠. */}
           </TemplateGrid>
-          <Text>비어있음.</Text>
+          <Empty>비어있음.</Empty>
         </TemplateGridWrapper>
 
         <Line></Line>
@@ -177,7 +177,7 @@ const MyContainer = styled.div`
 const MyTitle = styled.div`
   height: 2.625em;
   top: 11.375em;
-  font-family: "Inria Sans", sans-serif;
+  font-family: "OTF B";
   font-style: normal;
   font-weight: 700;
   font-size: 1.875em;
@@ -201,14 +201,15 @@ const MyTemplateMenuWrapper = styled.div`
 `;
 
 const TemplateGridWrapper = styled.div`
-  display: flex;
-  //justify-content: center;
-  align-items: center;
+  //display: flex;
+  //justify-content: flex-start;
+  //align-items: center;
 `;
 
 const TemplateGrid = styled.div`
   display: flex;
-  justify-content: flex-start;
+  align-items: center;
+
   margin-top: 2em;
   max-width: 80em;
 `;
@@ -224,8 +225,9 @@ const StyledButtonWrapper = styled.div`
   width: 100%;
 `;
 
-const Text = styled.div`
+const Empty = styled.div`
   display: flex;
   justify-content: center;
   font-size: 1vw;
+  font-family: "OTF B";
 `;
