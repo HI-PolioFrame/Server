@@ -240,4 +240,5 @@ const SelectItem = styled.div`
 
 const StyledButtonContainer = styled.div`
   width: 100%;
+
 `;
