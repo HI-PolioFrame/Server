@@ -2,11 +2,12 @@
 export const portfolioInfo = [
   {
     portfolioId: 1,
-    owner: 1, // userId 2번을 가진 유저의 포폴
+    owner: "김예은", // user name
+    email: "nabinabi1110@naver.com",
     setTemplate: 1, // 1번 템플릿 양식을 사용
     title: "마라탕후루",
     explanation: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
-    share: false, // 포폴 게시판에 공유 설정 O
+    share: true, // 포폴 게시판에 공유 설정 O
     projects: ["1", "2"], // 유저의 1, 2, 3, 4, 5번 포트폴리오를 담고 있음
     category: "백엔드",
     comments: [
@@ -24,7 +25,8 @@ export const portfolioInfo = [
   },
   {
     portfolioId: 2,
-    owner: 1, // userId 2번을 가진 유저의 포폴
+    owner: "김예은", // user name
+    email: "nabinabi1110@naver.com",
     setTemplate: 1, // 1번 템플릿 양식을 사용
     title: "마탕탕",
     explanation: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
@@ -37,7 +39,7 @@ export const portfolioInfo = [
   },
   {
     portfolioId: 3,
-    owner: 1, // userId 2번을 가진 유저의 포폴
+    owner: "김예은", // user name
     setTemplate: 1, // 1번 템플릿 양식을 사용
     title: "기본 포폴",
     explanation: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
@@ -50,7 +52,7 @@ export const portfolioInfo = [
   },
   {
     portfolioId: 4,
-    owner: 1, // userId 2번을 가진 유저의 포폴
+    owner: "김예은", // user name
     setTemplate: 1, // 1번 템플릿 양식을 사용
     title: "기본 포폴",
     explanation: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
@@ -72,7 +74,7 @@ export const portfolioInfo = [
   },
   {
     portfolioId: 5,
-    owner: 1, // userId 2번을 가진 유저의 포폴
+    owner: "김예은", // user name
     setTemplate: 1, // 1번 템플릿 양식을 사용
     title: "기본 포폴",
     explanation: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
@@ -85,7 +87,7 @@ export const portfolioInfo = [
   },
   {
     portfolioId: 6,
-    owner: 5, // userId 2번을 가진 유저의 포폴
+    owner: "탱구리", // user name
     setTemplate: 1, // 1번 템플릿 양식을 사용
     title: "기본 포폴",
     explanation: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
@@ -109,7 +111,7 @@ export const portfolioInfo = [
   },
   {
     portfolioId: 7,
-    owner: 6, // userId 2번을 가진 유저의 포폴
+    owner: "현혜씽", // user name
     setTemplate: 1, // 1번 템플릿 양식을 사용
     title: "기본 포폴",
     explanation: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
@@ -133,7 +135,7 @@ export const portfolioInfo = [
   },
   {
     portfolioId: 8,
-    owner: 6, // userId 2번을 가진 유저의 포폴
+    owner: "현혜씽", // user name
     setTemplate: 1, // 1번 템플릿 양식을 사용
     title: "기본 포폴",
     explanation: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
@@ -155,7 +157,7 @@ export const portfolioInfo = [
   },
   {
     portfolioId: 9,
-    owner: 7, // userId 2번을 가진 유저의 포폴
+    owner: "수여닝", // user name
     setTemplate: 1, // 1번 템플릿 양식을 사용
     title: "기본 포폴",
     explanation: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
@@ -168,7 +170,7 @@ export const portfolioInfo = [
   },
   {
     portfolioId: 10,
-    owner: 8, // userId 2번을 가진 유저의 포폴
+    owner: "수여닝", // user name
     setTemplate: 1, // 1번 템플릿 양식을 사용
     title: "기본 포폴",
     explanation: "현재 제가 만든 모든 프로그램을 정리하였습니다.",

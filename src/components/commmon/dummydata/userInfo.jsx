@@ -3,15 +3,15 @@ export const userInfo = [
     id: "1",
     pageId: 1,
     password: "close122222@@",
-    name: "홍길동",
+    name: "김예은",
     phoneNumber: "010-2222-2222",
     birthday: "1990-01-01",
     recruiter: false,
-    email: "example@example.com",
-    nickname: "길동이",
+    email: "nabinabi1110@naver.com",
+    nickname: "nabi1110",
     link: "",
     career: "있음",
-    education: "학사"
+    education: "학사",
   },
   {
     id: "2",
@@ -25,7 +25,7 @@ export const userInfo = [
     nickname: "길동이",
     link: "",
     career: "없음",
-    education: "학사"
+    education: "학사",
   },
   {
     id: "3",
@@ -39,7 +39,7 @@ export const userInfo = [
     nickname: "길동이",
     link: "",
     career: "없음",
-    education: "석사"
+    education: "석사",
   },
   {
     id: "4",
@@ -53,7 +53,7 @@ export const userInfo = [
     nickname: "길동이",
     link: "",
     career: "있음",
-    education: "박사"
+    education: "박사",
   },
   {
     id: "5",
@@ -67,7 +67,7 @@ export const userInfo = [
     nickname: "흰둥이",
     link: "",
     career: "있음",
-    education: "석사"
+    education: "석사",
   },
   {
     id: "6",
@@ -81,7 +81,7 @@ export const userInfo = [
     nickname: "honghong",
     link: "",
     career: "없음",
-    education: "박사"
+    education: "박사",
   },
   {
     id: "7",
@@ -95,6 +95,6 @@ export const userInfo = [
     nickname: "길동이",
     link: "",
     career: "있음",
-    education: "석사"
-  }
+    education: "석사",
+  },
 ];
