@@ -85,8 +85,10 @@ const PortfolioDetailPage = () => {
           <DeveloperField>
             <Developer>개발자</Developer>
             <DevContainer>
-              <DevInfo>{currentUser.nickname}</DevInfo>
-              <DevInfo>{currentUser.email}</DevInfo>
+              <DevInfo>{portfolioData.owner}</DevInfo>
+              <DevInfo>
+                {portfolioData.email ? portfolioData.email : "이메일 없음."}
+              </DevInfo>
             </DevContainer>
           </DeveloperField>
         </LinkDevelperSection>
