@@ -149,7 +149,7 @@ function MyPage() {
           </TemplateGrid>
           <Text>비어있음</Text>
 
-          // <Empty>비어있음.</Empty>
+          {/* <Empty>비어있음.</Empty> */}
         </TemplateGridWrapper>
 
         <Line></Line>
@@ -228,7 +228,7 @@ const StyledButtonWrapper = styled.div`
   width: 100%;
 `;
 
-const Empty = styled.div`
+const Text = styled.div`
   display: flex;
   justify-content: center;
   font-size: 1.5vw;
