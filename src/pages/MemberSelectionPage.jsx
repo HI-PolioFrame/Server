@@ -20,7 +20,7 @@ const MemberSelectionPage = () => {
                            <ExplainText>프로젝트 관리</ExplainText>
                            <ExplainText>채용자와의 연결</ExplainText>
                         </ol>
-                        <JoinGeneralButton  onClick={() => navigate("/SignUpPage2")}>참여하기</JoinGeneralButton>
+                        <JoinGeneralButton  onClick={() => navigate("/signUpDeveloperPage")}>참여하기</JoinGeneralButton>
                     </GeneralButton>
                     <BusinessButton>
                         <Title>기업회원</Title>
@@ -30,7 +30,7 @@ const MemberSelectionPage = () => {
                            <ExplainText>일반회원 정보 열람 </ExplainText>
                            <ExplainText>일반회원과 연결</ExplainText>
                         </ol>
-                        <JoinBusinessButton  onClick={() => navigate("/SignUpPage")}>참여하기</JoinBusinessButton>
+                        <JoinBusinessButton  onClick={() => navigate("/SignUpRecruiterPage")}>참여하기</JoinBusinessButton>
                     </BusinessButton>
                 </ButtonWrapper>
         </MainWrapper>

@@ -144,18 +144,36 @@ export const setId = (id) => {
 //     phoneNumCheck = true;
 //     return phoneNumCheck; //phoneNumCheck = true;
 // }
+
+// 현혜찡 코드
+// export const setEmail = (email) => {
+//     // 유저 DB에 이미 해당 이메일이 존재하면 true 반환, 없으면 false
+//     oriUsers.forEach((value, key) => {
+//         if (value.email === email) {
+//             alert('이미 계정이 존재합니다.');
+//             return false;
+//         }
+//     });
+
+//     // 임의처리한다.
+//     emailCheck = true;
+// } 
 export const setEmail = (email) => {
-    // 유저 DB에 이미 해당 이메일이 존재하면 true 반환, 없으면 false
-    oriUsers.forEach((value, key) => {
+    // 이메일 형식 확인
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        alert('유효한 이메일 형식이 아닙니다.');
+        return false;
+    }
+    for (const [key, value] of oriUsers.entries()) {
         if (value.email === email) {
             alert('이미 계정이 존재합니다.');
-            return;
+            return false;
         }
-    });
-
-    // 임의처리한다.
-    emailCheck = true;
-} 
+    }
+    return true;
+};
+//forEach로 하면 return값이 없어서 계속 오류 메시지가 나오는 문제점이 있어서 수정함
 
 export const setPhoneNumber = (phoneNumber) => {
     phoneNumCheck = false; 
