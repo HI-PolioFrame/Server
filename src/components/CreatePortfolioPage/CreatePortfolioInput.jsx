@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import Logo from "../../assets/icons/Logo.png";
 import { useState } from "react";
 
 const CreatePortfolioInput = () => {
@@ -63,7 +62,7 @@ const CreatePortfolioInput = () => {
           <InputWrapper>
               <MainText>Links</MainText>
               <ExText>Github, 웹사이트, 앱 스토어 등 프로젝트를 테스트할 수 있는 곳의 링크를 추가하세요.</ExText>
-              <VitalInput type="text"></VitalInput>
+              <VitalInput type="url"></VitalInput>
           </InputWrapper>
         </ColumnWrapper>
 
@@ -92,7 +91,7 @@ const CreatePortfolioInput = () => {
           <InputWrapper>
               <MainText>데모 비디오</MainText>
               <ExText>프로젝트 기능을 데모하는 비디오에 링크를 추가하세요</ExText>
-              <ChoiceInput type="text"></ChoiceInput>
+              <ChoiceInput type="url"></ChoiceInput>
           </InputWrapper>
         {/* 커버 이미지*/}
           <InputWrapper>

@@ -123,6 +123,7 @@ const SelectButton = styled.button`
 
   width: 80%;
   float: left;
+  
 `;
 
 const ArrowImg = styled.img`

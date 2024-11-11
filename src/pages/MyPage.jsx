@@ -78,7 +78,7 @@ function MyPage() {
                 />
               ))
             ) : (
-              <p>프로젝트가 없습니다.</p>
+              <Text>프로젝트가 없습니다.</Text>
             )}
           </TemplateGrid>
         </TemplateGridWrapper>
@@ -147,7 +147,9 @@ function MyPage() {
             ))} */}
             {/* 기능 구현이 어려움으로 일단 이렇게 해둠. */}
           </TemplateGrid>
-          <Empty>비어있음.</Empty>
+          <Text>비어있음</Text>
+
+          {/* <Empty>비어있음.</Empty> */}
         </TemplateGridWrapper>
 
         <Line></Line>
@@ -177,7 +179,8 @@ const MyContainer = styled.div`
 const MyTitle = styled.div`
   height: 2.625em;
   top: 11.375em;
-  font-family: "OTF B";
+  font-family: "OTF B"; 
+
   font-style: normal;
   font-weight: 700;
   font-size: 1.875em;
@@ -225,9 +228,13 @@ const StyledButtonWrapper = styled.div`
   width: 100%;
 `;
 
-const Empty = styled.div`
+const Text = styled.div`
   display: flex;
   justify-content: center;
-  font-size: 1vw;
-  font-family: "OTF B";
+  font-size: 1.5vw;
+  font-family: "OTF R";
+  align-items : center;
+  width: 100%; 
+  height: 100%; 
 `;
+
