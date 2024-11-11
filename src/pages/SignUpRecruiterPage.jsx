@@ -5,50 +5,47 @@ import Consent from "../components/Consent/Consent.jsx";
 import Eye from "../assets/icons/Login/Eye.png";
 import Eyeoff from "../assets/icons/Login/Eyeoff.png";
 
-//서버 연결
-import {setId} from "../components/features/signUpDeveloper.jsx";
-import {changedId} from "../components/features/signUpDeveloper.jsx";
-import {setPhoneNumber} from "../components/features/signUpDeveloper.jsx";
-import {changedPhoneNumber} from "../components/features/signUpDeveloper.jsx";
-import {isPassword} from "../components/features/signUpDeveloper.jsx";
-import { PasswordValidation } from "../components/features/signUpDeveloper.jsx";
-import {idSignUpDeveloper} from "../components/features/signUpDeveloper.jsx";
+// 서버 연결
+import {setId} from "../components/features/signUpRecruiter.jsx";
+import {changedId} from "../components/features/signUpRecruiter.jsx";
+import {setPhoneNumber} from "../components/features/signUpRecruiter.jsx";
+import {changedPhoneNumber} from "../components/features/signUpRecruiter.jsx";
 
-const SignUpPage2 = () => {
+const SignUpRecruiterPage = () => {
     const navigate = useNavigate();
-    const [name, setName] = useState('');
-    const [birthday, setBirthday] = useState('');    
+    const [eyeVisible, setEyeVisible] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false); 
     //아이디 중복 확인
-    const [idInput, setIdInput] = useState('');
+    const [idInput, setIdInput] = useState(''); 
     const [idChecked, setIdChecked] = useState(false);
     //전화번호 중복 확인
     const [phone, setPhone] = useState('');
     const [phoneChecked, setPhoneChecked] = useState(false); 
-    //비밀번호 확인
-    const [eyeVisible, setEyeVisible] = useState(false);
-    const [eyeVisibleConfirm, setEyeVisibleConfirm] = useState(false);
-    const [password, setPassword] = useState('');
-    const [repassword, setrePassword] = useState('');
-    const [isPasswordValid, setIsPasswordValid] = useState(false); 
-    const [isRePasswordEnabled, setIsRePasswordEnabled] = useState(false); 
+    //회사인증
+    const [company, setCompany] = useState('');
+    const [companyChecked, setcompanyChecked] = useState(false);
 
     const toggleEyeVisible = () => {
         setEyeVisible(!eyeVisible);
     };
-
-    const toggleEyeVisibleConfirm = () => {
-        setEyeVisibleConfirm(!eyeVisibleConfirm);
+    const handleCheckBoxClick = () => {
+        setIsModalOpen(true); // 체크박스 클릭 시 팝업 열기
+    };
+    const closeModal = () => {
+        setIsModalOpen(false); // 팝업 닫기
     };
 
     const autoHyphen = (value) => {
+        // 숫자만 남기고 하이픈 추가
         const cleanedValue = value.replace(/[^0-9]/g, '');
         const formattedValue = cleanedValue
             .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/, "$1-$2-$3")
-            .replace(/(\-{1,2})$/, ''); 
+            .replace(/(\-{1,2})$/, ''); // 연속된 하이픈 제거
         return formattedValue;
     };
-      //아이디 중복 부분  
-      const handleIdInputChange = (e) => {
+    
+    //아이디 중복 부분  
+    const handleIdInputChange = (e) => {
         setIdInput(e.target.value);
         setIdChecked(false);
         changedId(); 
@@ -82,44 +79,32 @@ const SignUpPage2 = () => {
         }
     };
 
-    // 비밀번호 유효성 검사 및 비밀번호 확인 
-    const handlePassValidation = () => {
-        if (PasswordValidation(password)) {
-            setIsPasswordValid(true); 
-            setIsRePasswordEnabled(true);
-        } else {
-            setIsPasswordValid(false); 
-            setPassword('');
-            setIsRePasswordEnabled(false);
-        }
+    // 회사인증 부분
+    const handleCompanyChange = (e) => {
+        setCompany(e.target.value);
+        setcompanyChecked(false); 
     };
-    const passwordCheck = () => {
-        if (isPassword(password, repassword)) {
-            alert("비밀번호가 인증되었습니다.");
-        } else {
-            setrePassword('');
-        }
+    const handleCompanyCheck = () => {
+        const isValid = setCompany(company);
+        setcompanyChecked(isValid);
     };
-
-    const handlePassinputChange = (e) => {
-        setPassword(e.target.value);
-    };
-
-    const handleSignUp = () => {
-        idSignUpDeveloper(name, birthday, idInput, password, repassword, phone);
-    };
+    
+    
     return (
         <LoginWrapper>
             <MainText onClick={() => navigate("/")}>FolioFrame</MainText>
             <JoinWrapper>
+                {/* 이름, 생년월일 */}
                 <ColumnWrapper1>
-                    <NameInput placeholder="이름" type="text" onChange={(e) => setName(e.target.value)} />
-                <ColumnWrapper2>
+                    <NameInput placeholder="이름" type="text"></NameInput>
+                    <ColumnWrapper2>
                         <CalendarText>생년월일</CalendarText>
-                        <CalendarInput type="date" onChange={(e) => setBirthday(e.target.value.split('-'))} />
+                        <CalendarInput type="date"></CalendarInput>
                     </ColumnWrapper2>
                 </ColumnWrapper1>
-                   <RowWrapper>
+
+                {/* 아이디, 비밀번호, 비밀번호 확인 */}
+                <RowWrapper>
                     <IdInput 
                          placeholder="아이디 : 영소문, 숫자, _, .로 이루어진 6~20자" 
                          type="text" 
@@ -136,37 +121,31 @@ const SignUpPage2 = () => {
                         <label htmlFor="IDcheck">중복확인</label>
                     </IDcheckWrapper>
                 </RowWrapper>
-                <PassWrapper>
-                    <PassInput
-                        type={eyeVisible ? "text" : "password"}
-                        placeholder="비밀번호 : 영문+특문+숫자로 12~20자"
-                        value={password}
-                        onChange={handlePassinputChange}
-                        onBlur={handlePassValidation}
-                        onKeyDown={(e) => e.key === 'Enter' && handlePassValidation()}
-                    />
-                   <EyeIcon
-                        src={eyeVisible ? Eyeoff : Eye}
-                        alt="eye"
-                        onClick={toggleEyeVisible}
-                    />
-                </PassWrapper>
-                <PassWrapper>
-                    <PassInput
-                        type={eyeVisibleConfirm  ? "text" : "password"}
-                        placeholder="비밀번호 확인"
-                        value={repassword}
-                        onChange={(e) => setrePassword(e.target.value)}
-                        onBlur={passwordCheck} 
-                        onKeyDown={(e) => e.key === 'Enter' && passwordCheck()}
-                        disabled={!isRePasswordEnabled} 
-                    />
-                    <EyeIcon
-                        src={eyeVisibleConfirm ? Eyeoff : Eye}
-                        alt="eye"
-                        onClick={toggleEyeVisibleConfirm}
-                    />
-                </PassWrapper>
+                    <PassWrapper>
+                        <PassInput
+                            type={eyeVisible ? "text" : "password"}
+                            placeholder="비밀번호 : 영문, 숫자, 특수문자 포함 12~20자"
+                        />
+                        <EyeIcon
+                            src={eyeVisible ? Eyeoff : Eye}
+                            alt="eye"
+                            onClick={toggleEyeVisible}
+                        />
+                    </PassWrapper>
+
+                    <PassWrapper>
+                        <PassInput
+                            type={eyeVisible ? "text" : "password"}
+                            placeholder="비밀번호 확인"
+                        />
+                        <EyeIcon
+                            src={eyeVisible ? Eyeoff : Eye}
+                            alt="eye"
+                            onClick={toggleEyeVisible}
+                        />
+                    </PassWrapper>
+              
+                {/* 전화번호  */}
                 <RowWrapper>
                     <TelInput 
                             type="tel"
@@ -188,18 +167,40 @@ const SignUpPage2 = () => {
                             <label htmlFor="Phonecheck">중복확인</label>
                         </PhonecheckWrapper>
                 </RowWrapper>
-     
+
+                {/* 회사인증 */}
+                <RowWrapper>
+                    <CertificInput placeholder="회사인증" type="email" onChange={handleCompanyChange}></CertificInput>
+                </RowWrapper>
+                    <CheckBoxWrapper>
+                            <CompanyCheckInput type="checkbox" id="company" onClick={handleCompanyCheck} />
+                            <label htmlFor="company">회사인증</label>
+
+                            <CheckBoxInput type="checkbox" id="Join" onClick={handleCheckBoxClick} />
+                            <label htmlFor="Join">가입 기본약관</label>
+                    </CheckBoxWrapper>
             </JoinWrapper>
-            <LoginButton  onClick={handleSignUp} >시작하기</LoginButton>
+
+            <LoginButton>시작하기</LoginButton>
             <MemberWrapper>
                 <Text>이미 회원이신가요? |</Text>
-                <JoinButton onClick={() => navigate("/LoginPage")}>로그인</JoinButton>
+                <JoinButton onClick={() => navigate("../LoginPage")}>로그인</JoinButton>
             </MemberWrapper>
+            <JoinButton onClick={() => navigate("/SignUpRecruiterEmailPage")}>아이디로 회원가입하기</JoinButton>
+
+            {/* 팝업창 */}
+            {isModalOpen && (
+                <ModalOverlay>
+                    <ModalContent>
+                       <Consent/>
+                    </ModalContent>
+                </ModalOverlay>
+            )}
         </LoginWrapper>
     );
 };
 
-export default SignUpPage2;
+export default SignUpRecruiterPage;
 
 //css Wrapper
 const LoginWrapper = styled.div`
@@ -207,6 +208,7 @@ const LoginWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
     width : 85%;
     padding: 40px 40px;
     margin: 0 auto; 
@@ -215,7 +217,7 @@ const LoginWrapper = styled.div`
 const JoinWrapper = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: center;
+    // align-items: center;
     justify-content: center;
     gap : 1em;
 `;
@@ -230,17 +232,29 @@ const ColumnWrapper1 = styled.div`
     display : flex;
     gap : 1em;
 `;
-
 const ColumnWrapper2 = styled.div`
     display : flex;
     gap : 0.5em;
 `;
 
+const RowWrapper = styled.div`
+    display: flex;
+    flex-direction: column;  
+    width : 100%;
+    gap: 0.5em;   
+`;
+
+const CheckBoxWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top:-0.5em;
+`;
+
 const IDcheckWrapper = styled.div`
   display: flex;
   align-items: center;
-
 `;
+
 const PhonecheckWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -250,12 +264,7 @@ const PassWrapper = styled.div`
     width: 100%;
    
 `;
-const RowWrapper = styled.div`
-    display: flex;
-    flex-direction: column;  
-    width : 100%;
-    gap: 0.5em;   
-`;
+
 //css input
 const NameInput = styled.input`
     border-radius : 2em;
@@ -279,12 +288,25 @@ const TelInput = styled.input`
     text-indent: 1em; 
     outline : none;
     &::placeholder {
-    text-indent: 1em; 
-    color : #D0D1D9;
+        text-indent: 1em; 
+        color : #D0D1D9;
     }
 
 `;
 
+const CertificInput = styled.input`
+    border-radius : 2em;
+    border : 1px solid #D0D1D9;
+    height : 3em;
+    width : 100%;
+    text-indent: 1em; 
+    outline : none;
+    &::placeholder {
+    text-indent: 1em;
+    color : #D0D1D9;
+    }
+
+`;
 const CalendarInput = styled.input`
     border: none;
     outline: none;
@@ -300,10 +322,10 @@ const PassInput = styled.input`
     border-radius : 2em;
     border : 1px solid #D0D1D9;
     height : 3em;
-    width : 90%;  
+    width : 100%;
     text-indent: 1em; 
-    padding-right: 2.5em; 
     outline : none;
+
     &::placeholder {
         text-indent: 1em; 
         color : #D0D1D9;
@@ -311,6 +333,7 @@ const PassInput = styled.input`
     &::-ms-reveal {
         display: none;
     }
+}
 
 `;
 const IdInput = styled.input`
@@ -321,10 +344,14 @@ const IdInput = styled.input`
     text-indent: 1em; 
     outline : none;
     &::placeholder {
-    text-indent: 1em;
-    color : #D0D1D9;
+        text-indent: 1em;
+        color : #D0D1D9;
     }
 
+`;
+const CheckBoxInput = styled.input`
+    border: 1px solid #D0D1D9;
+    margin-left :2em; 
 `;
 const IDcheckInput = styled.input`
     border: 1px solid #D0D1D9;
@@ -332,6 +359,10 @@ const IDcheckInput = styled.input`
 const PhonecheckInput = styled.input`
     border: 1px solid #D0D1D9;
 `;
+const CompanyCheckInput = styled.input`
+    border: 1px solid #D0D1D9;
+`;
+
 //css button
 const LoginButton = styled.button`
     color : #fff;
@@ -400,7 +431,19 @@ const ModalContent = styled.div`
     max-width: 500px;
 `;
 
+const CloseButton = styled.button`
+    margin-top: 1em;
+    padding: 0.5em 1em;
+    background: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
 
+    &:hover {
+        background: #0056b3;
+    }
+`;
 const EyeIcon = styled.img`
     position: absolute;
     right: 1em; 
