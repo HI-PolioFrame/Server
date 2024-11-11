@@ -62,6 +62,7 @@ export const initializeData = () => {
     let portfolio = new Portfolio(
       data.portfolioId,
       data.owner,
+      data.email,
       data.setTemplate,
       data.title,
       data.explanation,
