@@ -140,6 +140,7 @@ class SearchSortManager {
                 sortedPortfolios.quickSort("comments");
                 break;
             case "최신순": // 최신순이면 리스트가 리버스된다.(애초 데이터가 생성된 순서로 저장되므로)
+                // 그러나 이미 reverse가 진행되어 있을 수 있다.
                 sortedPortfolios.reverse(); // 함수 구현하기
                 break;
         }

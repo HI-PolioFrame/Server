@@ -1,6 +1,6 @@
 export const userInfo = [
   {
-    id: "1",
+    id: "worldnumber12!@",
     pageId: 1,
     password: "close122222@@",
     name: "홍길동",
@@ -14,7 +14,7 @@ export const userInfo = [
     education: "학사"
   },
   {
-    id: "2",
+    id: "happytree12",
     pageId: 2,
     password: "close12@@",
     name: "홍길동",

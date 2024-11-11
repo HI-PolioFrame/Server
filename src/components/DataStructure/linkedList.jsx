@@ -76,7 +76,7 @@ export class LinkedList {
         let currentNode = this.head;
         let nextNode = null;
         while (currentNode){
-            let nextNode = currentNode.next;
+            nextNode = currentNode.next;
             currentNode.next = prevNode;
             prevNode = currentNode;
             currentNode = nextNode;

@@ -47,6 +47,11 @@ export const initializeData = () => {
       data.education
     );
     oriUsers.set(Number(data.id), user);
+
+    for (const [key, user] of oriUsers){
+      console.log(`아이디는 ${key}`);  
+    }
+
     if (user.recruiter === true) {
       oriRecruiters.set(data.id, user);
     }
