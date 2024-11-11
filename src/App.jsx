@@ -60,7 +60,7 @@ function App() {
             element={<CreatePortfolioPage />}
           />
           {/* 포폴 상세 페이지 템플릿 2 */}
-          <Route path="/PortfolioDetailPage2" element={PortfolioDetailPage2}/>
+          <Route path="/PortfolioDetailPage2/:portfolioId" element={<PortfolioDetailPage2/>}/>
 
 
           {/*마이 페이지  */}

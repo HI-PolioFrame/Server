@@ -122,8 +122,8 @@ const CreatePortfolioInput = () => {
           <InputWrapper>
               <MainText>사진</MainText>
               <ExText>최대 4장의 사진을 업로드하여 프로젝트를 소개해주세요</ExText>
-              <ImageWrapper>
-            {photosPreview.map((preview, index) => (
+            <ImageWrapper>
+              {photosPreview.map((preview, index) => (
               <FileLabel
                 key={index}
                 htmlFor={`photos-${index}`}
