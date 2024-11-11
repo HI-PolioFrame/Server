@@ -147,7 +147,11 @@ function MyPage() {
             ))} */}
             {/* 기능 구현이 어려움으로 일단 이렇게 해둠. */}
           </TemplateGrid>
+<<<<<<< HEAD
           <Text>비어있음</Text>
+=======
+          <Empty>비어있음.</Empty>
+>>>>>>> 68e514a0f7e4769f2900f6b30a8789ea0a6b2b81
         </TemplateGridWrapper>
 
         <Line></Line>
@@ -177,7 +181,11 @@ const MyContainer = styled.div`
 const MyTitle = styled.div`
   height: 2.625em;
   top: 11.375em;
+<<<<<<< HEAD
   font-family: "OTF B"; 
+=======
+  font-family: "OTF B";
+>>>>>>> 68e514a0f7e4769f2900f6b30a8789ea0a6b2b81
   font-style: normal;
   font-weight: 700;
   font-size: 1.875em;
@@ -201,14 +209,15 @@ const MyTemplateMenuWrapper = styled.div`
 `;
 
 const TemplateGridWrapper = styled.div`
-  display: flex;
-  //justify-content: center;
-  align-items: center;
+  //display: flex;
+  //justify-content: flex-start;
+  //align-items: center;
 `;
 
 const TemplateGrid = styled.div`
   display: flex;
-  justify-content: flex-start;
+  align-items: center;
+
   margin-top: 2em;
   max-width: 80em;
 `;
@@ -224,13 +233,18 @@ const StyledButtonWrapper = styled.div`
   width: 100%;
 `;
 
-const Text = styled.div`
+const Empty = styled.div`
   display: flex;
   justify-content: center;
+<<<<<<< HEAD
   font-size: 1.5vw;
   font-family: "OTF R";
   align-items : center;
   width: 100%; 
   height: 100%; 
+=======
+  font-size: 1vw;
+  font-family: "OTF B";
+>>>>>>> 68e514a0f7e4769f2900f6b30a8789ea0a6b2b81
 `;
 

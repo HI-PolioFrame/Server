@@ -59,28 +59,28 @@ const Loading = styled.div`
 `;
 
 const Card = styled.div`
-  position: relative;
+  //position: relative;
   width: 20vw;
   height: 35vh; // 원래 17.625em
   background-color: #ffffff;
   border: 0.125em solid #d0d1d9;
   border-radius: 0.3125em;
-  // display: flex;
-  // flex-direction: column;
-  // align-items: center;
-  display: grid;
-  grid-template-rows: 6fr 1.5fr 3fr 1.5fr;
-  padding: 1em;
-  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 const ImageContainer = styled.div`
-  position: relative;
-  //width: 18vw;
-  //height: 26vh; // 원래 8.855em
+  margin-top: 1vh;
+
+  width: 18vw;
+  height: 15vh; // 원래 8.855em
   background-color: #f9f9f9;
+
   border: 0.0625em solid #d0d1d9;
   border-radius: 0.625em;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -95,7 +95,7 @@ const Image = styled.img`
 const TemplateName = styled.h3`
   margin-top: 0.5em; // 원래 1.25em
   margin-bottom: 0.5em;
-  font-family: "Inria Sans", sans-serif;
+  font-family: "OTF B";
   font-weight: 700;
   font-size: 1.2vw;
   line-height: 1.1875em;
@@ -121,13 +121,15 @@ const Description = styled.div`
 
 const Button = styled.button`
   margin-top: 1vh;
-  //width: 11.523em;
+  margin-bottom: 1vh;
+
+  width: 18vw;
   height: 4.5vh;
   background-color: #0a27a6;
   border-radius: 62.5em;
   border: none;
   color: #ffffff;
-  font-family: "Inria Sans", sans-serif;
+  font-family: "OTF B";
   font-weight: 700;
   font-size: 1em;
   line-height: 1.1875em;

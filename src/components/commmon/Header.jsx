@@ -90,7 +90,7 @@ function Header({}) {
                 alt="profile"
               />
               {isProfileMenuOpen && (
-                <>
+                <ProfilePicMenuWrapper>
                   <TriangleIcon>
                     <TbTriangleFilled />
                   </TriangleIcon>
@@ -105,7 +105,7 @@ function Header({}) {
                       </ProfilePicMenuItems>
                     ))}
                   </ProfilePicMenu>
-                </>
+                </ProfilePicMenuWrapper>
               )}
               {/* <LoginButton onClick={handleLogout}>로그아웃</LoginButton> */}
             </ProfileWrapper>
@@ -152,24 +152,35 @@ const ProfileWrapper = styled.div`
   width: 100%;
 `;
 
-const TriangleIcon = styled.div`
+const ProfilePicMenuWrapper = styled.div`
   position: absolute;
   top: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
+
+const TriangleIcon = styled.div`
+  //position: absolute;
+  //top: 100%;
+  display: flex;
+  justify-content: center;
 
   color: #15243e80;
 `;
 
 const ProfilePicMenu = styled.div`
-  position: absolute;
-  top: 135%;
+  //position: absolute;
+  //top: 135%;
   width: 10vw;
+  height: 18vh;
   background-color: #15243e80;
   border-radius: 0.625em;
 
-  display: ${({ isOpen }) => (isOpen ? "block" : "none")};
+  display: ${({ isOpen }) => (isOpen ? "flex" : "none")};
+  flex-direction: column;
+  justify-content: space-between;
   z-index: 1;
-
-  font-size: 1vw;
 `;
 
 const MenuItemIcon = styled.div`
@@ -184,9 +195,9 @@ const ProfilePicMenuItems = styled.div`
   padding: 0.25vw;
 
   color: white;
-  //font-size: 0.85vw;
-  font-weight: bold;a
- 
+  font-size: 1vw;
+  font-weight: Normal;
+  font-family: "OTF B";
 
   display: flex;
   //justify-content: space-between;
@@ -200,7 +211,7 @@ const ProfilePicMenuItems = styled.div`
     //border-radius: 0.625em;
     //border: 0.15vw solid #fff;
     background-color: #15243e60;
-     cursor: pointer;
+    cursor: pointer;
   }
 
   &:last-child {

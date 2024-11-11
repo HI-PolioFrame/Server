@@ -12,11 +12,13 @@ import User from "./User.js";
 import Portfolio from "./Portfolio.js";
 import Project from "./Project.js";
 import Template from "./Template.js";
+import Comment from "./Comment.js";
 
 import { templateInfo } from "../commmon/dummydata/templateInfo"; // 저장된 모든 템플릿 정보
 import { portfolioInfo } from "../commmon/dummydata/portfolioInfo.jsx"; // 저장된 모든 포트폴리오 정보
 import { projectInfo } from "../commmon/dummydata/projectInfo.jsx";
 import { userInfo } from "../commmon/dummydata/userInfo.jsx"; // 저장된 모든 유저 정보
+import { commentInfo } from "../commmon/dummydata/commentInfo.jsx"; //저장된 혹은 저장할 모든 댓글 정보
 
 import SearchSortManager from "../features/SearchSortManager.jsx";
 
@@ -25,6 +27,7 @@ export const oriRecruiters = new Map();
 export const oriPortfolios = new Map();
 export const oriProjects = new Map();
 export const oriTemplates = new Map();
+export const oriComments = new Map();
 
 // 유저에게 공유되는 템플릿들
 /* let oriTemplates = new Map();
@@ -83,6 +86,18 @@ export const initializeData = () => {
     oriProjects.set(data.projectId, project);
   });
 
+  //댓글 불러오기.
+  commentInfo.forEach((data) => {
+    let comment = new Comment(
+      data.commentId,
+      data.portfolioId,
+      data.userId,
+      data.text,
+      data.date
+    );
+    oriComments.set(data.commentId, comment);
+  });
+
   templateInfo.forEach((data) => {
     let template = new Template(
       data.templateId,
@@ -108,4 +123,8 @@ export const initializeData = () => {
     console.log("저장된 프젝 아이디 확인 출력 끝"); */
 };
 
-export const searchSortManager = new SearchSortManager(oriPortfolios, oriUsers, oriProjects);
+export const searchSortManager = new SearchSortManager(
+  oriPortfolios,
+  oriUsers,
+  oriProjects
+);
