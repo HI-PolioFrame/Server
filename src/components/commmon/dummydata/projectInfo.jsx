@@ -6,7 +6,7 @@ export const projectInfo = [
     ownerEmail: "nabinabi1110@naver.com",
     usedTemplate: 1, // 1번 템플릿 양식을 사용
     projectTitle: "마라탕후루",
-    discription: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
+    description: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
     startDate: "2024.11.11",
     endDate: "2024.11.18",
     solving: "이러이러한 곳에 사용할 수 있습니다.",
@@ -22,7 +22,7 @@ export const projectInfo = [
     ownerEmail: "nabinabi1110@naver.com",
     usedTemplate: 1, // 1번 템플릿 양식을 사용
     projectTitle: "마루",
-    discription: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
+    description: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
     startDate: "2024.11.12",
     endDate: "2024.11.22",
     solving: "이러이러한 곳에 사용할 수 있습니다.",
@@ -38,7 +38,7 @@ export const projectInfo = [
     ownerEmail: "tylove@naver.com",
     usedTemplate: 3, // 1번 템플릿 양식을 사용
     projectTitle: "탱의 포폴1",
-    discription: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
+    description: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
     startDate: "2024.11.01",
     endDate: "2024.11.30",
     solving: "이러이러한 곳에 사용할 수 있습니다.",
@@ -54,7 +54,7 @@ export const projectInfo = [
     ownerEmail: "tylove@naver.com",
     usedTemplate: 2, // 1번 템플릿 양식을 사용
     projectTitle: "탱의 포폴2",
-    discription: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
+    description: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
     startDate: "2024.10.01",
     endDate: "2024.11.30",
     solving: "이러이러한 곳에 사용할 수 있습니다.",
@@ -70,7 +70,7 @@ export const projectInfo = [
     ownerEmail: "sylove@naver.com",
     usedTemplate: 2, // 1번 템플릿 양식을 사용
     projectTitle: "수여니의 포폴1",
-    discription: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
+    description: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
     startDate: "2024.09.01",
     endDate: "2024.10.30",
     solving: "이러이러한 곳에 사용할 수 있습니다.",
@@ -86,7 +86,7 @@ export const projectInfo = [
     ownerEmail: "sylove@naver.com",
     usedTemplate: 1, // 1번 템플릿 양식을 사용
     projectTitle: "수여니의 포폴2",
-    discription: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
+    description: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
     startDate: "2024.07.01",
     endDate: "2024.08.30",
     solving: "이러이러한 곳에 사용할 수 있습니다.",
@@ -102,7 +102,7 @@ export const projectInfo = [
     ownerEmail: "hhlove@naver.com",
     usedTemplate: 4, // 1번 템플릿 양식을 사용
     projectTitle: "현혜씽의 포폴1",
-    discription: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
+    description: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
     startDate: "2024.08.01",
     endDate: "2024.08.30",
     solving: "이러이러한 곳에 사용할 수 있습니다.",
@@ -118,7 +118,7 @@ export const projectInfo = [
     ownerEmail: "hhlove@naver.com",
     usedTemplate: 2, // 1번 템플릿 양식을 사용
     projectTitle: "현혜씽의 포폴2",
-    discription: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
+    description: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
     startDate: "2024.11.01",
     endDate: "2024.11.30",
     solving: "이러이러한 곳에 사용할 수 있습니다.",

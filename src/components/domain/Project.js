@@ -6,7 +6,7 @@ class Project {
     usedTemplate,
     projectId,
     projectTitle,
-    discription,
+    description,
     startDate = null,
     endDate = null,
     category = null,
@@ -26,7 +26,7 @@ class Project {
     this.usedTemplate = usedTemplate;
     this.projectId = projectId;
     this.projectTitle = projectTitle;
-    this.discription = discription;
+    this.description = description;
     this.startDate = startDate;
     this.endDate = endDate;
     this.category = category;

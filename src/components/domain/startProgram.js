@@ -83,7 +83,7 @@ export const initializeData = () => {
       data.usedTemplate,
       data.projectId,
       data.projectTitle,
-      data.discription,
+      data.description,
       data.startDate,
       data.endDate,
       data.category,

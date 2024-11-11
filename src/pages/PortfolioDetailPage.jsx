@@ -62,8 +62,8 @@ const PortfolioDetailPage = () => {
   return (
     <DetailContainer>
       <TitleSection>
-        <ProjectTitle>{portfolioData.title}</ProjectTitle>
-        <ProjectDescription>{portfolioData.explanation}</ProjectDescription>
+        <ProjectTitle>{portfolioData.projectTitle}</ProjectTitle>
+        <ProjectDescription>{portfolioData.description}</ProjectDescription>
         <InfoButtons>
           <Button>조회수 0</Button>
           <Button>기업 연락 0</Button>
