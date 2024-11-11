@@ -16,6 +16,7 @@ import ProfileEditPage from "./pages/ProfileEditPage";
 import HackathonPage from "./pages/HackathonPage";
 import CreatePortfolioPage from "./pages/CreatePortfolioPage";
 import PortfolioDetailPage from "./pages/PortfolioDetailPage";
+import PortfolioDetailPage2 from "./pages/PortfolioDetailPage2";
 
 import { initializeData } from "./components/domain/startProgram";
 
@@ -52,6 +53,9 @@ function App() {
             path="/CreatePortfolioPage"
             element={<CreatePortfolioPage />}
           />
+          {/* 포폴 상세 페이지 템플릿 2 */}
+          <Route path="/PortfolioDetailPage2" element={PortfolioDetailPage2}/>
+
 
           {/*마이 페이지  */}
           <Route
