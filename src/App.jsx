@@ -4,8 +4,10 @@ import "./App.css";
 import profileIcon from "./assets/icons/Header/profileIcon.png";
 import LoginPage from "./pages/LoginPage";
 import MemberSelectionPage from "./pages/MemberSelectionPage";
-import SignUpPage from "./pages/SignUpPage";
-import SignUpPage2 from "./pages/SignUpPage2";
+import SignUpRecruiterPage from "./pages/SignUpRecruiterPage";
+import SignUpRecruiterEmailPage from "./pages/SignUpRecruiterEmailPage";
+import SignUpDeveloperPage from "./pages/signUpDeveloperPage";
+import SignUpDeveloperEmailPage from "./pages/SignUpDeveloperEmailPage";
 import LayOut from "./components/commmon/LayOut";
 import MyPage from "./pages/MyPage";
 import MainPage from "./pages/MainPage";
@@ -32,10 +34,13 @@ function App() {
         {/* 회원 선택 페이지 */}
         <Route path="/MemberSelectionPage" element={<MemberSelectionPage />} />
         {/* 기업회원 회원가입 페이지 */}
-        <Route path="/SignUpPage" element={<SignUpPage />} />
+        <Route path="/SignUpRecruiterPage" element={<SignUpRecruiterPage />} />
+         {/* 기업회원 이메일 회원가입 페이지 */}
+         <Route path="/SignUpRecruiterEmailPage" element={<SignUpRecruiterEmailPage />} />
         {/* 일반회원 회원가입 페이지 */}
-        <Route path="/SignUpPage2" element={<SignUpPage2 />} />
-
+        <Route path="/SignUpDeveloperPage" element={<SignUpDeveloperPage />} />
+        {/* 일반회원 이메일 회원가입 페이지 */}
+        <Route path="/SignUpDeveloperEmailPage" element={<SignUpDeveloperEmailPage />} />
         <Route element={<LayOut />}>
           {/* 메인 화면  */}
           <Route path="/" element={<MainPage />} />
