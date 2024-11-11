@@ -3,6 +3,7 @@ import styled from "styled-components";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { getCurrentUser } from "../../features/currentUser";
+import Comment from "../../domain/Comment";
 
 import BoldIcon from "../../../assets/icons/boldIcon.svg";
 import ItalicIcon from "../../../assets/icons/italic-5.svg?react";
@@ -83,6 +84,10 @@ const WritingBox = ({ addComment }) => {
   };
 
   const handleMarkdownChange = (e) => {
+    if (typeof e.target.value !== "string") {
+      console.log("markdown의 value가 string이 아님.");
+      console(e);
+    }
     setMarkdown(e.target.value);
     setLengthCount(e.target.value.length);
   };
@@ -90,10 +95,13 @@ const WritingBox = ({ addComment }) => {
   const handleSubmit = () => {
     const currentUser = getCurrentUser();
     if (markdown.trim() !== "") {
-      const newComment = {
-        user: currentUser.nickname, // 로그인된 사용자 이름
-        text: markdown,
-      };
+      const newComment = new Comment(
+        Date.now(), // commentId
+        null, // portfolioId
+        currentUser.id,
+        markdown,
+        new Date().toISOString()
+      );
       //console.log(newComment); -> 문제 없음.
       addComment(newComment);
       setMarkdown("");

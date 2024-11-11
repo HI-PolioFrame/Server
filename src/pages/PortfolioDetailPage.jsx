@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
-import { oriPortfolios } from "../components/domain/startProgram";
+import { oriPortfolios, oriComments } from "../components/domain/startProgram";
 import { getCurrentUser } from "../components/features/currentUser";
+import Comment from "../components/domain/Comment";
 
 import WritingBox from "../components/commmon/PortfolioDetailPage/WritingBox";
 import CommentList from "../components/commmon/PortfolioDetailPage/CommentList";
@@ -19,22 +20,33 @@ const PortfolioDetailPage = () => {
     setPortfolioData(portfolio);
 
     // 로컬 스토리지에서 댓글 불러오기
-    const savedComments = localStorage.getItem(`comments-${portfolioId}`);
-    if (savedComments) {
-      setComments(JSON.parse(savedComments));
-    }
+    // const savedComments = localStorage.getItem(`comments-${portfolioId}`);
+    // if (savedComments) {
+    //   setComments(JSON.parse(savedComments));
+    // }
+
+    const filteredComments = Array.from(oriComments.values()).filter(
+      (comment) => comment.portfolioId === Number(portfolioId)
+    );
+    setComments(filteredComments);
   }, [portfolioId]);
 
-  const addComment = (newComment) => {
+  const addComment = (newCommentObj) => {
+    const newComment = new Comment(
+      Date.now(), //commentId
+      Number(portfolioId), //portfolioId
+      currentUser.id, //현재 사용자 id
+      newCommentObj.text,
+      new Date().toString() //현재 날짜 저장
+    );
+
+    console.log("새 댓글:v", newComment);
+    oriComments.set(newComment.commentId, newComment); //oriComments에 새로운 댓글 추가
+
     setComments((prevComments) => {
-      const updatedComments = [newComment, ...prevComments];
-      // 로컬 스토리지에 댓글 저장
-      localStorage.setItem(
-        `comments-${portfolioId}`,
-        JSON.stringify(updatedComments)
-      );
-      return updatedComments;
-    });
+      const updatedComments = [newComment, ...prevComments]; // 새로운 댓글 배열 생성
+      return updatedComments; // 업데이트된 배열 반환
+    }); //setComments 업데이트
   };
 
   // const isPortfolioOwner =
@@ -391,9 +403,9 @@ const CommentButton = styled.button`
   margin-top: 5px;
 `;
 
-const Comment = styled.div`
-  margin-top: 20px;
-`;
+// const Comment = styled.div`
+//   margin-top: 20px;
+// `;
 
 const CommentHeader = styled.div`
   display: flex;

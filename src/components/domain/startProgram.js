@@ -92,8 +92,8 @@ export const initializeData = () => {
       data.commentId,
       data.portfolioId,
       data.userId,
-      data.text
-      //data.date
+      data.text,
+      data.date
     );
     oriComments.set(data.commentId, comment);
   });

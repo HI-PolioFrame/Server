@@ -1,20 +1,17 @@
 import React from "react";
 import styled from "styled-components";
 import { getCurrentUser } from "../../features/currentUser";
+import { oriComments } from "../../domain/startProgram";
 
 const CommentList = ({ comments, setComments, portfolioId }) => {
   const handleDelete = (index) => {
     const currentUser = getCurrentUser();
-    if (currentUser && comments[index].user === currentUser.nickname) {
-      setComments((prevComments) => {
-        const updatedComments = prevComments.filter((_, i) => i !== index);
-        // 로컬 스토리지에 댓글 업데이트
-        localStorage.setItem(
-          `comments-${portfolioId}`,
-          JSON.stringify(updatedComments)
-        );
-        return updatedComments;
-      });
+    const commentToDelete = comments[index];
+
+    if (currentUser && commentToDelete.userId === currentUser.id) {
+      oriComments.delete(commentToDelete.commentId); //oriComments에서 삭제
+
+      setComments((prevComments) => prevComments.filter((_, i) => i !== index));
     } else {
       alert("본인이 작성한 댓글만 삭제할 수 있습니다.");
     }
@@ -25,8 +22,8 @@ const CommentList = ({ comments, setComments, portfolioId }) => {
       {comments.map((comment, index) => (
         <Comment key={index}>
           <CommentHeader>
-            <CommentUser>{comment.user}</CommentUser>
-            {comment.user === getCurrentUser().nickname && (
+            <CommentUser>{comment.userId}</CommentUser>
+            {comment.userId === getCurrentUser().id && (
               <DeleteButton onClick={() => handleDelete(index)}>
                 삭제
               </DeleteButton>
