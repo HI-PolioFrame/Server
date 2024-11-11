@@ -1,7 +1,7 @@
 export const projectInfo = [
   {
     projectId: 1,
-    owner: "김예은", // user name
+    ownerName: "김예은", // user name
     ownerNickname: "옝", //유저 닉네임
     ownerEmail: "nabinabi1110@naver.com",
     usedTemplate: 1, // 1번 템플릿 양식을 사용
@@ -17,7 +17,7 @@ export const projectInfo = [
   },
   {
     projectId: 2,
-    owner: "김예은", // user name
+    ownerName: "김예은", // user name
     ownerNickname: "옝", //유저 닉네임
     ownerEmail: "nabinabi1110@naver.com",
     usedTemplate: 1, // 1번 템플릿 양식을 사용
@@ -33,7 +33,7 @@ export const projectInfo = [
   },
   {
     projectId: 3,
-    owner: "김태연", // user name
+    ownerName: "김태연", // user name
     ownerNickname: "탱구리", //유저 닉네임
     ownerEmail: "tylove@naver.com",
     usedTemplate: 3, // 1번 템플릿 양식을 사용
@@ -49,7 +49,7 @@ export const projectInfo = [
   },
   {
     projectId: 4,
-    owner: "김태연", // user name
+    ownerName: "김태연", // user name
     ownerNickname: "탱구리", //유저 닉네임
     ownerEmail: "tylove@naver.com",
     usedTemplate: 2, // 1번 템플릿 양식을 사용
@@ -65,7 +65,7 @@ export const projectInfo = [
   },
   {
     projectId: 5,
-    owner: "조수연", // user name
+    ownerName: "조수연", // user name
     ownerNickname: "수여니", //유저 닉네임
     ownerEmail: "sylove@naver.com",
     usedTemplate: 2, // 1번 템플릿 양식을 사용
@@ -81,7 +81,7 @@ export const projectInfo = [
   },
   {
     projectId: 6,
-    owner: "조수연", // user name
+    ownerName: "조수연", // user name
     ownerNickname: "수여니", //유저 닉네임
     ownerEmail: "sylove@naver.com",
     usedTemplate: 1, // 1번 템플릿 양식을 사용
@@ -97,7 +97,7 @@ export const projectInfo = [
   },
   {
     projectId: 7,
-    owner: "최현혜", // user name
+    ownerName: "최현혜", // user name
     ownerNickname: "현혜씽", //유저 닉네임
     ownerEmail: "hhlove@naver.com",
     usedTemplate: 4, // 1번 템플릿 양식을 사용
@@ -113,7 +113,7 @@ export const projectInfo = [
   },
   {
     projectId: 8,
-    owner: "최현혜", // user name
+    ownerName: "최현혜", // user name
     ownerNickname: "현혜씽", //유저 닉네임
     ownerEmail: "hhlove@naver.com",
     usedTemplate: 2, // 1번 템플릿 양식을 사용
