@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { oriPortfolios, oriComments } from "../components/domain/startProgram";
 import { getCurrentUser } from "../components/features/currentUser";
 import Comment from "../components/domain/Comment";
+import saveComment from "../components/features/saveComment";
 
 import WritingBox from "../components/commmon/PortfolioDetailPage/WritingBox";
 import CommentList from "../components/commmon/PortfolioDetailPage/CommentList";
@@ -32,21 +33,20 @@ const PortfolioDetailPage = () => {
   }, [portfolioId]);
 
   const addComment = (newCommentObj) => {
-    const newComment = new Comment(
-      Date.now(), //commentId
-      Number(portfolioId), //portfolioId
-      currentUser.id, //현재 사용자 id
-      newCommentObj.text,
-      new Date().toString() //현재 날짜 저장
-    );
+    const newComment = {
+      commentId: Date.now(),
+      portfolioId: Number(portfolioId),
+      userId: currentUser.id,
+      text: newCommentObj.text,
+      date: new Date().toISOString(),
+    };
 
-    console.log("새 댓글:v", newComment);
-    oriComments.set(newComment.commentId, newComment); //oriComments에 새로운 댓글 추가
+    // 클라이언트 측 상태 업데이트
+    //oriComments.set(newComment.commentId, newComment);
+    setComments((prevComments) => [newComment, ...prevComments]);
 
-    setComments((prevComments) => {
-      const updatedComments = [newComment, ...prevComments]; // 새로운 댓글 배열 생성
-      return updatedComments; // 업데이트된 배열 반환
-    }); //setComments 업데이트
+    // 파일에 댓글 저장
+    saveComment(newComment.portfolioId, newComment.userId, newComment.text);
   };
 
   // const isPortfolioOwner =

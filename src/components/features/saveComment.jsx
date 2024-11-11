@@ -1,6 +1,6 @@
 import { oriComments } from "../domain/startProgram.js";
 import Comment from "../domain/Comment.js";
-import { removeFromFileEnd, appendStringToFile } from "./fileIO.jsx";
+import { removeFromFileEnd, appendStringToFile } from "../features/fileIO.jsx";
 
 const saveComment = (portfolioId, userId, text) => {
   if (!text || !portfolioId || !userId) {
@@ -34,7 +34,7 @@ const saveComment = (portfolioId, userId, text) => {
     `;
 
   // 파일 경로 (데이터를 저장할 파일)
-  let filePath = "../common/dummydata/commentInfo.jsx";
+  let filePath = "../components/dummydata/commentInfo.jsx";
 
   // 파일의 끝에서 '];'를 제거하고 새 데이터를 추가
   removeFromFileEnd(filePath, 3);
