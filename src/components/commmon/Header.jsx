@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import defaultProfilePicture from "../../assets/icons/Header/profileIcon.png"; // 기본 이미지
@@ -23,18 +23,26 @@ function Header({}) {
   );
 
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  // 프로필 클릭 이벤트 추가했다구리
+  const menuRef = useRef(null);
 
   // useEffect로 컴포넌트가 처음 렌더링될 때 accessToken 업데이트
   useEffect(() => {
     const handleStorageChange = () => {
       setAccessToken(localStorage.getItem("accessToken"));
     };
-
+    // 여기 추가
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsProfileMenuOpen(false);
+      }
+    };
     window.addEventListener("storage", handleStorageChange);
-
+    document.addEventListener("mousedown", handleClickOutside);
     // 컴포넌트가 언마운트 될 때 이벤트 리스너 제거
     return () => {
       window.removeEventListener("storage", handleStorageChange);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -60,6 +68,8 @@ function Header({}) {
   //   navigate("./MyPage");
   // };
 
+
+  
   return (
     <HeaderContainer className="HeaderContainer">
       {/* 로고와 메뉴를 포함하는 메뉴박스 */}
@@ -90,7 +100,7 @@ function Header({}) {
                 alt="profile"
               />
               {isProfileMenuOpen && (
-                <ProfilePicMenuWrapper>
+                <ProfilePicMenuWrapper ref={menuRef}>
                   <TriangleIcon>
                     <TbTriangleFilled />
                   </TriangleIcon>
@@ -158,6 +168,7 @@ const ProfilePicMenuWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+
 `;
 
 const TriangleIcon = styled.div`
@@ -173,10 +184,9 @@ const ProfilePicMenu = styled.div`
   //position: absolute;
   //top: 135%;
   width: 10vw;
-  height: 18vh;
+  height: 20vh;
   background-color: #15243e80;
   border-radius: 0.625em;
-
   display: ${({ isOpen }) => (isOpen ? "flex" : "none")};
   flex-direction: column;
   justify-content: space-between;

@@ -27,12 +27,8 @@ const Button = styled.button`
   border-radius: 0.4em;
 
   font-size: 1vw;
-<<<<<<< HEAD
-  
-=======
-  font-family: "OTF B";
+  font-family: "OTF R";
   font-weight: 400;
->>>>>>> 68e514a0f7e4769f2900f6b30a8789ea0a6b2b81
   cursor: pointer;
   text-align: center;
 
