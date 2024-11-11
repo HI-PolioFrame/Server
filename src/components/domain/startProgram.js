@@ -77,12 +77,25 @@ export const initializeData = () => {
 
   projectInfo.forEach((data) => {
     let project = new Project(
+      data.ownerNickname,
+      data.ownerNickname,
+      data.ownerEmail,
+      data.usedTemplate,
       data.projectId,
-      null,
-      null,
-      null,
-      null,
-      data.stack
+      data.projectTitle,
+      data.discription,
+      data.startDate,
+      data.endDate,
+      data.category,
+      data.usedLanguage,
+      data.projectLink,
+      data.solving,
+      data.challenge,
+      data.video,
+      data.coverImage,
+      data.images,
+      data.logo,
+      data.share
     );
     oriProjects.set(data.projectId, project);
   });

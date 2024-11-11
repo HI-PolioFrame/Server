@@ -7,7 +7,7 @@ import StyledButton from "../components/commmon/StyledButton";
 import { dummydata } from "../components/commmon/dummydata/dummydata"; // dummydata 파일을 import
 import { Navigate, useNavigate } from "react-router-dom";
 import {
-  oriPortfolios,
+  oriProjects,
   searchSortManager,
   initializeData,
 } from "../components/domain/startProgram";
@@ -18,7 +18,7 @@ import PageHeader from "../components/commmon/PageHeader";
 const PortfolioPage = () => {
   const navigate = useNavigate();
 
-  const [sharedPortfolioList, setSharedPortfolioList] = useState([]);
+  const [sharedProjectList, setsharedProjectList] = useState([]);
 
   //LinkedList를 배열로 바꾸는 함수
   const linkedListToArray = (linkedList) => {
@@ -31,13 +31,13 @@ const PortfolioPage = () => {
     return array;
   };
 
-  // 페이지 최초 로드 시 oriPortfolios를 순회하여 상태에 설정
+  // 페이지 최초 로드 시 oriProjects를 순회하여 상태에 설정
   useEffect(() => {
     initializeData(); // 데이터를 초기화
-    const sharedPortfolios = Array.from(oriPortfolios.values()).filter(
-      (portfolio) => portfolio.share === true
+    const sharedProjects = Array.from(oriProjects.values()).filter(
+      (project) => project.share === true
     ); // Map을 배열로 변환
-    setSharedPortfolioList(sharedPortfolios); // 초기 포트폴리오 목록을 상태로 설정
+    setsharedProjectList(sharedProjects); // 초기 포트폴리오 목록을 상태로 설정
   }, []);
 
   const handleSortApply = (category, sortOption, filterOption) => {
@@ -46,12 +46,12 @@ const PortfolioPage = () => {
       sortOption,
       filterOption
     );
-    setSharedPortfolioList(linkedListToArray(sortedLinkedList));
+    setsharedProjectList(linkedListToArray(sortedLinkedList));
   };
 
   const handleSearchApply = (searchTerm) => {
     const searchedLinkedList = searchSortManager.search(searchTerm);
-    setSharedPortfolioList(linkedListToArray(searchedLinkedList));
+    setsharedProjectList(linkedListToArray(searchedLinkedList));
   };
 
   return (
@@ -66,10 +66,10 @@ const PortfolioPage = () => {
 
       <TemplateGridWrapper>
         <TemplateGrid>
-          {sharedPortfolioList.map((portfolio) => (
+          {sharedProjectList.map((project) => (
             <TemplateCard
-              key={portfolio.portfolioId}
-              portfolioId={portfolio.portfolioId}
+              key={project.projectId}
+              projectId={project.projectId}
               templateButton={"보기"}
             />
           ))}

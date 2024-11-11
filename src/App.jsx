@@ -35,12 +35,18 @@ function App() {
         <Route path="/MemberSelectionPage" element={<MemberSelectionPage />} />
         {/* 기업회원 회원가입 페이지 */}
         <Route path="/SignUpRecruiterPage" element={<SignUpRecruiterPage />} />
-         {/* 기업회원 이메일 회원가입 페이지 */}
-         <Route path="/SignUpRecruiterEmailPage" element={<SignUpRecruiterEmailPage />} />
+        {/* 기업회원 이메일 회원가입 페이지 */}
+        <Route
+          path="/SignUpRecruiterEmailPage"
+          element={<SignUpRecruiterEmailPage />}
+        />
         {/* 일반회원 회원가입 페이지 */}
         <Route path="/SignUpDeveloperPage" element={<SignUpDeveloperPage />} />
         {/* 일반회원 이메일 회원가입 페이지 */}
-        <Route path="/SignUpDeveloperEmailPage" element={<SignUpDeveloperEmailPage />} />
+        <Route
+          path="/SignUpDeveloperEmailPage"
+          element={<SignUpDeveloperEmailPage />}
+        />
         <Route element={<LayOut />}>
           {/* 메인 화면  */}
           <Route path="/" element={<MainPage />} />
@@ -82,7 +88,7 @@ function App() {
 
           {/* 포트폴리오 상세페이지*/}
           <Route
-            path="/PortfolioDetailPage/:portfolioId"
+            path="/PortfolioDetailPage/:projectId"
             element={<PortfolioDetailPage />}
           />
         </Route>

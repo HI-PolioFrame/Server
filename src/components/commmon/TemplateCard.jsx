@@ -2,37 +2,37 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { oriPortfolios } from "../domain/startProgram";
+import { oriProjects } from "../domain/startProgram";
 
 import Logo from "../../assets/icons/Logo.png";
 
-const TemplateCard = ({ portfolioId, templateButton }) => {
+const TemplateCard = ({ projectId, templateButton }) => {
   const navigate = useNavigate();
-  const [portfolioData, setPortfolioData] = useState(null);
+  const [projectData, setprojectData] = useState(null);
 
   useEffect(() => {
     //프롭스로 받은 포트폴리오 ID 사용해서 oriPortfolios에서 포트폴리오 데이터 가져오기
-    const portfolio = oriPortfolios.get(portfolioId);
-    if (portfolio) {
-      setPortfolioData(portfolio);
+    const project = oriProjects.get(projectId);
+    if (project) {
+      setprojectData(project);
     }
-  }, [portfolioId]);
+  }, [projectId]);
 
-  if (!portfolioData) {
+  if (!projectData) {
     return <Loading>로딩 중...</Loading>;
   }
 
   return (
     <Card>
       <ImageContainer>
-        <Image src={portfolioData.thumnail || Logo} alt="Template" />
+        <Image src={projectData.coverImage || Logo} alt="Template" />
       </ImageContainer>
-      <TemplateName>{portfolioData.title || "빈 제목"}</TemplateName>
-      <Description>{portfolioData.explanation || "빈 설명"}</Description>
+      <TemplateName>{projectData.projectTitle || "빈 제목"}</TemplateName>
+      <Description>{projectData.discription || "빈 설명"}</Description>
       <Button
         onClick={() => {
           console.log("보기 버튼 클릭");
-          navigate(`/PortfolioDetailPage/${portfolioId}`);
+          navigate(`/PortfolioDetailPage/${projectId}`);
         }}
       >
         {templateButton}

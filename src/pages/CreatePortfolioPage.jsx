@@ -5,20 +5,20 @@ import CreatePortfolioInput from "../components/CreatePortfolioPage/CreatePortfo
 import CreatePortfolioTemplate from "../components/CreatePortfolioPage/CreatePortfolioTemplate";
 
 const CreatePortfolioPage = () => {
-    return(
+  return (
     <>
-    <HeaderWrapper>
-      <LogoImage src={Logo} alt="로고" />
-      <PageHeaderTitle>Portfolio</PageHeaderTitle>
-    </HeaderWrapper>
-    
-    <ContentWrapper>
+      <HeaderWrapper>
+        <LogoImage src={Logo} alt="로고" />
+        <PageHeaderTitle>Portfolio</PageHeaderTitle>
+      </HeaderWrapper>
+
+      <ContentWrapper>
         <CreatePortfolioInput />
         <CreatePortfolioTemplate />
         <CreateButton>제작하기</CreateButton>
-    </ContentWrapper>
+      </ContentWrapper>
     </>
-    );
+  );
 };
 
 export default CreatePortfolioPage;
@@ -29,15 +29,15 @@ const HeaderWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap : 1.5em;
-  margin-bottom : 5em;
+  gap: 1.5em;
+  margin-bottom: 5em;
 `;
 const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 80vh;  
+  min-height: 80vh;
 `;
 
 //css Image
@@ -72,6 +72,8 @@ const CreateButton = styled.button`
   width: 20%;
   margin-top: 2em;
   font-family: "OTF R";
+
+  cursor: pointer;
 
   display: flex;
   align-items: center;

@@ -175,7 +175,7 @@ export const portfolioInfo = [
     portfolioId: 10,
     owner: "수여닝", // user name
     setTemplate: 1, // 1번 템플릿 양식을 사용
-    title: "수여니의 포폴1",
+    title: "수여니의 포폴2",
     explanation: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
     share: true, // 포폴 게시판에 공유 설정 O
     projects: ["14"], // 유저의 1, 2, 3, 4, 5번 포트폴리오를 담고 있음
