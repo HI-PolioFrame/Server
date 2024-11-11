@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
-import { oriPortfolios, oriComments } from "../components/domain/startProgram";
+import { oriProjects, oriComments } from "../components/domain/startProgram";
 import { getCurrentUser } from "../components/features/currentUser";
 import Comment from "../components/domain/Comment";
 import saveComment from "../components/features/saveComment";
@@ -16,9 +16,10 @@ const PortfolioDetailPage = () => {
   const currentUser = getCurrentUser();
 
   useEffect(() => {
-    //포트폴리오 ID 사용해서 포트폴리오 데이터 가져오기
-    const portfolio = oriPortfolios.get(Number(portfolioId));
+    //project ID 사용해서 포트폴리오 데이터 가져오기
+    const portfolio = oriProjects.get(Number(portfolioId));
     setPortfolioData(portfolio);
+    console.log(portfolio);
 
     // 로컬 스토리지에서 댓글 불러오기
     // const savedComments = localStorage.getItem(`comments-${portfolioId}`);
@@ -61,8 +62,8 @@ const PortfolioDetailPage = () => {
   return (
     <DetailContainer>
       <TitleSection>
-        <ProjectTitle>{portfolioData.title}</ProjectTitle>
-        <ProjectDescription>{portfolioData.explanation}</ProjectDescription>
+        <ProjectTitle>{portfolioData.projectTitle}</ProjectTitle>
+        <ProjectDescription>{portfolioData.description}</ProjectDescription>
         <InfoButtons>
           <Button>조회수 0</Button>
           <Button>기업 연락 0</Button>
@@ -85,27 +86,28 @@ const PortfolioDetailPage = () => {
           <DeveloperField>
             <Developer>개발자</Developer>
             <DevContainer>
-              <DevInfo>{portfolioData.owner}</DevInfo>
+              <DevInfo>{portfolioData.ownerName}</DevInfo>
               <DevInfo>
-                {portfolioData.email ? portfolioData.email : "이메일 없음."}
+                {portfolioData.ownerEmail
+                  ? portfolioData.ownerEmail
+                  : "이메일 없음."}
               </DevInfo>
             </DevContainer>
           </DeveloperField>
         </LinkDevelperSection>
 
         <OtherInfoSection>
-          <ParticipationPeriodField>
+          {/* <ParticipationPeriodField>
             <Label>참여 기간</Label>
             <TextBox>
               {portfolioData.participationPeriod
                 ? portfolioData.participationPeriod
                 : "기간 정보 없음."}
             </TextBox>
-            {/*portfolioInfo에 추가해야함*/}
-          </ParticipationPeriodField>
+          </ParticipationPeriodField> */}
 
           <ProblemSolvingField>
-            <Label>문제 해결</Label>
+            <Label>해결하는 문제</Label>
             <TextBox>
               {portfolioData.solving
                 ? portfolioData.solving
@@ -115,18 +117,20 @@ const PortfolioDetailPage = () => {
           </ProblemSolvingField>
 
           <LearnedField>
-            <Label>배운 점</Label>
+            <Label>내가 마주친 도전</Label>
             <TextBox>
-              {portfolioData.learned ? portfolioData.learned : "배운 점 없음."}
+              {portfolioData.challenge
+                ? portfolioData.challenge
+                : "배운 점 없음."}
             </TextBox>
             {/*portfolioInfo에 추가해야함*/}
           </LearnedField>
 
           <LanguagesUsedField>
-            <Label>사용한 언어</Label>
+            <Label>사용한 프로그램</Label>
             <TextBox>
-              {portfolioData.language
-                ? portfolioData.language
+              {portfolioData.usedLanguage
+                ? portfolioData.usedLanguage
                 : "사용 언어 없음."}
             </TextBox>
             {/*portfolioInfo에 추가해야함*/}
@@ -134,10 +138,10 @@ const PortfolioDetailPage = () => {
 
           <DemoVideoField>
             <Label>데모 비디오</Label>
-            {portfolioData.demoVideo ? (
+            {portfolioData.video ? (
               <VideoBox>
                 <video width="100%" height="100%" controls>
-                  <source src={portfolioData.demoVideo} type="video/mp4" />
+                  <source src={portfolioData.video} type="video/mp4" />
                   비디오를 지원하지 않는 브라우저입니다.
                 </video>
               </VideoBox>
@@ -221,7 +225,7 @@ const Button = styled.button`
 const ContentSection = styled.div`
   display: grid;
   grid-template-columns: 1fr 3fr;
-  gap: 1vw;
+  gap: 2vw;
   margin-bottom: 15vh;
 
   // grid-template-areas:

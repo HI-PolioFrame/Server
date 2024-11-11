@@ -7,21 +7,21 @@ import StyledButton from "../components/commmon/StyledButton";
 import { dummydata } from "../components/commmon/dummydata/dummydata"; // dummydata 파일을 import합니다.
 import { Navigate, useNavigate } from "react-router-dom";
 import {
-  oriPortfolios,
+  oriProjects,
   searchSortManager,
 } from "../components/domain/startProgram";
 import { getCurrentUser } from "../components/features/currentUser";
 
 function MyPage() {
-  const [myPortfolioList, setMyPortfolioList] = useState([]); // 상태로 관리되는 포트폴리오 리스트
+  const [myProjectList, setmyProjectList] = useState([]); // 상태로 관리되는 포트폴리오 리스트
 
   useEffect(() => {
     const currentUser = getCurrentUser();
     if (currentUser) {
-      const userPortfolios = Array.from(oriPortfolios.values()).filter(
-        (portfolio) => portfolio.owner === currentUser.pageId
+      const userProjects = Array.from(oriProjects.values()).filter(
+        (project) => project.ownerEmail === currentUser.email
       );
-      setMyPortfolioList(userPortfolios);
+      setmyProjectList(userProjects);
     }
   }, []);
 
@@ -39,7 +39,7 @@ function MyPage() {
   // 검색어로 검색 시 호출되는 함수
   const handleSearchApply = (searchTerm) => {
     const searchedLinkedList = searchSortManager.search(searchTerm);
-    setMyPortfolioList(linkedListToArray(searchedLinkedList)); // 배열로 변환하여 상태 업데이트
+    setmyProjectList(linkedListToArray(searchedLinkedList)); // 배열로 변환하여 상태 업데이트
   };
 
   // 정렬/필터 적용 시 호출되는 함수
@@ -49,7 +49,7 @@ function MyPage() {
       sortOption,
       filterOption
     );
-    seMytPortfolioList(linkedListToArray(sortedLinkedList));
+    seMytprojectList(linkedListToArray(sortedLinkedList));
   };
 
   return (
@@ -69,11 +69,11 @@ function MyPage() {
 
         <TemplateGridWrapper>
           <TemplateGrid>
-            {myPortfolioList.length > 0 ? (
-              myPortfolioList.map((portfolio) => (
+            {myProjectList.length > 0 ? (
+              myProjectList.map((project) => (
                 <TemplateCard
-                  key={portfolio.portfolioId}
-                  portfolioId={portfolio.portfolioId}
+                  key={project.projectId}
+                  projectId={project.projectId}
                   templateButton={"보기"}
                 />
               ))
@@ -179,7 +179,7 @@ const MyContainer = styled.div`
 const MyTitle = styled.div`
   height: 2.625em;
   top: 11.375em;
-  font-family: "OTF B"; 
+  font-family: "OTF B";
 
   font-style: normal;
   font-weight: 700;
@@ -210,11 +210,9 @@ const TemplateGridWrapper = styled.div`
 `;
 
 const TemplateGrid = styled.div`
-  display: flex;
-  align-items: center;
-
-  margin-top: 2em;
-  max-width: 80em;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1vw;
 `;
 
 const Line = styled.hr`
@@ -233,8 +231,7 @@ const Text = styled.div`
   justify-content: center;
   font-size: 1.5vw;
   font-family: "OTF R";
-  align-items : center;
-  width: 100%; 
-  height: 100%; 
+  align-items: center;
+  width: 100%;
+  height: 100%;
 `;
-

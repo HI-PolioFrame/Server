@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { oriPortfolios } from "../domain/startProgram";
+import { oriProjects } from "../domain/startProgram";
 
 import Logo from "../../assets/icons/Logo.png";
 
@@ -12,7 +12,7 @@ const TemplateCard = ({ portfolioId, templateButton }) => {
 
   useEffect(() => {
     //프롭스로 받은 포트폴리오 ID 사용해서 oriPortfolios에서 포트폴리오 데이터 가져오기
-    const portfolio = oriPortfolios.get(portfolioId);
+    const portfolio = oriProjects.get(portfolioId);
     if (portfolio) {
       setPortfolioData(portfolio);
     }
@@ -25,10 +25,10 @@ const TemplateCard = ({ portfolioId, templateButton }) => {
   return (
     <Card>
       <ImageContainer>
-        <Image src={portfolioData.thumnail || Logo} alt="Template" />
+        <Image src={portfolioData.coverImage || Logo} alt="Template" />
       </ImageContainer>
-      <TemplateName>{portfolioData.title || "빈 제목"}</TemplateName>
-      <Description>{portfolioData.explanation || "빈 설명"}</Description>
+      <TemplateName>{portfolioData.projectTitle || "빈 제목"}</TemplateName>
+      <Description>{portfolioData.discription || "빈 설명"}</Description>
       <Button
         onClick={() => {
           console.log("보기 버튼 클릭");
@@ -41,12 +41,12 @@ const TemplateCard = ({ portfolioId, templateButton }) => {
   );
 };
 
-// TemplateCard의 프롭타입
-TemplateCard.propTypes = {
-  templateName: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  templateThumnail: PropTypes.string.isRequired,
-};
+// // TemplateCard의 프롭타입
+// TemplateCard.propTypes = {
+//   templateName: PropTypes.string.isRequired,
+//   description: PropTypes.string.isRequired,
+//   templateThumnail: PropTypes.string.isRequired,
+// };
 
 export default TemplateCard;
 
