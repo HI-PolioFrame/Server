@@ -7,7 +7,7 @@ export const portfolioInfo = [
     setTemplate: 1, // 1번 템플릿 양식을 사용
     title: "마라탕후루",
     explanation: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
-    share: true, // 포폴 게시판에 공유 설정 O
+    share: false, // 포폴 게시판에 공유 설정 O
     projects: ["1", "2"], // 유저의 1, 2, 3, 4, 5번 포트폴리오를 담고 있음
     category: "백엔드",
     comments: [
@@ -41,7 +41,7 @@ export const portfolioInfo = [
     portfolioId: 3,
     owner: "김예은", // user name
     setTemplate: 1, // 1번 템플릿 양식을 사용
-    title: "기본 포폴",
+    title: "예은이의 포폴1",
     explanation: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
     share: true, // 포폴 게시판에 공유 설정 O
     projects: ["3", "4", "5"], // 유저의 1, 2, 3, 4, 5번 포트폴리오를 담고 있음
@@ -54,7 +54,7 @@ export const portfolioInfo = [
     portfolioId: 4,
     owner: "김예은", // user name
     setTemplate: 1, // 1번 템플릿 양식을 사용
-    title: "기본 포폴",
+    title: "예은이의 포폴2",
     explanation: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
     share: true, // 포폴 게시판에 공유 설정 O
     projects: ["6"], // 유저의 1, 2, 3, 4, 5번 포트폴리오를 담고 있음
@@ -76,7 +76,7 @@ export const portfolioInfo = [
     portfolioId: 5,
     owner: "김예은", // user name
     setTemplate: 1, // 1번 템플릿 양식을 사용
-    title: "기본 포폴",
+    title: "예은이의 포폴3",
     explanation: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
     share: true, // 포폴 게시판에 공유 설정 O
     projects: ["7", "9"], // 유저의 1, 2, 3, 4, 5번 포트폴리오를 담고 있음
@@ -88,8 +88,9 @@ export const portfolioInfo = [
   {
     portfolioId: 6,
     owner: "탱구리", // user name
+    email: "ilove탱@러브닷컴",
     setTemplate: 1, // 1번 템플릿 양식을 사용
-    title: "기본 포폴",
+    title: "탱구리의 포폴1",
     explanation: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
     share: true, // 포폴 게시판에 공유 설정 O
     projects: ["8", "10", "11"], // 유저의 1, 2, 3, 4, 5번 포트폴리오를 담고 있음
@@ -112,8 +113,9 @@ export const portfolioInfo = [
   {
     portfolioId: 7,
     owner: "현혜씽", // user name
+    email: "ilove현@러브닷컴",
     setTemplate: 1, // 1번 템플릿 양식을 사용
-    title: "기본 포폴",
+    title: "현혜씽의 포폴1",
     explanation: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
     share: true, // 포폴 게시판에 공유 설정 O
     projects: ["12"], // 유저의 1, 2, 3, 4, 5번 포트폴리오를 담고 있음
@@ -137,7 +139,7 @@ export const portfolioInfo = [
     portfolioId: 8,
     owner: "현혜씽", // user name
     setTemplate: 1, // 1번 템플릿 양식을 사용
-    title: "기본 포폴",
+    title: "현혜씽의 포폴2",
     explanation: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
     share: true, // 포폴 게시판에 공유 설정 O
     projects: ["12", "13"], // 유저의 1, 2, 3, 4, 5번 포트폴리오를 담고 있음
@@ -158,8 +160,9 @@ export const portfolioInfo = [
   {
     portfolioId: 9,
     owner: "수여닝", // user name
+    email: "ilove수@러브닷컴",
     setTemplate: 1, // 1번 템플릿 양식을 사용
-    title: "기본 포폴",
+    title: "수여니의 포폴1",
     explanation: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
     share: true, // 포폴 게시판에 공유 설정 O
     projects: ["15"], // 유저의 1, 2, 3, 4, 5번 포트폴리오를 담고 있음
@@ -172,7 +175,7 @@ export const portfolioInfo = [
     portfolioId: 10,
     owner: "수여닝", // user name
     setTemplate: 1, // 1번 템플릿 양식을 사용
-    title: "기본 포폴",
+    title: "수여니의 포폴1",
     explanation: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
     share: true, // 포폴 게시판에 공유 설정 O
     projects: ["14"], // 유저의 1, 2, 3, 4, 5번 포트폴리오를 담고 있음
