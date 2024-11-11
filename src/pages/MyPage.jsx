@@ -13,15 +13,17 @@ import {
 import { getCurrentUser } from "../components/features/currentUser";
 
 function MyPage() {
-  const [myProjectList, setmyProjectList] = useState([]); // 상태로 관리되는 포트폴리오 리스트
+  const [myPortfolioList, setmyPortfolioList] = useState([]); // 상태로 관리되는 포트폴리오 리스트
 
   useEffect(() => {
     const currentUser = getCurrentUser();
     if (currentUser) {
-      const userProjects = Array.from(oriProjects.values()).filter(
-        (project) => project.ownerEmail === currentUser.email
+      console.log(currentUser);
+      const userPortfolios = Array.from(oriProjects.values()).filter(
+        (portfolio) => portfolio.ownerEmail === currentUser.email
       );
-      setmyProjectList(userProjects);
+      console.log(userPortfolios);
+      setmyPortfolioList(userPortfolios);
     }
   }, []);
 
@@ -39,7 +41,7 @@ function MyPage() {
   // 검색어로 검색 시 호출되는 함수
   const handleSearchApply = (searchTerm) => {
     const searchedLinkedList = searchSortManager.search(searchTerm);
-    setmyProjectList(linkedListToArray(searchedLinkedList)); // 배열로 변환하여 상태 업데이트
+    setmyPortfolioList(linkedListToArray(searchedLinkedList)); // 배열로 변환하여 상태 업데이트
   };
 
   // 정렬/필터 적용 시 호출되는 함수
@@ -49,7 +51,7 @@ function MyPage() {
       sortOption,
       filterOption
     );
-    seMytprojectList(linkedListToArray(sortedLinkedList));
+    setmyPortfolioList(linkedListToArray(sortedLinkedList));
   };
 
   return (
@@ -69,11 +71,11 @@ function MyPage() {
 
         <TemplateGridWrapper>
           <TemplateGrid>
-            {myProjectList.length > 0 ? (
-              myProjectList.map((project) => (
+            {myPortfolioList.length > 0 ? (
+              myPortfolioList.map((portfolio) => (
                 <TemplateCard
-                  key={project.projectId}
-                  projectId={project.projectId}
+                  key={portfolio.projectId}
+                  portfolioId={portfolio.projectId}
                   templateButton={"보기"}
                 />
               ))
