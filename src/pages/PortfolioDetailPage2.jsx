@@ -13,6 +13,7 @@ import CommentList from "../components/commmon/PortfolioDetailPage/CommentList";
 import Notepad3 from "../assets/images/PortfolioDetailPage2/Notepad3.png";
 import Notepad5 from "../assets/images/PortfolioDetailPage2/Notepad5.png";
 import Notepad12 from "../assets/images/PortfolioDetailPage2/Notepad12.png";
+import Notepad16 from "../assets/images/PortfolioDetailPage2/Notepad16.png";
 
 const PortfolioDetailPage2 = () => {
   const { portfolioId } = useParams();
@@ -75,88 +76,101 @@ const PortfolioDetailPage2 = () => {
         <ProjectDescription>{portfolioData.description}</ProjectDescription>
       </TitleWrapper>
 
-    <Wrapper1>
-        <Label1Wrapper>
-          {/* 참여기간 */}
-          <PeriodText>참여기간</PeriodText>
-          <Image3 src={Notepad3} alt="Notepad3"/>
-          <Bar>참여기간</Bar>
-        </Label1Wrapper>  
-        {/* 사용한 언어 */}
-        <Label1Wrapper>
-          <PeriodText>사용한 언어</PeriodText>
-          <Image3 src={Notepad3} alt="Notepad3"/>
-          <Bar>사용한 언어</Bar>
-        </Label1Wrapper>  
-          {/* 프로젝트 링크 */}
-        <Label1Wrapper>
-          <PeriodText>프로젝트 링크</PeriodText>
-          <Image3 src={Notepad3} alt="Notepad3"/>
-          <Bar>프로젝트 링크</Bar>
-        </Label1Wrapper>  
-    </Wrapper1>
+    <Maincomponent>
+      <Wrapper1>
+          <Label1Wrapper>
+            {/* 참여기간 */}
+            <PeriodText>참여기간</PeriodText>
+            <Image3 src={Notepad3} alt="Notepad3"/>
+            <Bar>참여기간</Bar>
+          </Label1Wrapper>  
+          {/* 사용한 언어 */}
+          <Label1Wrapper>
+            <PeriodText>사용한 언어</PeriodText>
+            <Image3 src={Notepad3} alt="Notepad3"/>
+            <Bar>사용한 언어</Bar>
+          </Label1Wrapper>  
+            {/* 프로젝트 링크 */}
+          <Label1Wrapper>
+            <PeriodText>프로젝트 링크</PeriodText>
+            <Image3 src={Notepad3} alt="Notepad3"/>
+            <Bar>프로젝트 링크</Bar>
+          </Label1Wrapper> 
 
-    <Wrapper2>
-      {/* 배운점 */}
-      <LearnedWrapper>
-        <LearnedText>배운점</LearnedText>
-        <Image5 src={Notepad5} alt="Notepad5"/>
-     </LearnedWrapper>
-      {/* 문제설명 */}
-      <ProblemWrapper>
-          <ProblemText>배운점</ProblemText>
+          <Label2Wrapper>
+            {/* 사진  등록된 사진의 갯수에 따라서 생성*/}
+            <PhotoWrappeer>
+              <PhotoText>사진</PhotoText>
+              <Image3 src={Notepad12} alt="Notepad12" />
+              <ImageContainer>
+                {portfolioData.images && portfolioData.images.length > 0 ? (
+                  portfolioData.images.slice(0, 4).map((image, index) => ( 
+                    <ImageBox key={index}>
+                      <img src={image} alt={`프로젝트 이미지 ${index + 1}`} />
+                    </ImageBox>
+                  ))
+                ) : (
+                  <ImageBox>사진 없음</ImageBox>
+                )}
+              </ImageContainer>
+            </PhotoWrappeer>
+            {/* 로고 */}
+            <LogoWrappeer>
+              <LogoText>로고</LogoText>
+              <Image3 src={Notepad12} alt="Notepad12" />
+              <LogoContainer>
+                {portfolioData.images && portfolioData.images.length > 0 ? (
+                  portfolioData.images.map((image, index) => (
+                    <ImageBox key={index}>
+                      <img src={image} alt={`프로젝트 이미지 ${index + 1}`} />
+                    </ImageBox>
+                  ))
+                ) : (
+                  <ImageBox>로고 없음</ImageBox>
+                )}
+              </LogoContainer>
+            </LogoWrappeer>
+          </Label2Wrapper>   
+
+          {/* 데모 비디오 */}
+          <VideoWrappeer>
+                <VideoText>데모 비디오</VideoText>
+                <Image3 src={Notepad12} alt="Notepad12" />
+                {portfolioData.video ? (
+                  <VideoBox>
+                    <video width="100%" height="100%" controls>
+                      <source src={portfolioData.video} type="video/mp4" />
+                      비디오를 지원하지 않는 브라우저입니다.
+                    </video>
+                  </VideoBox>
+                ) : (
+                  <VideoBox>비디오 없음</VideoBox>
+                )}
+          </VideoWrappeer>
+
+           {/* 개발자 개인정보 */}
+        <InfoWrapper>
+          <Image16 src={Notepad16} alt="Notepad16"/>
+          <Bar>이름 </Bar>
+          <Bar>이메일 </Bar>
+        </InfoWrapper>
+       
+      </Wrapper1>
+    
+      <Wrapper2>
+        {/* 배운점 */}
+        <LearnedWrapper>
+          <LearnedText>배운점</LearnedText>
           <Image5 src={Notepad5} alt="Notepad5"/>
-      </ProblemWrapper>
-    </Wrapper2>
-    <Label1Wrapper>
-          {/* 사진 */}
-          <PhotoWrappeer>
-            <PhotoText>사진</PhotoText>
-            <Image3 src={Notepad12} alt="Notepad12" />
-            <ImageContainer>
-              {portfolioData.images && portfolioData.images.length > 0 ? (
-                portfolioData.images.slice(0, 4).map((image, index) => ( 
-                  <ImageBox key={index}>
-                    <img src={image} alt={`프로젝트 이미지 ${index + 1}`} />
-                  </ImageBox>
-                ))
-              ) : (
-                <ImageBox>사진 없음</ImageBox>
-              )}
-            </ImageContainer>
-          </PhotoWrappeer>
-          {/* 로고 */}
-          <LogoWrappeer>
-            <LogoText>로고</LogoText>
-            <Image3 src={Notepad12} alt="Notepad12" />
-            <LogoContainer>
-              {portfolioData.images && portfolioData.images.length > 0 ? (
-                portfolioData.images.map((image, index) => (
-                  <ImageBox key={index}>
-                    <img src={image} alt={`프로젝트 이미지 ${index + 1}`} />
-                  </ImageBox>
-                ))
-              ) : (
-                <ImageBox>로고 없음</ImageBox>
-              )}
-            </LogoContainer>
-          </LogoWrappeer>
-     </Label1Wrapper>  
-      {/* 데모 비디오 */}
-      <VideoWrappeer>
-            <VideoText>데모 비디오</VideoText>
-            <Image3 src={Notepad12} alt="Notepad12" />
-            {portfolioData.video ? (
-              <VideoBox>
-                <video width="100%" height="100%" controls>
-                  <source src={portfolioData.video} type="video/mp4" />
-                  비디오를 지원하지 않는 브라우저입니다.
-                </video>
-              </VideoBox>
-            ) : (
-              <VideoBox>비디오 없음</VideoBox>
-            )}
-      </VideoWrappeer>
+        </LearnedWrapper>
+        {/* 문제설명 */}
+        <ProblemWrapper>
+            <ProblemText>문제해결</ProblemText>
+            <Image5 src={Notepad5} alt="Notepad5"/>
+        </ProblemWrapper>
+      </Wrapper2>
+    </Maincomponent>
+    
     </MainWrapper>
 
 
@@ -184,11 +198,24 @@ const MainWrapper = styled.div`
 
   border : 5px solid #000;
   border-radius : 2em;
-  height : 80em;
+  height : 75em;
   
   display: flex;
   flex-direction: column;
-  align-items: center;
+  // align-items: center;
+`;
+const Maincomponent = styled.div`
+  display: flex;
+  justify-content: space-between; 
+  align-items: flex-start;
+  padding: 0 2rem; 
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+  }
+
 `;
 const Loading = styled.div`
   display: flex;
@@ -203,28 +230,43 @@ const TitleWrapper = styled.div`
 const Label1Wrapper = styled.div`
   display : flex;
   flex-direction: row;
-  gap : 1em;
+  position: relative;
+`;
+const Label2Wrapper = styled.div`
+  margin-top : 1em;
+  display : flex;
+  flex-direction: column;
   position: relative;
 `;
 const Wrapper1 = styled.div`
-  display: flex;
-  flex-direction: column;
+  width: 60%; 
+  margin-right: 1rem; 
+
+  @media (max-width: 768px) {
+    width: 100%; 
+    margin-right: 0;
+  }
 `;
 const Wrapper2 = styled.div`
-  display: flex;
+  width: 80%; 
+  margin-top : 2em;
+  gap : 5em;
+  display : flex;
   flex-direction: column;
-  margin-bottom : 1em;
-  gap : 2em;
+  @media (max-width: 768px) {
+    width: 100%; 
+    margin-right: 0;
+  }
 `;
 const LearnedWrapper = styled.div`
-  width : 50%;
+  width : 100%;
   height : 20em;
   border : 3px solid #000;
   border-radius : 2em;
   position: relative;
 `;
 const ProblemWrapper = styled.div`
-  width : 50%;
+  width : 100%;
   height : 20em;
   border : 3px solid #000;
   border-radius : 2em;
@@ -237,8 +279,7 @@ const ImageContainer = styled.div`
   width: 100%;
 `;
 const LogoContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);  
+  display: grid;  
   gap: 1em;  
   width: 100%;
 `;
@@ -253,6 +294,14 @@ const LogoWrappeer = styled.div`
 const VideoWrappeer = styled.div`
   display : flex;
   flex-direction: column;
+  margin-top : 1em;
+`;
+const InfoWrapper = styled.div`
+  display : flex;
+  flex-direction: column;
+  gap: -2em;
+  margin-top : 6em;
+  
 `;
 //css button
 const InfoButtons = styled.div`
@@ -305,12 +354,14 @@ const VideoBox = styled.div`
   align-items: center;
   justify-content: center;
   
-  border: 2px solid #000;
+  border: 3px solid #000;
   border-radius:1em;
   font-size: 1vw;
   width : 40em;
-  height : 20em;
+  height : 16.5em;
   `;
+
+
 //css image
 const Image3 = styled.img`
   width: 10em; 
@@ -321,7 +372,13 @@ const Image5 = styled.img`
   width: 10em; 
   height: auto;
   margin-top: -2.3em;
-  margin-left: 10em;  
+  margin-left: 8em;  
+`;
+const Image16 = styled.img`
+  width: 4em; 
+  height: auto;
+  margin-top: -2.3em;
+
 `;
 
 //css text
@@ -353,8 +410,8 @@ const LearnedText = styled.p`
   font-size: 1em;
   font-weight: bold;
   color: #000;
-  margin-top : 0em;
-  margin-left : 14em;
+  margin-top : -0.2em;
+  margin-left : 11.9em;
   font-family: "OTF R";
 `;
 
@@ -364,8 +421,8 @@ const ProblemText = styled.p`
   font-size: 1em;
   font-weight: bold;
   color: #000;
-  margin-top : 0em;
-  margin-left : 14em;
+  margin-top : -0.2em;
+  margin-left : 11.5em;
   font-family: "OTF R";
 `;
 
@@ -386,7 +443,7 @@ const LogoText = styled.p`
   font-weight: bold;
   color: #000;
   margin-left : 2.5em;
-  margin-top : 0.7em;
+  margin-top : 6em;
   font-family: "OTF R";
 `;
 const VideoText = styled.p`
@@ -395,8 +452,8 @@ const VideoText = styled.p`
   font-size: 1.2em;
   font-weight: bold;
   color: #000;
-  margin-left : 1.2em;
-  margin-top : 70.8em;
+  margin-left : 1.5em;
+  margin-top : 45.3em;
   font-family: "OTF R";
 `;
 // 댓글 css
