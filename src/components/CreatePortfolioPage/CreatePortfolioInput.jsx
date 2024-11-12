@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { useState } from "react";
+// import Calendar from "./Calendar.jsx";
+import CalendarInput from "./CalendarInput.jsx";
 
 const CreatePortfolioInput = () => {
   // 업로드 이미지 미리보기 코드
@@ -73,20 +75,28 @@ const CreatePortfolioInput = () => {
               <ExText>무엇에 사용할 수 있는지, 그것이 어떻게 기존 작업을 더 쉽고 안전하게 만드는지 등을 설명합니다</ExText>
               <VitalInput2></VitalInput2>
           </InputWrapper>
+          {/* 참여기간 */}
+          <InputWrapper>
+              <MainText>참여기간</MainText>
+              <ExText>이 프로젝트에 참여한 기간을 선택해주세요. </ExText>
+              <CalendarInput/>
+          </InputWrapper>
+        </ColumnWrapper>
+
+
+    </VitalWrapper>
+    <ChallengesWrapper>
           {/* Challenges I ran into -> 내가 마주친 도전 ex 트러블 슈팅 */}
           <InputWrapper>
               <MainText>내가 마주친 도전</MainText>
               <ExText>이 프로젝트를 구축하는 동안 발생한 특정 버그,장애물에 대해 알려주세요. 어떻게 극복하셨나요? </ExText>
               <VitalInput2></VitalInput2>
           </InputWrapper>
-        </ColumnWrapper>
-
-    </VitalWrapper>
-
+    </ChallengesWrapper>
     {/* 선택항목 */}
     <ChoiceWrapper> 
       <VitalText>선택 항목</VitalText>
-      <ColumnWrapper>
+      <ColumnWrapper2>
         {/* 데모 비디오 */}
           <InputWrapper>
               <MainText>데모 비디오</MainText>
@@ -115,9 +125,9 @@ const CreatePortfolioInput = () => {
                 </FileLabel>
               </ImageWrapper>
           </InputWrapper>
-        </ColumnWrapper>
+      </ColumnWrapper2>
 
-        <ColumnWrapper>
+        <ColumnWrapper2>
         {/* 사진 */}
           <InputWrapper>
               <MainText>사진</MainText>
@@ -163,7 +173,7 @@ const CreatePortfolioInput = () => {
                 </FileLabel>
               </ImageWrapper>
           </InputWrapper>
-        </ColumnWrapper>
+        </ColumnWrapper2>
         
     </ChoiceWrapper>
 
@@ -181,7 +191,7 @@ const VitalWrapper = styled.div`
 
   border : 1.5px solid #d0d1d9;
   border-radius : 2em;
-  height : 28em;
+  height : 43em;
   
   display: flex;
   flex-direction: column;
@@ -192,7 +202,7 @@ const VitalWrapper = styled.div`
 const ChoiceWrapper = styled.div`
   width: 80%;
   padding: 40px 40px;
-  margin: 2em auto;
+  margin: 8em auto;
 
   border : 1.5px solid #d0d1d9;
   border-radius : 2em;
@@ -207,11 +217,17 @@ const ChoiceWrapper = styled.div`
 const InputWrapper = styled.div`
     display : flex;
     flex-direction : column;
-    // gap : 0.8m;
+
 `;
 const ColumnWrapper = styled.div`
   display: flex;
-  gap: 10em;
+  gap: 5%;
+  justify-content: space-between;
+  width: 100%;
+`;
+const ColumnWrapper2 = styled.div`
+  display: flex;
+  gap: 20%;
   // justify-content: space-between;
   width: 100%;
 `;
@@ -222,6 +238,18 @@ const ImageWrapper = styled.div`
   width: 100%;
 `;
 
+const ChallengesWrapper = styled.div`
+  z-index : 1;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  // padding: 20px 0;
+  margin-top: -17em;
+  gap: 1em; // 내부 
+  padding: 40px 40px;
+  // margin: 0 auto;
+  margin-left : -30%;
+`;
 //css input
 const VitalInput = styled.input`
   border: 1px solid #d0d1d9;
