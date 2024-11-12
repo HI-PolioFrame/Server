@@ -1,9 +1,37 @@
 import React from "react";
 import styled from "styled-components";
-import Logo from "../../assets/icons/Logo.png";
+import { useState } from "react";
 
 const CreatePortfolioInput = () => {
-    return(
+  // 업로드 이미지 미리보기 코드
+  const [coverimagePreview, setCoverImagePreview] = useState(null);
+  const [LogoPreview, setLogoPreview] = useState(null);
+  const [photosPreview, setPhotosPreview] = useState([null, null, null, null, null]);
+
+  const handleCoverImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file && file.type.startsWith("image/")) {
+      const imageURL = URL.createObjectURL(file);
+      setCoverImagePreview(imageURL);
+    }
+  };
+  const handleLogoChange = (e) => {
+    const file = e.target.files[0];
+    if (file && file.type.startsWith("image/")) {
+      const imageURL = URL.createObjectURL(file);
+      setLogoPreview(imageURL);
+    }
+  };
+  const handlePhotosChange = (index) => (e) => {
+    const file = e.target.files[0];
+    if (file && file.type.startsWith("image/")) {
+      const newPhotosPreview = [...photosPreview];
+      newPhotosPreview[index] = URL.createObjectURL(file);
+      setPhotosPreview(newPhotosPreview);
+    }
+  };
+  
+  return(
     <>
      {/* 필수항목 */}
     <VitalWrapper> 
@@ -34,7 +62,7 @@ const CreatePortfolioInput = () => {
           <InputWrapper>
               <MainText>Links</MainText>
               <ExText>Github, 웹사이트, 앱 스토어 등 프로젝트를 테스트할 수 있는 곳의 링크를 추가하세요.</ExText>
-              <VitalInput type="text"></VitalInput>
+              <VitalInput type="url"></VitalInput>
           </InputWrapper>
         </ColumnWrapper>
 
@@ -59,58 +87,80 @@ const CreatePortfolioInput = () => {
     <ChoiceWrapper> 
       <VitalText>선택 항목</VitalText>
       <ColumnWrapper>
-        {/* 포트폴리오 이름 */}
+        {/* 데모 비디오 */}
           <InputWrapper>
               <MainText>데모 비디오</MainText>
               <ExText>프로젝트 기능을 데모하는 비디오에 링크를 추가하세요</ExText>
-              <ChoiceInput type="text"></ChoiceInput>
+              <ChoiceInput type="url"></ChoiceInput>
           </InputWrapper>
-        {/* 포트폴리오 설명 -> 글자수 제한해야한다.*/}
+        {/* 커버 이미지*/}
           <InputWrapper>
               <MainText>커버 이미지</MainText>
               <ExText>프로젝트를 보여줄 표지 이미지를 업로드해주세요</ExText>
               <ImageWrapper>
-                  <FileInput type="file" id="coverphotos" multiple />
-                  <FileLabel htmlFor="coverphotos">+</FileLabel>
-                  <FileInput type="file" id="coverphotos" multiple />
-                  <FileLabel htmlFor="coverphotos">+</FileLabel>
-                  <FileInput type="file" id="coverphotos" multiple />
-                  <FileLabel htmlFor="coverphotos">+</FileLabel>
-                  <FileInput type="file" id="coverphotos" multiple />
-                  <FileLabel htmlFor="coverphotos">+</FileLabel>
-                  <FileInput type="file" id="photos" multiple />
-                  <FileLabel htmlFor="photos">+</FileLabel>
+                <FileInput
+                  type="file"
+                  id="coverphotos"
+                  multiple
+                  onChange={handleCoverImageChange} 
+                />
+                <FileLabel
+                  htmlFor="coverphotos"
+                  style={{
+                    backgroundImage: coverimagePreview ? `url(${coverimagePreview})` : "none",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                > {!coverimagePreview && "+"}
+                </FileLabel>
               </ImageWrapper>
           </InputWrapper>
         </ColumnWrapper>
 
         <ColumnWrapper>
-        {/* 사용한 프로그램 */}
+        {/* 사진 */}
           <InputWrapper>
               <MainText>사진</MainText>
               <ExText>최대 4장의 사진을 업로드하여 프로젝트를 소개해주세요</ExText>
               <ImageWrapper>
-                  <FileInput type="file" id="photos" multiple />
-                  <FileLabel htmlFor="photos">+</FileLabel>
-                  <FileInput type="file" id="photos" multiple />
-                  <FileLabel htmlFor="photos">+</FileLabel>
-                  <FileInput type="file" id="photos" multiple />
-                  <FileLabel htmlFor="photos">+</FileLabel>
-                  <FileInput type="file" id="photos" multiple />
-                  <FileLabel htmlFor="photos">+</FileLabel>
-                  <FileInput type="file" id="photos" multiple />
-                  <FileLabel htmlFor="photos">+</FileLabel>
-              </ImageWrapper>
+            {photosPreview.map((preview, index) => (
+              <FileLabel
+                key={index}
+                htmlFor={`photos-${index}`}
+                style={{
+                  backgroundImage: preview ? `url(${preview})` : "none",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              >
+                <FileInput type="file" id={`photos-${index}`} onChange={handlePhotosChange(index)} />
+                {!preview && "+"}
+              </FileLabel>
+            ))}
+          </ImageWrapper>
               
               {/* <ChoiceInput type="file"></ChoiceInput> */}
           </InputWrapper>
-          {/* 링크 */}
+          {/* 로고 */}
           <InputWrapper>
               <MainText>로고</MainText>
               <ExText>프로젝트를 나타내는 로고를 업로드해주세요</ExText>
               <ImageWrapper>
-                  <FileInput type="file" id="logo" multiple />
-                  <FileLabel htmlFor="logo">+</FileLabel>
+                <FileInput
+                  type="file"
+                  id="Logo"
+                  multiple
+                  onChange={handleLogoChange} 
+                />
+                <FileLabel
+                  htmlFor="Logo"
+                  style={{
+                    backgroundImage: LogoPreview ? `url(${LogoPreview})` : "none",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                > {!LogoPreview && "+"}
+                </FileLabel>
               </ImageWrapper>
           </InputWrapper>
         </ColumnWrapper>

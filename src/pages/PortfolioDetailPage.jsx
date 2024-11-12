@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
-import { oriPortfolios } from "../components/domain/startProgram";
+import { oriProjects, oriComments } from "../components/domain/startProgram";
 import { getCurrentUser } from "../components/features/currentUser";
+import Comment from "../components/domain/Comment";
+import saveComment from "../components/features/saveComment";
 
 import WritingBox from "../components/commmon/PortfolioDetailPage/WritingBox";
 import CommentList from "../components/commmon/PortfolioDetailPage/CommentList";
@@ -14,27 +16,38 @@ const PortfolioDetailPage = () => {
   const currentUser = getCurrentUser();
 
   useEffect(() => {
-    //포트폴리오 ID 사용해서 포트폴리오 데이터 가져오기
-    const portfolio = oriPortfolios.get(Number(portfolioId));
+    //project ID 사용해서 포트폴리오 데이터 가져오기
+    const portfolio = oriProjects.get(Number(portfolioId));
     setPortfolioData(portfolio);
+    console.log(portfolio);
 
     // 로컬 스토리지에서 댓글 불러오기
-    const savedComments = localStorage.getItem(`comments-${portfolioId}`);
-    if (savedComments) {
-      setComments(JSON.parse(savedComments));
-    }
+    // const savedComments = localStorage.getItem(`comments-${portfolioId}`);
+    // if (savedComments) {
+    //   setComments(JSON.parse(savedComments));
+    // }
+
+    const filteredComments = Array.from(oriComments.values()).filter(
+      (comment) => comment.portfolioId === Number(portfolioId)
+    );
+    setComments(filteredComments);
   }, [portfolioId]);
 
-  const addComment = (newComment) => {
-    setComments((prevComments) => {
-      const updatedComments = [newComment, ...prevComments];
-      // 로컬 스토리지에 댓글 저장
-      localStorage.setItem(
-        `comments-${portfolioId}`,
-        JSON.stringify(updatedComments)
-      );
-      return updatedComments;
-    });
+  const addComment = (newCommentObj) => {
+    const newComment = {
+      commentId: Date.now(),
+      portfolioId: Number(portfolioId),
+      userId: currentUser.id,
+      text: newCommentObj.text,
+      date: new Date().toISOString(),
+    };
+
+    // 클라이언트 측 상태 업데이트
+    //oriComments.set(newComment.commentId, newComment);
+    setComments((prevComments) => [newComment, ...prevComments]);
+
+    // 파일에 댓글 저장
+    saveComment(newComment.portfolioId, newComment.userId, newComment.text);
   };
 
   // const isPortfolioOwner =
@@ -49,8 +62,8 @@ const PortfolioDetailPage = () => {
   return (
     <DetailContainer>
       <TitleSection>
-        <ProjectTitle>{portfolioData.title}</ProjectTitle>
-        <ProjectDescription>{portfolioData.explanation}</ProjectDescription>
+        <ProjectTitle>{portfolioData.projectTitle}</ProjectTitle>
+        <ProjectDescription>{portfolioData.description}</ProjectDescription>
         <InfoButtons>
           <Button>조회수 0</Button>
           <Button>기업 연락 0</Button>
@@ -59,88 +72,99 @@ const PortfolioDetailPage = () => {
       </TitleSection>
 
       <ContentSection>
-        <ProjectLinkField>
-          <Label>프로젝트 링크</Label>
-          <TextBox /> {/*portfolioInfo에 추가해야함 */}
-        </ProjectLinkField>
+        <LinkDevelperSection>
+          <ProjectLinkField>
+            <Project>프로젝트 링크</Project>
+            <ProjectLink>
+              {portfolioData.projectLink
+                ? portfolioData.projectLink
+                : "프로젝트 링크 없음."}
+            </ProjectLink>{" "}
+            {/*portfolioInfo에 추가해야함 */}
+          </ProjectLinkField>
 
-        <DeveloperField>
-          <Label>개발자</Label>
-          <DevContainer>
-            <DevInput>{currentUser.nickname}</DevInput>
-            <DevInput>{currentUser.email}</DevInput>
-          </DevContainer>
-        </DeveloperField>
+          <DeveloperField>
+            <Developer>개발자</Developer>
+            <DevContainer>
+              <DevInfo>{portfolioData.ownerName}</DevInfo>
+              <DevInfo>
+                {portfolioData.ownerEmail
+                  ? portfolioData.ownerEmail
+                  : "이메일 없음."}
+              </DevInfo>
+            </DevContainer>
+          </DeveloperField>
+        </LinkDevelperSection>
 
-        <ParticipationPeriodField>
-          <Label>참여 기간</Label>
-          <TextBox
-            value={portfolioData.participationPeriod || "기간 정보 없음"}
-            readOnly
-          />{" "}
-          {/*portfolioInfo에 추가해야함*/}
-        </ParticipationPeriodField>
+        <OtherInfoSection>
+          {/* <ParticipationPeriodField>
+            <Label>참여 기간</Label>
+            <TextBox>
+              {portfolioData.participationPeriod
+                ? portfolioData.participationPeriod
+                : "기간 정보 없음."}
+            </TextBox>
+          </ParticipationPeriodField> */}
 
-        <ProblemSolvingField>
-          <Label>문제 해결</Label>
-          <TextArea
-            value={portfolioData.problemSolving || "문제 해결 내용 없음"}
-            readOnly
-          />{" "}
-          {/*portfolioInfo에 추가해야함*/}
-        </ProblemSolvingField>
+          <ProblemSolvingField>
+            <Label>해결하는 문제</Label>
+            <TextBox>
+              {portfolioData.solving
+                ? portfolioData.solving
+                : "문제 해결 내용 없음."}
+            </TextBox>
+            {/*portfolioInfo에 추가해야함*/}
+          </ProblemSolvingField>
 
-        <LearnedField>
-          <Label>배운 점</Label>
-          <TextArea
-            value={portfolioData.learned || "배운 점 없음"}
-            readOnly
-          />{" "}
-          {/*portfolioInfo에 추가해야함*/}
-        </LearnedField>
+          <LearnedField>
+            <Label>내가 마주친 도전</Label>
+            <TextBox>
+              {portfolioData.challenge
+                ? portfolioData.challenge
+                : "배운 점 없음."}
+            </TextBox>
+            {/*portfolioInfo에 추가해야함*/}
+          </LearnedField>
 
-        <LanguagesUsedField>
-          <Label>사용한 언어</Label>
-          <TextBox
-            value={
-              portfolioData.languagesUsed &&
-              portfolioData.languagesUsed.length > 0
-                ? portfolioData.languagesUsed.join(", ")
-                : "언어 없음"
-            }
-            readOnly
-          />
-          {/*portfolioInfo에 추가해야함*/}
-        </LanguagesUsedField>
+          <LanguagesUsedField>
+            <Label>사용한 프로그램</Label>
+            <TextBox>
+              {portfolioData.usedLanguage
+                ? portfolioData.usedLanguage
+                : "사용 언어 없음."}
+            </TextBox>
+            {/*portfolioInfo에 추가해야함*/}
+          </LanguagesUsedField>
 
-        <DemoVideoField>
-          <Label>데모 비디오</Label>
-          {portfolioData.demoVideo ? (
-            <VideoBox>
-              <video width="100%" height="100%" controls>
-                <source src={portfolioData.demoVideo} type="video/mp4" />
-                비디오를 지원하지 않는 브라우저입니다.
-              </video>
-            </VideoBox>
-          ) : (
-            <VideoBox>비디오 없음</VideoBox>
-          )}
-        </DemoVideoField>
-
-        <ImagesField>
-          <Label>사진</Label>
-          <ImageContainer>
-            {portfolioData.images && portfolioData.images.length > 0 ? (
-              portfolioData.images.map((image, index) => (
-                <ImageBox key={index}>
-                  <img src={image} alt={`프로젝트 이미지 ${index + 1}`} />
-                </ImageBox>
-              ))
+          <DemoVideoField>
+            <Label>데모 비디오</Label>
+            {portfolioData.video ? (
+              <VideoBox>
+                <video width="100%" height="100%" controls>
+                  <source src={portfolioData.video} type="video/mp4" />
+                  비디오를 지원하지 않는 브라우저입니다.
+                </video>
+              </VideoBox>
             ) : (
-              <ImageBox>사진 없음</ImageBox>
+              <VideoBox>비디오 없음</VideoBox>
             )}
-          </ImageContainer>
-        </ImagesField>
+          </DemoVideoField>
+
+          <ImagesField>
+            <Label>사진</Label>
+            <ImageContainer>
+              {portfolioData.images && portfolioData.images.length > 0 ? (
+                portfolioData.images.map((image, index) => (
+                  <ImageBox key={index}>
+                    <img src={image} alt={`프로젝트 이미지 ${index + 1}`} />
+                  </ImageBox>
+                ))
+              ) : (
+                <ImageBox>사진 없음</ImageBox>
+              )}
+            </ImageContainer>
+          </ImagesField>
+        </OtherInfoSection>
       </ContentSection>
 
       <CommentsSection>
@@ -178,6 +202,7 @@ const TitleSection = styled.div`
 
 const ProjectTitle = styled.h1`
   font-weight: bold;
+  font-family: "OTF B";
 `;
 
 const ProjectDescription = styled.p``;
@@ -194,40 +219,65 @@ const Button = styled.button`
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  font-family: "OTF B";
 `;
 
 const ContentSection = styled.div`
   display: grid;
   grid-template-columns: 1fr 3fr;
-  gap: 1vw;
+  gap: 2vw;
   margin-bottom: 15vh;
 
-  grid-template-areas:
-    "projectLink participationPeriod"
-    "developer   problemSolving"
-    "    .       learned"
-    "    .       languagesUsed"
-    "    .       demoVideo"
-    "    .       images";
+  // grid-template-areas:
+  //   "projectLink participationPeriod"
+  //   "developer   problemSolving"
+  //   "    .       learned"
+  //   "    .       languagesUsed"
+  //   "    .       demoVideo"
+  //   "    .       images";
+`;
+
+const LinkDevelperSection = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const OtherInfoSection = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const Field = styled.div`
   display: flex;
   flex-direction: column;
+
+  margin-bottom: 3vh;
 `;
 
 const Label = styled.label`
-  font-weight: bold;
-  font-size: 1.2vw;
+  font-weight: bolder;
+  font-size: 1.6vw;
   margin-bottom: 8px;
 `;
 
-const ProjectLinkField = styled(Field)`
-  grid-area: projectLink;
+const ProjectLinkField = styled.div`
+  margin-bottom: 4vh;
+
+  border: 0.1vw solid #d0d1d9;
+  border-radius: 0.3125em;
+  box-shadow: 0em 0.25em 0.25em rgba(0, 0, 0, 0.25);
+
+  display: flex;
+  flex-direction: column;
 `;
 
-const DeveloperField = styled(Field)`
-  grid-area: developer;
+const DeveloperField = styled.div`
+  border: 0.1vw solid #d0d1d9;
+  border-radius: 0.3125em;
+  box-shadow: 0em 0.25em 0.25em rgba(0, 0, 0, 0.25);
+
+  display: flex;
+  flex-direction: column;
 `;
 
 const ParticipationPeriodField = styled(Field)`
@@ -255,8 +305,8 @@ const ImagesField = styled(Field)`
 `;
 
 const TextBox = styled.div`
-  background-color: #f0f0f0;
-  padding: 10px;
+  background-color: white;
+  padding: 0.4vw;
   border: 1px solid #ccc;
   border-radius: 4px;
 `;
@@ -269,17 +319,39 @@ const TextArea = styled.textarea`
   height: 100px;
 `;
 
-const DevContainer = styled.div`
-  display: flex;
-  gap: 10px;
+const Project = styled.div`
+  margin: 0.8vw;
+
+  //font-family: "OTF B";
+  font-weight: bold;
+  font-size: 1.2vw;
 `;
 
-const DevInput = styled.div`
+const ProjectLink = styled.div`
   background-color: #f0f0f0;
-  padding: 10px;
+  margin: 0.8vw;
+  padding: 0.4vw;
   border: 1px solid #ccc;
   border-radius: 4px;
-  width: 100%;
+  width: 80%;
+`;
+
+const Developer = styled.div`
+  margin: 0.8vw;
+
+  //font-family: "OTF B";
+  font-weight: bold;
+  font-size: 1.2vw;
+`;
+const DevContainer = styled.div``;
+
+const DevInfo = styled.div`
+  background-color: #f0f0f0;
+  margin: 0.8vw;
+  padding: 0.4vw;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 80%;
 `;
 
 const VideoBox = styled.div`
@@ -314,6 +386,7 @@ const CommentsSection = styled.div`
 
 const CommentsTitle = styled.h2`
   font-weight: bold;
+  font-family: "OTF B";
   //margin-bottom: 20px;
 `;
 
@@ -336,9 +409,9 @@ const CommentButton = styled.button`
   margin-top: 5px;
 `;
 
-const Comment = styled.div`
-  margin-top: 20px;
-`;
+// const Comment = styled.div`
+//   margin-top: 20px;
+// `;
 
 const CommentHeader = styled.div`
   display: flex;

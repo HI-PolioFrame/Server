@@ -1,13 +1,5 @@
-
-
-
-
 // 정상작동하는지 확인되지 않음
 // 프론트와 연결 후 확인 필요
-
-
-
-
 
 
 import { oriUsers, oriRecruiters } from "../domain/startProgram";
@@ -19,7 +11,7 @@ let emailCheck = false;
 let phoneNumCheck = false;
 let companyCheck = false;
 
-const idSignUpRecruiter = (name, birthday, id, password, rePassword, phoneNumber) => {
+export const idSignUpRecruiter = (name, birthday, id, password, rePassword, phoneNumber) => {
     if (name === null || birthday === null || phoneNumber.length === 0){
         alert('모든 항목을 입력하세요.');
     }
@@ -54,7 +46,7 @@ const idSignUpRecruiter = (name, birthday, id, password, rePassword, phoneNumber
     appendStringToFile(filePath, `,${string}\n];`);
 }
 
-const emailSignUpRecruiter = (name, birthday, email, password, rePassword, phoneNumber) => {
+export const emailSignUpRecruiter = (name, birthday, email, password, rePassword, phoneNumber) => {
     if (name === null || birthday === null || phoneNumber.length === 0){
         alert('모든 항목을 입력하세요.');
     }
@@ -96,7 +88,7 @@ const emailSignUpRecruiter = (name, birthday, email, password, rePassword, phone
 }
 
 //현혜찡 코드
-const setId = (id) => {
+export const setId = (id) => {
    
     idCheck = false;
 
@@ -117,20 +109,35 @@ const setId = (id) => {
     return idCheck;
 };
 
-const setEmail = (email) => {
-    // 유저 DB에 이미 해당 이메일이 존재하면 true 반환, 없으면 false
-    oriUsers.forEach((value, key) => {
+// const setEmail = (email) => {
+//     // 유저 DB에 이미 해당 이메일이 존재하면 true 반환, 없으면 false
+//     oriUsers.forEach((value, key) => {
+//         if (value.email === email) {
+//             alert('이미 계정이 존재합니다.');
+//             return;
+//         }
+//     });
+
+//     // 임의처리한다.
+//     emailCheck = true;
+// }
+export const setEmail = (email) => {
+    // 이메일 형식 확인
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        alert('유효한 이메일 형식이 아닙니다.');
+        return false;
+    }
+    for (const [key, value] of oriUsers.entries()) {
         if (value.email === email) {
             alert('이미 계정이 존재합니다.');
-            return;
+            return false;
         }
-    });
+    }
+    return true;
+};
 
-    // 임의처리한다.
-    emailCheck = true;
-}
-
-const setPhoneNumber = (phoneNumber) => {
+export const setPhoneNumber = (phoneNumber) => {
     let isDuplicate = false; 
 
     // 유저 DB에 이미 해당 핸드폰 번호가 존재하면 true 반환, 없으면 false
@@ -158,7 +165,7 @@ const setPhoneNumber = (phoneNumber) => {
 
 
 
-const isIdExists = (id) => {
+export const isIdExists = (id) => {
     oriUsers.forEach((value, key) => {
         if (key === id) {
             return true;
@@ -169,19 +176,19 @@ const isIdExists = (id) => {
 
 // 회사인증
 // 임의로 처리한다.
-const setCompany = () => {
+export const setCompany = () => {
 
     companyCheck = true;
 }
 
 // 아이디나 이메일, 전화번호 중복 체크 후에 입력값이 변하면 다시 체크해야 하므로
-const changedId = () => idCheck = false;  
-const changedEmail = () => emailCheck = false;
-const changedPhoneNumber = () => phoneNumCheck = false;
-const changedCompany = () => companyCheck = false;
+export const changedId = () => idCheck = false;  
+export const changedEmail = () => emailCheck = false;
+export const changedPhoneNumber = () => phoneNumCheck = false;
+export const changedCompany = () => companyCheck = false;
 
 // 중복 체크가 되어 있지 않으면 실행지 않는다
-const isIdChecked = () => {
+export const isIdChecked = () => {
     if (idCheck === false) {
         alert('아이디 중복 체크를 해야합니다.');
         return 0
@@ -189,7 +196,7 @@ const isIdChecked = () => {
     return 1;
 }
 
-const isEmailChecked = () => {
+export const isEmailChecked = () => {
     if (emailCheck === false) {
         alert('이메일 중복 체크를 해야 합니다.');
         return 0;
@@ -197,7 +204,7 @@ const isEmailChecked = () => {
     return 1;
 }
 
-const isPhoneNumberChecked = () => {
+export const isPhoneNumberChecked = () => {
     if (phoneNumCheck === false) {
         alert('전화번호 중복 체크를 해야 합니다.');
         return 0;
@@ -205,7 +212,7 @@ const isPhoneNumberChecked = () => {
     return 1;
 }
 
-const isCompanyChecked = () => {
+export const isCompanyChecked = () => {
     if (companyCheck === false) {
         alert('회사 인증을 해야 합니다.');
         return 0;
@@ -213,7 +220,7 @@ const isCompanyChecked = () => {
     return 1;
 }
 
-const isPassword = (password, rePassword) => {
+export const isPassword = (password, rePassword) => {
     // 비밀번호와 비밀번호 확인란이 동일한가
     if (password !== rePassword) {
         alert('비밀번호와 재입력한 비밀번호가 일치하지 않습니다');
@@ -231,7 +238,7 @@ const isPassword = (password, rePassword) => {
     return 1;
 }
 
-const generateRandomString = (length) => {
+export const generateRandomString = (length) => {
     const characters = 'abcdefghijklmnopqrstuvwxyz0123456789_.';
     let result = '';
 
@@ -243,7 +250,7 @@ const generateRandomString = (length) => {
     return result;
 }
 
-const getRandomId = () => {
+export const getRandomId = () => {
     // 길이를 6에서 20 사이로 랜덤하게 설정
     const length = Math.floor(Math.random() * (20 - 6 + 1)) + 6;
     return generateRandomString(length);
@@ -260,4 +267,4 @@ const getRandomId = () => {
 // 아이디 변경됐을 때: changedId
 // 전화번호 변경됐을 때: changedPhoneNumber
 // 회사 변경됐을 때: changedCompany
-export { idSignUpRecruiter, emailSignUpRecruiter, setId, setEmail, setPhoneNumber, setCompany, changedId, changedEmail, changedPhoneNumber, changedCompany };
+// export { idSignUpRecruiter, emailSignUpRecruiter, setId, setEmail, setPhoneNumber, setCompany, changedId, changedEmail, changedPhoneNumber, changedCompany };
