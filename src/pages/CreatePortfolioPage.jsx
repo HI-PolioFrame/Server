@@ -1,22 +1,87 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Logo from "../assets/icons/Logo.png";
 import CreatePortfolioInput from "../components/CreatePortfolioPage/CreatePortfolioInput";
 import CreatePortfolioTemplate from "../components/CreatePortfolioPage/CreatePortfolioTemplate";
+import saveProject from "../components/features/saveProject";
+import { getCurrentUser } from "../components/features/currentUser";
 
 const CreatePortfolioPage = () => {
-    return(
-    <>
-    <HeaderWrapper>
-      <LogoImage src={Logo} alt="로고" />
-      <PageHeaderTitle>Portfolio</PageHeaderTitle>
-    </HeaderWrapper>
-    
-    <CreatePortfolioInput/>
-    <CreatePortfolioTemplate/>
+  const [formData, setFormData] = useState({
+    projectOwnerName: "", // 포폴 만든 사람 이름
+    projectOwnerNickname: "",
+    projectOwnerEmail: "", // 포폴 만든 사람 이메일
+    projectTemplate: null, //포폴 템플릿
+    projectTitle: "", //포폴 이름
+    description: "", //포폴 설명
+    startDate: null,
+    endDate: null,
+    solving: "",
+    challenge: "",
+    share: false, // 공유 여부
+    usedLanguage: "",
+    category: "",
+    video: null,
+    coverImage: null,
+    images: [],
+    logo: null,
+  });
 
-    </>
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(() => {
+    const user = getCurrentUser();
+    if (user) {
+      setCurrentUser(user);
+      console.log(currentUser);
+    } else {
+      console.log("user 없음");
+    }
+  }, []);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSaveProject = () => {
+    saveProject(
+      currentUser.name, // 사용자 이름
+      currentUser.nickname, // 사용자 닉네임
+      currentUser.email, // 사용자 이메일
+      null, // projectTemplate
+      formData.projectTitle,
+      formData.description,
+      formData.startDate,
+      formData.endDate,
+      formData.solving,
+      formData.challenge,
+      formData.share,
+      formData.usedLanguage,
+      null, // 카테고리 입력에 따라 수정 필요
+      formData.video,
+      formData.coverImage,
+      formData.images,
+      formData.logo
     );
+  };
+  return (
+    <>
+      <HeaderWrapper>
+        <LogoImage src={Logo} alt="로고" />
+        <PageHeaderTitle>Portfolio</PageHeaderTitle>
+      </HeaderWrapper>
+
+      <ContentWrapper>
+        <CreatePortfolioInput onInputChange={handleInputChange} />
+        <CreatePortfolioTemplate />
+        <CreateButton onClick={handleSaveProject}>제작하기</CreateButton>
+      </ContentWrapper>
+    </>
+  );
 };
 
 export default CreatePortfolioPage;
@@ -27,79 +92,17 @@ const HeaderWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap : 1.5em;
-  margin-bottom : 5em;
+  gap: 1.5em;
+  margin-bottom: 5em;
 `;
-const VitalWrapper = styled.div`
-  width: 80%;
-  padding: 40px 40px;
-  margin: 0 auto;
-
-  border : 1.5px solid #d0d1d9;
-  border-radius : 2em;
-  height : 28em;
-  
+const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
+  justify-content: center;
+  min-height: 80vh;
 `;
 
-const ChoiceWrapper = styled.div`
-  width: 80%;
-  padding: 40px 40px;
-  margin: 2em auto;
-
-  border : 1.5px solid #d0d1d9;
-  border-radius : 2em;
-  height : 28em;
-  
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-`;
-
-const InputWrapper = styled.div`
-    display : flex;
-    flex-direction : column;
-    // gap : 0.8m;
-`;
-const ColumnWrapper = styled.div`
-  display: flex;
-  gap: 10em;
-  // justify-content: space-between;
-  width: 100%;
-`;
-const ImageWrapper = styled.div`
-  display: flex;
-  gap: 1em;
-  justify-content: space-between;
-  width: 100%;
-`;
-//css input
-const VitalInput = styled.input`
-  border: 1px solid #d0d1d9;
-  border-radius: 2em;
-  outline: none;
-  height: 2em;
-  width: 35em; 
-  text-indent: 1em;
-  &::placeholder {
-    text-indent: 1em;
-  }
-`;
-const ChoiceInput = styled.input`
-  border: 1px solid #d0d1d9;
-  border-radius: 2em;
-  outline: none;
-  height: 2em;
-  width: 35em; 
-  text-indent: 1em;
-  &::placeholder {
-    text-indent: 1em;
-  }
-`;
 //css Image
 const LogoImage = styled.img`
   widht: 5em;
@@ -107,30 +110,7 @@ const LogoImage = styled.img`
   margin-bottom: -2em;
 `;
 
-
 //css Text
-const VitalText = styled.p`
-  color: black;
-  font-size: 1.5em;
-  font-weight: 800;
-  font-family: "OTF B";
-
-`;
-const ExText = styled.p`
-  color: black;
-  font-size: 0.8em;
-  font-weight: 800;
-  font-family: "OTF R";
-`;
-
-const MainText = styled.p`
-    font-size : 1.5em;
-    font-weight : 800;
-    color : #0A27A6;
-    margin-bottom : -0.2em;
-    // display : flex;
-    font-family: "OTF B";
-`;
 const PageHeaderTitle = styled.div`
   color: #0a27a6;
   font-size: 2em;
@@ -143,31 +123,23 @@ const PageHeaderTitle = styled.div`
     margin-bottom: 1em;
   }
 `;
-const FileInput = styled.input`
-  position: absolute;
-  // width: 1em;
-  // height: 1em;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip:rect(0,0,0,0);
-  border: 0;
-`;
+//css button
+const CreateButton = styled.button`
+  color: #fff;
+  font-size: 1em;
+  font-weight: 800;
+  border-radius: 2em;
+  border: none;
+  background-color: #0a27a6;
+  height: 3em;
+  width: 20%;
+  margin-top: 2em;
+  font-family: "OTF R";
 
-const FileLabel = styled.label`
-  display: inline-block;
-  width: 5em;  
-  height: 5em;
-  color: #d0d1d9;
-  font-size: inherit;
-  line-height: normal;
-  vertical-align: middle;
-  background-color: #fdfdfd;
   cursor: pointer;
-  border: 1px solid #d0d1d9;
-  border-radius: 1em;  
-  text-align: center;
+
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 `;

@@ -172,6 +172,7 @@ const SelectButton = styled.button`
   padding: 0.625em 0em;
 
   font-size: 0.85vw;
+  font-family: "OTF B";
   color: #d0d1d9;
   cursor: pointer;
   text-align: center;
@@ -240,4 +241,5 @@ const SelectItem = styled.div`
 
 const StyledButtonContainer = styled.div`
   width: 100%;
+
 `;

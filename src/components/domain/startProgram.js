@@ -11,10 +11,14 @@
 import User from "./User.js";
 import Portfolio from "./Portfolio.js";
 import Project from "./Project.js";
-// import { templateInfo } from "../commmon/dummydata/templateInfo"; // 저장된 모든 템플릿 정보
+import Template from "./Template.js";
+import Comment from "./Comment.js";
+
+import { templateInfo } from "../commmon/dummydata/templateInfo"; // 저장된 모든 템플릿 정보
 import { portfolioInfo } from "../commmon/dummydata/portfolioInfo.jsx"; // 저장된 모든 포트폴리오 정보
 import { projectInfo } from "../commmon/dummydata/projectInfo.jsx";
 import { userInfo } from "../commmon/dummydata/userInfo.jsx"; // 저장된 모든 유저 정보
+import { commentInfo } from "../commmon/dummydata/commentInfo.jsx"; //저장된 혹은 저장할 모든 댓글 정보
 
 import SearchSortManager from "../features/SearchSortManager.jsx";
 
@@ -22,6 +26,8 @@ export const oriUsers = new Map();
 export const oriRecruiters = new Map();
 export const oriPortfolios = new Map();
 export const oriProjects = new Map();
+export const oriTemplates = new Map();
+export const oriComments = new Map();
 
 // 유저에게 공유되는 템플릿들
 /* let oriTemplates = new Map();
@@ -52,10 +58,15 @@ export const initializeData = () => {
     }
   });
 
+  for (const [key, user] of oriUsers){
+    console.log(`아이디 ${key}`);  
+  }
+
   portfolioInfo.forEach((data) => {
     let portfolio = new Portfolio(
       data.portfolioId,
       data.owner,
+      data.email,
       data.setTemplate,
       data.title,
       data.explanation,
@@ -70,14 +81,51 @@ export const initializeData = () => {
 
   projectInfo.forEach((data) => {
     let project = new Project(
+      data.ownerName,
+      data.ownerNickname,
+      data.ownerEmail,
+      data.usedTemplate,
       data.projectId,
-      null,
-      null,
-      null,
-      null,
-      data.stack
+      data.projectTitle,
+      data.description,
+      data.startDate,
+      data.endDate,
+      data.category,
+      data.usedLanguage,
+      data.projectLink,
+      data.solving,
+      data.challenge,
+      data.video,
+      data.coverImage,
+      data.images,
+      data.logo,
+      data.share
     );
     oriProjects.set(data.projectId, project);
+  });
+
+  //댓글 불러오기.
+  commentInfo.forEach((data) => {
+    let comment = new Comment(
+      data.commentId,
+      data.portfolioId,
+      data.userId,
+      data.text,
+      data.date
+    );
+    oriComments.set(data.commentId, comment);
+  });
+
+  templateInfo.forEach((data) => {
+    let template = new Template(
+      data.templateId,
+      data.templateName,
+      data.templateOwner,
+      data.description,
+      data.picture,
+      data.file
+    );
+    oriTemplates.set(data.templateId, template);
   });
   /* oriUsers.forEach((value, key) => {
         console.log(value.id);
@@ -93,4 +141,8 @@ export const initializeData = () => {
     console.log("저장된 프젝 아이디 확인 출력 끝"); */
 };
 
-export const searchSortManager = new SearchSortManager(oriPortfolios, oriUsers, oriProjects);
+export const searchSortManager = new SearchSortManager(
+  oriPortfolios,
+  oriUsers,
+  oriProjects
+);

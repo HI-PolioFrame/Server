@@ -7,21 +7,23 @@ import StyledButton from "../components/commmon/StyledButton";
 import { dummydata } from "../components/commmon/dummydata/dummydata"; // dummydata 파일을 import합니다.
 import { Navigate, useNavigate } from "react-router-dom";
 import {
-  oriPortfolios,
+  oriProjects,
   searchSortManager,
 } from "../components/domain/startProgram";
 import { getCurrentUser } from "../components/features/currentUser";
 
 function MyPage() {
-  const [myPortfolioList, setMyPortfolioList] = useState([]); // 상태로 관리되는 포트폴리오 리스트
+  const [myPortfolioList, setmyPortfolioList] = useState([]); // 상태로 관리되는 포트폴리오 리스트
 
   useEffect(() => {
     const currentUser = getCurrentUser();
     if (currentUser) {
-      const userPortfolios = Array.from(oriPortfolios.values()).filter(
-        (portfolio) => portfolio.owner === currentUser.pageId
+      console.log(currentUser);
+      const userPortfolios = Array.from(oriProjects.values()).filter(
+        (portfolio) => portfolio.ownerEmail === currentUser.email
       );
-      setMyPortfolioList(userPortfolios);
+      console.log(userPortfolios);
+      setmyPortfolioList(userPortfolios);
     }
   }, []);
 
@@ -39,7 +41,7 @@ function MyPage() {
   // 검색어로 검색 시 호출되는 함수
   const handleSearchApply = (searchTerm) => {
     const searchedLinkedList = searchSortManager.search(searchTerm);
-    setMyPortfolioList(linkedListToArray(searchedLinkedList)); // 배열로 변환하여 상태 업데이트
+    setmyPortfolioList(linkedListToArray(searchedLinkedList)); // 배열로 변환하여 상태 업데이트
   };
 
   // 정렬/필터 적용 시 호출되는 함수
@@ -49,7 +51,7 @@ function MyPage() {
       sortOption,
       filterOption
     );
-    seMytPortfolioList(linkedListToArray(sortedLinkedList));
+    setmyPortfolioList(linkedListToArray(sortedLinkedList));
   };
 
   return (
@@ -72,13 +74,13 @@ function MyPage() {
             {myPortfolioList.length > 0 ? (
               myPortfolioList.map((portfolio) => (
                 <TemplateCard
-                  key={portfolio.portfolioId}
-                  portfolioId={portfolio.portfolioId}
+                  key={portfolio.projectId}
+                  portfolioId={portfolio.projectId}
                   templateButton={"보기"}
                 />
               ))
             ) : (
-              <p>프로젝트가 없습니다.</p>
+              <Text>프로젝트가 없습니다.</Text>
             )}
           </TemplateGrid>
         </TemplateGridWrapper>
@@ -147,7 +149,9 @@ function MyPage() {
             ))} */}
             {/* 기능 구현이 어려움으로 일단 이렇게 해둠. */}
           </TemplateGrid>
-          <Text>비어있음.</Text>
+          <Text>비어있음</Text>
+
+          {/* <Empty>비어있음.</Empty> */}
         </TemplateGridWrapper>
 
         <Line></Line>
@@ -177,7 +181,8 @@ const MyContainer = styled.div`
 const MyTitle = styled.div`
   height: 2.625em;
   top: 11.375em;
-  font-family: "Inria Sans", sans-serif;
+  font-family: "OTF B";
+
   font-style: normal;
   font-weight: 700;
   font-size: 1.875em;
@@ -201,16 +206,15 @@ const MyTemplateMenuWrapper = styled.div`
 `;
 
 const TemplateGridWrapper = styled.div`
-  display: flex;
-  //justify-content: center;
-  align-items: center;
+  //display: flex;
+  //justify-content: flex-start;
+  //align-items: center;
 `;
 
 const TemplateGrid = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  margin-top: 2em;
-  max-width: 80em;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1vw;
 `;
 
 const Line = styled.hr`
@@ -227,5 +231,9 @@ const StyledButtonWrapper = styled.div`
 const Text = styled.div`
   display: flex;
   justify-content: center;
-  font-size: 1vw;
+  font-size: 1.5vw;
+  font-family: "OTF R";
+  align-items: center;
+  width: 100%;
+  height: 100%;
 `;

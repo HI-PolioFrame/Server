@@ -72,10 +72,11 @@ export class LinkedList {
 
     // 연결 리스트를 거꾸로 뒤집는 메서드
     reverse(){
-        prevNode = null;
+        let prevNode = null;
         let currentNode = this.head;
+        let nextNode = null;
         while (currentNode){
-            nextNode = currentNode.next;
+            let nextNode = currentNode.next;
             currentNode.next = prevNode;
             prevNode = currentNode;
             currentNode = nextNode;
