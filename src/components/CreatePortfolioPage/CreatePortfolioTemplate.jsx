@@ -4,10 +4,13 @@ import SearchBar from "../commmon/SearchBar.jsx";
 import CreatePortfolioSlide from "./CreatePortfolioSlide.jsx";
 const CreatePortfolioTemplate = () => {
     return(
+        <>
         <MainWrapper>
             <SearchBar/>
             <CreatePortfolioSlide/>
         </MainWrapper>
+        </>
+       
     );
 };
 
@@ -16,7 +19,7 @@ export default CreatePortfolioTemplate;
 const MainWrapper = styled.div`
   width: 80%;
   padding: 40px 40px;
-  margin: 0 auto;
+  margin: 0;
 
   border : 1.5px solid #d0d1d9;
   border-radius : 2em;

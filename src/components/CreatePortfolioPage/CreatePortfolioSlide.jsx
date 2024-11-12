@@ -16,7 +16,7 @@ const CreatePortfolioSlide = ({  }) => {
 
     return (
       <StyledSwiper
-        spaceBetween={30}
+        spaceBetween={100}
         slidesPerView={3}  
         modules={[ A11y, Scrollbar]}
         loop={postIds.length > 3} 
@@ -55,14 +55,14 @@ const StyledSwiper = styled(Swiper)`
   height: 35em;
   width: 100%;
   max-width: 85%;
-  padding: 20px 1em;
+  padding: 20px 0em;
   margin: 0 auto;
   position: relative;
 
   .swiper-pagination-bullet {
     background-color: #0a27a6;
   }
-
+ 
   .swiper-scrollbar {
     position: absolute;
     bottom: 0px; 
@@ -82,8 +82,7 @@ const StyledSwiper = styled(Swiper)`
 
 const CardGroup = styled.div`
   display: flex;
-  // gap: 2em;  
-//  justify-content: flex-start;  
+  margin-left : -2em;
 `;
 
 const Card = styled.div`
@@ -93,7 +92,7 @@ const Card = styled.div`
   margin: 20px 0;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
   height: 20em; 
-  
+
   &::before {
     content: '';
     position: absolute;
