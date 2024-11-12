@@ -57,13 +57,13 @@ const CalendarInput = () => {
                 )}
                 <PeriodWrapper1>
                     <PeriodWrapper2>
-                    <Text>시작</Text>
-                    <Period>{recruitmentStartDate ? formatDate(recruitmentStartDate) : '--'}</Period>
-                </PeriodWrapper2>
-                <PeriodWrapper2>
-                    <Text>끝</Text>
-                    <Period>{recruitmentEndDate ? formatDate(recruitmentEndDate) : '--'}</Period>
-                </PeriodWrapper2>
+                        <Text>시작</Text>
+                        <Period>{recruitmentStartDate ? formatDate(recruitmentStartDate) : '--'}</Period>
+                    </PeriodWrapper2>
+                    <PeriodWrapper2>
+                        <Text>끝</Text>
+                        <Period>{recruitmentEndDate ? formatDate(recruitmentEndDate) : '--'}</Period>
+                    </PeriodWrapper2>
                 </PeriodWrapper1>
                 
                  
@@ -152,12 +152,13 @@ const PeriodWrapper1 = styled.div`
     flex-direction : column;
     gap : 1em;
     margin-bottom : 3em;
-
+    margin-left : 1.5em;
 `;
 const PeriodWrapper2 = styled.div`
     display: flex;
     align-items: center;
     flex-direction : row;
+    gap : 0.2em;
 
 `;
 

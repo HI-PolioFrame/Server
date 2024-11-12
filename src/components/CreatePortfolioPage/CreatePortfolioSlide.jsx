@@ -55,7 +55,7 @@ const StyledSwiper = styled(Swiper)`
   height: 35em;
   width: 100%;
   max-width: 85%;
-  padding: 20px 0;
+  padding: 20px 1em;
   margin: 0 auto;
   position: relative;
 
@@ -82,7 +82,7 @@ const StyledSwiper = styled(Swiper)`
 
 const CardGroup = styled.div`
   display: flex;
-  gap: 1em;  
+  // gap: 2em;  
 //  justify-content: flex-start;  
 `;
 
@@ -93,7 +93,7 @@ const Card = styled.div`
   margin: 20px 0;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
   height: 20em; 
-
+  
   &::before {
     content: '';
     position: absolute;

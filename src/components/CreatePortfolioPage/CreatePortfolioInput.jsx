@@ -9,6 +9,7 @@ const CreatePortfolioInput = () => {
   const [coverimagePreview, setCoverImagePreview] = useState(null);
   const [LogoPreview, setLogoPreview] = useState(null);
   const [photosPreview, setPhotosPreview] = useState([null, null, null, null, null]);
+  const [isOn, setIsOn] = useState(true);
 
   const handleCoverImageChange = (e) => {
     const file = e.target.files[0];
@@ -32,7 +33,20 @@ const CreatePortfolioInput = () => {
       setPhotosPreview(newPhotosPreview);
     }
   };
-  
+  //토글 기능
+  const handleToggle = () => {
+    setIsOn(!isOn);
+    // dispatch(setPrivate(isOn));
+  };
+  const onToggle = () => {
+      setIsOn(true);
+      // dispatch(setPrivate(true));
+  };
+  const offToggle = () => {
+      setIsOn(false);
+      // dispatch(setPrivate(false));
+  };
+
   return(
     <>
      {/* 필수항목 */}
@@ -75,24 +89,41 @@ const CreatePortfolioInput = () => {
               <ExText>무엇에 사용할 수 있는지, 그것이 어떻게 기존 작업을 더 쉽고 안전하게 만드는지 등을 설명합니다</ExText>
               <VitalInput2></VitalInput2>
           </InputWrapper>
+          <InputWrapper>
+              <MainText>내가 마주친 도전</MainText>
+              <ExText>이 프로젝트를 구축하는 동안 발생한 특정 버그,장애물에 대해 알려주세요. 어떻게 극복하셨나요? </ExText>
+              <VitalInput2></VitalInput2>
+          </InputWrapper>
+        </ColumnWrapper>
+
+        <ColumnWrapper3>
           {/* 참여기간 */}
           <InputWrapper>
               <MainText>참여기간</MainText>
               <ExText>이 프로젝트에 참여한 기간을 선택해주세요. </ExText>
               <CalendarInput/>
           </InputWrapper>
-        </ColumnWrapper>
-
-
-    </VitalWrapper>
-    <ChallengesWrapper>
-          {/* Challenges I ran into -> 내가 마주친 도전 ex 트러블 슈팅 */}
+          {/* 공유 여부 */}
           <InputWrapper>
-              <MainText>내가 마주친 도전</MainText>
-              <ExText>이 프로젝트를 구축하는 동안 발생한 특정 버그,장애물에 대해 알려주세요. 어떻게 극복하셨나요? </ExText>
-              <VitalInput2></VitalInput2>
+              <MainText>공유</MainText>
+              <ExText>이 프로젝트에 대한 정보를 공유할 것인지 선택해주세요. 
+                <br></br>만일 공유하게 된다면 포트폴리오 열람 페이지에서 확인할 수 있습니다.
+              </ExText>
+              <ToggleWrapper>
+                <OnToggleText onClick={onToggle} isOn={isOn}>
+                    공개
+                </OnToggleText>
+                <ToggleBox onClick={handleToggle}>
+                    <Toggle isOn={isOn}></Toggle>
+                </ToggleBox>
+                <OffToggleText onClick={offToggle} isOn={isOn}>
+                    비공개
+                </OffToggleText>
+            </ToggleWrapper>
           </InputWrapper>
-    </ChallengesWrapper>
+        </ColumnWrapper3>
+    </VitalWrapper>
+
     {/* 선택항목 */}
     <ChoiceWrapper> 
       <VitalText>선택 항목</VitalText>
@@ -191,7 +222,7 @@ const VitalWrapper = styled.div`
 
   border : 1.5px solid #d0d1d9;
   border-radius : 2em;
-  height : 43em;
+  height : 53em;
   
   display: flex;
   flex-direction: column;
@@ -217,17 +248,24 @@ const ChoiceWrapper = styled.div`
 const InputWrapper = styled.div`
     display : flex;
     flex-direction : column;
-
+    
 `;
 const ColumnWrapper = styled.div`
   display: flex;
   gap: 5%;
   justify-content: space-between;
   width: 100%;
+
 `;
 const ColumnWrapper2 = styled.div`
   display: flex;
   gap: 20%;
+  // justify-content: space-between;
+  width: 100%;
+`;
+const ColumnWrapper3 = styled.div`
+  display: flex;
+  gap: 1%;
   // justify-content: space-between;
   width: 100%;
 `;
@@ -238,18 +276,7 @@ const ImageWrapper = styled.div`
   width: 100%;
 `;
 
-const ChallengesWrapper = styled.div`
-  z-index : 1;
-  display: flex;
-  flex-direction: column;
-  width: 50%;
-  // padding: 20px 0;
-  margin-top: -17em;
-  gap: 1em; // 내부 
-  padding: 40px 40px;
-  // margin: 0 auto;
-  margin-left : -30%;
-`;
+
 //css input
 const VitalInput = styled.input`
   border: 1px solid #d0d1d9;
@@ -335,4 +362,51 @@ const FileLabel = styled.label`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+
+//토글
+
+const ToggleWrapper = styled.div`
+    margin-top: 2em;
+    display: flex;
+    align-items: center;
+`;
+
+const OnToggleText = styled.div`
+    color: ${(props) => (props.isOn ? '#0A27A6' : '#A2A3B2')};
+    font-size: 0.9em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+`;
+
+const OffToggleText = styled.div`
+    color: ${(props) => (props.isOn ? '#A2A3B2' : '#0A27A6')};
+    font-size: 0.9em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+`;
+
+const ToggleBox = styled.div`
+    margin: 0 0.8em;
+    border: 1.5px solid #0A27A6;;
+    border-radius: 10px;
+    width: 3.5em;
+    height: 1.4375em;
+    display: flex;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+`;
+
+const Toggle = styled.div`
+    border-radius: 30px;
+    width: 1em;
+    height: 1em;
+    background-color: #0A27A6;;
+    position: absolute;
+    left: ${(props) => (props.isOn ? '0.2em' : '2.2em')};
+    transition: all 0.3s ease-out;
 `;
