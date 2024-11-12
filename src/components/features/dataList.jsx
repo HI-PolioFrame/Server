@@ -1,5 +1,5 @@
 import Trie from "../DataStructure/Trie.jsx";
-import { oriPortfolios } from "../domain/startProgram.js";
+import { oriProjects } from "../domain/startProgram.js";
 
 export const dataList = (input) => {
   if (!input) {
@@ -9,8 +9,8 @@ export const dataList = (input) => {
 
   let trie = new Trie();
 
-  for (let key of oriPortfolios.keys()) {
-    trie.insert(oriPortfolios.get(key).title);
+  for (let key of oriProjects.keys()) {
+    trie.insert(oriProjects.get(key).projectTitle);
   }
 
   return new Set(trie.autoComplete(input));
