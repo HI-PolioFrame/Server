@@ -3,7 +3,7 @@ import Comment from "../domain/Comment.js";
 import { removeFromFileEnd, appendStringToFile } from "../features/fileIO.jsx";
 
 const saveComment = (portfolioId, userId, text) => {
-  if (!text || !portfolioId || !userId) {
+  if (!text || !userId) {
     console.log("필수 정보가 누락됨");
     return;
   }
@@ -21,6 +21,7 @@ const saveComment = (portfolioId, userId, text) => {
     new Date().toString()
   );
   oriComments.set(commentId, newComment);
+  console.log(newComment);
 
   // 파일에 저장할 문자열 형식
   const string = `

@@ -5,6 +5,7 @@ import defaultProfilePicture from "../../assets/icons/Header/profileIcon.png"; /
 import StyledButton from "./StyledButton";
 import { Navigate, useNavigate } from "react-router-dom";
 import HackathonPage from "../../pages/HackathonPage";
+import { getCurrentUser, setCurrentUser } from "../features/currentUser";
 
 import { SiPagekit } from "react-icons/si";
 import { LuPen, LuLogOut } from "react-icons/lu";
@@ -47,9 +48,10 @@ function Header({}) {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("Id");
+    // localStorage.removeItem("accessToken");
+    // localStorage.removeItem("Id");
     setAccessToken(null); // 로그아웃 시 상태 초기화
+    setCurrentUser(null);
     navigate("./");
   };
 
@@ -68,8 +70,6 @@ function Header({}) {
   //   navigate("./MyPage");
   // };
 
-
-  
   return (
     <HeaderContainer className="HeaderContainer">
       {/* 로고와 메뉴를 포함하는 메뉴박스 */}
@@ -90,7 +90,7 @@ function Header({}) {
 
       {/* 로그인 여부에 따라 프로필 이미지 또는 로그인/로그아웃 버튼 렌더링 */}
       <Profile className="Profile">
-        {accessToken ? (
+        {accessToken && getCurrentUser() ? (
           <>
             <ProfileWrapper className="ProfileWrapper">
               <ProfilePic
@@ -168,7 +168,6 @@ const ProfilePicMenuWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-
 `;
 
 const TriangleIcon = styled.div`
@@ -184,13 +183,13 @@ const ProfilePicMenu = styled.div`
   //position: absolute;
   //top: 135%;
   width: 10vw;
-  height: 20vh;
+  height: 17vh;
   background-color: #15243e80;
   border-radius: 0.625em;
   display: ${({ isOpen }) => (isOpen ? "flex" : "none")};
   flex-direction: column;
   justify-content: space-between;
-  z-index: 1;
+  z-index: 3;
 `;
 
 const MenuItemIcon = styled.div`

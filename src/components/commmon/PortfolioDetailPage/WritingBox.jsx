@@ -96,11 +96,11 @@ const WritingBox = ({ addComment }) => {
     const currentUser = getCurrentUser();
     if (markdown.trim() !== "") {
       const newComment = new Comment(
-        Date.now(), // commentId
+        null, // commentId, saveComment에서 생성
         null, // portfolioId
-        currentUser.id,
-        markdown,
-        new Date().toISOString()
+        currentUser.id, //userId
+        markdown, //text
+        new Date().toISOString().split("T")[0] //date
       );
       //console.log(newComment); -> 문제 없음.
       addComment(newComment);
