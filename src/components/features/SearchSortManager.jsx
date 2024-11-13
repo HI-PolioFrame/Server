@@ -91,8 +91,16 @@ class SearchSortManager {
             //     }
             // }
             this.state.sortState = false;
-            let result = this.state.searchState == true ? this.doSearch() : oriProjects;
-            return result;
+            if (this.state.searchState == true) {
+                return this.doSearch();
+            } else {
+                let result = new LinkedList();
+                
+                oriProjects.forEach((pofol) => {
+                    result.append(pofol);
+                    return result;
+                })
+            }
         }
     
         let sortedPortfolios = new LinkedList();
