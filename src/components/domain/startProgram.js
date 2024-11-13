@@ -88,8 +88,7 @@ export const initializeData = () => {
       data.projectId,
       data.projectTitle,
       data.description,
-      data.startDate,
-      data.endDate,
+      data.period,
       data.category,
       data.usedLanguage,
       data.projectLink,
@@ -126,7 +125,7 @@ export const initializeData = () => {
       data.picture
     );
     oriHackathons.set(data.hackId, hackathon);
-  })
+  });
 
   // templateInfo.forEach((data) => {
   //   let template = new Template(

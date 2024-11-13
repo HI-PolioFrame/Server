@@ -10,8 +10,7 @@ const saveProject = (
   projectTemplate = null, //포폴 템플릿
   projectTitle, //포폴 이름
   description, //포폴 설명
-  startDate = null,
-  endDate = null,
+  period,
   category,
   usedLanguage,
   projectLink = null,
@@ -30,6 +29,7 @@ const saveProject = (
     !projectOwnerEmail ||
     !projectTitle ||
     !description ||
+    !period ||
     !solving ||
     !challenge ||
     !usedLanguage
@@ -41,6 +41,7 @@ const saveProject = (
       projectOwnerEmail,
       projectTitle,
       description,
+      period,
       solving,
       challenge,
       usedLanguage
@@ -68,8 +69,7 @@ const saveProject = (
     projectId,
     projectTitle,
     description,
-    startDate,
-    endDate,
+    period,
     category,
     usedLanguage,
     projectLink,
@@ -90,6 +90,7 @@ const saveProject = (
         projectTitle: ${projectTitle},
         projectOwnerName: ${projectOwnerName},
         description: ${description || "''"},
+        period: ${period},
         category: ${category},
         usedLanguage: ${usedLanguage},
         projectLink: ${projectLink},

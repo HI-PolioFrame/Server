@@ -8,8 +8,7 @@ export const projectInfo = [
     usedTemplate: 1, // 1번 템플릿 양식을 사용
     projectTitle: "마라탕후루",
     description: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
-    startDate: "2024.11.11",
-    endDate: "2024.11.18",
+    period: "2024.11.11 - 2024.11.18",
     solving: "이러이러한 곳에 사용할 수 있습니다.",
     challenge: "이러이러한 문제를 해결했습니다.",
     share: false, // 포폴 게시판에 공유 설정 X
@@ -26,8 +25,7 @@ export const projectInfo = [
     usedTemplate: 1, // 1번 템플릿 양식을 사용
     projectTitle: "마루",
     description: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
-    startDate: "2024.11.12",
-    endDate: "2024.11.22",
+    period: "2024.11.10 - 2024.11.31",
     solving: "이러이러한 곳에 사용할 수 있습니다.",
     challenge: "이러이러한 문제를 해결했습니다.",
     share: true, // 포폴 게시판에 공유 설정 O
@@ -44,8 +42,7 @@ export const projectInfo = [
     usedTemplate: 3, // 1번 템플릿 양식을 사용
     projectTitle: "탱의 포폴1",
     description: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
-    startDate: "2024.11.01",
-    endDate: "2024.11.30",
+    period: "2024.08.11 - 2024.09.18",
     solving: "이러이러한 곳에 사용할 수 있습니다.",
     challenge: "이러이러한 문제를 해결했습니다.",
     share: true, // 포폴 게시판에 공유 설정 O
@@ -62,8 +59,7 @@ export const projectInfo = [
     usedTemplate: 2, // 1번 템플릿 양식을 사용
     projectTitle: "탱의 포폴2",
     description: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
-    startDate: "2024.10.01",
-    endDate: "2024.11.30",
+    period: "2024.04.11 - 2024.11.18",
     solving: "이러이러한 곳에 사용할 수 있습니다.",
     challenge: "이러이러한 문제를 해결했습니다.",
     share: true, // 포폴 게시판에 공유 설정 O
@@ -80,8 +76,7 @@ export const projectInfo = [
     usedTemplate: 2, // 1번 템플릿 양식을 사용
     projectTitle: "수여니의 포폴1",
     description: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
-    startDate: "2024.09.01",
-    endDate: "2024.10.30",
+    period: "2024.01.11 - 2024.07.10",
     solving: "이러이러한 곳에 사용할 수 있습니다.",
     challenge: "이러이러한 문제를 해결했습니다.",
     share: true, // 포폴 게시판에 공유 설정 O
@@ -98,8 +93,7 @@ export const projectInfo = [
     usedTemplate: 1, // 1번 템플릿 양식을 사용
     projectTitle: "수여니의 포폴2",
     description: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
-    startDate: "2024.07.01",
-    endDate: "2024.08.30",
+    period: "2024.02.02 - 2024.04.24",
     solving: "이러이러한 곳에 사용할 수 있습니다.",
     challenge: "이러이러한 문제를 해결했습니다.",
     share: true, // 포폴 게시판에 공유 설정 O
@@ -116,8 +110,7 @@ export const projectInfo = [
     usedTemplate: 4, // 1번 템플릿 양식을 사용
     projectTitle: "현혜씽의 포폴1",
     description: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
-    startDate: "2024.08.01",
-    endDate: "2024.08.30",
+    period: "2024.05.25 - 2024.06.18",
     solving: "이러이러한 곳에 사용할 수 있습니다.",
     challenge: "이러이러한 문제를 해결했습니다.",
     share: true, // 포폴 게시판에 공유 설정 O
@@ -134,8 +127,7 @@ export const projectInfo = [
     usedTemplate: 2, // 1번 템플릿 양식을 사용
     projectTitle: "현혜씽의 포폴2",
     description: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
-    startDate: "2024.11.01",
-    endDate: "2024.11.30",
+    period: "2024.03.10 - 2024.06.20",
     solving: "이러이러한 곳에 사용할 수 있습니다.",
     challenge: "이러이러한 문제를 해결했습니다.",
     share: true, // 포폴 게시판에 공유 설정 O

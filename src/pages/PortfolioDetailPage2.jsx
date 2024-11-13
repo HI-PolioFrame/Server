@@ -23,12 +23,12 @@ const PortfolioDetailPage2 = () => {
 
   useEffect(() => {
     // portfolioId가 10일 때만 데이터를 가져오기
-    console.log("portfolioId:", portfolioId);  
+    console.log("portfolioId:", portfolioId);
     if (Number(portfolioId) === 8) {
       const portfolio = oriProjects.get(8);
       setPortfolioData(portfolio);
       console.log(portfolio);
-    
+
       // 댓글 필터링
       const filteredComments = Array.from(oriComments.values()).filter(
         (comment) => comment.portfolioId === 10
@@ -36,16 +36,15 @@ const PortfolioDetailPage2 = () => {
       setComments(filteredComments);
     }
   }, [portfolioId]);
-  
 
   const addComment = (newCommentObj) => {
-    const newComment = {
-      commentId: Date.now(),
-      portfolioId: Number(portfolioId),
-      userId: currentUser.id,
-      text: newCommentObj.text,
-      date: new Date().toISOString(),
-    };
+    // const newComment = {
+    //   commentId: Date.now(),
+    //   portfolioId: Number(portfolioId),
+    //   userId: currentUser.id,
+    //   text: newCommentObj.text,
+    //   date: new Date().toISOString(),
+    // };
 
     // 클라이언트 측 상태 업데이트
     //oriComments.set(newComment.commentId, newComment);
@@ -64,118 +63,119 @@ const PortfolioDetailPage2 = () => {
     return <Loading>로딩 중...</Loading>;
   }
   return (
-  <>
-    <MainWrapper>
-      <TitleWrapper>
-        <InfoButtons>
+    <>
+      <MainWrapper>
+        <TitleWrapper>
+          <InfoButtons>
             <Button>조회수 0</Button>
             <Button>기업 연락 0</Button>
             <Button>좋아요 0</Button>
-        </InfoButtons>
-        <ProjectTitle>{portfolioData.projectTitle}</ProjectTitle>
-        <ProjectDescription>{portfolioData.description}</ProjectDescription>
-      </TitleWrapper>
+          </InfoButtons>
+          <ProjectTitle>{portfolioData.projectTitle}</ProjectTitle>
+          <ProjectDescription>{portfolioData.description}</ProjectDescription>
+        </TitleWrapper>
 
-    <Maincomponent>
-      <Wrapper1>
-          <Label1Wrapper>
-            {/* 참여기간 */}
-            <PeriodText>참여기간</PeriodText>
-            <Image3 src={Notepad3} alt="Notepad3"/>
-            <Bar>참여기간</Bar>
-          </Label1Wrapper>  
-          {/* 사용한 언어 */}
-          <Label1Wrapper>
-            <PeriodText>사용한 언어</PeriodText>
-            <Image3 src={Notepad3} alt="Notepad3"/>
-            <Bar>사용한 언어</Bar>
-          </Label1Wrapper>  
+        <Maincomponent>
+          <Wrapper1>
+            <Label1Wrapper>
+              {/* 참여기간 */}
+              <PeriodText>참여기간</PeriodText>
+              <Image3 src={Notepad3} alt="Notepad3" />
+              <Bar>{portfolioData.period}</Bar>
+            </Label1Wrapper>
+            {/* 사용한 언어 */}
+            <Label1Wrapper>
+              <PeriodText>사용한 언어</PeriodText>
+              <Image3 src={Notepad3} alt="Notepad3" />
+              <Bar>{portfolioData.usedLanguage}</Bar>
+            </Label1Wrapper>
             {/* 프로젝트 링크 */}
-          <Label1Wrapper>
-            <PeriodText>프로젝트 링크</PeriodText>
-            <Image3 src={Notepad3} alt="Notepad3"/>
-            <Bar>프로젝트 링크</Bar>
-          </Label1Wrapper> 
+            <Label1Wrapper>
+              <PeriodText>프로젝트 링크</PeriodText>
+              <Image3 src={Notepad3} alt="Notepad3" />
+              <Bar>{portfolioData.projectLink}</Bar>
+            </Label1Wrapper>
 
-          <Label2Wrapper>
-            {/* 사진  등록된 사진의 갯수에 따라서 생성*/}
-            <PhotoWrappeer>
-              <PhotoText>사진</PhotoText>
-              <Image3 src={Notepad12} alt="Notepad12" />
-              <ImageContainer>
-                {portfolioData.images && portfolioData.images.length > 0 ? (
-                  portfolioData.images.slice(0, 4).map((image, index) => ( 
-                    <ImageBox key={index}>
-                      <img src={image} alt={`프로젝트 이미지 ${index + 1}`} />
-                    </ImageBox>
-                  ))
-                ) : (
-                  <ImageBox>사진 없음</ImageBox>
-                )}
-              </ImageContainer>
-            </PhotoWrappeer>
-            {/* 로고 */}
-            <LogoWrappeer>
-              <LogoText>로고</LogoText>
-              <Image3 src={Notepad12} alt="Notepad12" />
-              <LogoContainer>
-                {portfolioData.images && portfolioData.images.length > 0 ? (
-                  portfolioData.images.map((image, index) => (
-                    <ImageBox key={index}>
-                      <img src={image} alt={`프로젝트 이미지 ${index + 1}`} />
-                    </ImageBox>
-                  ))
-                ) : (
-                  <ImageBox>로고 없음</ImageBox>
-                )}
-              </LogoContainer>
-            </LogoWrappeer>
-          </Label2Wrapper>   
-
-          {/* 데모 비디오 */}
-          <VideoWrappeer>
-                <VideoText>데모 비디오</VideoText>
+            <Label2Wrapper>
+              {/* 사진  등록된 사진의 갯수에 따라서 생성*/}
+              <PhotoWrappeer>
+                <PhotoText>사진</PhotoText>
                 <Image3 src={Notepad12} alt="Notepad12" />
-                {portfolioData.video ? (
-                  <VideoBox>
-                    <video width="100%" height="100%" controls>
-                      <source src={portfolioData.video} type="video/mp4" />
-                      비디오를 지원하지 않는 브라우저입니다.
-                    </video>
-                  </VideoBox>
-                ) : (
-                  <VideoBox>비디오 없음</VideoBox>
-                )}
-          </VideoWrappeer>
+                <ImageContainer>
+                  {portfolioData.images && portfolioData.images.length > 0 ? (
+                    portfolioData.images.slice(0, 4).map((image, index) => (
+                      <ImageBox key={index}>
+                        <img src={image} alt={`프로젝트 이미지 ${index + 1}`} />
+                      </ImageBox>
+                    ))
+                  ) : (
+                    <ImageBox>사진 없음</ImageBox>
+                  )}
+                </ImageContainer>
+              </PhotoWrappeer>
+              {/* 로고 */}
+              <LogoWrappeer>
+                <LogoText>로고</LogoText>
+                <Image3 src={Notepad12} alt="Notepad12" />
+                <LogoContainer>
+                  {portfolioData.images && portfolioData.images.length > 0 ? (
+                    portfolioData.images.map((image, index) => (
+                      <ImageBox key={index}>
+                        <img src={image} alt={`프로젝트 이미지 ${index + 1}`} />
+                      </ImageBox>
+                    ))
+                  ) : (
+                    <ImageBox>로고 없음</ImageBox>
+                  )}
+                </LogoContainer>
+              </LogoWrappeer>
+            </Label2Wrapper>
 
-           {/* 개발자 개인정보 */}
-        <InfoWrapper>
-          <Image16 src={Notepad16} alt="Notepad16"/>
-          <Bar>이름 </Bar>
-          <Bar>이메일 </Bar>
-        </InfoWrapper>
-       
-      </Wrapper1>
-    
-      <Wrapper2>
-        {/* 배운점 */}
-        <LearnedWrapper>
-          <LearnedText>배운점</LearnedText>
-          <Image5 src={Notepad5} alt="Notepad5"/>
-        </LearnedWrapper>
-        {/* 문제설명 */}
-        <ProblemWrapper>
-            <ProblemText>문제해결</ProblemText>
-            <Image5 src={Notepad5} alt="Notepad5"/>
-        </ProblemWrapper>
-      </Wrapper2>
-    </Maincomponent>
-    
-    </MainWrapper>
+            {/* 데모 비디오 */}
+            <VideoWrappeer>
+              <VideoText>데모 비디오</VideoText>
+              <Image3 src={Notepad12} alt="Notepad12" />
+              {portfolioData.video ? (
+                <VideoBox>
+                  <video width="100%" height="100%" controls>
+                    <source src={portfolioData.video} type="video/mp4" />
+                    비디오를 지원하지 않는 브라우저입니다.
+                  </video>
+                </VideoBox>
+              ) : (
+                <VideoBox>비디오 없음</VideoBox>
+              )}
+            </VideoWrappeer>
 
+            {/* 개발자 개인정보 */}
+            <InfoWrapper>
+              <Image16 src={Notepad16} alt="Notepad16" />
+              <Bar>{portfolioData.ownerName} </Bar>
+              <Bar>
+                {portfolioData.ownerEmail
+                  ? portfolioData.ownerEmail
+                  : "이메일 없음."}{" "}
+              </Bar>
+            </InfoWrapper>
+          </Wrapper1>
 
-    {/* 댓글 */}
-    <CommentsSection>
+          <Wrapper2>
+            {/* 배운점 */}
+            <LearnedWrapper>
+              <LearnedText>배운점</LearnedText>
+              <Image5 src={Notepad5} alt="Notepad5" />
+            </LearnedWrapper>
+            {/* 문제설명 */}
+            <ProblemWrapper>
+              <ProblemText>해결한 점</ProblemText>
+              <Image5 src={Notepad5} alt="Notepad5" />
+            </ProblemWrapper>
+          </Wrapper2>
+        </Maincomponent>
+      </MainWrapper>
+
+      {/* 댓글 */}
+      <CommentsSection>
         <CommentsTitle>댓글</CommentsTitle>
         <WritingBox addComment={addComment} />
         <CommentList
@@ -183,8 +183,8 @@ const PortfolioDetailPage2 = () => {
           setComments={setComments}
           portfolioId={portfolioId}
         />
-    </CommentsSection>
-  </>
+      </CommentsSection>
+    </>
   );
 };
 
@@ -196,26 +196,25 @@ const MainWrapper = styled.div`
   padding: 40px 40px;
   margin: 0 auto;
 
-  border : 5px solid #000;
-  border-radius : 2em;
-  height : 75em;
-  
+  border: 5px solid #000;
+  border-radius: 2em;
+  height: 75em;
+
   display: flex;
   flex-direction: column;
   // align-items: center;
 `;
 const Maincomponent = styled.div`
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
   align-items: flex-start;
-  padding: 0 2rem; 
+  padding: 0 2rem;
 
   @media (max-width: 768px) {
     flex-direction: column;
     align-items: center;
     padding: 1rem;
   }
-
 `;
 const Loading = styled.div`
   display: flex;
@@ -228,80 +227,79 @@ const TitleWrapper = styled.div`
   margin-bottom: 2.5vw;
 `;
 const Label1Wrapper = styled.div`
-  display : flex;
+  display: flex;
   flex-direction: row;
   position: relative;
 `;
 const Label2Wrapper = styled.div`
-  margin-top : 1em;
-  display : flex;
+  margin-top: 1em;
+  display: flex;
   flex-direction: column;
   position: relative;
 `;
 const Wrapper1 = styled.div`
-  width: 60%; 
-  margin-right: 1rem; 
+  width: 60%;
+  margin-right: 1rem;
 
   @media (max-width: 768px) {
-    width: 100%; 
+    width: 100%;
     margin-right: 0;
   }
 `;
 const Wrapper2 = styled.div`
-  width: 80%; 
-  margin-top : 2em;
-  gap : 5em;
-  display : flex;
+  width: 80%;
+  margin-top: 2em;
+  gap: 5em;
+  display: flex;
   flex-direction: column;
   @media (max-width: 768px) {
-    width: 100%; 
+    width: 100%;
     margin-right: 0;
   }
 `;
 const LearnedWrapper = styled.div`
-  width : 100%;
-  height : 20em;
-  border : 3px solid #000;
-  border-radius : 2em;
+  width: 100%;
+  height: 20em;
+  border: 3px solid #000;
+  border-radius: 2em;
   position: relative;
 `;
 const ProblemWrapper = styled.div`
-  width : 100%;
-  height : 20em;
-  border : 3px solid #000;
-  border-radius : 2em;
+  width: 100%;
+  height: 20em;
+  border: 3px solid #000;
+  border-radius: 2em;
   position: relative;
 `;
 const ImageContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);  
-  gap: 1em;  
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1em;
   width: 100%;
 `;
 const LogoContainer = styled.div`
-  display: grid;  
-  gap: 1em;  
+  display: grid;
+  gap: 1em;
   width: 100%;
 `;
 const PhotoWrappeer = styled.div`
-  display : flex;
+  display: flex;
   flex-direction: column;
 `;
 const LogoWrappeer = styled.div`
-  display : flex;
+  display: flex;
   flex-direction: column;
 `;
 const VideoWrappeer = styled.div`
-  display : flex;
+  display: flex;
   flex-direction: column;
-  margin-top : 1em;
+  margin-top: 1em;
 `;
 const InfoWrapper = styled.div`
-  display : flex;
+  display: flex;
   flex-direction: column;
   gap: -2em;
-  margin-top : 6em;
-  
+  margin-top: 6em;
 `;
 //css button
 const InfoButtons = styled.div`
@@ -318,26 +316,23 @@ const Button = styled.button`
   font-family: "OTF R";
 `;
 
-
-
 // css component
 const Bar = styled.p`
   position: relative;
   font-size: 1em;
   margin: 0;
-  margin-top : 2em;
+  margin-top: 2em;
   font-family: "OTF R";
 
   &::after {
     content: "";
     display: block;
-    width : 10em;    
-    height: 0.08em; 
+    width: 10em;
+    height: 0.08em;
     background-color: #000;
     position: absolute;
     left: 0;
   }
-  
 `;
 const ImageBox = styled.div`
   width: 5em;
@@ -347,38 +342,36 @@ const ImageBox = styled.div`
   align-items: center;
   justify-content: center;
   font-size: 1vw;
-  border-radius : 1em;
+  border-radius: 1em;
 `;
 const VideoBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  
-  border: 3px solid #000;
-  border-radius:1em;
-  font-size: 1vw;
-  width : 40em;
-  height : 16.5em;
-  `;
 
+  border: 3px solid #000;
+  border-radius: 1em;
+  font-size: 1vw;
+  width: 40em;
+  height: 16.5em;
+`;
 
 //css image
 const Image3 = styled.img`
-  width: 10em; 
+  width: 10em;
   height: auto;
-  margin-right: 1em; 
+  margin-right: 1em;
 `;
 const Image5 = styled.img`
-  width: 10em; 
+  width: 10em;
   height: auto;
   margin-top: -2.3em;
-  margin-left: 8em;  
+  margin-left: 8em;
 `;
 const Image16 = styled.img`
-  width: 4em; 
+  width: 4em;
   height: auto;
   margin-top: -2.3em;
-
 `;
 
 //css text
@@ -390,70 +383,70 @@ const ProjectTitle = styled.h1`
 const ProjectDescription = styled.p`
   font-weight: bold;
   font-family: "OTF B";
-  margin-top : -0.5em;
+  margin-top: -0.5em;
 `;
 
 const PeriodText = styled.p`
-  position: absolute; 
-  top: 0px; 
+  position: absolute;
+  top: 0px;
   font-size: 1em;
   font-weight: bold;
   color: #fff;
-  margin-left : 3.6em;
-  margin-top : 1.6em;
+  margin-left: 3.6em;
+  margin-top: 1.6em;
   font-family: "OTF R";
 `;
 
 const LearnedText = styled.p`
-  position: absolute; 
-  top: 0px; 
+  position: absolute;
+  top: 0px;
   font-size: 1em;
   font-weight: bold;
   color: #000;
-  margin-top : -0.2em;
-  margin-left : 11.9em;
+  margin-top: -0.2em;
+  margin-left: 11.9em;
   font-family: "OTF R";
 `;
 
 const ProblemText = styled.p`
-  position: absolute; 
-  top: 0px; 
+  position: absolute;
+  top: 0px;
   font-size: 1em;
   font-weight: bold;
   color: #000;
-  margin-top : -0.2em;
-  margin-left : 11.5em;
+  margin-top: -0.2em;
+  margin-left: 11.5em;
   font-family: "OTF R";
 `;
 
 const PhotoText = styled.p`
-  position: absolute; 
-  top: 0px; 
+  position: absolute;
+  top: 0px;
   font-size: 1.5em;
   font-weight: bold;
   color: #000;
-  margin-left : 2.5em;
-  margin-top : 0.7em;
+  margin-left: 2.5em;
+  margin-top: 0.7em;
   font-family: "OTF R";
 `;
 const LogoText = styled.p`
-  position: absolute; 
-  top: 0px; 
+  position: absolute;
+  top: 0px;
   font-size: 1.5em;
   font-weight: bold;
   color: #000;
-  margin-left : 2.5em;
-  margin-top : 6em;
+  margin-left: 2.5em;
+  margin-top: 6em;
   font-family: "OTF R";
 `;
 const VideoText = styled.p`
-  position: absolute; 
-  top: 0px; 
+  position: absolute;
+  top: 0px;
   font-size: 1.2em;
   font-weight: bold;
   color: #000;
-  margin-left : 1.5em;
-  margin-top : 45.3em;
+  margin-left: 1.5em;
+  margin-top: 45.3em;
   font-family: "OTF R";
 `;
 // 댓글 css
@@ -469,4 +462,3 @@ const CommentsTitle = styled.h2`
   font-family: "OTF B";
   //margin-bottom: 20px;
 `;
-
