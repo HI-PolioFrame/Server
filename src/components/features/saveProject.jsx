@@ -4,6 +4,7 @@ import { removeFromFileEnd, appendStringToFile } from "./fileIO.jsx";
 
 const saveProject = (
   projectOwnerName, // 포폴 만든 사람 이름
+  projectOwnerId, // 포폴 만든 사람 아이디
   projectOwnerNickname,
   projectOwnerEmail, // 포폴 만든 사람 이메일
   projectTemplate = null, //포폴 템플릿
@@ -11,28 +12,39 @@ const saveProject = (
   description, //포폴 설명
   startDate = null,
   endDate = null,
+  category,
+  usedLanguage,
+  projectLink = null,
   solving,
   challenge,
-  share = false, // 공유 여부
-  usedLanguage,
-  category,
   video = null,
   coverImage = null,
   images = null,
-  logo = null
+  logo = null,
+  share = false // 공유 여부
 ) => {
   if (
     !projectOwnerName ||
+    !projectOwnerId ||
     !projectOwnerNickname ||
     !projectOwnerEmail ||
     !projectTitle ||
     !description ||
     !solving ||
     !challenge ||
-    !usedLanguage ||
-    !category ||
-    !share
+    !usedLanguage
   ) {
+    console.log(
+      projectOwnerName,
+      projectOwnerId,
+      projectOwnerNickname,
+      projectOwnerEmail,
+      projectTitle,
+      description,
+      solving,
+      challenge,
+      usedLanguage
+    );
     console.log("필수 정보가 누락됨");
     return;
   }
@@ -48,27 +60,29 @@ const saveProject = (
   // }
 
   const newProject = new Project(
+    projectOwnerName,
+    projectOwnerId,
+    projectOwnerNickname,
+    projectOwnerEmail,
+    projectTemplate,
     projectId,
-    ownerName,
-    ownerNickname,
-    ownerEmail,
-    usedproject,
     projectTitle,
     description,
-    (startDate = null),
-    (endDate = null),
+    startDate,
+    endDate,
     category,
     usedLanguage,
     projectLink,
     solving,
     challenge,
-    (video = null),
-    (coverImage = null),
-    (images = null),
-    (logo = null),
+    video,
+    coverImage,
+    images,
+    logo,
     (share = false)
   );
   oriProjects.set(projectId, newProject);
+  console.log(newProject);
 
   const string = `
     {
