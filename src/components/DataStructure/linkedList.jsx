@@ -16,7 +16,7 @@ export class LinkedList {
     find(value) {
         let currentNode = this.head;
         // head부터 순회하며 value값이 같은지 찾기
-        while (currentNode.value !== value) {
+        while (currentNode && currentNode.value !== value) {
             currentNode = currentNode.next;
         }
         return currentNode;
