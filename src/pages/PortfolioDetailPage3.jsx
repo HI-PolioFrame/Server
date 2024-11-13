@@ -10,28 +10,27 @@ import WritingBox from "../components/commmon/PortfolioDetailPage/WritingBox";
 import CommentList from "../components/commmon/PortfolioDetailPage/CommentList";
 
 //image
-import Notepad3 from "../assets/images/PortfolioDetailPage2/Notepad3.png";
-import Notepad5 from "../assets/images/PortfolioDetailPage2/Notepad5.png";
-import Notepad12 from "../assets/images/PortfolioDetailPage2/Notepad12.png";
-import Notepad16 from "../assets/images/PortfolioDetailPage2/Notepad16.png";
+import AboutMe from "../assets/images/PortfolioDetailPage3/AboutMe.png";
+import name from "../assets/images/PortfolioDetailPage3/name.png";
+import email from "../assets/images/PortfolioDetailPage3/email.png";
 
-const PortfolioDetailPage2 = () => {
+const PortfolioDetailPage3 = () => {
   const { portfolioId } = useParams();
   const [portfolioData, setPortfolioData] = useState(null);
   const [comments, setComments] = useState([]);
   const currentUser = getCurrentUser();
 
   useEffect(() => {
-    // portfolioId가 10일 때만 데이터를 가져오기
+    // portfolioId가 7일 때만 데이터를 가져오기
     console.log("portfolioId:", portfolioId);
-    if (Number(portfolioId) === 8) {
-      const portfolio = oriProjects.get(8);
+    if (Number(portfolioId) === 7) {
+      const portfolio = oriProjects.get(7);
       setPortfolioData(portfolio);
       console.log(portfolio);
 
       // 댓글 필터링
       const filteredComments = Array.from(oriComments.values()).filter(
-        (comment) => comment.portfolioId === 10
+        (comment) => comment.portfolioId === 7
       );
       setComments(filteredComments);
     }
@@ -79,120 +78,23 @@ const PortfolioDetailPage2 = () => {
           <ProjectDescription>{portfolioData.description}</ProjectDescription>
         </TitleWrapper>
 
-        <Maincomponent>
-          <Wrapper1>
-            <Label1Wrapper>
-              {/* 참여기간 */}
-              <PeriodText>참여기간</PeriodText>
-              <Image3 src={Notepad3} alt="Notepad3" />
-              <Bar>{portfolioData.period}</Bar>
-            </Label1Wrapper>
-            {/* 사용한 언어 */}
-            <Label1Wrapper>
-              <PeriodText>사용한 언어</PeriodText>
-              <Image3 src={Notepad3} alt="Notepad3" />
-              <Bar>{portfolioData.usedLanguage}</Bar>
-            </Label1Wrapper>
-            {/* 프로젝트 링크 */}
-            <Label1Wrapper>
-              <PeriodText>프로젝트 링크</PeriodText>
-              <Image3 src={Notepad3} alt="Notepad3" />
-              <Bar>{portfolioData.projectLink}</Bar>
-            </Label1Wrapper>
-
-            <Label2Wrapper>
-              {/* 사진  등록된 사진의 갯수에 따라서 생성*/}
-              <PhotoWrappeer>
-                <PhotoText>사진</PhotoText>
-                <Image3 src={Notepad12} alt="Notepad12" />
-                <ImageContainer>
-                  {portfolioData.images && portfolioData.images.length > 0 ? (
-                    portfolioData.images.slice(0, 4).map((image, index) => (
-                      <ImageBox key={index}>
-                        <img src={image} alt={`프로젝트 이미지 ${index + 1}`} />
-                      </ImageBox>
-                    ))
-                  ) : (
-                    <ImageBox>사진 없음</ImageBox>
-                  )}
-                </ImageContainer>
-              </PhotoWrappeer>
-              {/* 로고 */}
-              <LogoWrappeer>
-                <LogoText>로고</LogoText>
-                <Image3 src={Notepad12} alt="Notepad12" />
-                <LogoContainer>
-                  {portfolioData.images && portfolioData.images.length > 0 ? (
-                    portfolioData.images.map((image, index) => (
-                      <ImageBox key={index}>
-                        <img src={image} alt={`프로젝트 이미지 ${index + 1}`} />
-                      </ImageBox>
-                    ))
-                  ) : (
-                    <ImageBox>로고 없음</ImageBox>
-                  )}
-                </LogoContainer>
-              </LogoWrappeer>
-            </Label2Wrapper>
-
-            {/* 데모 비디오 */}
-            <VideoWrappeer>
-              <VideoText>데모 비디오</VideoText>
-              <Image3 src={Notepad12} alt="Notepad12" />
-              {portfolioData.video ? (
-                <VideoBox>
-                  <video width="100%" height="100%" controls>
-                    <source src={portfolioData.video} type="video/mp4" />
-                    비디오를 지원하지 않는 브라우저입니다.
-                  </video>
-                </VideoBox>
-              ) : (
-                <VideoBox>비디오 없음</VideoBox>
-              )}
-            </VideoWrappeer>
-
-            {/* 개발자 개인정보 */}
-            <InfoWrapper>
-              <Image16 src={Notepad16} alt="Notepad16" />
-              <Bar>{portfolioData.ownerName} </Bar>
-              <Bar>
-                {portfolioData.ownerEmail
-                  ? portfolioData.ownerEmail
-                  : "이메일 없음."}{" "}
-              </Bar>
-            </InfoWrapper>
-          </Wrapper1>
-
-          <Wrapper2>
-            {/* 배운점 */}
-            <LearnedWrapper>
-              <LearnedText>배운점</LearnedText>
-              <Image5 src={Notepad5} alt="Notepad5" />
-            </LearnedWrapper>
-            {/* 문제설명 */}
-            <ProblemWrapper>
-              <ProblemText>해결한 점</ProblemText>
-              <Image5 src={Notepad5} alt="Notepad5" />
-            </ProblemWrapper>
-          </Wrapper2>
-        </Maincomponent>
+        {/* <DeveloperWrapper>
+          <InfoWrapper>
+            <Image16 src={Notepad16} alt="Notepad16" />
+            <Bar>{portfolioData.ownerName} </Bar>
+            <Bar>
+              {portfolioData.ownerEmail
+                ? portfolioData.ownerEmail
+                : "이메일 없음."}{" "}
+            </Bar>
+          </InfoWrapper>
+        </DeveloperWrapper> */}
       </MainWrapper>
-
-      {/* 댓글 */}
-      <CommentsSection>
-        <CommentsTitle>댓글</CommentsTitle>
-        <WritingBox addComment={addComment} />
-        <CommentList
-          comments={comments}
-          setComments={setComments}
-          portfolioId={portfolioId}
-        />
-      </CommentsSection>
     </>
   );
 };
 
-export default PortfolioDetailPage2;
+export default PortfolioDetailPage3;
 
 //css Wrapper
 const MainWrapper = styled.div`
