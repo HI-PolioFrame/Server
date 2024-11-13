@@ -13,6 +13,7 @@ const CreatePortfolioInput = ({ onInputChange, formData }) => {
     null,
     null,
   ]);
+  const [isOn, setIsOn] = useState(true);
 
   const handleCoverImageChange = (e) => {
     const file = e.target.files[0];
@@ -37,6 +38,20 @@ const CreatePortfolioInput = ({ onInputChange, formData }) => {
       newPhotosPreview[index] = URL.createObjectURL(file);
       setPhotosPreview(newPhotosPreview);
     }
+  };
+
+  //토글 기능
+  const handleToggle = () => {
+    setIsOn(!isOn);
+    // dispatch(setPrivate(isOn));
+  };
+  const onToggle = () => {
+    setIsOn(true);
+    // dispatch(setPrivate(true));
+  };
+  const offToggle = () => {
+    setIsOn(false);
+    // dispatch(setPrivate(false));
   };
 
   return (

@@ -6,7 +6,7 @@ import LoginPage from "./pages/LoginPage";
 import MemberSelectionPage from "./pages/MemberSelectionPage";
 import SignUpRecruiterPage from "./pages/SignUpRecruiterPage";
 import SignUpRecruiterEmailPage from "./pages/SignUpRecruiterEmailPage";
-//import SignUpDeveloperPage from "./pages/signUpDeveloperPage";
+import SignUpDeveloperPage from "./pages/signUpDeveloperPage";
 import SignUpDeveloperEmailPage from "./pages/SignUpDeveloperEmailPage";
 import LayOut from "./components/commmon/LayOut";
 import MyPage from "./pages/MyPage";
@@ -19,6 +19,7 @@ import PortfolioDetailPage from "./pages/PortfolioDetailPage";
 import PortfolioDetailPage2 from "./pages/PortfolioDetailPage2";
 import PortfolioDetailPage3 from "./pages/PortfolioDetailPage3";
 import RecruiterPage from "./pages/RecruiterPage";
+import CreateHackathonPage from "./pages/CreateHackathonPage";
 
 import { initializeData } from "./components/domain/startProgram";
 
@@ -44,7 +45,7 @@ function App() {
           element={<SignUpRecruiterEmailPage />}
         />
         {/* 일반회원 회원가입 페이지 */}
-        {/* <Route path="/SignUpDeveloperPage" element={<SignUpDeveloperPage />} /> */}
+        <Route path="/SignUpDeveloperPage" element={<SignUpDeveloperPage />} />
         {/* 일반회원 이메일 회원가입 페이지 */}
         <Route
           path="/SignUpDeveloperEmailPage"
@@ -60,6 +61,11 @@ function App() {
           <Route
             path="/CreatePortfolioPage"
             element={<CreatePortfolioPage />}
+          />
+          {/* 해커톤 제작 화면 */}
+          <Route
+            path="/CreateHackathonPage"
+            element={<CreateHackathonPage />}
           />
           {/* 포폴 상세 페이지 템플릿 2 */}
           <Route
