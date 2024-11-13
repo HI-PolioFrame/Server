@@ -34,20 +34,29 @@ const PortfolioDetailPage = () => {
   }, [portfolioId]);
 
   const addComment = (newCommentObj) => {
-    const newComment = {
-      commentId: Date.now(),
-      portfolioId: Number(portfolioId),
-      userId: currentUser.id,
-      text: newCommentObj.text,
-      date: new Date().toISOString(),
-    };
+    // const newComment = {
+    //   commentId: Date.now(),
+    //   portfolioId: Number(portfolioId),
+    //   userId: currentUser.id,
+    //   text: newCommentObj.text,
+    //   date: new Date().toISOString(),
+    // };
 
     // 클라이언트 측 상태 업데이트
     //oriComments.set(newComment.commentId, newComment);
-    setComments((prevComments) => [newComment, ...prevComments]);
+    setComments((prevComments) => [newCommentObj, ...prevComments]);
+    console.log(
+      newCommentObj.portfolioId,
+      newCommentObj.userId,
+      newCommentObj.text
+    );
 
     // 파일에 댓글 저장
-    saveComment(newComment.portfolioId, newComment.userId, newComment.text);
+    saveComment(
+      newCommentObj.portfolioId,
+      newCommentObj.userId,
+      newCommentObj.text
+    );
   };
 
   // const isPortfolioOwner =
