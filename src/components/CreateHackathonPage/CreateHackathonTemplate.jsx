@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import SearchBar from "../commmon/SearchBar.jsx";
-import CreatePortfolioSlide from "./CreatePortfolioSlide.jsx";
+import CreatePortfolioSlide from "./CreateHackathonSlide.jsx";
 const CreatePortfolioTemplate = () => {
     return(
         <>

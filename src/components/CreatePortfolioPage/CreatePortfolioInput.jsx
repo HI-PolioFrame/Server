@@ -1,11 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 import { useState } from "react";
+// import Calendar from "./Calendar.jsx";
+import CalendarInput from "./CalendarInput.jsx";
 
 const CreatePortfolioInput = ({ onInputChange, formData }) => {
   // 업로드 이미지 미리보기 코드
   const [coverimagePreview, setCoverImagePreview] = useState(null);
   const [LogoPreview, setLogoPreview] = useState(null);
+
   const [photosPreview, setPhotosPreview] = useState([
     null,
     null,
@@ -127,7 +130,6 @@ const CreatePortfolioInput = ({ onInputChange, formData }) => {
               onChange={onInputChange}
             ></VitalInput2>
           </InputWrapper>
-          {/* Challenges I ran into -> 내가 마주친 도전 ex 트러블 슈팅 */}
           <InputWrapper>
             <MainText>내가 마주친 도전</MainText>
             <ExText>
@@ -142,12 +144,21 @@ const CreatePortfolioInput = ({ onInputChange, formData }) => {
             ></VitalInput2>
           </InputWrapper>
         </ColumnWrapper>
+
+        <ColumnWrapper3>
+          {/* 참여기간 */}
+          <InputWrapper>
+            <MainText>참여기간</MainText>
+            <ExText>이 프로젝트에 참여한 기간을 선택해주세요. </ExText>
+            <CalendarInput />
+          </InputWrapper>
+        </ColumnWrapper3>
       </VitalWrapper>
 
       {/* 선택항목 */}
       <ChoiceWrapper>
         <VitalText>선택 항목</VitalText>
-        <ColumnWrapper>
+        <ColumnWrapper2>
           {/* 데모 비디오 */}
           <InputWrapper>
             <MainText>데모 비디오</MainText>
@@ -168,8 +179,6 @@ const CreatePortfolioInput = ({ onInputChange, formData }) => {
                 type="file"
                 id="coverphotos"
                 multiple
-                name="coverImage"
-                value={formData.coverImage}
                 onChange={handleCoverImageChange}
               />
               <FileLabel
@@ -187,9 +196,9 @@ const CreatePortfolioInput = ({ onInputChange, formData }) => {
               </FileLabel>
             </ImageWrapper>
           </InputWrapper>
-        </ColumnWrapper>
+        </ColumnWrapper2>
 
-        <ColumnWrapper>
+        <ColumnWrapper2>
           {/* 사진 */}
           <InputWrapper>
             <MainText>사진</MainText>
@@ -210,8 +219,6 @@ const CreatePortfolioInput = ({ onInputChange, formData }) => {
                   <FileInput
                     type="file"
                     id={`photos-${index}`}
-                    name="images"
-                    value={formData.images}
                     onChange={handlePhotosChange(index)}
                   />
                   {!preview && "+"}
@@ -230,8 +237,6 @@ const CreatePortfolioInput = ({ onInputChange, formData }) => {
                 type="file"
                 id="Logo"
                 multiple
-                name="logo"
-                value={formData.logo}
                 onChange={handleLogoChange}
               />
               <FileLabel
@@ -247,7 +252,7 @@ const CreatePortfolioInput = ({ onInputChange, formData }) => {
               </FileLabel>
             </ImageWrapper>
           </InputWrapper>
-        </ColumnWrapper>
+        </ColumnWrapper2>
       </ChoiceWrapper>
     </>
   );
@@ -263,7 +268,7 @@ const VitalWrapper = styled.div`
 
   border: 1.5px solid #d0d1d9;
   border-radius: 2em;
-  height: 28em;
+  height: 53em;
 
   display: flex;
   flex-direction: column;
@@ -273,7 +278,7 @@ const VitalWrapper = styled.div`
 const ChoiceWrapper = styled.div`
   width: 80%;
   padding: 40px 40px;
-  margin: 2em auto;
+  margin: 8em auto;
 
   border: 1.5px solid #d0d1d9;
   border-radius: 2em;
@@ -287,11 +292,22 @@ const ChoiceWrapper = styled.div`
 const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  // gap : 0.8m;
 `;
 const ColumnWrapper = styled.div`
   display: flex;
-  gap: 10em;
+  gap: 5%;
+  justify-content: space-between;
+  width: 100%;
+`;
+const ColumnWrapper2 = styled.div`
+  display: flex;
+  gap: 20%;
+  // justify-content: space-between;
+  width: 100%;
+`;
+const ColumnWrapper3 = styled.div`
+  display: flex;
+  gap: 1%;
   // justify-content: space-between;
   width: 100%;
 `;
@@ -386,4 +402,50 @@ const FileLabel = styled.label`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+//토글
+
+const ToggleWrapper = styled.div`
+  margin-top: 2em;
+  display: flex;
+  align-items: center;
+`;
+
+const OnToggleText = styled.div`
+  color: ${(props) => (props.isOn ? "#0A27A6" : "#A2A3B2")};
+  font-size: 0.9em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+`;
+
+const OffToggleText = styled.div`
+  color: ${(props) => (props.isOn ? "#A2A3B2" : "#0A27A6")};
+  font-size: 0.9em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+`;
+
+const ToggleBox = styled.div`
+  margin: 0 0.8em;
+  border: 1.5px solid #0a27a6;
+  border-radius: 10px;
+  width: 3.5em;
+  height: 1.4375em;
+  display: flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+`;
+
+const Toggle = styled.div`
+  border-radius: 30px;
+  width: 1em;
+  height: 1em;
+  background-color: #0a27a6;
+  position: absolute;
+  left: ${(props) => (props.isOn ? "0.2em" : "2.2em")};
+  transition: all 0.3s ease-out;
 `;
