@@ -1,6 +1,7 @@
 class Project {
   constructor(
     ownerName,
+    ownerId,
     ownerNickname,
     ownerEmail,
     usedTemplate,
@@ -21,6 +22,7 @@ class Project {
     share = false
   ) {
     this.ownerName = ownerName;
+    this.ownerId = ownerId;
     this.ownerNickname = ownerNickname;
     this.ownerEmail = ownerEmail;
     this.usedTemplate = usedTemplate;
