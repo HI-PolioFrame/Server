@@ -17,6 +17,7 @@ import HackathonPage from "./pages/HackathonPage";
 import CreatePortfolioPage from "./pages/CreatePortfolioPage";
 import PortfolioDetailPage from "./pages/PortfolioDetailPage";
 import PortfolioDetailPage2 from "./pages/PortfolioDetailPage2";
+import RecruiterPage from "./pages/RecruiterPage";
 
 import { initializeData } from "./components/domain/startProgram";
 
@@ -60,8 +61,10 @@ function App() {
             element={<CreatePortfolioPage />}
           />
           {/* 포폴 상세 페이지 템플릿 2 */}
-          <Route path="/PortfolioDetailPage2/:portfolioId" element={<PortfolioDetailPage2/>}/>
-
+          <Route
+            path="/PortfolioDetailPage2/:portfolioId"
+            element={<PortfolioDetailPage2 />}
+          />
 
           {/*마이 페이지  */}
           <Route
@@ -95,6 +98,8 @@ function App() {
             path="/PortfolioDetailPage/:portfolioId"
             element={<PortfolioDetailPage />}
           />
+          {/* 채용자 페이지*/}
+          <Route path="/RecruiterPage" element={<RecruiterPage />} />
         </Route>
       </Route>
     </Routes>
