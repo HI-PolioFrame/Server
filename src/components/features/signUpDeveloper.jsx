@@ -4,14 +4,27 @@ import { User } from "../domain/User";
 // 파일에서 데이터를 가져오는 함수 (서버 API 호출)
 export const fetchFileData = async (filePath) => {
     try {
-        const response = await fetch('/read-number', {  // 서버의 /read-number API 호출
+
+        console.log('로컬호스트 연결에 들어갑니다. try문 내부');
+
+        const response = await fetch('http://localhost:3000/read-number', {  // 서버의 /read-number API 호출
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ filePath }),  // filePath를 서버로 전달
         });
+
+        console.log('fetch가 완료되었습니다. 반환 시작');
+
+        if (!response.ok) {
+            throw new Error('네트워크 응답이 좋지 않습니다.');
+        }
+
         const data = await response.json();
+
+        console.log('반환을 받았습니다. return합니다');
+
         return data.number;  // 서버에서 반환된 숫자 값
     } catch (error) {
         console.error('파일을 읽는 중 오류가 발생했습니다.', error);
@@ -22,7 +35,7 @@ export const fetchFileData = async (filePath) => {
 // 파일에 문자열 추가하는 함수 (서버 API 호출)
 export const appendStringToFile = async (filePath, string) => {
     try {
-        await fetch('/append-string', {  // 서버의 /append-string API 호출
+        await fetch('http://localhost:3000/append-string', {  // 서버의 /append-string API 호출
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -37,7 +50,7 @@ export const appendStringToFile = async (filePath, string) => {
 // 파일 비우는 함수 (서버 API 호출)
 export const truncateFile = async (filePath) => {
     try {
-        await fetch('/truncate-file', {  // 서버의 /truncate-file API 호출
+        await fetch('http://localhost:3000/truncate-file', {  // 서버의 /truncate-file API 호출
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -52,7 +65,7 @@ export const truncateFile = async (filePath) => {
 // 파일 끝에서 문자열을 제거하는 함수 (서버 API 호출)
 export const removeFromFileEnd = async (filePath, numCharsToRemove) => {
     try {
-        await fetch('/remove-from-file-end', {  // 서버의 /remove-from-file-end API 호출
+        await fetch('http://localhost:3000/remove-from-file-end', {  // 서버의 /remove-from-file-end API 호출
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -79,7 +92,7 @@ export const idSignUpDeveloper = async (name, birthday, id, password, rePassword
     if (!isPassword(password, rePassword)) return;
 
     // 파일에서 pageId를 가져오고 다음 ID를 업데이트
-    const filePath = '../commmon/dummydata/nextPageId.jsx';
+    const filePath = 'src/components/commmon/dummydata/nextPageId.jsx';
     const pageId = await fetchFileData(filePath);
 
     if (pageId === null) {
@@ -87,33 +100,43 @@ export const idSignUpDeveloper = async (name, birthday, id, password, rePassword
         return;
     }
 
-    console.log(`페이지 아이디는 ${pageId}`);
+    //console.log(`페이지 아이디는 ${pageId}`);
 
     await truncateFile(filePath);  // 기존 페이지 ID 파일을 비우기
+
+    //console.log('truncateFile에서 오류 발생하지 않음');
+
     await appendStringToFile(filePath, String(pageId + 1));  // 새로운 페이지 ID 추가
+
+    //console.log('appendStringToFile에서 오류 발생하지 않음');
 
     const user = new User(id, pageId, password, name, phoneNumber, birthday);
     oriUsers.set(id, user);
 
     // userInfo.jsx에 해당 유저를 추가한다.
-    const userInfoPath = '../commmon/dummydata/userInfo.jsx';
+    const userInfoPath = 'src/components/commmon/dummydata/userInfo.jsx';
     const userInfoString = `
-        {
-            id: "${id}",
-            pageId: ${pageId},
-            password: "${password}",
-            name: "${name}",
-            phoneNumber: "${phoneNumber}",
-            birthday: "${birthday[0]}-${birthday[1]}-${birthday[2]}",
-            recruiter: false,
-            email: "",
-            nickname: "",
-            link: "",
-            career: "없음",
-            education: ""
-        }`;
-    await removeFromFileEnd(userInfoPath, 3);  // 기존 유저 정보를 파일 끝에서 제거
+  {
+    id: "${id}",
+    pageId: ${pageId},
+    password: "${password}",
+    name: "${name}",
+    phoneNumber: "${phoneNumber}",
+    birthday: "${birthday[0]}-${birthday[1]}-${birthday[2]}",
+    recruiter: false,
+    email: "",
+    nickname: "",
+    link: "",
+    career: "없음",
+    education: ""
+  }`;
+    await removeFromFileEnd(userInfoPath, 3);  // 기존 유저 정보를 파일 끝에서 
+    
+    console.log('removeFromFileEnd에서 오류 발생하지 않음');
+
     await appendStringToFile(userInfoPath, `,${userInfoString}\n];`);  // 새 유저 정보 추가
+
+    console.log('appendStringToFile에서 오류 발생하지 않음');
 };
 
 export const emailSignUpDeveloper = async (name, birthday, email, password, rePassword, phoneNumber) => {
@@ -126,7 +149,7 @@ export const emailSignUpDeveloper = async (name, birthday, email, password, rePa
     if (!isPassword(password, rePassword)) return;
 
     // 파일에서 pageId를 가져오고 다음 ID를 업데이트
-    const filePath = '../commmon/dummydata/nextPageId.jsx';
+    const filePath = 'src/components/commmon/dummydata/nextPageId.jsx';
     const pageId = await fetchFileData(filePath);
     await truncateFile(filePath);
     await appendStringToFile(filePath, String(pageId + 1));
@@ -139,7 +162,7 @@ export const emailSignUpDeveloper = async (name, birthday, email, password, rePa
     oriUsers.set(randomId, user);
 
     // userInfo.jsx에 해당 유저를 추가한다.
-    const userInfoPath = '../commmon/dummydata/userInfo.jsx';
+    const userInfoPath = 'src/components/commmon/dummydata/userInfo.jsx';
     const userInfoString = `
         {
             id: "${randomId}",
@@ -170,7 +193,6 @@ export const setId = (id) => {
 
     for (const [key, user] of oriUsers){
         if (key === id){
-            alert(`${key} 아이디 회원 있음`);
             alert('이미 사용 중인 아이디입니다.');
             return idCheck;
         }
@@ -220,18 +242,21 @@ export const setId = (id) => {
 // } 
 export const setEmail = (email) => {
     // 이메일 형식 확인
+    emailCheck = false;
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
         alert('유효한 이메일 형식이 아닙니다.');
-        return false;
+        return emailCheck;
     }
     for (const [key, value] of oriUsers.entries()) {
         if (value.email === email) {
             alert('이미 계정이 존재합니다.');
-            return false;
+            return emailCheck;
         }
     }
-    return true;
+    emailCheck = true;
+    return emailCheck;
 };
 //forEach로 하면 return값이 없어서 계속 오류 메시지가 나오는 문제점이 있어서 수정함
 
@@ -242,7 +267,7 @@ export const setPhoneNumber = (phoneNumber) => {
     oriUsers.forEach((value) => {
         if (value.phoneNumber === phoneNumber) {
             alert('이미 계정이 존재합니다.');
-        return false;
+            return phoneNumCheck;
         }
     });
 
@@ -251,7 +276,7 @@ export const setPhoneNumber = (phoneNumber) => {
 
     if (!phoneNumber.match(phonePattern)) {
         alert('올바른 전화번호를 입력하세요. 형식: 010-xxxx-xxxx');
-        return false; 
+        return phoneNumCheck; 
     }
     
     phoneNumCheck = true;
