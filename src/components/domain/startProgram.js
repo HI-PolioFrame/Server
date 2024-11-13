@@ -42,7 +42,7 @@ templateInfo.forEach((data) => {
 export const initializeData = () => {
   userInfo.forEach((data) => {
     let user = new User(
-      Number(data.id),
+      data.id,
       data.pageId,
       data.password,
       data.name,
@@ -55,11 +55,15 @@ export const initializeData = () => {
       data.career,
       data.education
     );
-    oriUsers.set(Number(data.id), user);
+    oriUsers.set(data.id, user);
     if (user.recruiter === true) {
       oriRecruiters.set(data.id, user);
     }
   });
+
+  for (const [key, user] of oriUsers){
+    console.log(`아이디 ${key}`);  
+  }
 
   portfolioInfo.forEach((data) => {
     let portfolio = new Portfolio(
