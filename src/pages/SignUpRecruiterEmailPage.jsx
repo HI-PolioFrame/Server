@@ -188,7 +188,7 @@ const SignUpRecruiterEmailPage= () => {
                 <Text>이미 회원이신가요? |</Text>
                 <JoinButton onClick={() => navigate("../LoginPage")}>로그인</JoinButton>
             </MemberWrapper>
-            <JoinButton onClick={() => navigate("/SignUpRecruiterPage")}>아이디로 회원가입하기</JoinButton>
+            <JoinButton onClick={() => navigate("/SignUpRecruiterPage")}>이메일로 회원가입하기</JoinButton>
 
             {/* 팝업창 */}
             {isModalOpen && (

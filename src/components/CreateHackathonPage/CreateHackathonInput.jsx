@@ -4,7 +4,7 @@ import { useState } from "react";
 // import Calendar from "./Calendar.jsx";
 import CalendarInput from "./CalendarInput.jsx";
 
-const CreatePortfolioInput = () => {
+const CreateHackathonInput = () => {
   // 업로드 이미지 미리보기 코드
   const [coverimagePreview, setCoverImagePreview] = useState(null);
   const [LogoPreview, setLogoPreview] = useState(null);
@@ -53,46 +53,33 @@ const CreatePortfolioInput = () => {
     <VitalWrapper> 
      <VitalText>필수 항목</VitalText>
       <ColumnWrapper>
-        {/* 포트폴리오 이름 */}
+        {/* 해커톤 이름 */}
           <InputWrapper>
               <MainText>해커톤 이름</MainText>
-              <ExText>자신만의 해커톤 이름을 작성해주세요</ExText>
+              <ExText>해커톤 이름을 작성해주세요</ExText>
               <VitalInput type="text"></VitalInput>
           </InputWrapper>
-        {/* 포트폴리오 설명 -> 글자수 제한해야한다.*/}
-          <InputWrapper>
-              <MainText>해커톤 설명</MainText>
-              <ExText>짧게 포트폴리오를 설명해주세요</ExText>
-              <VitalInput type="text"></VitalInput>
-          </InputWrapper>
-        </ColumnWrapper>
-
-        <ColumnWrapper>
-        {/* 사용한 프로그램 */}
-          <InputWrapper>
-              <MainText>사용한 프로그램</MainText>
-              <ExText>사용한 언어/프로그램을 작성해주세요</ExText>
-              <VitalInput type="text"></VitalInput>
-          </InputWrapper>
-          {/* 링크 */}
-          <InputWrapper>
+        {/* 링크 */}
+        <InputWrapper>
               <MainText>Links</MainText>
-              <ExText>Github, 웹사이트, 앱 스토어 등 프로젝트를 테스트할 수 있는 곳의 링크를 추가하세요.</ExText>
+              <ExText>해커톤을 설명할 자료 링크를 입력해주세요.</ExText>
               <VitalInput type="url"></VitalInput>
           </InputWrapper>
         </ColumnWrapper>
 
+
+        {/* 모집 부분 */}
         <ColumnWrapper>
-        {/* The problem it solves -> 해결하는 문제 */}
           <InputWrapper>
-              <MainText>해결하는 문제</MainText>
-              <ExText>무엇에 사용할 수 있는지, 그것이 어떻게 기존 작업을 더 쉽고 안전하게 만드는지 등을 설명합니다</ExText>
-              <VitalInput2></VitalInput2>
+              <MainText>모집 파트</MainText>
+              <ExText>모집할 파트를 입력해주세요.</ExText>
+              <VitalInput type="text"></VitalInput>
           </InputWrapper>
-          <InputWrapper>
-              <MainText>내가 마주친 도전</MainText>
-              <ExText>이 프로젝트를 구축하는 동안 발생한 특정 버그,장애물에 대해 알려주세요. 어떻게 극복하셨나요? </ExText>
-              <VitalInput2></VitalInput2>
+
+        <InputWrapper>
+              <MainText>모집인원</MainText>
+              <ExText>모집인원을 입력해주세요.</ExText>
+              <VitalInput type="url"></VitalInput>
           </InputWrapper>
         </ColumnWrapper>
 
@@ -103,8 +90,16 @@ const CreatePortfolioInput = () => {
               <ExText>이 프로젝트에 참여한 기간을 선택해주세요. </ExText>
               <CalendarInput/>
           </InputWrapper>
-         
+          {/* 공유 여부 */}
+          <InputWrapper>
+              <MainText>해커톤 설명</MainText>
+              <ExText>해커톤에 대해서 자세히 설명해주세요</ExText>
+              <VitalInput2></VitalInput2>
+            </InputWrapper>
         </ColumnWrapper3>
+        
+        
+
     </VitalWrapper>
 
     {/* 선택항목 */}
@@ -113,14 +108,14 @@ const CreatePortfolioInput = () => {
       <ColumnWrapper2>
         {/* 데모 비디오 */}
           <InputWrapper>
-              <MainText>데모 비디오</MainText>
-              <ExText>프로젝트 기능을 데모하는 비디오에 링크를 추가하세요</ExText>
+              <MainText>홍보 비디오</MainText>
+              <ExText>해커톤을 홍보하는 비디오를 링크에 추가하세요</ExText>
               <ChoiceInput type="url"></ChoiceInput>
           </InputWrapper>
         {/* 커버 이미지*/}
           <InputWrapper>
               <MainText>커버 이미지</MainText>
-              <ExText>프로젝트를 보여줄 표지 이미지를 업로드해주세요</ExText>
+              <ExText>해커톤을 보여줄 표지 이미지를 업로드해주세요</ExText>
               <ImageWrapper>
                 <FileInput
                   type="file"
@@ -145,7 +140,7 @@ const CreatePortfolioInput = () => {
         {/* 사진 */}
           <InputWrapper>
               <MainText>사진</MainText>
-              <ExText>최대 4장의 사진을 업로드하여 프로젝트를 소개해주세요</ExText>
+              <ExText>최대 4장의 사진을 업로드하여 해커톤을 소개해주세요</ExText>
             <ImageWrapper>
               {photosPreview.map((preview, index) => (
               <FileLabel
@@ -168,7 +163,7 @@ const CreatePortfolioInput = () => {
           {/* 로고 */}
           <InputWrapper>
               <MainText>로고</MainText>
-              <ExText>프로젝트를 나타내는 로고를 업로드해주세요</ExText>
+              <ExText>해커톤을 나타내는 로고를 업로드해주세요</ExText>
               <ImageWrapper>
                 <FileInput
                   type="file"
@@ -195,7 +190,7 @@ const CreatePortfolioInput = () => {
     );
 };
 
-export default CreatePortfolioInput;
+export default CreateHackathonInput;
 
 //css Wrapper
 const VitalWrapper = styled.div`
@@ -276,7 +271,7 @@ const VitalInput2 = styled.textarea`
   border: 1px solid #d0d1d9;
   border-radius: 1em;
   outline: none;
-  height: 6em;
+  height: 23em;
   width: 35em; 
   text-indent: 1em;
   &::placeholder {
