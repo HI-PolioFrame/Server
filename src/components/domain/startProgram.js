@@ -61,8 +61,8 @@ export const initializeData = () => {
     }
   });
 
-  for (const [key, user] of oriUsers){
-    console.log(`아이디 ${key}`);  
+  for (const [key, user] of oriUsers) {
+    console.log(`아이디 ${key}`);
   }
 
   portfolioInfo.forEach((data) => {
@@ -92,7 +92,8 @@ export const initializeData = () => {
       data.projectId,
       data.projectTitle,
       data.description,
-      data.period,
+      data.startDate,
+      data.endDate,
       data.category,
       data.usedLanguage,
       data.projectLink,

@@ -4,7 +4,7 @@ import { useState } from "react";
 // import Calendar from "./Calendar.jsx";
 import CalendarInput from "./CalendarInput.jsx";
 
-const CreatePortfolioInput = ({ onInputChange, formData }) => {
+const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
   // 업로드 이미지 미리보기 코드
   const [coverimagePreview, setCoverImagePreview] = useState(null);
   const [LogoPreview, setLogoPreview] = useState(null);
@@ -150,7 +150,11 @@ const CreatePortfolioInput = ({ onInputChange, formData }) => {
           <InputWrapper>
             <MainText>참여기간</MainText>
             <ExText>이 프로젝트에 참여한 기간을 선택해주세요. </ExText>
-            <CalendarInput />
+            <CalendarInput
+              startDate={formData.startDate}
+              endDate={formData.endDate}
+              onDateChange={onDateChange}
+            />
           </InputWrapper>
         </ColumnWrapper3>
       </VitalWrapper>

@@ -47,6 +47,13 @@ const CreatePortfolioPage = () => {
     }));
   };
 
+  const handleDateChange = (name, date) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: date,
+    }));
+  };
+
   const handleSaveProject = () => {
     saveProject(
       currentUser.name, // 사용자 이름
@@ -69,6 +76,7 @@ const CreatePortfolioPage = () => {
       formData.logo,
       formData.share
     );
+    console.log(formData.startDate, formData.endDate);
   };
   return (
     <>
@@ -81,6 +89,7 @@ const CreatePortfolioPage = () => {
         <CreatePortfolioInput
           onInputChange={handleInputChange}
           formData={formData}
+          onDateChange={handleDateChange}
         />
         <CreatePortfolioTemplate />
         <CreateButton onClick={handleSaveProject}>제작하기</CreateButton>
