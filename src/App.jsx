@@ -99,7 +99,7 @@ function App() {
             element={<PortfolioDetailPage />}
           />
           {/* 채용자 페이지*/}
-          <Route path="/RecruiterPage" element={<RecruiterPage />} />
+          <Route path="/RecruiterPage/:userId" element={<RecruiterPage />} />
         </Route>
       </Route>
     </Routes>

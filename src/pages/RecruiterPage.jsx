@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import SelectBox from "../components/commmon/SelectBox";
 import SearchBarMini from "../components/MyPage/SearchBarMini";
@@ -14,7 +15,7 @@ import { getCurrentUser } from "../components/features/currentUser";
 
 function RecruiterPage() {
   const [myPortfolioList, setmyPortfolioList] = useState([]); // 상태로 관리되는 포트폴리오 리스트
-
+  const { userId } = useParams();
   //   useEffect(() => {
   //     const currentUser = getCurrentUser();
   //     if (currentUser) {
@@ -26,6 +27,10 @@ function RecruiterPage() {
   //       setmyPortfolioList(userPortfolios);
   //     }
   //   }, []);
+
+  useEffect(() => {
+    console.log("Recruiter userId:", userId);
+  }, [userId]);
 
   // LinkedList를 배열로 변환하는 유틸리티 함수
   const linkedListToArray = (linkedList) => {

@@ -80,6 +80,11 @@ function Header({}) {
         <TextWrapper>
           <Text onClick={() => navigate("/PortfolioPage")}>포트폴리오</Text>
           <Text onClick={() => navigate("/HackathonPage")}>해커톤</Text>
+          {accessToken && currentUser?.recruiter && (
+            <Text onClick={() => navigate(`/RecruiterPage/${currentUser.id}`)}>
+              채용
+            </Text>
+          )}
         </TextWrapper>
 
         {/* <Nav>
