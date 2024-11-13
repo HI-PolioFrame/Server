@@ -31,8 +31,11 @@ const TemplateCard = ({ portfolioId, templateButton }) => {
       <Description>{portfolioData.discription || "빈 설명"}</Description>
       <Button
         onClick={() => {
-          console.log("보기 버튼 클릭");
-          navigate(`/PortfolioDetailPage/${portfolioId}`);
+          if (portfolioId === 8) {
+            navigate(`/PortfolioDetailPage2/${portfolioId}`);
+          } else {
+            navigate(`/PortfolioDetailPage/${portfolioId}`);
+          }
         }}
       >
         {templateButton}

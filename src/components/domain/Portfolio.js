@@ -2,7 +2,7 @@ class Portfolio {
   // 일반적으로 처음 포트폴리오를 작성할 떄
   constructor(
     portfolioId,
-    userId,
+    ownerId,
     userEmail,
     setTemplate,
     title,
@@ -14,7 +14,7 @@ class Portfolio {
     likes = null
   ) {
     this.portfolioId = portfolioId;
-    this.owner = userId;
+    this.owner = ownerId;
     this.email = userEmail;
     this.setTemplate = setTemplate;
     this.title = title;
