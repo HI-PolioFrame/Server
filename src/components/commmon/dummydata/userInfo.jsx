@@ -6,7 +6,7 @@ export const userInfo = [
     name: "김예은",
     phoneNumber: "010-2222-2222",
     birthday: "1990-01-01",
-    recruiter: false,
+    recruiter: true,
     email: "nabinabi1110@naver.com",
     nickname: "옝",
     link: "",

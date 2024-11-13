@@ -33,6 +33,8 @@ const TemplateCard = ({ portfolioId, templateButton }) => {
         onClick={() => {
           if (portfolioId === 8) {
             navigate(`/PortfolioDetailPage2/${portfolioId}`);
+          } else if (portfolioId === 7) {
+            navigate(`/PortfolioDetailPage3/${portfolioId}`);
           } else {
             navigate(`/PortfolioDetailPage/${portfolioId}`);
           }

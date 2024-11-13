@@ -10,7 +10,6 @@ import StyledButton from "../components/commmon/StyledButton";
 import HackathonPageSlide from "../components/HackathonPage/HackathonPageSlide.jsx";
 import { Navigate, useNavigate } from "react-router-dom";
 
-
 import {
   oriProjects,
   searchSortManager,
@@ -56,7 +55,6 @@ const HackathonPage = () => {
     setsharedPortfolioList(linkedListToArray(searchedLinkedList));
   };
 
-
   return (
     <>
       <PageHeader pageTitle="Hackathon" />
@@ -93,6 +91,7 @@ const HackathonPage = () => {
         </HackathonGridWrapper>
         {/* 기존 해커톤 */}
         <Line2></Line2>
+
         <HackathonPageSlide/>
 
         <ButtonWrapper>
@@ -101,6 +100,7 @@ const HackathonPage = () => {
           해커톤 제작하기
         </StartButton>
       </ButtonWrapper>
+
       </MainWrapper>
     </>
   );
@@ -159,7 +159,6 @@ const StartButton = styled.button`
   justify-content: center;
   position: relative;
 `;
-
 
 //css element
 const SearchInput = styled.input`

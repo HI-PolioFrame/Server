@@ -6,7 +6,7 @@ import LoginPage from "./pages/LoginPage";
 import MemberSelectionPage from "./pages/MemberSelectionPage";
 import SignUpRecruiterPage from "./pages/SignUpRecruiterPage";
 import SignUpRecruiterEmailPage from "./pages/SignUpRecruiterEmailPage";
-import SignUpDeveloperPage from "./pages/signUpDeveloperPage";
+//import SignUpDeveloperPage from "./pages/signUpDeveloperPage";
 import SignUpDeveloperEmailPage from "./pages/SignUpDeveloperEmailPage";
 import LayOut from "./components/commmon/LayOut";
 import MyPage from "./pages/MyPage";
@@ -17,7 +17,12 @@ import HackathonPage from "./pages/HackathonPage";
 import CreatePortfolioPage from "./pages/CreatePortfolioPage";
 import PortfolioDetailPage from "./pages/PortfolioDetailPage";
 import PortfolioDetailPage2 from "./pages/PortfolioDetailPage2";
+
+import PortfolioDetailPage3 from "./pages/PortfolioDetailPage3";
+import RecruiterPage from "./pages/RecruiterPage";
+
 import CreateHackathonPage from "./pages/CreateHackathonPage";
+
 
 import { initializeData } from "./components/domain/startProgram";
 
@@ -43,7 +48,7 @@ function App() {
           element={<SignUpRecruiterEmailPage />}
         />
         {/* 일반회원 회원가입 페이지 */}
-        <Route path="/SignUpDeveloperPage" element={<SignUpDeveloperPage />} />
+        {/* <Route path="/SignUpDeveloperPage" element={<SignUpDeveloperPage />} /> */}
         {/* 일반회원 이메일 회원가입 페이지 */}
         <Route
           path="/SignUpDeveloperEmailPage"
@@ -66,8 +71,10 @@ function App() {
             element={<CreateHackathonPage />}
           />
           {/* 포폴 상세 페이지 템플릿 2 */}
-          <Route path="/PortfolioDetailPage2/:portfolioId" element={<PortfolioDetailPage2/>}/>
-
+          <Route
+            path="/PortfolioDetailPage2/:portfolioId"
+            element={<PortfolioDetailPage2 />}
+          />
 
           {/*마이 페이지  */}
           <Route
@@ -101,6 +108,13 @@ function App() {
             path="/PortfolioDetailPage/:portfolioId"
             element={<PortfolioDetailPage />}
           />
+          {/* 포트폴리오 상세페이지3 */}
+          <Route
+            path="/PortfolioDetailPage3/:portfolioId"
+            element={<PortfolioDetailPage3 />}
+          />
+          {/* 채용자 페이지*/}
+          <Route path="/RecruiterPage/:userId" element={<RecruiterPage />} />
         </Route>
       </Route>
     </Routes>
