@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import arrow from "../../assets/icons/SelectBox/arrow.png";
 import StyledButton from "./StyledButton";
@@ -29,6 +29,46 @@ const SelectBox = ({ onSort }) => {
   const [selectedSort, setSelectedSort] = useState(null);
   const [selectedFilters, setSelectedFilters] = useState([]);
 
+  const categoryRef = useRef(null);
+  const sortRef = useRef(null);
+  const filterRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (categoryRef.current && !categoryRef.current.contains(event.target)) {
+        setIsCategoryOpen(false);
+      }
+      if (sortRef.current && !sortRef.current.contains(event.target)) {
+        setIsSortOpen(false);
+      }
+      if (filterRef.current && !filterRef.current.contains(event.target)) {
+        setIsFilterOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  // 선택한 필터 옵션에 따라 필터 메뉴를 닫음
+  useEffect(() => {
+    const hasCareer = selectedFilters.some((item) =>
+      ["있음", "없음"].includes(item)
+    );
+    const hasLanguage = selectedFilters.some((item) =>
+      ["Java", "Python", "JavaScript"].includes(item)
+    );
+    const hasDegree = selectedFilters.some((item) =>
+      ["학사", "석사", "박사"].includes(item)
+    );
+
+    if (hasCareer && hasLanguage && hasDegree) {
+      setIsFilterOpen(false); // 최소 1개씩 선택되면 메뉴 닫기
+    }
+  }, [selectedFilters]); // selectedFilters가 변경될 때마다 실행
+
   const handleCategoryClick = (option) => {
     selectedCategory === option //selectedCagory 와 item 비교
       ? setSelectedCategory(null) // item이랑 같으면 null
@@ -53,7 +93,7 @@ const SelectBox = ({ onSort }) => {
   return (
     <SelectContainer className="SelectContiner">
       {/* 카테고리 */}
-      <SelectWrapper className="SelectWrapper">
+      <SelectWrapper className="SelectWrapper" ref={categoryRef}>
         <SelectButton
           // 카테고리 버튼 누르면..
           onClick={() => {
@@ -80,7 +120,7 @@ const SelectBox = ({ onSort }) => {
       </SelectWrapper>
 
       {/* 정렬 */}
-      <SelectWrapper>
+      <SelectWrapper ref={sortRef}>
         <SelectButton
           onClick={() => {
             setIsSortOpen(!isSortOpen);
@@ -105,7 +145,7 @@ const SelectBox = ({ onSort }) => {
       </SelectWrapper>
 
       {/* 필터 */}
-      <SelectWrapper>
+      <SelectWrapper ref={filterRef}>
         <SelectButton
           onClick={() => {
             setIsFilterOpen(!isFilterOpen);
@@ -241,5 +281,4 @@ const SelectItem = styled.div`
 
 const StyledButtonContainer = styled.div`
   width: 100%;
-
 `;

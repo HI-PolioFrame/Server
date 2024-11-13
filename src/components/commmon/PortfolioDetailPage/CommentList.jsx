@@ -23,6 +23,7 @@ const CommentList = ({ comments, setComments, portfolioId }) => {
         <Comment key={index}>
           <CommentHeader>
             <CommentUser>{comment.userId}</CommentUser>
+            <CommentDate>{comment.date}</CommentDate>
             {comment.userId === getCurrentUser().id && (
               <DeleteButton onClick={() => handleDelete(index)}>
                 삭제
@@ -59,6 +60,11 @@ const CommentHeader = styled.div`
 const CommentUser = styled.span`
   font-weight: bold;
   font-family: "OTF B";
+`;
+
+const CommentDate = styled.span`
+  font-weight: bold;
+  font-family: "OTF R";
 `;
 
 const CommentText = styled.p`
