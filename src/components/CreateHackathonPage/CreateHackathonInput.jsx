@@ -4,7 +4,7 @@ import { useState } from "react";
 // import Calendar from "./Calendar.jsx";
 import CalendarInput from "./CalendarInput.jsx";
 
-const CreatePortfolioInput = () => {
+const CreateHackathonInput = () => {
   // 업로드 이미지 미리보기 코드
   const [coverimagePreview, setCoverImagePreview] = useState(null);
   const [LogoPreview, setLogoPreview] = useState(null);
@@ -55,13 +55,13 @@ const CreatePortfolioInput = () => {
       <ColumnWrapper>
         {/* 포트폴리오 이름 */}
           <InputWrapper>
-              <MainText>해커톤 이름</MainText>
-              <ExText>자신만의 해커톤 이름을 작성해주세요</ExText>
+              <MainText>포트폴리오 이름</MainText>
+              <ExText>자신만의 포트폴리오 이름을 작성해주세요</ExText>
               <VitalInput type="text"></VitalInput>
           </InputWrapper>
         {/* 포트폴리오 설명 -> 글자수 제한해야한다.*/}
           <InputWrapper>
-              <MainText>해커톤 설명</MainText>
+              <MainText>포트폴리오 설명</MainText>
               <ExText>짧게 포트폴리오를 설명해주세요</ExText>
               <VitalInput type="text"></VitalInput>
           </InputWrapper>
@@ -103,7 +103,24 @@ const CreatePortfolioInput = () => {
               <ExText>이 프로젝트에 참여한 기간을 선택해주세요. </ExText>
               <CalendarInput/>
           </InputWrapper>
-         
+          {/* 공유 여부 */}
+          <InputWrapper>
+              <MainText>공유</MainText>
+              <ExText>이 프로젝트에 대한 정보를 공유할 것인지 선택해주세요. 
+                <br></br>만일 공유하게 된다면 포트폴리오 열람 페이지에서 확인할 수 있습니다.
+              </ExText>
+              <ToggleWrapper>
+                <OnToggleText onClick={onToggle} isOn={isOn}>
+                    공개
+                </OnToggleText>
+                <ToggleBox onClick={handleToggle}>
+                    <Toggle isOn={isOn}></Toggle>
+                </ToggleBox>
+                <OffToggleText onClick={offToggle} isOn={isOn}>
+                    비공개
+                </OffToggleText>
+            </ToggleWrapper>
+          </InputWrapper>
         </ColumnWrapper3>
     </VitalWrapper>
 
@@ -113,14 +130,14 @@ const CreatePortfolioInput = () => {
       <ColumnWrapper2>
         {/* 데모 비디오 */}
           <InputWrapper>
-              <MainText>데모 비디오</MainText>
-              <ExText>프로젝트 기능을 데모하는 비디오에 링크를 추가하세요</ExText>
+              <MainText>홍보 비디오</MainText>
+              <ExText>해커톤을 홍보하는 비디오를 링크에 추가하세요</ExText>
               <ChoiceInput type="url"></ChoiceInput>
           </InputWrapper>
         {/* 커버 이미지*/}
           <InputWrapper>
               <MainText>커버 이미지</MainText>
-              <ExText>프로젝트를 보여줄 표지 이미지를 업로드해주세요</ExText>
+              <ExText>해커톤을 보여줄 표지 이미지를 업로드해주세요</ExText>
               <ImageWrapper>
                 <FileInput
                   type="file"
@@ -145,7 +162,7 @@ const CreatePortfolioInput = () => {
         {/* 사진 */}
           <InputWrapper>
               <MainText>사진</MainText>
-              <ExText>최대 4장의 사진을 업로드하여 프로젝트를 소개해주세요</ExText>
+              <ExText>최대 4장의 사진을 업로드하여 해커톤을 소개해주세요</ExText>
             <ImageWrapper>
               {photosPreview.map((preview, index) => (
               <FileLabel
@@ -168,7 +185,7 @@ const CreatePortfolioInput = () => {
           {/* 로고 */}
           <InputWrapper>
               <MainText>로고</MainText>
-              <ExText>프로젝트를 나타내는 로고를 업로드해주세요</ExText>
+              <ExText>해커톤을 나타내는 로고를 업로드해주세요</ExText>
               <ImageWrapper>
                 <FileInput
                   type="file"
@@ -195,7 +212,7 @@ const CreatePortfolioInput = () => {
     );
 };
 
-export default CreatePortfolioInput;
+export default CreateHackathonInput;
 
 //css Wrapper
 const VitalWrapper = styled.div`

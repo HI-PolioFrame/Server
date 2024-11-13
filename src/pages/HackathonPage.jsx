@@ -97,7 +97,7 @@ const HackathonPage = () => {
 
         <ButtonWrapper>
         {/* 포트폴리오 제작 페이지로 넘어갈 수 있는 버튼 추가 */}
-        <StartButton onClick={() => navigate("/CreatePortfolioPage")}>
+        <StartButton onClick={() => navigate("/CreateHackathonPage")}>
           해커톤 제작하기
         </StartButton>
       </ButtonWrapper>
