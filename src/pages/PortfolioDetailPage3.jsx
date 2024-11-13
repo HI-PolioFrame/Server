@@ -13,6 +13,8 @@ import CommentList from "../components/commmon/PortfolioDetailPage/CommentList";
 import AboutMe from "../assets/images/PortfolioDetailPage3/AboutMe.png";
 import name from "../assets/images/PortfolioDetailPage3/name.png";
 import email from "../assets/images/PortfolioDetailPage3/email.png";
+import language from "../assets/images/PortfolioDetailPage3/language.svg";
+import category from "../assets/images/PortfolioDetailPage3/category.svg";
 
 const PortfolioDetailPage3 = () => {
   const { portfolioId } = useParams();
@@ -78,17 +80,72 @@ const PortfolioDetailPage3 = () => {
           <ProjectDescription>{portfolioData.description}</ProjectDescription>
         </TitleWrapper>
 
-        {/* <DeveloperWrapper>
-          <InfoWrapper>
-            <Image16 src={Notepad16} alt="Notepad16" />
-            <Bar>{portfolioData.ownerName} </Bar>
-            <Bar>
-              {portfolioData.ownerEmail
-                ? portfolioData.ownerEmail
-                : "이메일 없음."}{" "}
-            </Bar>
-          </InfoWrapper>
-        </DeveloperWrapper> */}
+        <SectionContent>
+          <SectionTitle>
+            <SectionTitleText>ABOUT ME</SectionTitleText>
+          </SectionTitle>
+          <AboutMeBasicInfos>
+            <AboutMeBasicInfoWrapper>
+              <AboutMeBasicInfoItem>
+                <ImageWrapper>
+                  <Image2 src={name} alt="name" />
+                </ImageWrapper>
+                <DevInfoWrapper>
+                  <DevLabel>이름</DevLabel>
+                  <DevLabel>{portfolioData.ownerName}</DevLabel>
+                </DevInfoWrapper>
+              </AboutMeBasicInfoItem>
+            </AboutMeBasicInfoWrapper>
+            <AboutMeBasicInfoWrapper>
+              <AboutMeBasicInfoItem>
+                <ImageWrapper>
+                  <Image2 src={email} alt="email" />
+                </ImageWrapper>
+                <DevInfoWrapper>
+                  <DevLabel>이메일</DevLabel>
+                  <DevLabel>{portfolioData.ownerEmail}</DevLabel>
+                </DevInfoWrapper>
+              </AboutMeBasicInfoItem>
+            </AboutMeBasicInfoWrapper>
+          </AboutMeBasicInfos>
+        </SectionContent>
+
+        <SectionContent>
+          <SectionTitle>
+            <SectionTitleText>SKILLS</SectionTitleText>
+          </SectionTitle>
+          <SkillInfos>
+            <SkillInfoWrapper>
+              <SkillsName>
+                <Image3 src={language} alt="language" />
+                언어
+              </SkillsName>
+              <SkillsList>
+                <SkillsItem>{portfolioData.usedLanguage}</SkillsItem>
+              </SkillsList>
+            </SkillInfoWrapper>
+
+            <SkillInfoWrapper>
+              <SkillsName>
+                <Image3 src={category} alt="category" />
+                카테고리
+              </SkillsName>
+              <SkillsList>
+                <SkillsItem>
+                  {portfolioData.category
+                    ? portfolioData.category
+                    : "카테고리 없음"}
+                </SkillsItem>
+              </SkillsList>
+            </SkillInfoWrapper>
+          </SkillInfos>
+        </SectionContent>
+
+        <SectionContent>
+          <SectionTitle>
+            <SectionTitleText>ARCHIVING</SectionTitleText>
+          </SectionTitle>
+        </SectionContent>
       </MainWrapper>
     </>
   );
@@ -102,26 +159,18 @@ const MainWrapper = styled.div`
   padding: 40px 40px;
   margin: 0 auto;
 
-  border: 5px solid #000;
-  border-radius: 2em;
-  height: 75em;
+  font-family: __Noto_Sans_KR_99422f, __Noto_Sans_KR_Fallback_99422f;
+  font-style: normal;
+
+  //   border: 5px solid #000;
+  //   border-radius: 2em;
+  //   height: 75em;
 
   display: flex;
   flex-direction: column;
   // align-items: center;
 `;
-const Maincomponent = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 0 2rem;
 
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: center;
-    padding: 1rem;
-  }
-`;
 const Loading = styled.div`
   display: flex;
   justify-content: center;
@@ -129,83 +178,114 @@ const Loading = styled.div`
   font-size: 1vw;
   font-weight: bold;
 `;
+
 const TitleWrapper = styled.div`
   margin-bottom: 2.5vw;
 `;
-const Label1Wrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  position: relative;
-`;
-const Label2Wrapper = styled.div`
-  margin-top: 1em;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-`;
-const Wrapper1 = styled.div`
-  width: 60%;
-  margin-right: 1rem;
 
-  @media (max-width: 768px) {
-    width: 100%;
-    margin-right: 0;
-  }
-`;
-const Wrapper2 = styled.div`
-  width: 80%;
-  margin-top: 2em;
-  gap: 5em;
-  display: flex;
-  flex-direction: column;
-  @media (max-width: 768px) {
-    width: 100%;
-    margin-right: 0;
-  }
-`;
-const LearnedWrapper = styled.div`
-  width: 100%;
-  height: 20em;
-  border: 3px solid #000;
-  border-radius: 2em;
+const SectionTitle = styled.div`
   position: relative;
+  display: table;
+  margin: 0 auto 3rem;
 `;
-const ProblemWrapper = styled.div`
-  width: 100%;
-  height: 20em;
-  border: 3px solid #000;
-  border-radius: 2em;
+
+const SectionTitleText = styled.h3`
+  font-family: __Black_Han_Sans_27e777, __Black_Han_Sans_Fallback_27e777;
+  //   font-weight: 400;
+  font-style: normal;
+  border-bottom-color: #cccccc;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  font-size: 3rem;
+`;
+const ImageWrapper = styled.div`
   position: relative;
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 2rem;
+  margin-top: 0.2rem;
 `;
-const ImageContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1em;
+
+const SectionContent = styled.div`
   width: 100%;
+  max-width: 71.25rem;
+  padding: 4rem 1.5rem;
+  margin: 0 auto;
 `;
-const LogoContainer = styled.div`
-  display: grid;
-  gap: 1em;
+
+const AboutMeBasicInfos = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+`;
+
+const SkillInfos = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+  padding: 2rem;
+  background-color: hsla(0, 0%, 100%, 0.8);
+  box-shadow: 1rem 1rem 1rem 0 rgba(68, 68, 68, 0.2);
+  border-radius: 1rem;
+`;
+const AboutMeBasicInfoWrapper = styled.div`
+  width: 50%;
+`;
+
+const SkillInfoWrapper = styled.div`
+  display: flex;
+  align-items: flex-start;
+  column-gap: 2rem;
+`;
+
+const AboutMeBasicInfoItem = styled.div`
+  display: flex;
+  flex-wrap: nowrap;
+  column-gap: 2rem;
   width: 100%;
+  max-width: 14rem;
+  margin: 0 auto;
+  opacity: 0.8;
 `;
-const PhotoWrappeer = styled.div`
+
+const DevInfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `;
-const LogoWrappeer = styled.div`
-  display: flex;
-  flex-direction: column;
+
+const DevLabel = styled.label`
+  margin-bottom: 0.5rem;
+  font-weight: 700;
 `;
-const VideoWrappeer = styled.div`
+
+const SkillsName = styled.div`
   display: flex;
-  flex-direction: column;
-  margin-top: 1em;
+  align-items: center;
+  column-gap: 1rem;
+  flex-shrink: 0;
+  width: 10rem;
+  font-weight: 900;
 `;
-const InfoWrapper = styled.div`
+
+const SkillsList = styled.ul`
   display: flex;
-  flex-direction: column;
-  gap: -2em;
-  margin-top: 6em;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.5rem;
+
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+`;
+
+const SkillsItem = styled.div`
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+
+  background-color: #2f74c0;
+  color: #ffffff;
 `;
 //css button
 const InfoButtons = styled.div`
@@ -223,72 +303,45 @@ const Button = styled.button`
 `;
 
 // css component
-const Bar = styled.p`
-  position: relative;
-  font-size: 1em;
-  margin: 0;
-  margin-top: 2em;
-  font-family: "OTF R";
-
-  &::after {
-    content: "";
-    display: block;
-    width: 10em;
-    height: 0.08em;
-    background-color: #000;
-    position: absolute;
-    left: 0;
-  }
-`;
-const ImageBox = styled.div`
-  width: 5em;
-  height: 5em;
-  border: 2px solid #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1vw;
-  border-radius: 1em;
-`;
-const VideoBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border: 3px solid #000;
-  border-radius: 1em;
-  font-size: 1vw;
-  width: 40em;
-  height: 16.5em;
-`;
 
 //css image
+const Image1 = styled.img``;
+
+const Image2 = styled.img`
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  color: transparent;
+`;
+
 const Image3 = styled.img`
-  width: 10em;
-  height: auto;
-  margin-right: 1em;
-`;
-const Image5 = styled.img`
-  width: 10em;
-  height: auto;
-  margin-top: -2.3em;
-  margin-left: 8em;
-`;
-const Image16 = styled.img`
-  width: 4em;
-  height: auto;
-  margin-top: -2.3em;
+  height: 20%;
+  width: 20%;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  color: transparent;
 `;
 
 //css text
 const ProjectTitle = styled.h1`
-  font-weight: bold;
-  font-family: "OTF B";
+  font-family: __Black_Han_Sans_27e777, __Black_Han_Sans_Fallback_27e777;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 4rem;
+  line-height: 1.25;
+  word-break: keep-all;
 `;
 
 const ProjectDescription = styled.p`
-  font-weight: bold;
-  font-family: "OTF B";
+  font-family: __Black_Han_Sans_27e777, __Black_Han_Sans_Fallback_27e777;
+  font-weight: 400;
+  font-style: normal;
   margin-top: -0.5em;
 `;
 
