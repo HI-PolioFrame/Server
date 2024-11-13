@@ -117,7 +117,9 @@ const PortfolioDetailPage = () => {
 
           <PeriodField>
             <Label>참여 기간</Label>
-            <TextBox>{portfolioData.period}</TextBox>
+            <TextBox>
+              {portfolioData.startDate} - {portfolioData.endDate}
+            </TextBox>
           </PeriodField>
 
           <ProblemSolvingField>

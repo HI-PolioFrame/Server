@@ -85,7 +85,9 @@ const PortfolioDetailPage2 = () => {
               {/* 참여기간 */}
               <PeriodText>참여기간</PeriodText>
               <Image3 src={Notepad3} alt="Notepad3" />
-              <Bar>{portfolioData.period}</Bar>
+              <Bar>
+                {portfolioData.startDate} - {portfolioData.endDate}
+              </Bar>
             </Label1Wrapper>
             {/* 사용한 언어 */}
             <Label1Wrapper>

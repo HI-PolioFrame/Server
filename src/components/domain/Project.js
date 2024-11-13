@@ -8,7 +8,8 @@ class Project {
     projectId,
     projectTitle,
     description,
-    period,
+    startDate,
+    endDate,
     category = null,
     usedLanguage = null,
     projectLink = null,
@@ -28,7 +29,8 @@ class Project {
     this.projectId = projectId;
     this.projectTitle = projectTitle;
     this.description = description;
-    this.period = period;
+    this.startDate = startDate;
+    this.endDate = endDate;
     this.category = category;
     this.usedLanguage = usedLanguage;
     this.projectLink = projectLink;

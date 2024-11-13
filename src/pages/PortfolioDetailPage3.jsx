@@ -96,6 +96,7 @@ const PortfolioDetailPage3 = () => {
                 </DevInfoWrapper>
               </AboutMeBasicInfoItem>
             </AboutMeBasicInfoWrapper>
+
             <AboutMeBasicInfoWrapper>
               <AboutMeBasicInfoItem>
                 <ImageWrapper>
@@ -143,7 +144,7 @@ const PortfolioDetailPage3 = () => {
 
         <SectionContent>
           <SectionTitle>
-            <SectionTitleText>ARCHIVING</SectionTitleText>
+            <SectionTitleText>PROJECT</SectionTitleText>
           </SectionTitle>
         </SectionContent>
       </MainWrapper>
