@@ -133,7 +133,7 @@ const CreateButton = styled.button`
   background-color: #0a27a6;
   height: 3em;
   width: 20%;
-  margin-top: 2em;
+  margin-top: -6em;
   font-family: "OTF R";
 
   cursor: pointer;

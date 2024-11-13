@@ -53,46 +53,33 @@ const CreateHackathonInput = () => {
     <VitalWrapper> 
      <VitalText>필수 항목</VitalText>
       <ColumnWrapper>
-        {/* 포트폴리오 이름 */}
+        {/* 해커톤 이름 */}
           <InputWrapper>
-              <MainText>포트폴리오 이름</MainText>
-              <ExText>자신만의 포트폴리오 이름을 작성해주세요</ExText>
+              <MainText>해커톤 이름</MainText>
+              <ExText>해커톤 이름을 작성해주세요</ExText>
               <VitalInput type="text"></VitalInput>
           </InputWrapper>
-        {/* 포트폴리오 설명 -> 글자수 제한해야한다.*/}
-          <InputWrapper>
-              <MainText>포트폴리오 설명</MainText>
-              <ExText>짧게 포트폴리오를 설명해주세요</ExText>
-              <VitalInput type="text"></VitalInput>
-          </InputWrapper>
-        </ColumnWrapper>
-
-        <ColumnWrapper>
-        {/* 사용한 프로그램 */}
-          <InputWrapper>
-              <MainText>사용한 프로그램</MainText>
-              <ExText>사용한 언어/프로그램을 작성해주세요</ExText>
-              <VitalInput type="text"></VitalInput>
-          </InputWrapper>
-          {/* 링크 */}
-          <InputWrapper>
+        {/* 링크 */}
+        <InputWrapper>
               <MainText>Links</MainText>
-              <ExText>Github, 웹사이트, 앱 스토어 등 프로젝트를 테스트할 수 있는 곳의 링크를 추가하세요.</ExText>
+              <ExText>해커톤을 설명할 자료 링크를 입력해주세요.</ExText>
               <VitalInput type="url"></VitalInput>
           </InputWrapper>
         </ColumnWrapper>
 
+
+        {/* 모집 부분 */}
         <ColumnWrapper>
-        {/* The problem it solves -> 해결하는 문제 */}
           <InputWrapper>
-              <MainText>해결하는 문제</MainText>
-              <ExText>무엇에 사용할 수 있는지, 그것이 어떻게 기존 작업을 더 쉽고 안전하게 만드는지 등을 설명합니다</ExText>
-              <VitalInput2></VitalInput2>
+              <MainText>모집 파트</MainText>
+              <ExText>모집할 파트를 입력해주세요.</ExText>
+              <VitalInput type="text"></VitalInput>
           </InputWrapper>
-          <InputWrapper>
-              <MainText>내가 마주친 도전</MainText>
-              <ExText>이 프로젝트를 구축하는 동안 발생한 특정 버그,장애물에 대해 알려주세요. 어떻게 극복하셨나요? </ExText>
-              <VitalInput2></VitalInput2>
+
+        <InputWrapper>
+              <MainText>모집인원</MainText>
+              <ExText>모집인원을 입력해주세요.</ExText>
+              <VitalInput type="url"></VitalInput>
           </InputWrapper>
         </ColumnWrapper>
 
@@ -105,23 +92,14 @@ const CreateHackathonInput = () => {
           </InputWrapper>
           {/* 공유 여부 */}
           <InputWrapper>
-              <MainText>공유</MainText>
-              <ExText>이 프로젝트에 대한 정보를 공유할 것인지 선택해주세요. 
-                <br></br>만일 공유하게 된다면 포트폴리오 열람 페이지에서 확인할 수 있습니다.
-              </ExText>
-              <ToggleWrapper>
-                <OnToggleText onClick={onToggle} isOn={isOn}>
-                    공개
-                </OnToggleText>
-                <ToggleBox onClick={handleToggle}>
-                    <Toggle isOn={isOn}></Toggle>
-                </ToggleBox>
-                <OffToggleText onClick={offToggle} isOn={isOn}>
-                    비공개
-                </OffToggleText>
-            </ToggleWrapper>
-          </InputWrapper>
+              <MainText>해커톤 설명</MainText>
+              <ExText>해커톤에 대해서 자세히 설명해주세요</ExText>
+              <VitalInput2></VitalInput2>
+            </InputWrapper>
         </ColumnWrapper3>
+        
+        
+
     </VitalWrapper>
 
     {/* 선택항목 */}
@@ -293,7 +271,7 @@ const VitalInput2 = styled.textarea`
   border: 1px solid #d0d1d9;
   border-radius: 1em;
   outline: none;
-  height: 6em;
+  height: 23em;
   width: 35em; 
   text-indent: 1em;
   &::placeholder {
