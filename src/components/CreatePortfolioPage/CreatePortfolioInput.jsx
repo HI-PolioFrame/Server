@@ -9,9 +9,14 @@ const CreatePortfolioInput = ({ onInputChange, formData }) => {
   const [coverimagePreview, setCoverImagePreview] = useState(null);
   const [LogoPreview, setLogoPreview] = useState(null);
 
-  const [photosPreview, setPhotosPreview] = useState([null, null, null, null, null]);
+  const [photosPreview, setPhotosPreview] = useState([
+    null,
+    null,
+    null,
+    null,
+    null,
+  ]);
   const [isOn, setIsOn] = useState(true);
-
 
   const handleCoverImageChange = (e) => {
     const file = e.target.files[0];
@@ -44,16 +49,15 @@ const CreatePortfolioInput = ({ onInputChange, formData }) => {
     // dispatch(setPrivate(isOn));
   };
   const onToggle = () => {
-      setIsOn(true);
-      // dispatch(setPrivate(true));
+    setIsOn(true);
+    // dispatch(setPrivate(true));
   };
   const offToggle = () => {
-      setIsOn(false);
-      // dispatch(setPrivate(false));
+    setIsOn(false);
+    // dispatch(setPrivate(false));
   };
 
-  return(
-
+  return (
     <>
       {/* 필수항목 */}
       <VitalWrapper>
@@ -69,7 +73,6 @@ const CreatePortfolioInput = ({ onInputChange, formData }) => {
               value={formData.projectTitle}
               onChange={onInputChange}
             ></VitalInput>
-
           </InputWrapper>
           {/* 포트폴리오 설명 -> 글자수 제한해야한다.*/}
           <InputWrapper>
@@ -81,7 +84,6 @@ const CreatePortfolioInput = ({ onInputChange, formData }) => {
               value={formData.description}
               onChange={onInputChange}
             ></VitalInput>
-
           </InputWrapper>
         </ColumnWrapper>
 
@@ -142,25 +144,22 @@ const CreatePortfolioInput = ({ onInputChange, formData }) => {
             ></VitalInput2>
           </InputWrapper>
         </ColumnWrapper>
-      </VitalWrapper>
-
 
         <ColumnWrapper3>
           {/* 참여기간 */}
           <InputWrapper>
-              <MainText>참여기간</MainText>
-              <ExText>이 프로젝트에 참여한 기간을 선택해주세요. </ExText>
-              <CalendarInput/>
+            <MainText>참여기간</MainText>
+            <ExText>이 프로젝트에 참여한 기간을 선택해주세요. </ExText>
+            <CalendarInput />
           </InputWrapper>
-         
         </ColumnWrapper3>
-    </VitalWrapper>
+      </VitalWrapper>
 
-    {/* 선택항목 */}
-    <ChoiceWrapper> 
-      <VitalText>선택 항목</VitalText>
-      <ColumnWrapper2>
-        {/* 데모 비디오 */}
+      {/* 선택항목 */}
+      <ChoiceWrapper>
+        <VitalText>선택 항목</VitalText>
+        <ColumnWrapper2>
+          {/* 데모 비디오 */}
           <InputWrapper>
             <MainText>데모 비디오</MainText>
             <ExText>프로젝트 기능을 데모하는 비디오에 링크를 추가하세요</ExText>
@@ -173,40 +172,13 @@ const CreatePortfolioInput = ({ onInputChange, formData }) => {
           </InputWrapper>
           {/* 커버 이미지*/}
           <InputWrapper>
-              <MainText>커버 이미지</MainText>
-              <ExText>프로젝트를 보여줄 표지 이미지를 업로드해주세요</ExText>
-              <ImageWrapper>
-                <FileInput
-                  type="file"
-                  id="coverphotos"
-                  multiple
-                  onChange={handleCoverImageChange} 
-                />
-                <FileLabel
-                  htmlFor="coverphotos"
-                  style={{
-                    backgroundImage: coverimagePreview ? `url(${coverimagePreview})` : "none",
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                  }}
-                > {!coverimagePreview && "+"}
-                </FileLabel>
-              </ImageWrapper>
-          </InputWrapper>
-      </ColumnWrapper2>
-
-        <ColumnWrapper2>
-        {/* 사진 */}
-          <InputWrapper>
-              <MainText>사진</MainText>
-              <ExText>최대 4장의 사진을 업로드하여 프로젝트를 소개해주세요</ExText>
+            <MainText>커버 이미지</MainText>
+            <ExText>프로젝트를 보여줄 표지 이미지를 업로드해주세요</ExText>
             <ImageWrapper>
               <FileInput
                 type="file"
                 id="coverphotos"
                 multiple
-                name="coverImage"
-                value={formData.coverImage}
                 onChange={handleCoverImageChange}
               />
               <FileLabel
@@ -224,9 +196,9 @@ const CreatePortfolioInput = ({ onInputChange, formData }) => {
               </FileLabel>
             </ImageWrapper>
           </InputWrapper>
-        </ColumnWrapper>
+        </ColumnWrapper2>
 
-        <ColumnWrapper>
+        <ColumnWrapper2>
           {/* 사진 */}
           <InputWrapper>
             <MainText>사진</MainText>
@@ -247,8 +219,6 @@ const CreatePortfolioInput = ({ onInputChange, formData }) => {
                   <FileInput
                     type="file"
                     id={`photos-${index}`}
-                    name="images"
-                    value={formData.images}
                     onChange={handlePhotosChange(index)}
                   />
                   {!preview && "+"}
@@ -267,8 +237,6 @@ const CreatePortfolioInput = ({ onInputChange, formData }) => {
                 type="file"
                 id="Logo"
                 multiple
-                name="logo"
-                value={formData.logo}
                 onChange={handleLogoChange}
               />
               <FileLabel
@@ -284,10 +252,8 @@ const CreatePortfolioInput = ({ onInputChange, formData }) => {
               </FileLabel>
             </ImageWrapper>
           </InputWrapper>
-
         </ColumnWrapper2>
-    </ChoiceWrapper>
-
+      </ChoiceWrapper>
     </>
   );
 };
@@ -300,11 +266,10 @@ const VitalWrapper = styled.div`
   padding: 40px 40px;
   margin: 0 auto;
 
+  border: 1.5px solid #d0d1d9;
+  border-radius: 2em;
+  height: 53em;
 
-  border : 1.5px solid #d0d1d9;
-  border-radius : 2em;
-  height : 53em;
-  
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -325,15 +290,14 @@ const ChoiceWrapper = styled.div`
 `;
 
 const InputWrapper = styled.div`
-    display : flex;
-    flex-direction : column;
+  display: flex;
+  flex-direction: column;
 `;
 const ColumnWrapper = styled.div`
   display: flex;
   gap: 5%;
   justify-content: space-between;
   width: 100%;
-
 `;
 const ColumnWrapper2 = styled.div`
   display: flex;
@@ -353,7 +317,6 @@ const ImageWrapper = styled.div`
   justify-content: space-between;
   width: 100%;
 `;
-
 
 //css input
 const VitalInput = styled.input`
@@ -444,45 +407,45 @@ const FileLabel = styled.label`
 //토글
 
 const ToggleWrapper = styled.div`
-    margin-top: 2em;
-    display: flex;
-    align-items: center;
+  margin-top: 2em;
+  display: flex;
+  align-items: center;
 `;
 
 const OnToggleText = styled.div`
-    color: ${(props) => (props.isOn ? '#0A27A6' : '#A2A3B2')};
-    font-size: 0.9em;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
+  color: ${(props) => (props.isOn ? "#0A27A6" : "#A2A3B2")};
+  font-size: 0.9em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
 `;
 
 const OffToggleText = styled.div`
-    color: ${(props) => (props.isOn ? '#A2A3B2' : '#0A27A6')};
-    font-size: 0.9em;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
+  color: ${(props) => (props.isOn ? "#A2A3B2" : "#0A27A6")};
+  font-size: 0.9em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
 `;
 
 const ToggleBox = styled.div`
-    margin: 0 0.8em;
-    border: 1.5px solid #0A27A6;;
-    border-radius: 10px;
-    width: 3.5em;
-    height: 1.4375em;
-    display: flex;
-    align-items: center;
-    position: relative;
-    cursor: pointer;
+  margin: 0 0.8em;
+  border: 1.5px solid #0a27a6;
+  border-radius: 10px;
+  width: 3.5em;
+  height: 1.4375em;
+  display: flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
 `;
 
 const Toggle = styled.div`
-    border-radius: 30px;
-    width: 1em;
-    height: 1em;
-    background-color: #0A27A6;;
-    position: absolute;
-    left: ${(props) => (props.isOn ? '0.2em' : '2.2em')};
-    transition: all 0.3s ease-out;
+  border-radius: 30px;
+  width: 1em;
+  height: 1em;
+  background-color: #0a27a6;
+  position: absolute;
+  left: ${(props) => (props.isOn ? "0.2em" : "2.2em")};
+  transition: all 0.3s ease-out;
 `;
