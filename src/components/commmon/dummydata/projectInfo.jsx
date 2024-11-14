@@ -14,6 +14,7 @@ export const projectInfo = [
     share: false, // 포폴 게시판에 공유 설정 X
     usedLanguage: "Java",
     category: "백엔드",
+    hits: 0
   },
   {
     projectId: 2,
@@ -30,6 +31,7 @@ export const projectInfo = [
     share: true, // 포폴 게시판에 공유 설정 O
     usedLanguage: "Java",
     category: "백엔드",
+    hits: 0
   },
   {
     projectId: 3,
@@ -46,6 +48,7 @@ export const projectInfo = [
     share: true, // 포폴 게시판에 공유 설정 O
     usedLanguage: "JavaScript",
     category: "프론트엔드",
+    hits: 0
   },
   {
     projectId: 4,
@@ -62,6 +65,7 @@ export const projectInfo = [
     share: true, // 포폴 게시판에 공유 설정 O
     usedLanguage: "JavaScript",
     category: "프론트엔드",
+    hits: 0
   },
   {
     projectId: 5,
@@ -78,6 +82,7 @@ export const projectInfo = [
     share: true, // 포폴 게시판에 공유 설정 O
     usedLanguage: "Phython",
     category: "백엔드",
+    hits: 0
   },
   {
     projectId: 6,
@@ -94,6 +99,7 @@ export const projectInfo = [
     share: true, // 포폴 게시판에 공유 설정 O
     usedLanguage: "Java",
     category: "백엔드",
+    hits: 0
   },
   {
     projectId: 7,
@@ -110,6 +116,7 @@ export const projectInfo = [
     share: true, // 포폴 게시판에 공유 설정 O
     usedLanguage: "Java",
     category: "백엔드",
+    hits: 0
   },
   {
     projectId: 8,
@@ -126,5 +133,6 @@ export const projectInfo = [
     share: true, // 포폴 게시판에 공유 설정 O
     usedLanguage: "Java",
     category: "백엔드",
+    hits: 0
   },
 ];
