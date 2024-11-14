@@ -1,76 +1,160 @@
-
-
-
-
-// 정상작동하는지 확인되지 않음
-// 프론트와 연결 후 확인 필요
-
-
-
-
-
-
 import { oriUsers } from "../domain/startProgram";
 import { User } from "../domain/User";
-import { appendStringToFile, truncateFile, readNumberFromFile, removeFromFileEnd } from "../features/fileIO";
+
+// 파일에서 데이터를 가져오는 함수 (서버 API 호출)
+export const fetchFileData = async (filePath) => {
+    try {
+
+        console.log('로컬호스트 연결에 들어갑니다. try문 내부');
+
+        const response = await fetch('http://localhost:3000/read-number', {  // 서버의 /read-number API 호출
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ filePath }),  // filePath를 서버로 전달
+        });
+
+        console.log('fetch가 완료되었습니다. 반환 시작');
+
+        if (!response.ok) {
+            throw new Error('네트워크 응답이 좋지 않습니다.');
+        }
+
+        const data = await response.json();
+
+        console.log('반환을 받았습니다. return합니다');
+
+        return data.number;  // 서버에서 반환된 숫자 값
+    } catch (error) {
+        console.error('파일을 읽는 중 오류가 발생했습니다.', error);
+        return null;
+    }
+};
+
+// 파일에 문자열 추가하는 함수 (서버 API 호출)
+export const appendStringToFile = async (filePath, string) => {
+    try {
+        await fetch('http://localhost:3000/append-string', {  // 서버의 /append-string API 호출
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ filePath, string }),  // filePath와 string을 서버로 전달
+        });
+    } catch (error) {
+        console.error('파일에 문자열을 추가하는 중 오류가 발생했습니다.', error);
+    }
+};
+
+// 파일 비우는 함수 (서버 API 호출)
+export const truncateFile = async (filePath) => {
+    try {
+        await fetch('http://localhost:3000/truncate-file', {  // 서버의 /truncate-file API 호출
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ filePath }),  // filePath를 서버로 전달
+        });
+    } catch (error) {
+        console.error('파일을 비우는 중 오류가 발생했습니다.', error);
+    }
+};
+
+// 파일 끝에서 문자열을 제거하는 함수 (서버 API 호출)
+export const removeFromFileEnd = async (filePath, numCharsToRemove) => {
+    try {
+        await fetch('http://localhost:3000/remove-from-file-end', {  // 서버의 /remove-from-file-end API 호출
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ filePath, numCharsToRemove }),  // filePath와 numCharsToRemove를 서버로 전달
+        });
+    } catch (error) {
+        console.error('파일 끝에서 문자열을 제거하는 중 오류가 발생했습니다.', error);
+    }
+};
 
 let idCheck = false;
 let emailCheck = false;
 let phoneNumCheck = false;
 
-export const idSignUpDeveloper = (name, birthday, id, password, rePassword, phoneNumber) => {
-    if (name === null || birthday === null || phoneNumber.length === 0){
+// 아이디 중복 검사
+export const idSignUpDeveloper = async (name, birthday, id, password, rePassword, phoneNumber) => {
+    if (name === null || birthday === null || phoneNumber.length === 0) {
         alert('모든 항목을 입력하세요.');
+        return;
     }
     if (!isIdChecked()) return;
     if (!isPhoneNumberChecked()) return;
     if (!isPassword(password, rePassword)) return;
 
-    // oriUsers 링크드 리스트와 userInfo.jsx에 유저 추가
-    let filePath = '../commmon/dummydata/nextPageId.jsx';
-    const pageId = readNumberFromFile(filePath);
-    truncateFile(filePath);
-    appendStringToFile(String(pageId+1));
+    // 파일에서 pageId를 가져오고 다음 ID를 업데이트
+    const filePath = 'src/components/commmon/dummydata/nextPageId.jsx';
+    const pageId = await fetchFileData(filePath);
+
+    if (pageId === null) {
+        alert('페이지 아이디를 읽는 데 오류가 발생했습니다.');
+        return;
+    }
+
+    //console.log(`페이지 아이디는 ${pageId}`);
+
+    await truncateFile(filePath);  // 기존 페이지 ID 파일을 비우기
+
+    //console.log('truncateFile에서 오류 발생하지 않음');
+
+    await appendStringToFile(filePath, String(pageId + 1));  // 새로운 페이지 ID 추가
+
+    //console.log('appendStringToFile에서 오류 발생하지 않음');
+
     const user = new User(id, pageId, password, name, phoneNumber, birthday);
     oriUsers.set(id, user);
 
     // userInfo.jsx에 해당 유저를 추가한다.
-    filePath = '../commmon/dummydata/userInfo.jsx';
-    const string = `
-        {
-            id: "${id}",
-            pageId: ${pageId},
-            password: "${password}",
-            name: "${name}",
-            phoneNumber: "${phoneNumber}",
-            birthday: "${birthday[0]}-${birthday[1]}-${birthday[2]}",
-            recruiter: false,
-            email: "",
-            nickname: "",
-            link: "",
-            career: "없음",
-            education: ""
-        }`;
-    removeFromFileEnd(filePath, 3);
-    appendStringToFile(filePath, `,${string}\n];`);
-}
+    const userInfoPath = 'src/components/commmon/dummydata/userInfo.jsx';
+    const userInfoString = `
+  {
+    id: "${id}",
+    pageId: ${pageId},
+    password: "${password}",
+    name: "${name}",
+    phoneNumber: "${phoneNumber}",
+    birthday: "${birthday[0]}-${birthday[1]}-${birthday[2]}",
+    recruiter: false,
+    email: "",
+    nickname: "",
+    link: "",
+    career: "없음",
+    education: ""
+  }`;
+    await removeFromFileEnd(userInfoPath, 3);  // 기존 유저 정보를 파일 끝에서 
+    
+    console.log('removeFromFileEnd에서 오류 발생하지 않음');
 
-export const emailSignUpDeveloper = (name, birthday, email, password, rePassword, phoneNumber) => {
-    if (name === null || birthday === null || phoneNumber.length === 0){
+    await appendStringToFile(userInfoPath, `,${userInfoString}\n];`);  // 새 유저 정보 추가
+
+    console.log('appendStringToFile에서 오류 발생하지 않음');
+};
+
+export const emailSignUpDeveloper = async (name, birthday, email, password, rePassword, phoneNumber) => {
+    if (name === null || birthday === null || phoneNumber.length === 0) {
         alert('모든 항목을 입력하세요.');
+        return;
     }
     if (!isEmailChecked()) return;
     if (!isPhoneNumberChecked()) return;
     if (!isPassword(password, rePassword)) return;
 
-    // oriUsers 링크드 리스트와 userInfo.jsx에 유저 추가
-    let filePath = '../commmon/dummydata/nextPageId.jsx';
-    const pageId = readNumberFromFile(filePath);
-    truncateFile(filePath);
-    appendStringToFile(String(pageId+1));
+    // 파일에서 pageId를 가져오고 다음 ID를 업데이트
+    const filePath = 'src/components/commmon/dummydata/nextPageId.jsx';
+    const pageId = await fetchFileData(filePath);
+    await truncateFile(filePath);
+    await appendStringToFile(filePath, String(pageId + 1));
 
     // 아이디를 생성하지 않았으므로 랜덤 문자열 생성
-    // 기존 아이디와 비교하여 존재하지 않는 경우에만 설정
     let randomId = getRandomId();
     while (isIdExists(randomId)) randomId = getRandomId();
 
@@ -78,8 +162,8 @@ export const emailSignUpDeveloper = (name, birthday, email, password, rePassword
     oriUsers.set(randomId, user);
 
     // userInfo.jsx에 해당 유저를 추가한다.
-    filePath = '../commmon/dummydata/userInfo.jsx';
-    const string = `
+    const userInfoPath = 'src/components/commmon/dummydata/userInfo.jsx';
+    const userInfoString = `
         {
             id: "${randomId}",
             pageId: ${pageId},
@@ -94,31 +178,29 @@ export const emailSignUpDeveloper = (name, birthday, email, password, rePassword
             career: "없음",
             education: ""
         }`;
-    removeFromFileEnd(filePath, 3);
-    appendStringToFile(filePath, `,${string}\n];`);
-}
+    await removeFromFileEnd(userInfoPath, 3);  // 기존 유저 정보를 파일 끝에서 제거
+    await appendStringToFile(userInfoPath, `,${userInfoString}\n];`);  // 새 유저 정보 추가
+};
 
 export const setId = (id) => {
-   
     idCheck = false;
 
     const idPattern = /^[a-z0-9_.]{6,20}$/;
     if (!id.match(idPattern)) {
         alert('아이디는 영소문, 숫자, _, .만을 이용하여 6자 이상, 20자 이하로 입력하세요.');
-        return false;
+        return idCheck;
     }
 
     for (const [key, user] of oriUsers){
         if (key === id){
             alert('이미 사용 중인 아이디입니다.');
-            return false;
+            return idCheck;
         }
     }
 
     idCheck = true;
     return idCheck;
 };
-
 
 //현혜찡 코드
 // export const setPhoneNumber = (phoneNumber) => {
@@ -160,18 +242,21 @@ export const setId = (id) => {
 // } 
 export const setEmail = (email) => {
     // 이메일 형식 확인
+    emailCheck = false;
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
         alert('유효한 이메일 형식이 아닙니다.');
-        return false;
+        return emailCheck;
     }
     for (const [key, value] of oriUsers.entries()) {
         if (value.email === email) {
             alert('이미 계정이 존재합니다.');
-            return false;
+            return emailCheck;
         }
     }
-    return true;
+    emailCheck = true;
+    return emailCheck;
 };
 //forEach로 하면 return값이 없어서 계속 오류 메시지가 나오는 문제점이 있어서 수정함
 
@@ -181,22 +266,19 @@ export const setPhoneNumber = (phoneNumber) => {
     // 유저 DB에 이미 해당 핸드폰 번호가 존재하면 true 반환, 없으면 false
     oriUsers.forEach((value) => {
         if (value.phoneNumber === phoneNumber) {
-            phoneNumCheck = true; // 중복 발견
+            alert('이미 계정이 존재합니다.');
+            return phoneNumCheck;
         }
     });
-
-    if (phoneNumCheck) {
-        alert('이미 계정이 존재합니다.');
-        return false; 
-    }
 
     // 전화번호 형식 검사
     const phonePattern = /^010-\d{4}-\d{4}$/; // 올바른 전화번호 형식 패턴
 
     if (!phoneNumber.match(phonePattern)) {
         alert('올바른 전화번호를 입력하세요. 형식: 010-xxxx-xxxx');
-        return false; 
+        return phoneNumCheck; 
     }
+    
     phoneNumCheck = true;
     return phoneNumCheck; 
 }

@@ -61,10 +61,6 @@ export const initializeData = () => {
     }
   });
 
-  for (const [key, user] of oriUsers) {
-    console.log(`아이디 ${key}`);
-  }
-
   portfolioInfo.forEach((data) => {
     let portfolio = new Portfolio(
       data.portfolioId,
