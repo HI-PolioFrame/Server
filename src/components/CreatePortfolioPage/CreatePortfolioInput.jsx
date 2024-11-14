@@ -44,18 +44,13 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
   };
 
   //토글 기능
-  const handleToggle = () => {
-    setIsOn(!isOn);
-    // dispatch(setPrivate(isOn));
-  };
-  const onToggle = () => {
-    setIsOn(true);
-    // dispatch(setPrivate(true));
-  };
-  const offToggle = () => {
-    setIsOn(false);
-    // dispatch(setPrivate(false));
-  };
+  const handleToggle = (value = null) => {
+    if (value !== null) {
+        setIsOn(value);
+        return;
+    }
+    setIsOn((prevIsOn) => !prevIsOn);
+};
 
   return (
     <>
@@ -156,6 +151,21 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
               onDateChange={onDateChange}
             />
           </InputWrapper>
+          <InputWrapper>
+            <MainText>공개</MainText>
+            <ExText>이 프로젝트의 공개 여부를 선택해주세요. </ExText>
+            <ToggleWrapper>
+              <OnToggleText onClick={() => handleToggle(true)} isOn={isOn}>
+                  공개
+              </OnToggleText>
+              <ToggleBox onClick={() => handleToggle()}>
+              <Toggle isOn={isOn}></Toggle>
+              </ToggleBox>
+              <OffToggleText onClick={() => handleToggle(false)} isOn={isOn}>
+                  비공개
+              </OffToggleText>
+            </ToggleWrapper>
+        </InputWrapper>
         </ColumnWrapper3>
       </VitalWrapper>
 

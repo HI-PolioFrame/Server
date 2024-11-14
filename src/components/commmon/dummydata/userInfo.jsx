@@ -1,6 +1,6 @@
 export const userInfo = [
   {
-    id: "1",
+    id: "admin1",
     pageId: 1,
     password: "close22@@",
     name: "김예은",
@@ -15,7 +15,7 @@ export const userInfo = [
     contact: 0
   },
   {
-    id: "2",
+    id: "happytree12",
     pageId: 2,
     password: "close12@@",
     name: "김태연",
@@ -30,7 +30,7 @@ export const userInfo = [
     contact: 0
   },
   {
-    id: "3",
+    id: "backendDevel1!",
     pageId: 3,
     password: "close12@@",
     name: "조수연",
@@ -45,9 +45,9 @@ export const userInfo = [
     contact: 0
   },
   {
-    id: "4",
+    id: "admin4",
     pageId: 4,
-    password: "close12@@",
+    password: "oneofthefolio12!@",
     name: "최현혜",
     phoneNumber: "010-1234-5678",
     birthday: "1990-01-01",
@@ -102,6 +102,161 @@ export const userInfo = [
     link: "",
     career: "있음",
     education: "석사",
-    contact: 0
   },
+  {
+    id: "user100000",
+    pageId: 8,
+    password: "close122222@@",
+    name: "프레",
+    phoneNumber: "010-2222-3333",
+    birthday: "2024-11-06",
+    recruiter: false,
+    email: "",
+    nickname: "",
+    link: "",
+    career: "없음",
+    education: ""
+  },
+  {
+    id: "removefromfile",
+    pageId: 9,
+    password: "removefromfile1!@",
+    name: "삭제오류잡자",
+    phoneNumber: "010-4343-4343",
+    birthday: "2024-10-31",
+    recruiter: false,
+    email: "",
+    nickname: "",
+    link: "",
+    career: "없음",
+    education: ""
+  },
+  {
+    id: "cleansaveinfo",
+    pageId: 10,
+    password: "cleansaveinfo12!@",
+    name: "깔끔하게",
+    phoneNumber: "010-2222-3344",
+    birthday: "2024-11-04",
+    recruiter: false,
+    email: "",
+    nickname: "",
+    link: "",
+    career: "없음",
+    education: ""
+  },
+  {
+    id: "world443322",
+    pageId: 11,
+    password: "close122222@@",
+    name: "제발요",
+    phoneNumber: "010-3343-4343",
+    birthday: "2024-11-04",
+    recruiter: false,
+    email: "",
+    nickname: "",
+    link: "",
+    career: "없음",
+    education: ""
+  },
+  {
+    id: "okaykimofyou",
+    pageId: 12,
+    password: "close122222@@",
+    name: "강경",
+    phoneNumber: "010-4343-4444",
+    birthday: "2024-05-22",
+    recruiter: false,
+    email: "",
+    nickname: "",
+    link: "",
+    career: "없음",
+    education: ""
+  },
+  {
+    id: "my._.movie_lover",
+    pageId: 13,
+    password: "cinefilechoi1!@",
+    name: "영화",
+    phoneNumber: "010-1112-2233",
+    birthday: "2024-11-07",
+    recruiter: false,
+    email: "",
+    nickname: "",
+    link: "",
+    career: "없음",
+    education: ""
+  }
+,
+  {
+    id: "whyisntwork",
+    pageId: 14,
+    password: "whyisntwork12!@",
+    name: "외않되",
+    phoneNumber: "010-4343-4300",
+    birthday: "2024-11-18",
+    recruiter: false,
+    email: "",
+    nickname: "",
+    link: "",
+    career: "없음",
+    education: ""
+  },
+  {
+    id: "feelingsogood",
+    pageId: 15,
+    password: "close122222@@",
+    name: "도파민터짐",
+    phoneNumber: "010-3423-4324",
+    birthday: "2024-11-04",
+    recruiter: false,
+    email: "",
+    nickname: "",
+    link: "",
+    career: "없음",
+    education: ""
+  },
+  {
+    id: "angel1234567",
+    pageId: 16,
+    password: "close122222@@",
+    name: "윤미영",
+    phoneNumber: "010-2323-2323",
+    birthday: "2010-06-09",
+    recruiter: false,
+    email: "",
+    nickname: "",
+    link: "",
+    career: "없음",
+    education: ""
+  }
+,
+  {
+    id: "fscheck_myfs",
+    pageId: 17,
+    password: "close122222@@",
+    name: "강녕",
+    phoneNumber: "010-4342-3434",
+    birthday: "2024-11-03",
+    recruiter: false,
+    email: "",
+    nickname: "",
+    link: "",
+    career: "없음",
+    education: ""
+  },
+  {
+    id: "exuser100",
+    pageId: 18,
+    password: "exuser10000@@",
+    name: "꾸에엑",
+    phoneNumber: "010-9876-5432",
+    birthday: "2024-11-14",
+    recruiter: false,
+    email: "",
+    nickname: "",
+    link: "",
+    career: "없음",
+    education: ""
+  }
 ];
