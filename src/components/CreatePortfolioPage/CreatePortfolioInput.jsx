@@ -55,13 +55,13 @@ const CreatePortfolioInput = () => {
       <ColumnWrapper>
         {/* 포트폴리오 이름 */}
           <InputWrapper>
-              <MainText>해커톤 이름</MainText>
-              <ExText>자신만의 해커톤 이름을 작성해주세요</ExText>
+              <MainText>포트폴리오 이름</MainText>
+              <ExText>자신만의 포트폴리오 이름을 작성해주세요</ExText>
               <VitalInput type="text"></VitalInput>
           </InputWrapper>
         {/* 포트폴리오 설명 -> 글자수 제한해야한다.*/}
           <InputWrapper>
-              <MainText>해커톤 설명</MainText>
+              <MainText>포트폴리오 설명</MainText>
               <ExText>짧게 포트폴리오를 설명해주세요</ExText>
               <VitalInput type="text"></VitalInput>
           </InputWrapper>
