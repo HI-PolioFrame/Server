@@ -151,21 +151,35 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
               onDateChange={onDateChange}
             />
           </InputWrapper>
-          <InputWrapper>
-            <MainText>공개</MainText>
-            <ExText>이 프로젝트의 공개 여부를 선택해주세요. </ExText>
-            <ToggleWrapper>
-              <OnToggleText onClick={() => handleToggle(true)} isOn={isOn}>
-                  공개
-              </OnToggleText>
-              <ToggleBox onClick={() => handleToggle()}>
-              <Toggle isOn={isOn}></Toggle>
-              </ToggleBox>
-              <OffToggleText onClick={() => handleToggle(false)} isOn={isOn}>
-                  비공개
-              </OffToggleText>
-            </ToggleWrapper>
-        </InputWrapper>
+          <CWrapper>
+              <InputWrapper>
+                <MainText>공개</MainText>
+                <ExText>이 프로젝트의 공개 여부를 선택해주세요. <br></br>공개를 하시면 포트폴리오 열람 화면에서 확인하실 수 있습니다. </ExText>
+                <ToggleWrapper>
+                  <OnToggleText onClick={() => handleToggle(true)} isOn={isOn}>
+                      공개
+                  </OnToggleText>
+                  <ToggleBox onClick={() => handleToggle()}>
+                  <Toggle isOn={isOn}></Toggle>
+                  </ToggleBox>
+                  <OffToggleText onClick={() => handleToggle(false)} isOn={isOn}>
+                      비공개
+                  </OffToggleText>
+                </ToggleWrapper>
+            </InputWrapper>
+            <InputWrapper>
+                  <MainText>카테고리</MainText>
+                  <ExText>
+                    이 프로젝트의 카테고리를 입력해주세요.
+                  </ExText>
+                  <VitalInput
+                    type="text"
+                    name="category"
+                    value={formData.category}
+                    onChange={onInputChange}
+                  ></VitalInput>
+            </InputWrapper>
+          </CWrapper>
         </ColumnWrapper3>
       </VitalWrapper>
 
@@ -275,6 +289,11 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
 export default CreatePortfolioInput;
 
 //css Wrapper
+const CWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap : 2em;
+`
 const VitalWrapper = styled.div`
   width: 80%;
   padding: 40px 40px;
@@ -321,7 +340,7 @@ const ColumnWrapper2 = styled.div`
 `;
 const ColumnWrapper3 = styled.div`
   display: flex;
-  gap: 1%;
+  gap: 11%;
   // justify-content: space-between;
   width: 100%;
 `;

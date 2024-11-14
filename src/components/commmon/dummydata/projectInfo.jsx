@@ -127,4 +127,24 @@ export const projectInfo = [
     usedLanguage: "Java",
     category: "백엔드",
   },
+
+,
+  {
+      projectId: 9,
+      projectTitle: "a", 
+      projectOwnerName: "김태연",
+      description: "a",
+      startDate: "Mon Nov 18 2024 00:00:00 GMT+0900 (한국 표준시)", 
+      endDate: "Thu Nov 21 2024 00:00:00 GMT+0900 (한국 표준시)", 
+      category: "a", 
+      usedLanguage: "a", 
+      projectLink: "a",
+      solving: "a", 
+      challenge: "a",
+      video: "비디오 없음.",
+      coverImage: "없음.", 
+      images: [], 
+      logo: "없음.", 
+      share: true
+  }
 ];
