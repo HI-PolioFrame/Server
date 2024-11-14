@@ -56,8 +56,8 @@ export const saveComment = async (portfolioId, userId, text) => {
     commentId: ${commentId},
     portfolioId: ${portfolioId},
     userId: ${userId},
-    text: \`${text}\`,
-    date: \`${newComment.date}\`
+    text: \"${text}\",
+    date: \"${newComment.date}\"
   }`;
 
   // 파일 경로 (데이터를 저장할 파일)
@@ -68,7 +68,6 @@ export const saveComment = async (portfolioId, userId, text) => {
   await appendStringToFile(filePath, `,${string}\n];`);
 
   console.log('FileIO server API를 통해 댓글 달기 완료');
-
 };
 
 export default saveComment;

@@ -105,6 +105,47 @@ app.post('/get-file-size', (req, res) => {
     });
 });
 
+app.post('/patch-hits', (req, res) => {
+    const { filePath, projectId, newHits } = req.body;
+    const absolutePath = path.resolve(__dirname, filePath); // 절대 경로로 변환
+
+    const fileContent = fs.readFile(absolutePath, 'utf8', (err, data) => {
+        if (err) {
+            console.error('파일을 읽는 중 오류가 발생했습니다:', err);
+            return res.status(500).json({ error: '파일 정보를 수정하는 중 오류가 발생했습니다.' });
+        }
+
+        const contentWithoutExport = '';
+        if (fileContent) {
+            contentWithoutExport = fileContent.replace('export const projectInfo = ', '');
+          } else {
+            console.error('Error: fileContent is undefined');
+          }
+        const projects = JSON.parse(contentWithoutExport.slice(0, -1));
+
+        // hits 업데이트
+        const updatedProjects = projects.map(project => {
+            if (project.projectId === projectId) {
+                return { ...project, hits: newHits };
+            }
+            return project;
+        });
+
+        const updatedContent = 'export const projectInfo = ' + 
+            JSON.stringify(updatedProjects, null, 2).replace(/}]/g, '}\n]') + 
+            ';\n';
+
+        // 파일 쓰기
+        fs.writeFile(absolutePath, updatedContent, 'utf8', (err) => {
+            if (err) {
+                console.error('파일을 저장하는 중 오류가 발생했습니다:', err);
+                return res.status(500).json({ error: '파일을 저장하는 중 오류가 발생했습니다.' });
+            }
+            res.json({ success: true });
+        });
+    });
+});
+
 // Vite 개발 서버 시작
 async function startVite() {
     const vite = await createServer({
