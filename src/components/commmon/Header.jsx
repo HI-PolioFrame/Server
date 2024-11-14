@@ -5,6 +5,7 @@ import defaultProfilePicture from "../../assets/icons/Header/profileIcon.png"; /
 import StyledButton from "./StyledButton";
 import { Navigate, useNavigate } from "react-router-dom";
 import HackathonPage from "../../pages/HackathonPage";
+import { getCurrentUser, setCurrentUser } from "../features/currentUser";
 
 import { SiPagekit } from "react-icons/si";
 import { LuPen, LuLogOut } from "react-icons/lu";
@@ -21,10 +22,10 @@ function Header({}) {
   const [accessToken, setAccessToken] = useState(
     localStorage.getItem("accessToken")
   );
-
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   // 프로필 클릭 이벤트 추가했다구리
   const menuRef = useRef(null);
+  const currentUser = getCurrentUser();
 
   // useEffect로 컴포넌트가 처음 렌더링될 때 accessToken 업데이트
   useEffect(() => {
@@ -47,9 +48,10 @@ function Header({}) {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("Id");
+    // localStorage.removeItem("accessToken");
+    // localStorage.removeItem("Id");
     setAccessToken(null); // 로그아웃 시 상태 초기화
+    setCurrentUser(null);
     navigate("./");
   };
 
@@ -68,8 +70,6 @@ function Header({}) {
   //   navigate("./MyPage");
   // };
 
-
-  
   return (
     <HeaderContainer className="HeaderContainer">
       {/* 로고와 메뉴를 포함하는 메뉴박스 */}
@@ -80,6 +80,11 @@ function Header({}) {
         <TextWrapper>
           <Text onClick={() => navigate("/PortfolioPage")}>포트폴리오</Text>
           <Text onClick={() => navigate("/HackathonPage")}>해커톤</Text>
+          {accessToken && currentUser?.recruiter && (
+            <Text onClick={() => navigate(`/RecruiterPage/${currentUser.id}`)}>
+              채용
+            </Text>
+          )}
         </TextWrapper>
 
         {/* <Nav>
@@ -90,7 +95,7 @@ function Header({}) {
 
       {/* 로그인 여부에 따라 프로필 이미지 또는 로그인/로그아웃 버튼 렌더링 */}
       <Profile className="Profile">
-        {accessToken ? (
+        {accessToken && getCurrentUser() ? (
           <>
             <ProfileWrapper className="ProfileWrapper">
               <ProfilePic
@@ -168,7 +173,6 @@ const ProfilePicMenuWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-
 `;
 
 const TriangleIcon = styled.div`
@@ -184,13 +188,13 @@ const ProfilePicMenu = styled.div`
   //position: absolute;
   //top: 135%;
   width: 10vw;
-  height: 20vh;
+  height: 17vh;
   background-color: #15243e80;
   border-radius: 0.625em;
   display: ${({ isOpen }) => (isOpen ? "flex" : "none")};
   flex-direction: column;
   justify-content: space-between;
-  z-index: 1;
+  z-index: 3;
 `;
 
 const MenuItemIcon = styled.div`

@@ -28,11 +28,13 @@ const TemplateCard = ({ portfolioId, templateButton }) => {
         <Image src={portfolioData.coverImage || Logo} alt="Template" />
       </ImageContainer>
       <TemplateName>{portfolioData.projectTitle || "빈 제목"}</TemplateName>
-      <Description>{portfolioData.discription || "빈 설명"}</Description>
+      <Description>{portfolioData.description || "빈 설명"}</Description>
       <Button
         onClick={() => {
           if (portfolioId === 8) {
             navigate(`/PortfolioDetailPage2/${portfolioId}`);
+          } else if (portfolioId === 7) {
+            navigate(`/PortfolioDetailPage3/${portfolioId}`);
           } else {
             navigate(`/PortfolioDetailPage/${portfolioId}`);
           }

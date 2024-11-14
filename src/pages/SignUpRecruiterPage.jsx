@@ -6,24 +6,19 @@ import Eye from "../assets/icons/Login/Eye.png";
 import Eyeoff from "../assets/icons/Login/Eyeoff.png";
 
 // 서버 연결
-import {setId} from "../components/features/signUpRecruiter.jsx";
-import {changedId} from "../components/features/signUpRecruiter.jsx";
-import {setPhoneNumber} from "../components/features/signUpRecruiter.jsx";
-import {changedPhoneNumber} from "../components/features/signUpRecruiter.jsx";
+import {setId} from "../components/features/signUpDeveloper.jsx";
+import {setPhoneNumber} from "../components/features/signUpDeveloper.jsx";
 
 const SignUpRecruiterPage = () => {
     const navigate = useNavigate();
     const [eyeVisible, setEyeVisible] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false); 
     //아이디 중복 확인
-    const [idInput, setIdInput] = useState(''); 
+    const [idInput, setIdInput] = useState(''); // 입력된 아이디 상태
     const [idChecked, setIdChecked] = useState(false);
     //전화번호 중복 확인
     const [phone, setPhone] = useState('');
     const [phoneChecked, setPhoneChecked] = useState(false); 
-    //회사인증
-    const [company, setCompany] = useState('');
-    const [companyChecked, setcompanyChecked] = useState(false);
 
     const toggleEyeVisible = () => {
         setEyeVisible(!eyeVisible);
@@ -44,51 +39,27 @@ const SignUpRecruiterPage = () => {
         return formattedValue;
     };
     
-    //아이디 중복 부분  
+    //아이디 중복 부분
     const handleIdInputChange = (e) => {
         setIdInput(e.target.value);
-        setIdChecked(false);
-        changedId(); 
+        setIdChecked(false); 
     };
-    
     const handleIdCheck = () => {
         const isValid = setId(idInput);
-        if (isValid) {
-            setIdChecked(true); 
-        } else {
-            setIdChecked(false);
-            changedId(); 
-        }
-    };;
-   
+        setIdChecked(isValid);  
+    };
+
     // 전화번호 인증 부분
     const handlePhoneChange = (event) => {
         const { value } = event.target;
         setPhone(autoHyphen(value));
-        setPhoneChecked(false);
-        changedPhoneNumber();
-    };
-    const handlePhoneCheck = () => {
-        const isValid = setPhoneNumber(phone);
-        // setPhoneChecked(isValid);
-        if (isValid) {
-            setPhoneChecked(true); 
-        } else {
-            setPhoneChecked(false);
-            changedPhoneNumber(); 
-        }
+        setPhoneChecked(false); 
     };
 
-    // 회사인증 부분
-    const handleCompanyChange = (e) => {
-        setCompany(e.target.value);
-        setcompanyChecked(false); 
+    const handlePhoneCheck = () => {
+        const isValid = setPhoneNumber(phone);
+        setPhoneChecked(isValid);
     };
-    const handleCompanyCheck = () => {
-        const isValid = setCompany(company);
-        setcompanyChecked(isValid);
-    };
-    
     
     return (
         <LoginWrapper>
@@ -170,10 +141,10 @@ const SignUpRecruiterPage = () => {
 
                 {/* 회사인증 */}
                 <RowWrapper>
-                    <CertificInput placeholder="회사인증" type="email" onChange={handleCompanyChange}></CertificInput>
+                    <CertificInput placeholder="회사인증" type="email"></CertificInput>
                 </RowWrapper>
                     <CheckBoxWrapper>
-                            <CompanyCheckInput type="checkbox" id="company" onClick={handleCompanyCheck} />
+                            <CompanyCheckInput type="checkbox" id="company" onClick={handleCheckBoxClick} />
                             <label htmlFor="company">회사인증</label>
 
                             <CheckBoxInput type="checkbox" id="Join" onClick={handleCheckBoxClick} />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import styled from "styled-components";
 import SearchBar from "../components/commmon/SearchBar";
 import SelectBox from "../components/commmon/SelectBox";

@@ -34,20 +34,29 @@ const PortfolioDetailPage = () => {
   }, [portfolioId]);
 
   const addComment = (newCommentObj) => {
-    const newComment = {
-      commentId: Date.now(),
-      portfolioId: Number(portfolioId),
-      userId: currentUser.id,
-      text: newCommentObj.text,
-      date: new Date().toISOString(),
-    };
+    // const newComment = {
+    //   commentId: Date.now(),
+    //   portfolioId: Number(portfolioId),
+    //   userId: currentUser.id,
+    //   text: newCommentObj.text,
+    //   date: new Date().toISOString(),
+    // };
 
     // 클라이언트 측 상태 업데이트
     //oriComments.set(newComment.commentId, newComment);
-    setComments((prevComments) => [newComment, ...prevComments]);
+    setComments((prevComments) => [newCommentObj, ...prevComments]);
+    console.log(
+      newCommentObj.portfolioId,
+      newCommentObj.userId,
+      newCommentObj.text
+    );
 
     // 파일에 댓글 저장
-    saveComment(newComment.portfolioId, newComment.userId, newComment.text);
+    saveComment(
+      newCommentObj.portfolioId,
+      newCommentObj.userId,
+      newCommentObj.text
+    );
   };
 
   // const isPortfolioOwner =
@@ -105,6 +114,13 @@ const PortfolioDetailPage = () => {
                 : "기간 정보 없음."}
             </TextBox>
           </ParticipationPeriodField> */}
+
+          <PeriodField>
+            <Label>참여 기간</Label>
+            <TextBox>
+              {portfolioData.startDate} - {portfolioData.endDate}
+            </TextBox>
+          </PeriodField>
 
           <ProblemSolvingField>
             <Label>해결하는 문제</Label>
@@ -280,7 +296,7 @@ const DeveloperField = styled.div`
   flex-direction: column;
 `;
 
-const ParticipationPeriodField = styled(Field)`
+const PeriodField = styled(Field)`
   grid-area: participationPeriod;
 `;
 
