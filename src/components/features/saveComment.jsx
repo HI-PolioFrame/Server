@@ -1,8 +1,35 @@
 import { oriComments } from "../domain/startProgram.js";
 import Comment from "../domain/Comment.js";
-import { removeFromFileEnd, appendStringToFile } from "../features/fileIO.jsx";
 
-const saveComment = (portfolioId, userId, text) => {
+export const removeFromFileEnd = async (filePath, numCharsToRemove) => {
+  try {
+      await fetch('http://localhost:3000/remove-from-file-end', {  // 서버의 /remove-from-file-end API 호출
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ filePath, numCharsToRemove }),  // filePath와 numCharsToRemove를 서버로 전달
+      });
+  } catch (error) {
+      console.error('파일 끝에서 문자열을 제거하는 중 오류가 발생했습니다.', error);
+  }
+};
+
+export const appendStringToFile = async (filePath, string) => {
+  try {
+      await fetch('http://localhost:3000/append-string', {  // 서버의 /append-string API 호출
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ filePath, string }),  // filePath와 string을 서버로 전달
+      });
+  } catch (error) {
+      console.error('파일에 문자열을 추가하는 중 오류가 발생했습니다.', error);
+  }
+};
+
+export const saveComment = async (portfolioId, userId, text) => {
   if (!text || !userId) {
     console.log("필수 정보가 누락됨");
     return;
@@ -25,23 +52,22 @@ const saveComment = (portfolioId, userId, text) => {
 
   // 파일에 저장할 문자열 형식
   const string = `
-    {
-        commentId: ${commentId},
-        portfolioId: ${portfolioId},
-        userId: ${userId},
-        text: \`${text}\`,
-        date: \`${newComment.date}\`
-    }
-    `;
+  {
+    commentId: ${commentId},
+    portfolioId: ${portfolioId},
+    userId: ${userId},
+    text: \`${text}\`,
+    date: \`${newComment.date}\`
+  }`;
 
   // 파일 경로 (데이터를 저장할 파일)
-  let filePath = "../components/dummydata/commentInfo.jsx";
+  let filePath = "src/components/commmon/dummydata/commentInfo.jsx";
 
   // 파일의 끝에서 '];'를 제거하고 새 데이터를 추가
-  removeFromFileEnd(filePath, 3);
-  appendStringToFile(filePath, `,${string}\n];`);
+  await removeFromFileEnd(filePath, 3);
+  await appendStringToFile(filePath, `,${string}\n];`);
 
-  console.log('FileIO를 통해 댓글 달기 완료');
+  console.log('FileIO server API를 통해 댓글 달기 완료');
 
 };
 

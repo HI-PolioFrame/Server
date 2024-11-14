@@ -1,8 +1,35 @@
 import { oriProjects } from "../domain/startProgram.js";
 import Project from "../domain/Project.js";
-import { removeFromFileEnd, appendStringToFile } from "./fileIO.jsx";
 
-const saveProject = (
+export const removeFromFileEnd = async (filePath, numCharsToRemove) => {
+  try {
+      await fetch('http://localhost:3000/remove-from-file-end', {  // 서버의 /remove-from-file-end API 호출
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ filePath, numCharsToRemove }),  // filePath와 numCharsToRemove를 서버로 전달
+      });
+  } catch (error) {
+      console.error('파일 끝에서 문자열을 제거하는 중 오류가 발생했습니다.', error);
+  }
+};
+
+export const appendStringToFile = async (filePath, string) => {
+  try {
+      await fetch('http://localhost:3000/append-string', {  // 서버의 /append-string API 호출
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ filePath, string }),  // filePath와 string을 서버로 전달
+      });
+  } catch (error) {
+      console.error('파일에 문자열을 추가하는 중 오류가 발생했습니다.', error);
+  }
+};
+
+export const saveProject = async (
   projectOwnerName, // 포폴 만든 사람 이름
   projectOwnerId, // 포폴 만든 사람 아이디
   projectOwnerNickname,
@@ -106,13 +133,12 @@ const saveProject = (
         images: ${images || "''"},
         logo: ${logo || "없음."},
         share: ${share}
-    }
-    `;
+    }`;
 
-  let filePath = "../components/dummydata/projectInfo.jsx";
+  let filePath = "src/components/commmon/dummydata/projectInfo.jsx";
 
-  removeFromFileEnd(filePath, 3);
-  appendStringToFile(filePath, `,${string}\n];`);
+  await removeFromFileEnd(filePath, 3);
+  await appendStringToFile(filePath, `,${string}\n];`);
 };
 
 export default saveProject;
