@@ -13,12 +13,14 @@ import Portfolio from "./Portfolio.js";
 import Project from "./Project.js";
 import Template from "./Template.js";
 import Comment from "./Comment.js";
+import Hackathon from "./Hackathon.js";
 
 import { templateInfo } from "../commmon/dummydata/templateInfo"; // 저장된 모든 템플릿 정보
 import { portfolioInfo } from "../commmon/dummydata/portfolioInfo.jsx"; // 저장된 모든 포트폴리오 정보
 import { projectInfo } from "../commmon/dummydata/projectInfo.jsx";
 import { userInfo } from "../commmon/dummydata/userInfo.jsx"; // 저장된 모든 유저 정보
 import { commentInfo } from "../commmon/dummydata/commentInfo.jsx"; //저장된 혹은 저장할 모든 댓글 정보
+import { hackathonInfo } from "../commmon/dummydata/HackathonInfo.jsx";
 
 import SearchSortManager from "../features/SearchSortManager.jsx";
 
@@ -28,6 +30,7 @@ export const oriPortfolios = new Map();
 export const oriProjects = new Map();
 export const oriTemplates = new Map();
 export const oriComments = new Map();
+export const oriHackathons = new Map();
 
 // 유저에게 공유되는 템플릿들
 /* let oriTemplates = new Map();
@@ -39,7 +42,7 @@ templateInfo.forEach((data) => {
 export const initializeData = () => {
   userInfo.forEach((data) => {
     let user = new User(
-      Number(data.id),
+      data.id,
       data.pageId,
       data.password,
       data.name,
@@ -52,11 +55,15 @@ export const initializeData = () => {
       data.career,
       data.education
     );
-    oriUsers.set(Number(data.id), user);
+    oriUsers.set(data.id, user);
     if (user.recruiter === true) {
       oriRecruiters.set(data.id, user);
     }
   });
+
+  for (const [key, user] of oriUsers) {
+    console.log(`아이디 ${key}`);
+  }
 
   portfolioInfo.forEach((data) => {
     let portfolio = new Portfolio(
@@ -78,6 +85,7 @@ export const initializeData = () => {
   projectInfo.forEach((data) => {
     let project = new Project(
       data.ownerName,
+      data.ownerId,
       data.ownerNickname,
       data.ownerEmail,
       data.usedTemplate,
@@ -112,17 +120,29 @@ export const initializeData = () => {
     oriComments.set(data.commentId, comment);
   });
 
-  templateInfo.forEach((data) => {
-    let template = new Template(
-      data.templateId,
-      data.templateName,
-      data.templateOwner,
+  hackathonInfo.forEach((data) => {
+    let hackathon = new Hackathon(
+      data.hackId,
+      data.hackName,
+      data.startDate,
+      data.endDate,
       data.description,
-      data.picture,
-      data.file
+      data.picture
     );
-    oriTemplates.set(data.templateId, template);
+    oriHackathons.set(data.hackId, hackathon);
   });
+
+  // templateInfo.forEach((data) => {
+  //   let template = new Template(
+  //     data.templateId,
+  //     data.templateName,
+  //     data.templateOwner,
+  //     data.description,
+  //     data.picture,
+  //     data.file
+  //   );
+  //   oriTemplates.set(data.templateId, template);
+  // });
   /* oriUsers.forEach((value, key) => {
         console.log(value.id);
     });

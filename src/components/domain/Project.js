@@ -1,14 +1,15 @@
 class Project {
   constructor(
     ownerName,
+    ownerId,
     ownerNickname,
     ownerEmail,
     usedTemplate,
     projectId,
     projectTitle,
     description,
-    startDate = null,
-    endDate = null,
+    startDate,
+    endDate,
     category = null,
     usedLanguage = null,
     projectLink = null,
@@ -21,6 +22,7 @@ class Project {
     share = false
   ) {
     this.ownerName = ownerName;
+    this.ownerId = ownerId;
     this.ownerNickname = ownerNickname;
     this.ownerEmail = ownerEmail;
     this.usedTemplate = usedTemplate;

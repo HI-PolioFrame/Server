@@ -27,15 +27,15 @@ const CreatePortfolioPage = () => {
     logo: null,
   });
 
-  const [currentUser, setCurrentUser] = useState(null);
+  // const [currentUser, setCurrentUser] = useState(null);
+  const currentUser = getCurrentUser();
 
   useEffect(() => {
-    const user = getCurrentUser();
-    if (user) {
-      setCurrentUser(user);
+    if (currentUser) {
+      // setCurrentUser(user);
       console.log(currentUser);
     } else {
-      console.log("user 없음");
+      console.log("currentUser 없음");
     }
   }, []);
 
@@ -47,26 +47,36 @@ const CreatePortfolioPage = () => {
     }));
   };
 
+  const handleDateChange = (name, date) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: date,
+    }));
+  };
+
   const handleSaveProject = () => {
     saveProject(
       currentUser.name, // 사용자 이름
+      currentUser.id, // 사용자 아이디
       currentUser.nickname, // 사용자 닉네임
       currentUser.email, // 사용자 이메일
-      null, // projectTemplate
+      formData.usedTemplate, // projectTemplate
       formData.projectTitle,
       formData.description,
       formData.startDate,
       formData.endDate,
+      formData.category,
+      formData.usedLanguage,
+      formData.projectLink,
       formData.solving,
       formData.challenge,
-      formData.share,
-      formData.usedLanguage,
-      null, // 카테고리 입력에 따라 수정 필요
       formData.video,
       formData.coverImage,
       formData.images,
-      formData.logo
+      formData.logo,
+      formData.share
     );
+    console.log(formData.startDate, formData.endDate);
   };
   return (
     <>
@@ -76,7 +86,11 @@ const CreatePortfolioPage = () => {
       </HeaderWrapper>
 
       <ContentWrapper>
-        <CreatePortfolioInput onInputChange={handleInputChange} />
+        <CreatePortfolioInput
+          onInputChange={handleInputChange}
+          formData={formData}
+          onDateChange={handleDateChange}
+        />
         <CreatePortfolioTemplate />
         <CreateButton onClick={handleSaveProject}>제작하기</CreateButton>
       </ContentWrapper>

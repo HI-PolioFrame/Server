@@ -115,6 +115,13 @@ const PortfolioDetailPage = () => {
             </TextBox>
           </ParticipationPeriodField> */}
 
+          <PeriodField>
+            <Label>참여 기간</Label>
+            <TextBox>
+              {portfolioData.startDate} - {portfolioData.endDate}
+            </TextBox>
+          </PeriodField>
+
           <ProblemSolvingField>
             <Label>해결하는 문제</Label>
             <TextBox>
@@ -289,7 +296,7 @@ const DeveloperField = styled.div`
   flex-direction: column;
 `;
 
-const ParticipationPeriodField = styled(Field)`
+const PeriodField = styled(Field)`
   grid-area: participationPeriod;
 `;
 
