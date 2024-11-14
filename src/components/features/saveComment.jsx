@@ -40,6 +40,9 @@ const saveComment = (portfolioId, userId, text) => {
   // 파일의 끝에서 '];'를 제거하고 새 데이터를 추가
   removeFromFileEnd(filePath, 3);
   appendStringToFile(filePath, `,${string}\n];`);
+
+  console.log('FileIO를 통해 댓글 달기 완료');
+
 };
 
 export default saveComment;

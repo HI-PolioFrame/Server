@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "concurrently \"npm run server\" \"vite\"",
+    "server": "node fileServer.js",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -17,7 +18,6 @@
     "react-router-dom": "^6.28.0",
     "remark-gfm": "^4.0.0",
     "sass": "^1.79.3",
-    "styled-component": "^2.8.0",
     "styled-components": "^6.1.13",
     "swiper": "^11.1.14"
   },
@@ -26,7 +26,7 @@
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
-    "eslint": "^9.9.0",
+    "concurrently": "^7.0.0",
     "eslint-plugin-react": "^7.35.0",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.9",
