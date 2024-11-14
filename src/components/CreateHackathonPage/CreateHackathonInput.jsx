@@ -33,19 +33,7 @@ const CreateHackathonInput = () => {
       setPhotosPreview(newPhotosPreview);
     }
   };
-  //토글 기능
-  const handleToggle = () => {
-    setIsOn(!isOn);
-    // dispatch(setPrivate(isOn));
-  };
-  const onToggle = () => {
-      setIsOn(true);
-      // dispatch(setPrivate(true));
-  };
-  const offToggle = () => {
-      setIsOn(false);
-      // dispatch(setPrivate(false));
-  };
+
 
   return(
     <>
