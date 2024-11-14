@@ -20,34 +20,6 @@ const PortfolioPage = () => {
 
   const [sharedPortfolioList, setsharedPortfolioList] = useState([]);
 
-  //추가
-  // const [isCategoryOpen, setIsCategoryOpen] = useState(false);
-  // const [isSortOpen, setIsSortOpen] = useState(false);
-  // const [isFilterOpen, setIsFilterOpen] = useState(false);
-
-  // const categoryRef = useRef(null);
-  // const sortRef = useRef(null);
-  // const filterRef = useRef(null);
-
-  // useEffect(() => {
-  //   const handleClickOutside = (event) => {
-  //     if (
-  //       (categoryRef.current && !categoryRef.current.contains(event.target)) ||
-  //       (sortRef.current && !sortRef.current.contains(event.target)) ||
-  //       (filterRef.current && !filterRef.current.contains(event.target))
-  //     ) {
-  //       setIsCategoryOpen(false);
-  //       setIsSortOpen(false);
-  //       setIsFilterOpen(false);
-  //     }
-  //   };
-
-  //   document.addEventListener("mousedown", handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   };
-  // }, []);
-
   //LinkedList를 배열로 바꾸는 함수
   const linkedListToArray = (linkedList) => {
     const array = [];

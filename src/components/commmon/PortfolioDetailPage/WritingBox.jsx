@@ -94,6 +94,7 @@ const WritingBox = ({ addComment }) => {
 
   const handleSubmit = () => {
     const currentUser = getCurrentUser();
+    console.log(currentUser);
     if (markdown.trim() !== "") {
       const newComment = new Comment(
         null, // commentId, saveComment에서 생성

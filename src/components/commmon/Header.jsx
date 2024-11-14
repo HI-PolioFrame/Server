@@ -22,10 +22,10 @@ function Header({}) {
   const [accessToken, setAccessToken] = useState(
     localStorage.getItem("accessToken")
   );
-
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   // 프로필 클릭 이벤트 추가했다구리
   const menuRef = useRef(null);
+  const currentUser = getCurrentUser();
 
   // useEffect로 컴포넌트가 처음 렌더링될 때 accessToken 업데이트
   useEffect(() => {
@@ -80,6 +80,11 @@ function Header({}) {
         <TextWrapper>
           <Text onClick={() => navigate("/PortfolioPage")}>포트폴리오</Text>
           <Text onClick={() => navigate("/HackathonPage")}>해커톤</Text>
+          {accessToken && currentUser?.recruiter && (
+            <Text onClick={() => navigate(`/RecruiterPage/${currentUser.id}`)}>
+              채용
+            </Text>
+          )}
         </TextWrapper>
 
         {/* <Nav>

@@ -126,7 +126,7 @@ export const initializeData = () => {
       data.picture
     );
     oriHackathons.set(data.hackId, hackathon);
-  })
+  });
 
   // templateInfo.forEach((data) => {
   //   let template = new Template(

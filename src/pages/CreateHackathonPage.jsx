@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Logo from "../assets/icons/Logo.png";
-import CreatePortfolioInput from "../components/CreatePortfolioPage/CreatePortfolioInput";
-import CreatePortfolioTemplate from "../components/CreatePortfolioPage/CreatePortfolioTemplate";
+import CreateHackathonInput from "../components/CreateHackathonPage/CreateHackathonInput";
+import CreateHackathonTemplate from "../components/CreateHackathonPage/CreateHackathonTemplate";
 import saveProject from "../components/features/saveProject";
 import { getCurrentUser } from "../components/features/currentUser";
 
-const CreatePortfolioPage = () => {
+const CreateHackathonPage = () => {
   const [formData, setFormData] = useState({
     projectOwnerName: "", // 포폴 만든 사람 이름
     projectOwnerNickname: "",
@@ -27,15 +27,15 @@ const CreatePortfolioPage = () => {
     logo: null,
   });
 
-  // const [currentUser, setCurrentUser] = useState(null);
-  const currentUser = getCurrentUser();
+  const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
-    if (currentUser) {
-      // setCurrentUser(user);
+    const user = getCurrentUser();
+    if (user) {
+      setCurrentUser(user);
       console.log(currentUser);
     } else {
-      console.log("currentUser 없음");
+      console.log("user 없음");
     }
   }, []);
 
@@ -47,58 +47,44 @@ const CreatePortfolioPage = () => {
     }));
   };
 
-  const handleDateChange = (name, date) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: date,
-    }));
-  };
-
   const handleSaveProject = () => {
     saveProject(
       currentUser.name, // 사용자 이름
-      currentUser.id, // 사용자 아이디
       currentUser.nickname, // 사용자 닉네임
       currentUser.email, // 사용자 이메일
-      formData.usedTemplate, // projectTemplate
+      null, // projectTemplate
       formData.projectTitle,
       formData.description,
       formData.startDate,
       formData.endDate,
-      formData.category,
-      formData.usedLanguage,
-      formData.projectLink,
       formData.solving,
       formData.challenge,
+      formData.share,
+      formData.usedLanguage,
+      null, // 카테고리 입력에 따라 수정 필요
       formData.video,
       formData.coverImage,
       formData.images,
-      formData.logo,
-      formData.share
+      formData.logo
     );
-    console.log(formData.startDate, formData.endDate);
   };
   return (
     <>
       <HeaderWrapper>
         <LogoImage src={Logo} alt="로고" />
-        <PageHeaderTitle>Portfolio</PageHeaderTitle>
+        <PageHeaderTitle>Hackathon</PageHeaderTitle>
       </HeaderWrapper>
 
       <ContentWrapper>
-        <CreatePortfolioInput
-          onInputChange={handleInputChange}
-          formData={formData}
-          onDateChange={handleDateChange}
-        />
-        <CreatePortfolioTemplate />
+        <CreateHackathonInput onInputChange={handleInputChange} />
+        {/* <CreateHackathonTemplate /> */}
         <CreateButton onClick={handleSaveProject}>제작하기</CreateButton>
       </ContentWrapper>
     </>
   );
 };
 
-export default CreatePortfolioPage;
+export default CreateHackathonPage;
 
 //css Wrapper
 const HeaderWrapper = styled.div`
@@ -147,7 +133,7 @@ const CreateButton = styled.button`
   background-color: #0a27a6;
   height: 3em;
   width: 20%;
-  margin-top: 2em;
+  margin-top: -6em;
   font-family: "OTF R";
 
   cursor: pointer;
