@@ -23,7 +23,7 @@ import { commentInfo } from "../commmon/dummydata/commentInfo.jsx"; //저장된 
 import { hackathonInfo } from "../commmon/dummydata/HackathonInfo.jsx";
 
 import SearchSortManager from "../features/SearchSortManager.jsx";
-
+import { incrementUserContact } from "../features/recruiterFeatures.jsx";
 export const oriUsers = new Map();
 export const oriRecruiters = new Map();
 export const oriPortfolios = new Map();
@@ -53,7 +53,8 @@ export const initializeData = () => {
       data.nickname,
       data.link,
       data.career,
-      data.education
+      data.education,
+      data.contact
     );
     oriUsers.set(Number(data.id), user);
     if (user.recruiter === true) {
@@ -151,6 +152,7 @@ export const initializeData = () => {
         console.log(value.projectId);
     });
     console.log("저장된 프젝 아이디 확인 출력 끝"); */
+    console.log(incrementUserContact(1));
 };
 
 export const searchSortManager = new SearchSortManager(

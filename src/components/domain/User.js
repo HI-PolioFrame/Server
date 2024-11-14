@@ -1,5 +1,5 @@
 export class User {
-    constructor(id, pageId=null, password, name, phoneNumber, birthday, recruiter=false, email=null, nickname=null, link=null, career=null, education=null) {
+    constructor(id, pageId=null, password, name, phoneNumber, birthday, recruiter=false, email=null, nickname=null, link=null, career=null, education=null, contact=0) {
         this.id = id; // pk
         this.pageId = pageId; // fk to MyPage
         this.password = password;
@@ -14,6 +14,7 @@ export class User {
         this.link = link;
         this.career = career;
         this.education = education;
+        this.contact = contact;
     }
 
     ownPage(myPage) {

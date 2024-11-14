@@ -12,6 +12,7 @@ export const userInfo = [
     link: "",
     career: "있음",
     education: "학사",
+    contact: 0
   },
   {
     id: "2",
@@ -26,6 +27,7 @@ export const userInfo = [
     link: "",
     career: "없음",
     education: "학사",
+    contact: 0
   },
   {
     id: "3",
@@ -40,6 +42,7 @@ export const userInfo = [
     link: "",
     career: "없음",
     education: "석사",
+    contact: 0
   },
   {
     id: "4",
@@ -54,6 +57,7 @@ export const userInfo = [
     link: "",
     career: "있음",
     education: "박사",
+    contact: 0
   },
   {
     id: "5",
@@ -68,6 +72,7 @@ export const userInfo = [
     link: "",
     career: "있음",
     education: "석사",
+    contact: 0
   },
   {
     id: "6",
@@ -82,6 +87,7 @@ export const userInfo = [
     link: "",
     career: "없음",
     education: "박사",
+    contact: 0
   },
   {
     id: "7",
@@ -96,5 +102,6 @@ export const userInfo = [
     link: "",
     career: "있음",
     education: "석사",
+    contact: 0
   },
 ];
