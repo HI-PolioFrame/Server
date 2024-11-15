@@ -101,7 +101,7 @@ export const userInfo = [
     nickname: "길동이",
     link: "",
     career: "있음",
-    education: "석사"
+    education: "석사",
   },
   {
     id: "user100000",
@@ -186,7 +186,8 @@ export const userInfo = [
     link: "",
     career: "없음",
     education: ""
-  },
+  }
+,
   {
     id: "whyisntwork",
     pageId: 14,
@@ -222,34 +223,6 @@ export const userInfo = [
     name: "윤미영",
     phoneNumber: "010-2323-2323",
     birthday: "2010-06-09",
-    recruiter: false,
-    email: "",
-    nickname: "",
-    link: "",
-    career: "없음",
-    education: ""
-  },
-  {
-    id: "fscheck_myfs",
-    pageId: 17,
-    password: "close122222@@",
-    name: "강녕",
-    phoneNumber: "010-4342-3434",
-    birthday: "2024-11-03",
-    recruiter: false,
-    email: "",
-    nickname: "",
-    link: "",
-    career: "없음",
-    education: ""
-  },
-  {
-    id: "exuser100",
-    pageId: 18,
-    password: "exuser10000@@",
-    name: "꾸에엑",
-    phoneNumber: "010-9876-5432",
-    birthday: "2024-11-14",
     recruiter: false,
     email: "",
     nickname: "",

@@ -41,6 +41,7 @@ export const initializeData = () => {
   userInfo.forEach((data) => {
     let user = new User(
       data.id,
+      data.id,
       data.pageId,
       data.password,
       data.name,
