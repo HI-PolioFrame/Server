@@ -19,7 +19,9 @@ class Project {
     coverImage = null,
     images = null,
     logo = null,
-    share = false
+    share = false,
+    hits = 0,
+    contacts = []
   ) {
     this.ownerName = ownerName;
     this.ownerId = ownerId;
@@ -42,6 +44,8 @@ class Project {
     this.images = images;
     this.logo = logo;
     this.share = share;
+    this.hits = hits;
+    this.contacts = contacts;
   }
 }
 

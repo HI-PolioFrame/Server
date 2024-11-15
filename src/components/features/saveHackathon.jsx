@@ -26,7 +26,7 @@ export const saveHackathons = (hackName, startDate, endDate, description, pictur
         }
         `;
 
-    let filePath = "../components/dummydata/hackathonInfo.jsx";
+    let filePath = "../components/common/dummydata/hackathonInfo.jsx";
 
     removeFromFileEnd(filePath, 3);
     appendStringToFile(filePath, `,${string}\n];`);
