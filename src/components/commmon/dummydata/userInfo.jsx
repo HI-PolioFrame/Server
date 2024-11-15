@@ -101,7 +101,7 @@ export const userInfo = [
     nickname: "길동이",
     link: "",
     career: "있음",
-    education: "석사",
+    education: "석사"
   },
   {
     id: "user100000",
@@ -186,8 +186,7 @@ export const userInfo = [
     link: "",
     career: "없음",
     education: ""
-  }
-,
+  },
   {
     id: "whyisntwork",
     pageId: 14,
@@ -229,8 +228,7 @@ export const userInfo = [
     link: "",
     career: "없음",
     education: ""
-  }
-,
+  },
   {
     id: "fscheck_myfs",
     pageId: 17,
@@ -244,7 +242,7 @@ export const userInfo = [
     link: "",
     career: "없음",
     education: ""
-  },
+  },
   {
     id: "exuser100",
     pageId: 18,

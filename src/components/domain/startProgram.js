@@ -14,7 +14,7 @@ import Project from "./Project.js";
 import Template from "./Template.js";
 import Comment from "./Comment.js";
 import Hackathon from "./Hackathon.js";
-import { countHits } from "../features/countHits.jsx";
+
 import { templateInfo } from "../commmon/dummydata/templateInfo"; // 저장된 모든 템플릿 정보
 import { portfolioInfo } from "../commmon/dummydata/portfolioInfo.jsx"; // 저장된 모든 포트폴리오 정보
 import { projectInfo } from "../commmon/dummydata/projectInfo.jsx";
@@ -98,7 +98,9 @@ export const initializeData = () => {
       data.coverImage,
       data.images,
       data.logo,
-      data.share
+      data.share,
+      data.hits,
+      data.contacts
     );
     oriProjects.set(data.projectId, project);
   });
@@ -150,7 +152,6 @@ export const initializeData = () => {
         console.log(value.projectId);
     });
     console.log("저장된 프젝 아이디 확인 출력 끝"); */
-    console.log(countHits("./src/components/commmon/dummydata/userInfo.jsx", 1, 5));
 };
 
 export const searchSortManager = new SearchSortManager(
