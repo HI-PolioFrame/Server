@@ -1,14 +1,14 @@
 export const commentInfo = [
   {
     commentId: 1,
-    portfolioId: null,
+    portfolioId: 2,
     userId: "admin4",
-    text: `당신은 대상감입니다.`,
-    date: `Thu Nov 14 2024 16:27:54 GMT+0900 (한국 표준시)`,
+    text: "당신은 대상감입니다.",
+    date: "Thu Nov 14 2024 16:27:54 GMT+0900 (한국 표준시)",
   },
   {
     commentId: 3,
-    portfolioId: null,
+    portfolioId: 3,
     userId: "admin4",
     text: `so great ideas`,
     date: `Thu Nov 14 2024 16:29:48 GMT+0900 (한국 표준시)`,
