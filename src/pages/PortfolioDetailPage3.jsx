@@ -79,7 +79,7 @@ const PortfolioDetailPage3 = () => {
   }
 
   return (
-    <DetailContainer>
+    <PageContainer>
       <TitleSection>
         <ProjectTitle>{portfolioData.projectTitle}</ProjectTitle>
         <ProjectDescription>{portfolioData.description}</ProjectDescription>
@@ -91,27 +91,28 @@ const PortfolioDetailPage3 = () => {
         <Button>좋아요 0</Button>
       </InfoButtons>
 
-      <InfoSection>
-        <InfoWrapper>
-          <InfoField>프로젝트 링크</InfoField>
-          <Info>{portfolioData.projectLink || ""}</Info>
-        </InfoWrapper>
-        <InfoWrapper>
-          <InfoField>참여 기간</InfoField>
-          <Info>
-            {portfolioData.startDate} - {portfolioData.endDate}
-          </Info>
-        </InfoWrapper>
-        <InfoWrapper>
-          <InfoField>사용한 스택</InfoField>
-          <Info>{portfolioData.usedLanguage || ""}</Info>
-        </InfoWrapper>
-      </InfoSection>
+      <DetailContainer>
+        <InfoSection>
+          <InfoWrapper>
+            <InfoField>프로젝트 링크</InfoField>
+            <Info>{portfolioData.projectLink || ""}</Info>
+          </InfoWrapper>
+          <InfoWrapper>
+            <InfoField>참여 기간</InfoField>
+            <Info>
+              {portfolioData.startDate} - {portfolioData.endDate}
+            </Info>
+          </InfoWrapper>
+          <InfoWrapper>
+            <InfoField>사용한 스택</InfoField>
+            <Info>{portfolioData.usedLanguage || ""}</Info>
+          </InfoWrapper>
+        </InfoSection>
 
-      <MediaContainer>
-        <ArrowButton onClick={scrollLeft}>&lt;</ArrowButton>
-        <MediaSection ref={mediaRef}>
-          {/* {(portfolioData.video || (portfolioData.images && portfolioData.images.length > 0)) && (
+        <MediaContainer>
+          <ArrowButton onClick={scrollLeft}>&lt;</ArrowButton>
+          <MediaSection ref={mediaRef}>
+            {/* {(portfolioData.video || (portfolioData.images && portfolioData.images.length > 0)) && (
       <MediaSection ref={mediaRef}>
         {portfolioData.video && (
         <VideoContainer>
@@ -134,54 +135,55 @@ const PortfolioDetailPage3 = () => {
         )}
       </MediaSection>
     )} */}
-          <VideoContainer>
-            <DemoVideo>
-              <video width="100%" height="100%" controls>
-                <source src={sampleVideo} type="video/mp4" />
-              </video>
-            </DemoVideo>
-          </VideoContainer>
-          <ImageContainer>
-            {/* {portfolioData.images && portfolioData.images.length > 0
+            <VideoContainer>
+              <DemoVideo>
+                <video width="100%" height="100%" controls>
+                  <source src={sampleVideo} type="video/mp4" />
+                </video>
+              </DemoVideo>
+            </VideoContainer>
+            <ImageContainer>
+              {/* {portfolioData.images && portfolioData.images.length > 0
             ? portfolioData.images.map((image, index) => (
                 <ImageBox key={index} onClick={() => setEnlargedImage(image)}>
                   <img src={image} alt={`프로젝트 이미지 ${index + 1}`} />
                 </ImageBox>
               ))
             : "사진 없음"} */}
-            <ImageBox onClick={() => setEnlargedImage(sample)}>
-              <img src={sample} alt="sample 이미지" />
-            </ImageBox>
-            <ImageBox onClick={() => setEnlargedImage(sample)}>
-              <img src={sample} alt="sample 이미지" />
-            </ImageBox>
-            <ImageBox onClick={() => setEnlargedImage(sample)}>
-              <img src={sample} alt="sample 이미지" />
-            </ImageBox>
-            <ImageBox onClick={() => setEnlargedImage(sample)}>
-              <img src={sample} alt="sample 이미지" />
-            </ImageBox>
-          </ImageContainer>
-        </MediaSection>
-        <ArrowButton onClick={scrollRight}>&gt;</ArrowButton>
-      </MediaContainer>
+              <ImageBox onClick={() => setEnlargedImage(sample)}>
+                <img src={sample} alt="sample 이미지" />
+              </ImageBox>
+              <ImageBox onClick={() => setEnlargedImage(sample)}>
+                <img src={sample} alt="sample 이미지" />
+              </ImageBox>
+              <ImageBox onClick={() => setEnlargedImage(sample)}>
+                <img src={sample} alt="sample 이미지" />
+              </ImageBox>
+              <ImageBox onClick={() => setEnlargedImage(sample)}>
+                <img src={sample} alt="sample 이미지" />
+              </ImageBox>
+            </ImageContainer>
+          </MediaSection>
+          <ArrowButton onClick={scrollRight}>&gt;</ArrowButton>
+        </MediaContainer>
 
-      {enlargedImage && (
-        <Overlay onClick={() => setEnlargedImage(null)}>
-          <EnlargedImage src={enlargedImage} alt="Enlarged project image" />
-        </Overlay>
-      )}
+        {enlargedImage && (
+          <Overlay onClick={() => setEnlargedImage(null)}>
+            <EnlargedImage src={enlargedImage} alt="Enlarged project image" />
+          </Overlay>
+        )}
 
-      <DescriptionSection>
-        <TextBox>
-          <Label>해결하는 문제:</Label>
-          {portfolioData.solving || "해결한 문제 없음"}
-        </TextBox>
-        <TextBox>
-          <Label>내가 마주친 도전:</Label>
-          {portfolioData.challenge || "도전 내용 없음"}
-        </TextBox>
-      </DescriptionSection>
+        <DescriptionSection>
+          <TextBox>
+            <Label>해결하는 문제:</Label>
+            {portfolioData.solving || "해결한 문제 없음"}
+          </TextBox>
+          <TextBox>
+            <Label>내가 마주친 도전:</Label>
+            {portfolioData.challenge || "도전 내용 없음"}
+          </TextBox>
+        </DescriptionSection>
+      </DetailContainer>
 
       <CommentsSection>
         <CommentsTitle>댓글</CommentsTitle>
@@ -192,19 +194,22 @@ const PortfolioDetailPage3 = () => {
           portfolioId={portfolioId}
         />
       </CommentsSection>
-    </DetailContainer>
+    </PageContainer>
   );
 };
 
 export default PortfolioDetailPage3;
 
 // Styled Components
+const PageContainer = styled.div`
+  width: 85%;
+  margin: 0 auto;
+`;
+
 const DetailContainer = styled.div`
   // padding: 20px;
   // max-width: 800px;
   // margin: 0 auto;
-  width: 85%;
-  margin: 0 auto;
 
   background-color: rgb(245, 247, 247);
 `;
