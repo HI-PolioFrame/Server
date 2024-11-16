@@ -21,9 +21,7 @@ import { projectInfo } from "../commmon/dummydata/projectInfo.jsx";
 import { userInfo } from "../commmon/dummydata/userInfo.jsx"; // 저장된 모든 유저 정보
 import { commentInfo } from "../commmon/dummydata/commentInfo.jsx"; //저장된 혹은 저장할 모든 댓글 정보
 import { hackathonInfo } from "../commmon/dummydata/HackathonInfo.jsx";
-
 import SearchSortManager from "../features/SearchSortManager.jsx";
-
 export const oriUsers = new Map();
 export const oriRecruiters = new Map();
 export const oriPortfolios = new Map();
@@ -43,6 +41,7 @@ export const initializeData = () => {
   userInfo.forEach((data) => {
     let user = new User(
       data.id,
+      data.id,
       data.pageId,
       data.password,
       data.name,
@@ -53,7 +52,8 @@ export const initializeData = () => {
       data.nickname,
       data.link,
       data.career,
-      data.education
+      data.education,
+      data.contact
     );
     oriUsers.set(data.id, user);
     if (user.recruiter === true) {
@@ -99,7 +99,9 @@ export const initializeData = () => {
       data.coverImage,
       data.images,
       data.logo,
-      data.share
+      data.share,
+      data.hits,
+      data.contacts
     );
     oriProjects.set(data.projectId, project);
   });
