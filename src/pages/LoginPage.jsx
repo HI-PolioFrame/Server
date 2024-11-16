@@ -100,9 +100,8 @@ const LoginWrapper = styled.div`
   align-items: center;
   justify-content: center;
   // padding: 90px;
-
   width: 85%;
-  padding: 40px 40px;
+  padding: 8% 40px;
   margin: 0 auto;
 `;
 
@@ -134,6 +133,7 @@ const IDinput = styled.input`
   height: 3em;
   width: 200%;
   text-indent: 1em;
+  outline:none;
 
   &::placeholder {
     text-indent: 1em;
@@ -146,6 +146,7 @@ const PASSinput = styled.input`
   height: 3em;
   width: 100%;
   text-indent: 1em;
+  outline:none;
 
   &::placeholder {
     text-indent: 1em;
@@ -160,12 +161,11 @@ const LoginButton = styled.button`
   color: #fff;
   font-size: 1em;
   font-weight: 800;
-
   border-radius: 2em;
   border: none;
   background-color: #0a27a6;
   height: 3em;
-  width: 20%;
+  width: 10em;
 
   margin: 2em 0;
 `;

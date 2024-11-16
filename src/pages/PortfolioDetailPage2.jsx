@@ -361,7 +361,7 @@ const VideoBox = styled.div`
   border-radius: 1em;
   font-size: 1vw;
   width: 40em;
-  height: 16.5em;
+  height: 15em;
 `;
 
 //css image
