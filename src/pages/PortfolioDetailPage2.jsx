@@ -55,10 +55,41 @@ const PortfolioDetailPage2 = () => {
     );
   };
 
-  // const isPortfolioOwner =
-  //   portfolioData && currentUser && portfolioData.owner === currentUser.id;
+  const handleContactClick = () => {
+    if (currentUser && currentUser.recruiter) {
+      patchContacts(Number(portfolioId), currentUser.id); // 기업 연락 호출
+      setShowContactInfo(true); // 개발자 정보 표시
+      alert("기업 연락이 저장되었습니다.");
+    } else {
+      alert("기업 회원만 연락 버튼을 사용할 수 있습니다.");
+    }
+  };
 
-  //console.log(comments);
+  const renderDeveloperInfo = () => {
+    if (currentUser.recruiter) {
+      if (showContactInfo) {
+        return (
+          <>
+            <DevInfo>{portfolioData.ownerName}</DevInfo>
+            <DevInfo>{portfolioData.ownerEmail || "이메일 없음"}</DevInfo>
+          </>
+        );
+      } else {
+        return (
+          <ButtonWrapper>
+            <Button onClick={handleContactClick}>연락</Button>
+          </ButtonWrapper>
+        );
+      }
+    } else {
+      return (
+        <>
+          <DevInfo>{portfolioData.ownerNickname || "익명"}</DevInfo>
+          <DevInfo>example@example.com</DevInfo>
+        </>
+      );
+    }
+  };
 
   if (!portfolioData) {
     return <Loading>로딩 중...</Loading>;
