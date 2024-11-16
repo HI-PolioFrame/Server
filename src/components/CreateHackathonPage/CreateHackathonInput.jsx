@@ -181,6 +181,7 @@ const CreateHackathonInput = () => {
 export default CreateHackathonInput;
 
 //css Wrapper
+
 const VitalWrapper = styled.div`
   width: 80%;
   padding: 40px 40px;
@@ -188,7 +189,7 @@ const VitalWrapper = styled.div`
 
   border : 1.5px solid #d0d1d9;
   border-radius : 2em;
-  height : 53em;
+  height : 45em;
   
   display: flex;
   flex-direction: column;
@@ -231,7 +232,7 @@ const ColumnWrapper2 = styled.div`
 `;
 const ColumnWrapper3 = styled.div`
   display: flex;
-  gap: 1%;
+  gap: 11%;
   // justify-content: space-between;
   width: 100%;
 `;
