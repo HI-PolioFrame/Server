@@ -34,7 +34,7 @@ const PortfolioDetailPage = () => {
       (comment) => comment.portfolioId === Number(portfolioId)
     );
     setComments(filteredComments);
-  }, [portfolioId]);
+  }, [portfolioId, portfolioData?.contacts.length, portfolioData?.hits]);
 
   const addComment = (newCommentObj) => {
     // const newComment = {

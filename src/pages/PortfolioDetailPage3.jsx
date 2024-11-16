@@ -45,7 +45,7 @@ const PortfolioDetailPage3 = () => {
       (comment) => comment.portfolioId === Number(portfolioId)
     );
     setComments(filteredComments);
-  }, [portfolioId]);
+  }, [portfolioId, portfolioData?.contacts.length, portfolioData?.hits]);
 
   const scrollLeft = () => {
     if (mediaRef.current) {
