@@ -24,12 +24,6 @@ const PortfolioDetailPage = () => {
     }
     console.log(portfolio);
 
-    // 로컬 스토리지에서 댓글 불러오기
-    // const savedComments = localStorage.getItem(`comments-${portfolioId}`);
-    // if (savedComments) {
-    //   setComments(JSON.parse(savedComments));
-    // }
-
     const filteredComments = Array.from(oriComments.values()).filter(
       (comment) => comment.portfolioId === Number(portfolioId)
     );

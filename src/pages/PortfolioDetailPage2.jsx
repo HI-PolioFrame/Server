@@ -22,19 +22,16 @@ const PortfolioDetailPage2 = () => {
   const currentUser = getCurrentUser();
 
   useEffect(() => {
-    // portfolioId가 10일 때만 데이터를 가져오기
-    console.log("portfolioId:", portfolioId);
-    if (Number(portfolioId) === 8) {
-      const portfolio = oriProjects.get(8);
+    const portfolio = oriProjects.get(Number(portfolioId));
+    if (portfolio) {
       setPortfolioData(portfolio);
-      console.log(portfolio);
-
-      // 댓글 필터링
-      const filteredComments = Array.from(oriComments.values()).filter(
-        (comment) => comment.portfolioId === 10
-      );
-      setComments(filteredComments);
     }
+    console.log(portfolio);
+
+    const filteredComments = Array.from(oriComments.values()).filter(
+      (comment) => comment.portfolioId === Number(portfolioId)
+    );
+    setComments(filteredComments);
   }, [portfolioId]);
 
   const addComment = (newCommentObj) => {
@@ -71,8 +68,8 @@ const PortfolioDetailPage2 = () => {
       <MainWrapper>
         <TitleWrapper>
           <InfoButtons>
-            <Button>조회수 0</Button>
-            <Button>기업 연락 0</Button>
+            <Button>조회수 {portfolioData.hits || 0}</Button>
+            <Button>기업 연락 {portfolioData.contacts.length || 0}</Button>
             <Button>좋아요 0</Button>
           </InfoButtons>
           <ProjectTitle>{portfolioData.projectTitle}</ProjectTitle>

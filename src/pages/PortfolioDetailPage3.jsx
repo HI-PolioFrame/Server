@@ -29,7 +29,10 @@ const PortfolioDetailPage3 = () => {
 
   useEffect(() => {
     const portfolio = oriProjects.get(Number(portfolioId));
-    setPortfolioData(portfolio);
+    if (portfolio) {
+      setPortfolioData(portfolio);
+    }
+    console.log(portfolio);
 
     const filteredComments = Array.from(oriComments.values()).filter(
       (comment) => comment.portfolioId === Number(portfolioId)
