@@ -9,6 +9,10 @@ import saveComment from "../components/features/saveComment";
 import WritingBox from "../components/commmon/PortfolioDetailPage/WritingBox";
 import CommentList from "../components/commmon/PortfolioDetailPage/CommentList";
 
+//arrow 이미지
+import greaterThanSign from "../assets/images/PortfolioDetailPage3/greaterThanSign.svg";
+import lessThanSign from "../assets/images/PortfolioDetailPage3/lessThanSign.svg";
+
 //sample 이미지
 import sample from "../assets/images/PortfolioDetailPage3/sample.png";
 //sample 비디오
@@ -95,7 +99,7 @@ const PortfolioDetailPage3 = () => {
         <InfoSection>
           <InfoWrapper>
             <InfoField>프로젝트 링크</InfoField>
-            <Info>{portfolioData.projectLink || ""}</Info>
+            <Info>{portfolioData.projectLink || "링크 없음"}</Info>
           </InfoWrapper>
           <InfoWrapper>
             <InfoField>참여 기간</InfoField>
@@ -110,7 +114,9 @@ const PortfolioDetailPage3 = () => {
         </InfoSection>
 
         <MediaContainer>
-          <ArrowButton onClick={scrollLeft}>&lt;</ArrowButton>
+          <ArrowButton onClick={scrollLeft}>
+            <Arrow src={lessThanSign} alt="Scroll Left" />
+          </ArrowButton>
           <MediaSection ref={mediaRef}>
             {/* {(portfolioData.video || (portfolioData.images && portfolioData.images.length > 0)) && (
       <MediaSection ref={mediaRef}>
@@ -164,7 +170,9 @@ const PortfolioDetailPage3 = () => {
               </ImageBox>
             </ImageContainer>
           </MediaSection>
-          <ArrowButton onClick={scrollRight}>&gt;</ArrowButton>
+          <ArrowButton onClick={scrollRight}>
+            <Arrow src={greaterThanSign} alt="Scroll Right" />
+          </ArrowButton>
         </MediaContainer>
 
         {enlargedImage && (
@@ -174,14 +182,14 @@ const PortfolioDetailPage3 = () => {
         )}
 
         <DescriptionSection>
-          <TextBox>
-            <Label>해결하는 문제:</Label>
-            {portfolioData.solving || "해결한 문제 없음"}
-          </TextBox>
-          <TextBox>
-            <Label>내가 마주친 도전:</Label>
-            {portfolioData.challenge || "도전 내용 없음"}
-          </TextBox>
+          <Section>
+            <Field>해결하는 문제</Field>
+            <Text>{portfolioData.solving || "해결한 문제 없음"}</Text>
+          </Section>
+          <Section>
+            <Field>내가 마주친 도전</Field>
+            <Text>{portfolioData.challenge || "도전 내용 없음"}</Text>
+          </Section>
         </DescriptionSection>
       </DetailContainer>
 
@@ -209,7 +217,8 @@ const PageContainer = styled.div`
 const DetailContainer = styled.div`
   // padding: 20px;
   // max-width: 800px;
-  // margin: 0 auto;
+  padding: 2vh;
+  margin-bottom: 4vh;
 
   background-color: rgb(245, 247, 247);
 `;
@@ -266,6 +275,7 @@ const InfoWrapper = styled.div`
 `;
 const InfoField = styled.div`
   font-size: 2vw;
+  font-weight: bold;
 `;
 
 const Info = styled.div`
@@ -307,26 +317,35 @@ const ArrowButton = styled.button`
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.5);
-  color: white;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: white;
   border: none;
-  padding: 1vw;
-  font-size: 18px;
   cursor: pointer;
-  z-index: 1;
+  padding: 1vw;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 50%;
+  z-index: 10;
 
   &:hover {
-    background: rgba(0, 0, 0, 0.8);
+    transform: translateY(-50%) scale(1.1);
   }
 
-  &:nth-child(1) {
-    left: -20px; // Position on the left
+  &:first-child {
+    left: -25px;
   }
 
-  &:nth-child(3) {
-    right: -20px; // Position on the right
+  &:last-child {
+    right: -25px;
   }
+`;
+
+const Arrow = styled.img`
+  width: 1.5vw;
+  height: 1.5vw;
 `;
 
 const VideoContainer = styled.div`
@@ -425,12 +444,29 @@ const DescriptionSection = styled.div`
   margin-bottom: 20px;
 `;
 
-const TextBox = styled.div`
-  margin-bottom: 10px;
+const Section = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 2vw 1vw;
+
+  font-family: Impact;
 `;
 
-const Label = styled.span`
+const Field = styled.div`
+  font-size: 2vw;
   font-weight: bold;
+`;
+
+const Text = styled.div`
+  border-radius: 0.3125em;
+  box-shadow: 0 0.5em 1em rgba(0, 0, 0, 0.1);
+
+  background-color: white;
+
+  padding: 1vw;
+  margin-top: 2vw;
+
+  min-width: 80%;
 `;
 
 const CommentsSection = styled.div`
