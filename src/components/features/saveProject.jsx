@@ -115,25 +115,47 @@ export const saveProject = async (
   oriProjects.set(projectId, newProject);
   console.log(newProject);
 
+  // const string = `
+  //   {
+  //       projectId: ${projectId},
+  //       projectTitle: ${projectTitle},
+  //       projectOwnerName: ${projectOwnerName},
+  //       description: ${description || "''"},
+  //       startDate: ${startDate},
+  //       endDate: ${endDate},
+  //       category: ${category},
+  //       usedLanguage: ${usedLanguage},
+  //       projectLink: ${projectLink},
+  //       solving: ${solving},
+  //       challenge: ${challenge},
+  //       video: ${video || "비디오 없음."},
+  //       coverImage: ${coverImage || "없음."},
+  //       images: ${images || "''"},
+  //       logo: ${logo || "없음."},
+  //       share: ${share}
+  //   }`;
+
+  // !!! 수정한 코드 문자열로 변환함!!! 
   const string = `
-    {
-        projectId: ${projectId},
-        projectTitle: ${projectTitle},
-        projectOwnerName: ${projectOwnerName},
-        description: ${description || "''"},
-        startDate: ${startDate},
-        endDate: ${endDate},
-        category: ${category},
-        usedLanguage: ${usedLanguage},
-        projectLink: ${projectLink},
-        solving: ${solving},
-        challenge: ${challenge},
-        video: ${video || "비디오 없음."},
-        coverImage: ${coverImage || "없음."},
-        images: ${images || "''"},
-        logo: ${logo || "없음."},
-        share: ${share}
-    }`;
+  {
+      projectId: ${projectId},
+      projectTitle: "${projectTitle}", 
+      projectOwnerName: "${projectOwnerName}",
+      description: "${description || ''}",
+      startDate: "${startDate}", 
+      endDate: "${endDate}", 
+      category: "${category || ''}", 
+      usedLanguage: "${usedLanguage}", 
+      projectLink: "${projectLink || ''}",
+      solving: "${solving}", 
+      challenge: "${challenge}",
+      video: "${video || '비디오 없음.'}",
+      coverImage: "${coverImage || '없음.'}", 
+      images: ${JSON.stringify(images || [])}, 
+      logo: "${logo || '없음.'}", 
+     
+      share: ${share}
+  }`;
 
   let filePath = "src/components/commmon/dummydata/projectInfo.jsx";
 

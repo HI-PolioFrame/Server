@@ -5,8 +5,9 @@ import CreatePortfolioInput from "../components/CreatePortfolioPage/CreatePortfo
 import CreatePortfolioTemplate from "../components/CreatePortfolioPage/CreatePortfolioTemplate";
 import saveProject from "../components/features/saveProject";
 import { getCurrentUser } from "../components/features/currentUser";
-
+import { Navigate, useNavigate } from "react-router-dom";
 const CreatePortfolioPage = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     projectOwnerName: "", // 포폴 만든 사람 이름
     projectOwnerNickname: "",
@@ -78,6 +79,8 @@ const CreatePortfolioPage = () => {
     );
     console.log(formData.startDate, formData.endDate);
   };
+  //이미지, 비디오 업로드
+  
   return (
     <>
       <HeaderWrapper>
@@ -92,7 +95,11 @@ const CreatePortfolioPage = () => {
           onDateChange={handleDateChange}
         />
         <CreatePortfolioTemplate />
-        <CreateButton onClick={handleSaveProject}>제작하기</CreateButton>
+        <CreateButton  onClick={() => {
+            handleSaveProject(); // 프로젝트 저장 함수 호출
+            navigate("/MyPage"); // 페이지 이동
+          }}>제작하기
+        </CreateButton>
       </ContentWrapper>
     </>
   );

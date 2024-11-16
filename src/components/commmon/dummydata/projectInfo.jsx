@@ -143,4 +143,5 @@ export const projectInfo = [
     hits: 0,
     contacts: []
   }
+
 ];
