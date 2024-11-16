@@ -90,8 +90,8 @@ const PortfolioDetailPage3 = () => {
       </TitleSection>
 
       <InfoButtons>
-        <Button>조회수 0</Button>
-        <Button>기업 연락 0</Button>
+        <Button>조회수 {portfolioData.hits || 0}</Button>
+        <Button>기업 연락 {portfolioData.contacts.length || 0}</Button>
         <Button>좋아요 0</Button>
       </InfoButtons>
 
