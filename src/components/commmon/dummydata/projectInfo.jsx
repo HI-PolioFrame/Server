@@ -134,7 +134,9 @@ export const projectInfo = [
     usedLanguage: "Java",
     category: "백엔드",
     hits: 8,
-    contacts: []
+    contacts: [
+      "admin1"
+    ]
   },
   {
     projectId: 8,
