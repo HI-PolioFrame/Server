@@ -346,8 +346,7 @@ const LoginButton = styled.button`
   border: none;
   background-color: #0a27a6;
   height: 3em;
-  width: 20%;
-
+  width: 15em;
   margin: 2em 0;
 `;
 
