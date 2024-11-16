@@ -55,7 +55,7 @@ export const projectInfo = [
     share: true,
     usedLanguage: "JavaScript",
     category: "프론트엔드",
-    hits: 3,
+    hits: 5,
     contacts: [
       "admin1"
     ]
@@ -95,8 +95,10 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Phython",
     category: "백엔드",
-    hits: 1,
-    contacts: []
+    hits: 2,
+    contacts: [
+      "admin1"
+    ]
   },
   {
     projectId: 6,
