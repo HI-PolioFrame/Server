@@ -18,11 +18,13 @@ function MyPage() {
   useEffect(() => {
     const currentUser = getCurrentUser();
     if (currentUser) {
-      console.log(currentUser);
+      console.log("Current User:", currentUser);
+      // console.log(oriProjects);
       const userPortfolios = Array.from(oriProjects.values()).filter(
         (portfolio) => portfolio.ownerEmail === currentUser.email
+        // (portfolio) => portfolio.ownerOwnerName === currentUser.name
       );
-      console.log(userPortfolios);
+      console.log("User Portfolios:", userPortfolios); 
       setmyPortfolioList(userPortfolios);
     }
   }, []);
