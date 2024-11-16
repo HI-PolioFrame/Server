@@ -5,6 +5,7 @@ import { oriProjects, oriComments } from "../components/domain/startProgram";
 import { getCurrentUser } from "../components/features/currentUser";
 import Comment from "../components/domain/Comment";
 import saveComment from "../components/features/saveComment";
+import { patchContacts } from "../components/features/recruiterFeatures";
 
 import WritingBox from "../components/commmon/PortfolioDetailPage/WritingBox";
 import CommentList from "../components/commmon/PortfolioDetailPage/CommentList";
@@ -23,13 +24,17 @@ const PortfolioDetailPage3 = () => {
   const [portfolioData, setPortfolioData] = useState(null);
   const [comments, setComments] = useState([]);
   const [enlargedImage, setEnlargedImage] = useState(null);
+  const [showContactInfo, setShowContactInfo] = useState(false);
 
   const mediaRef = useRef(null); //비디오, 사진 부분 스크롤
   const currentUser = getCurrentUser();
 
   useEffect(() => {
     const portfolio = oriProjects.get(Number(portfolioId));
-    setPortfolioData(portfolio);
+    if (portfolio) {
+      setPortfolioData(portfolio);
+    }
+    console.log(portfolio);
 
     const filteredComments = Array.from(oriComments.values()).filter(
       (comment) => comment.portfolioId === Number(portfolioId)
@@ -78,6 +83,42 @@ const PortfolioDetailPage3 = () => {
     );
   };
 
+  const handleContactClick = () => {
+    if (currentUser && currentUser.recruiter) {
+      patchContacts(Number(portfolioId), currentUser.id); // 기업 연락 호출
+      setShowContactInfo(true); // 개발자 정보 표시
+      alert("기업 연락이 저장되었습니다.");
+    } else {
+      alert("기업 회원만 연락 버튼을 사용할 수 있습니다.");
+    }
+  };
+
+  const renderDeveloperInfo = () => {
+    if (currentUser.recruiter) {
+      if (showContactInfo) {
+        return (
+          <>
+            <Info>{portfolioData.ownerName || "이름 없음.."}</Info>
+            <Info>{portfolioData.ownerEmail || "이름 없음.."}</Info>
+          </>
+        );
+      } else {
+        return (
+          <ButtonWrapper>
+            <Button onClick={handleContactClick}>연락</Button>
+          </ButtonWrapper>
+        );
+      }
+    } else {
+      return (
+        <>
+          <Info>{portfolioData.ownerNickname || "익명"}</Info>
+          <Info>example@example.com</Info>
+        </>
+      );
+    }
+  };
+
   if (!portfolioData) {
     return <Loading>로딩 중...</Loading>;
   }
@@ -90,8 +131,8 @@ const PortfolioDetailPage3 = () => {
       </TitleSection>
 
       <InfoButtons>
-        <Button>조회수 0</Button>
-        <Button>기업 연락 0</Button>
+        <Button>조회수 {portfolioData.hits || 0}</Button>
+        <Button>기업 연락 {portfolioData.contacts.length || 0}</Button>
         <Button>좋아요 0</Button>
       </InfoButtons>
 
@@ -100,6 +141,10 @@ const PortfolioDetailPage3 = () => {
           <InfoWrapper>
             <InfoField>프로젝트 링크</InfoField>
             <Info>{portfolioData.projectLink || "링크 없음"}</Info>
+          </InfoWrapper>
+          <InfoWrapper>
+            <InfoField>개발자</InfoField>
+            <Info>{renderDeveloperInfo()}</Info>
           </InfoWrapper>
           <InfoWrapper>
             <InfoField>참여 기간</InfoField>
@@ -246,6 +291,14 @@ const InfoButtons = styled.div`
   margin-bottom: 3vh;
 `;
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin: 1.2vh 0;
+`;
+
 const Button = styled.button`
   background-color: #0a27a6;
   color: white;
@@ -261,15 +314,16 @@ const InfoSection = styled.div`
   // justify-content: space-around;
 
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
   margin-bottom: 5vh;
 `;
 
 const InfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+
+  margin-bottom: 2vh;
 
   font-family: Impact;
 `;

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import { oriProjects, oriComments } from "../components/domain/startProgram";
 import { getCurrentUser } from "../components/features/currentUser";
+import { patchContacts } from "../components/features/recruiterFeatures";
 import Comment from "../components/domain/Comment";
 import saveComment from "../components/features/saveComment";
 
@@ -13,19 +14,16 @@ const PortfolioDetailPage = () => {
   const { portfolioId } = useParams();
   const [portfolioData, setPortfolioData] = useState(null);
   const [comments, setComments] = useState([]);
+  const [showContactInfo, setShowContactInfo] = useState(false);
   const currentUser = getCurrentUser();
 
   useEffect(() => {
     //project ID 사용해서 포트폴리오 데이터 가져오기
     const portfolio = oriProjects.get(Number(portfolioId));
-    setPortfolioData(portfolio);
+    if (portfolio) {
+      setPortfolioData(portfolio);
+    }
     console.log(portfolio);
-
-    // 로컬 스토리지에서 댓글 불러오기
-    // const savedComments = localStorage.getItem(`comments-${portfolioId}`);
-    // if (savedComments) {
-    //   setComments(JSON.parse(savedComments));
-    // }
 
     const filteredComments = Array.from(oriComments.values()).filter(
       (comment) => comment.portfolioId === Number(portfolioId)
@@ -64,6 +62,42 @@ const PortfolioDetailPage = () => {
 
   //console.log(comments);
 
+  const handleContactClick = () => {
+    if (currentUser && currentUser.recruiter) {
+      patchContacts(Number(portfolioId), currentUser.id); // 기업 연락 호출
+      setShowContactInfo(true); // 개발자 정보 표시
+      alert("기업 연락이 저장되었습니다.");
+    } else {
+      alert("기업 회원만 연락 버튼을 사용할 수 있습니다.");
+    }
+  };
+
+  const renderDeveloperInfo = () => {
+    if (currentUser.recruiter) {
+      if (showContactInfo) {
+        return (
+          <>
+            <DevInfo>{portfolioData.ownerName}</DevInfo>
+            <DevInfo>{portfolioData.ownerEmail || "이메일 없음"}</DevInfo>
+          </>
+        );
+      } else {
+        return (
+          <ButtonWrapper>
+            <Button onClick={handleContactClick}>연락</Button>
+          </ButtonWrapper>
+        );
+      }
+    } else {
+      return (
+        <>
+          <DevInfo>{portfolioData.ownerNickname || "익명"}</DevInfo>
+          <DevInfo>example@example.com</DevInfo>
+        </>
+      );
+    }
+  };
+
   if (!portfolioData) {
     return <Loading>로딩 중...</Loading>;
   }
@@ -74,8 +108,8 @@ const PortfolioDetailPage = () => {
         <ProjectTitle>{portfolioData.projectTitle}</ProjectTitle>
         <ProjectDescription>{portfolioData.description}</ProjectDescription>
         <InfoButtons>
-          <Button>조회수 0</Button>
-          <Button>기업 연락 0</Button>
+          <Button>조회수 {portfolioData.hits || 0}</Button>
+          <Button>기업 연락 {portfolioData.contacts.length || 0}</Button>
           <Button>좋아요 0</Button>
         </InfoButtons>
       </TitleSection>
@@ -94,14 +128,7 @@ const PortfolioDetailPage = () => {
 
           <DeveloperField>
             <Developer>개발자</Developer>
-            <DevContainer>
-              <DevInfo>{portfolioData.ownerName}</DevInfo>
-              <DevInfo>
-                {portfolioData.ownerEmail
-                  ? portfolioData.ownerEmail
-                  : "이메일 없음."}
-              </DevInfo>
-            </DevContainer>
+            <DevContainer>{renderDeveloperInfo()}</DevContainer>
           </DeveloperField>
         </LinkDevelperSection>
 
@@ -226,6 +253,14 @@ const ProjectDescription = styled.p``;
 const InfoButtons = styled.div`
   display: flex;
   gap: 1vw;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin: 1.2vh 0;
 `;
 
 const Button = styled.button`
