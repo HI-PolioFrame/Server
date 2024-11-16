@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
-import { oriProjects, oriComments } from "../components/domain/startProgram";
+import {
+  oriProjects,
+  oriComments,
+  initializeData,
+} from "../components/domain/startProgram";
 import { getCurrentUser } from "../components/features/currentUser";
 import Comment from "../components/domain/Comment";
 import saveComment from "../components/features/saveComment";
@@ -22,6 +26,7 @@ const PortfolioDetailPage2 = () => {
   const currentUser = getCurrentUser();
 
   useEffect(() => {
+    initializeData();
     const portfolio = oriProjects.get(Number(portfolioId));
     if (portfolio) {
       setPortfolioData(portfolio);
@@ -32,7 +37,7 @@ const PortfolioDetailPage2 = () => {
       (comment) => comment.portfolioId === Number(portfolioId)
     );
     setComments(filteredComments);
-  }, [portfolioId]);
+  }, [portfolioId, portfolioData?.contacts.length, portfolioData?.hits]);
 
   const addComment = (newCommentObj) => {
     // const newComment = {

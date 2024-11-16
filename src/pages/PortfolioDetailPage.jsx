@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
-import { oriProjects, oriComments } from "../components/domain/startProgram";
+import {
+  oriProjects,
+  oriComments,
+  initializeData,
+} from "../components/domain/startProgram";
 import { getCurrentUser } from "../components/features/currentUser";
 import { patchContacts } from "../components/features/recruiterFeatures";
 import Comment from "../components/domain/Comment";
@@ -18,6 +22,7 @@ const PortfolioDetailPage = () => {
   const currentUser = getCurrentUser();
 
   useEffect(() => {
+    initializeData();
     //project ID 사용해서 포트폴리오 데이터 가져오기
     const portfolio = oriProjects.get(Number(portfolioId));
     if (portfolio) {
@@ -29,7 +34,7 @@ const PortfolioDetailPage = () => {
       (comment) => comment.portfolioId === Number(portfolioId)
     );
     setComments(filteredComments);
-  }, [portfolioId]);
+  }, [portfolioId, portfolioData?.contacts.length, portfolioData?.hits]);
 
   const addComment = (newCommentObj) => {
     // const newComment = {
