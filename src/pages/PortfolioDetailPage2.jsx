@@ -154,7 +154,7 @@ const PortfolioDetailPage2 = () => {
               </PhotoWrappeer>
               {/* 로고 */}
               <LogoWrappeer>
-                <LogoText>로고</LogoText>
+                <PhotoText>로고</PhotoText>
                 <Image3 src={Notepad12} alt="Notepad12" />
                 <LogoContainer>
                   {portfolioData.images && portfolioData.images.length > 0 ? (
@@ -435,7 +435,7 @@ const PeriodText = styled.p`
   font-weight: bold;
   color: #fff;
   margin-left: 3.6em;
-  margin-top: 1.6em;
+  margin-top: 1.8em;
   font-family: "OTF R";
 `;
 
@@ -507,12 +507,13 @@ const LogoText = styled.p`
 
 const VideoText = styled.p`
   position: absolute;
-  // top: 49%;
   left: 2em; 
   font-size: 1.2em;
   font-weight: bold;
   color: #000;
   font-family: "OTF R";
+  // left: 2.5em; 
+  // font-size: 1.5em;
 
   @media (max-width: 768px) {
     font-size: 1em;

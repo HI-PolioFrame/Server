@@ -70,8 +70,9 @@ const signUpDeveloperPage = () => {
     setPhone(autoHyphen(value));
     setPhoneChecked(false);
     changedPhoneNumber();
-  };
+   };
   const handlePhoneCheck = () => {
+    console.log("입력된 전화번호:", phone);
     const isValid = setPhoneNumber(phone);
     // setPhoneChecked(isValid);
     if (isValid) {
@@ -81,6 +82,7 @@ const signUpDeveloperPage = () => {
       changedPhoneNumber();
     }
   };
+
 
   // 비밀번호 유효성 검사 및 비밀번호 확인
   const handlePassValidation = () => {
@@ -108,6 +110,7 @@ const signUpDeveloperPage = () => {
   const handleSignUp = () => {
     idSignUpDeveloper(name, birthday, idInput, password, repassword, phone);
   };
+
   return (
     <LoginWrapper>
       <MainText onClick={() => navigate("/")}>FolioFrame</MainText>
