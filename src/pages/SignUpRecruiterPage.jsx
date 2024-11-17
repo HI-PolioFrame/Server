@@ -163,7 +163,7 @@ const SignUpRecruiterPage = () => {
             {isModalOpen && (
                 <ModalOverlay>
                     <ModalContent>
-                       <Consent/>
+                       <Consent onAgree={closeModal} onDisagree={closeModal} />
                     </ModalContent>
                 </ModalOverlay>
             )}
