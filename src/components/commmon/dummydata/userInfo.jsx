@@ -230,4 +230,19 @@ export const userInfo = [
     career: "없음",
     education: ""
   }
+,
+  {
+    id: "te4939",
+    pageId: 20,
+    password: "te49397691!!!",
+    name: "ww",
+    phoneNumber: "010-5364-3463",
+    birthday: "2024-11-11",
+    recruiter: false,
+    email: "",
+    nickname: "",
+    link: "",
+    career: "없음",
+    education: ""
+  }
 ];

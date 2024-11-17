@@ -109,6 +109,7 @@ const SignUpDeveloperEmailPage = () => {
 
     const handleSignUp = () => {
         idSignUpDeveloper(name, birthday, emailInput, password, repassword, phone);
+        navigate("/LoginPage");
     };
     return (
         <LoginWrapper>

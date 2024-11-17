@@ -232,8 +232,8 @@ const ColumnWrapper2 = styled.div`
 `;
 const ColumnWrapper3 = styled.div`
   display: flex;
-  gap: 11%;
-  // justify-content: space-between;
+  gap: 1vw;
+  justify-content: space-between;
   width: 100%;
 `;
 const ImageWrapper = styled.div`

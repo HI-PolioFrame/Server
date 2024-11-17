@@ -276,6 +276,7 @@ export const setPhoneNumber = (phoneNumber) => {
     }
 
     // 중복되지 않으면 true 반환
+    phoneNumCheck = true;
     return true;
 };
 
