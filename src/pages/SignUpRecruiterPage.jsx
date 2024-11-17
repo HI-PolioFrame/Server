@@ -12,7 +12,6 @@ import {setPhoneNumber} from "../components/features/signUpDeveloper.jsx";
 const SignUpRecruiterPage = () => {
     const navigate = useNavigate();
     const [eyeVisible, setEyeVisible] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false); 
     //아이디 중복 확인
     const [idInput, setIdInput] = useState(''); // 입력된 아이디 상태
     const [idChecked, setIdChecked] = useState(false);
@@ -23,11 +22,20 @@ const SignUpRecruiterPage = () => {
     const toggleEyeVisible = () => {
         setEyeVisible(!eyeVisible);
     };
+    //팝업창 상태 관리
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [checkStates, setCheckStates] = useState({
+        privacy: false,
+        portfolio: false,
+        violation: false,
+    });
+    // 화면 렌더링 -> 입력값 초기화 -> FormComponent에서 입력한 내용이 SignUpRecruiterPage의 상태와 연결
     const handleCheckBoxClick = () => {
-        setIsModalOpen(true); // 체크박스 클릭 시 팝업 열기
+        setIsModalOpen(true);
     };
+
     const closeModal = () => {
-        setIsModalOpen(false); // 팝업 닫기
+        setIsModalOpen(false);
     };
 
     const autoHyphen = (value) => {
@@ -163,7 +171,12 @@ const SignUpRecruiterPage = () => {
             {isModalOpen && (
                 <ModalOverlay>
                     <ModalContent>
-                       <Consent onAgree={closeModal} onDisagree={closeModal} />
+                       <Consent 
+                            onAgree={closeModal} 
+                            onDisagree={closeModal} 
+                            checkStates={checkStates} 
+                            setCheckStates={setCheckStates} 
+                        />
                     </ModalContent>
                 </ModalOverlay>
             )}

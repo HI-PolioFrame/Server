@@ -1,35 +1,29 @@
 import styled from 'styled-components';
 import {React , useState}  from "react";
 
-const FormComponent = ({ onAgree, onDisagree }) => {
-    const [checkStates, setCheckStates] = useState({
-      privacy: false,
-      portfolio: false,
-      violation: false,
-    });
+const FormComponent = ({ onAgree, onDisagree, checkStates, setCheckStates }) => {
+  const allChecked = Object.values(checkStates).every((isChecked) => isChecked);
+  const [isPopupOpen, setIsPopupOpen] = useState(true);
 
-  // 기본약관에 모두 동의 했는지 확인하는 상태 저장
-    const allChecked = Object.values(checkStates).every((isChecked) => isChecked);
-  // 팝업창 닫기위한 상태 저장
-    const [isPopupOpen, setIsPopupOpen] = useState(true);
-
-    const handleCheckboxChange = (key) => {
+  const handleCheckboxChange = (key) => {
       setCheckStates((prev) => ({ ...prev, [key]: !prev[key] }));
-    };
-  
-    const handleAgreeClick = (e) => {
+  };
+
+  const handleAgreeClick = (e) => {
       e.preventDefault(); 
       if (allChecked) {
-        console.log('동의 버튼 클릭!');
-        setIsPopupOpen(false); 
+          console.log('동의 버튼 클릭!');
+          setIsPopupOpen(false); 
+          onAgree(); 
       }
-    };
-  
-    const handleDisagreeClick = (e) => {
+  };
+
+  const handleDisagreeClick = (e) => {
       e.preventDefault();
       console.log('비동의 버튼 클릭!');
       setIsPopupOpen(false); 
-    };
+      onDisagree();
+  };
 
   return (
     <>
@@ -103,21 +97,10 @@ const FormComponent = ({ onAgree, onDisagree }) => {
 
         <FootBtWrap>
           <ButtonItem>
-            <Button isCloseButton 
-            onClick={() => {
-              handleDisagreeClick();
-              onAgree(); 
-            }}>닫기</Button>
+            <Button isCloseButton onClick={handleDisagreeClick}>닫기</Button>
           </ButtonItem>
           <ButtonItem>
-            <Button 
-            agree 
-            disabled={!allChecked} 
-            onClick={() => {
-              handleAgreeClick();
-              onDisagree();
-            }}
-          >동의</Button>
+            <Button agree disabled={!allChecked} onClick={handleAgreeClick}>동의</Button>
           </ButtonItem>
         </FootBtWrap>
         
