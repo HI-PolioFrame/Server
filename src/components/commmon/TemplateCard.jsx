@@ -3,12 +3,15 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { oriProjects } from "../domain/startProgram";
+import { getCurrentUser } from "../features/currentUser";
+import { patchHits } from "../features/patchHits";
 
 import Logo from "../../assets/icons/Logo.png";
 
 const TemplateCard = ({ portfolioId, templateButton }) => {
   const navigate = useNavigate();
   const [portfolioData, setPortfolioData] = useState(null);
+  const currentUser = getCurrentUser();
 
   useEffect(() => {
     //프롭스로 받은 포트폴리오 ID 사용해서 oriPortfolios에서 포트폴리오 데이터 가져오기
@@ -17,6 +20,23 @@ const TemplateCard = ({ portfolioId, templateButton }) => {
       setPortfolioData(portfolio);
     }
   }, [portfolioId]);
+
+  const handleViewClick = () => {
+    console.log(currentUser);
+    console.log("patchHits 불러옴.");
+    if (currentUser && portfolioData) {
+      patchHits(currentUser.id, portfolioId); // 조회수 증가 호출
+    }
+
+    // navigate(`/PortfolioDetailPage/${portfolioId}`);
+    if (portfolioId === 8) {
+      navigate(`/PortfolioDetailPage2/${portfolioId}`);
+    } else if (portfolioId === 7) {
+      navigate(`/PortfolioDetailPage3/${portfolioId}`);
+    } else {
+      navigate(`/PortfolioDetailPage/${portfolioId}`);
+    }
+  };
 
   if (!portfolioData) {
     return <Loading>로딩 중...</Loading>;
@@ -31,13 +51,14 @@ const TemplateCard = ({ portfolioId, templateButton }) => {
       <Description>{portfolioData.description || "빈 설명"}</Description>
       <Button
         onClick={() => {
-          if (portfolioId === 8) {
-            navigate(`/PortfolioDetailPage2/${portfolioId}`);
-          } else if (portfolioId === 7) {
-            navigate(`/PortfolioDetailPage3/${portfolioId}`);
-          } else {
-            navigate(`/PortfolioDetailPage/${portfolioId}`);
-          }
+          handleViewClick();
+          // if (portfolioId === 8) {
+          //   navigate(`/PortfolioDetailPage2/${portfolioId}`);
+          // } else if (portfolioId === 7) {
+          //   navigate(`/PortfolioDetailPage3/${portfolioId}`);
+          // } else {
+          //   navigate(`/PortfolioDetailPage/${portfolioId}`);
+          // }
         }}
       >
         {templateButton}

@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
-import { oriProjects, oriComments } from "../components/domain/startProgram";
+import {
+  oriProjects,
+  oriComments,
+  initializeData,
+} from "../components/domain/startProgram";
 import { getCurrentUser } from "../components/features/currentUser";
 import Comment from "../components/domain/Comment";
 import saveComment from "../components/features/saveComment";
@@ -22,20 +26,18 @@ const PortfolioDetailPage2 = () => {
   const currentUser = getCurrentUser();
 
   useEffect(() => {
-    // portfolioId가 10일 때만 데이터를 가져오기
-    console.log("portfolioId:", portfolioId);
-    if (Number(portfolioId) === 8) {
-      const portfolio = oriProjects.get(8);
+    initializeData();
+    const portfolio = oriProjects.get(Number(portfolioId));
+    if (portfolio) {
       setPortfolioData(portfolio);
-      console.log(portfolio);
-
-      // 댓글 필터링
-      const filteredComments = Array.from(oriComments.values()).filter(
-        (comment) => comment.portfolioId === 10
-      );
-      setComments(filteredComments);
     }
-  }, [portfolioId]);
+    console.log(portfolio);
+
+    const filteredComments = Array.from(oriComments.values()).filter(
+      (comment) => comment.portfolioId === Number(portfolioId)
+    );
+    setComments(filteredComments);
+  }, [portfolioId, portfolioData?.contacts.length, portfolioData?.hits]);
 
   const addComment = (newCommentObj) => {
     // const newComment = {
@@ -58,10 +60,41 @@ const PortfolioDetailPage2 = () => {
     );
   };
 
-  // const isPortfolioOwner =
-  //   portfolioData && currentUser && portfolioData.owner === currentUser.id;
+  const handleContactClick = () => {
+    if (currentUser && currentUser.recruiter) {
+      patchContacts(Number(portfolioId), currentUser.id); // 기업 연락 호출
+      setShowContactInfo(true); // 개발자 정보 표시
+      alert("기업 연락이 저장되었습니다.");
+    } else {
+      alert("기업 회원만 연락 버튼을 사용할 수 있습니다.");
+    }
+  };
 
-  //console.log(comments);
+  const renderDeveloperInfo = () => {
+    if (currentUser.recruiter) {
+      if (showContactInfo) {
+        return (
+          <>
+            <DevInfo>{portfolioData.ownerName}</DevInfo>
+            <DevInfo>{portfolioData.ownerEmail || "이메일 없음"}</DevInfo>
+          </>
+        );
+      } else {
+        return (
+          <ButtonWrapper>
+            <Button onClick={handleContactClick}>연락</Button>
+          </ButtonWrapper>
+        );
+      }
+    } else {
+      return (
+        <>
+          <DevInfo>{portfolioData.ownerNickname || "익명"}</DevInfo>
+          <DevInfo>example@example.com</DevInfo>
+        </>
+      );
+    }
+  };
 
   if (!portfolioData) {
     return <Loading>로딩 중...</Loading>;
@@ -71,8 +104,8 @@ const PortfolioDetailPage2 = () => {
       <MainWrapper>
         <TitleWrapper>
           <InfoButtons>
-            <Button>조회수 0</Button>
-            <Button>기업 연락 0</Button>
+            <Button>조회수 {portfolioData.hits || 0}</Button>
+            <Button>기업 연락 {portfolioData.contacts.length || 0}</Button>
             <Button>좋아요 0</Button>
           </InfoButtons>
           <ProjectTitle>{portfolioData.projectTitle}</ProjectTitle>
