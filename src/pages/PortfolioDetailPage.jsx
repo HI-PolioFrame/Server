@@ -37,14 +37,6 @@ const PortfolioDetailPage = () => {
   }, [portfolioId, portfolioData?.contacts.length, portfolioData?.hits]);
 
   const addComment = (newCommentObj) => {
-    // const newComment = {
-    //   commentId: Date.now(),
-    //   portfolioId: Number(portfolioId),
-    //   userId: currentUser.id,
-    //   text: newCommentObj.text,
-    //   date: new Date().toISOString(),
-    // };
-
     // 클라이언트 측 상태 업데이트
     //oriComments.set(newComment.commentId, newComment);
     setComments((prevComments) => [newCommentObj, ...prevComments]);

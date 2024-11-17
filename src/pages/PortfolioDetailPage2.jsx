@@ -7,6 +7,7 @@ import {
   initializeData,
 } from "../components/domain/startProgram";
 import { getCurrentUser } from "../components/features/currentUser";
+import { patchContacts } from "../components/features/recruiterFeatures";
 import Comment from "../components/domain/Comment";
 import saveComment from "../components/features/saveComment";
 
@@ -23,6 +24,7 @@ const PortfolioDetailPage2 = () => {
   const { portfolioId } = useParams();
   const [portfolioData, setPortfolioData] = useState(null);
   const [comments, setComments] = useState([]);
+  const [showContactInfo, setShowContactInfo] = useState(false);
   const currentUser = getCurrentUser();
 
   useEffect(() => {
@@ -75,8 +77,12 @@ const PortfolioDetailPage2 = () => {
       if (showContactInfo) {
         return (
           <>
-            <DevInfo>{portfolioData.ownerName}</DevInfo>
-            <DevInfo>{portfolioData.ownerEmail || "이메일 없음"}</DevInfo>
+            <Bar>{portfolioData.ownerName} </Bar>
+            <Bar>
+              {portfolioData.ownerEmail
+                ? portfolioData.ownerEmail
+                : "이메일 없음."}{" "}
+            </Bar>
           </>
         );
       } else {
@@ -189,12 +195,13 @@ const PortfolioDetailPage2 = () => {
             {/* 개발자 개인정보 */}
             <InfoWrapper>
               <Image16 src={Notepad16} alt="Notepad16" />
-              <Bar>{portfolioData.ownerName} </Bar>
+              {/* <Bar>{portfolioData.ownerName} </Bar>
               <Bar>
                 {portfolioData.ownerEmail
                   ? portfolioData.ownerEmail
                   : "이메일 없음."}{" "}
-              </Bar>
+              </Bar> */}
+              {renderDeveloperInfo()}
             </InfoWrapper>
           </Wrapper1>
 
@@ -340,6 +347,15 @@ const InfoWrapper = styled.div`
   gap: -2em;
   margin-top: 6em;
 `;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  //justify-content: center;
+  //align-items: center;
+
+  margin: 2vh 0.5vw;
+`;
+
 //css button
 const InfoButtons = styled.div`
   display: flex;
