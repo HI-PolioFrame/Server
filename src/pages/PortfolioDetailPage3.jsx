@@ -20,6 +20,9 @@ import lessThanSign from "../assets/images/PortfolioDetailPage3/lessThanSign.svg
 
 //logo 이미지
 import logo from "../assets/icons/Logo.png";
+//heart 이미지
+import heart_none from "../assets/images/PortfolioDetailPage3/heart-none.svg";
+import heart_fill from "../assets/images/PortfolioDetailPage3/heart-fill.svg";
 //sample 이미지
 import sample from "../assets/images/PortfolioDetailPage3/sample.png";
 //sample 비디오
@@ -156,7 +159,9 @@ const PortfolioDetailPage3 = () => {
       <InfoButtons>
         <Button>조회수 {portfolioData.hits || 0}</Button>
         <Button>기업 연락 {portfolioData.contacts.length || 0}</Button>
-        <Button>좋아요 0</Button>
+        <HeartBox onClick={() => console.log("좋아요 누름.")}>
+          <img src={heart_none} alt="heart-none" /> <Likes>0</Likes>
+        </HeartBox>
       </InfoButtons>
 
       <DetailContainer>
@@ -353,7 +358,29 @@ const Button = styled.button`
   padding: 8px 12px;
   border: none;
   border-radius: 4px;
+  //cursor: pointer;
+  font-family: "OTF B";
+`;
+
+const HeartBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.4vw;
+  width: 2vw;
+
   cursor: pointer;
+
+  font-weight: bold;
+
+  img {
+    width: 1.5vw; /* 하트 크기 조정 */
+    height: auto; /* 비율 유지 */
+    object-fit: contain; /* 이미지를 잘 보이게 */
+  }
+`;
+
+const Likes = styled.div`
   font-family: "OTF B";
 `;
 
