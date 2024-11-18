@@ -1,27 +1,6 @@
 import { oriUsers, oriRecruiters } from "../domain/startProgram";
 import { User } from "../domain/User";
 
-// 파일에서 데이터를 가져오는 함수 (서버 API 호출)
-export const fetchFileData = async (filePath) => {
-    try {
-        const response = await fetch('http://localhost:3000/read-number', {  // 서버의 /read-number API 호출
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ filePath }),  // filePath를 서버로 전달
-        });
-        if (!response.ok) {
-            throw new Error('네트워크 응답이 좋지 않습니다.');
-        }
-        const data = await response.json();
-        return data.number;  // 서버에서 반환된 숫자 값
-    } catch (error) {
-        console.error('파일을 읽는 중 오류가 발생했습니다.', error);
-        return null;
-    }
-};
-
 // 파일에 문자열 추가하는 함수 (서버 API 호출)
 export const appendStringToFile = async (filePath, string) => {
     try {
@@ -34,21 +13,6 @@ export const appendStringToFile = async (filePath, string) => {
         });
     } catch (error) {
         console.error('파일에 문자열을 추가하는 중 오류가 발생했습니다.', error);
-    }
-};
-
-// 파일 비우는 함수 (서버 API 호출)
-export const truncateFile = async (filePath) => {
-    try {
-        await fetch('http://localhost:3000/truncate-file', {  // 서버의 /truncate-file API 호출
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ filePath }),  // filePath를 서버로 전달
-        });
-    } catch (error) {
-        console.error('파일을 비우는 중 오류가 발생했습니다.', error);
     }
 };
 
@@ -72,7 +36,7 @@ let emailCheck = false;
 let phoneNumCheck = false;
 let companyCheck = false;
 
-export const idSignUpRecruiter = (name, birthday, id, password, rePassword, phoneNumber) => {
+export const idSignUpRecruiter = async (name, birthday, id, password, rePassword, phoneNumber) => {
     if (name === null || birthday === null || phoneNumber.length === 0){
         alert('모든 항목을 입력하세요.');
     }
@@ -87,7 +51,7 @@ export const idSignUpRecruiter = (name, birthday, id, password, rePassword, phon
     oriRecruiters.set(id, user);
 
     // userInfo.jsx에 해당 유저를 추가한다.
-    const filePath = '../commmon/dummydata/userInfo.jsx';
+    const filePath = 'src/components/commmon/dummydata/userInfo.jsx';
     const string = `
         {
             id: "${id}",
@@ -103,11 +67,11 @@ export const idSignUpRecruiter = (name, birthday, id, password, rePassword, phon
             career: "없음",
             education: ""
         }`;
-    removeFromFileEnd(filePath, 3);
-    appendStringToFile(filePath, `,${string}\n];`);
+    await removeFromFileEnd(filePath, 3);
+    await appendStringToFile(filePath, `,${string}\n];`);
 }
 
-export const emailSignUpRecruiter = (name, birthday, email, password, rePassword, phoneNumber) => {
+export const emailSignUpRecruiter = async (name, birthday, email, password, rePassword, phoneNumber) => {
     if (name === null || birthday === null || phoneNumber.length === 0){
         alert('모든 항목을 입력하세요.');
     }
@@ -128,7 +92,7 @@ export const emailSignUpRecruiter = (name, birthday, email, password, rePassword
     oriRecruiters.set(randomId, user);
 
     // userInfo.jsx에 해당 유저를 추가한다.
-    const filePath = '../commmon/dummydata/userInfo.jsx';
+    const filePath = 'src/components/commmon/dummydata/userInfo.jsx';
     const string = `
         {
             id: "${randomId}",
@@ -144,8 +108,8 @@ export const emailSignUpRecruiter = (name, birthday, email, password, rePassword
             career: "없음",
             education: ""
         }`;
-    removeFromFileEnd(filePath, 3);
-    appendStringToFile(filePath, `,${string}\n];`);
+    await removeFromFileEnd(filePath, 3);
+    await appendStringToFile(filePath, `,${string}\n];`);
 }
 
 //현혜찡 코드
@@ -233,7 +197,6 @@ export const isIdExists = (id) => {
 // 회사인증
 // 임의로 처리한다.
 export const setCompany = () => {
-
     companyCheck = true;
 }
 
