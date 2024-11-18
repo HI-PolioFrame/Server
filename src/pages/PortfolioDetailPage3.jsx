@@ -47,6 +47,8 @@ const PortfolioDetailPage3 = () => {
       (comment) => comment.portfolioId === Number(portfolioId)
     );
     setComments(filteredComments);
+
+    console.log(portfolioData?.contacts.length);
   }, [portfolioId, portfolioData?.contacts.length, portfolioData?.hits]);
 
   const scrollLeft = () => {
@@ -375,7 +377,7 @@ const ModalOverlay = styled.div`
 
 const ModalContainer = styled.div`
   background: white;
-  font-size: 1.5vw;
+  font-size: 1.3vw;
   font-weight: bold;
   padding: 1vw;
   width: 25vw;
@@ -388,7 +390,7 @@ const ModalContainer = styled.div`
   z-index: 1001;
 
   button {
-    margin-top: 2vw;
+    margin-top: 1.5vw;
     padding: 0.5vw 1vw;
     background: #0a27a6;
     color: white;

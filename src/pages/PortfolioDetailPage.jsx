@@ -19,6 +19,8 @@ const PortfolioDetailPage = () => {
   const [portfolioData, setPortfolioData] = useState(null);
   const [comments, setComments] = useState([]);
   const [showContactInfo, setShowContactInfo] = useState(false);
+  const [showModal, setShowModal] = useState(false); // "연락" 버튼 눌렀을 때 true
+  const [modalMessage, setModalMessage] = useState(""); //"연락" 버튼 눌렀을 때 창에 띄워지는 메세지
   const currentUser = getCurrentUser();
 
   useEffect(() => {
@@ -58,9 +60,11 @@ const PortfolioDetailPage = () => {
     if (currentUser && currentUser.recruiter) {
       patchContacts(Number(portfolioId), currentUser.id); // 기업 연락 호출
       setShowContactInfo(true); // 개발자 정보 표시
-      alert("기업 연락이 저장되었습니다.");
+      setShowModal(true);
+      setModalMessage("채용자 페이지에 저장되었습니다.");
     } else {
-      alert("기업 회원만 연락 버튼을 사용할 수 있습니다.");
+      setShowModal(true);
+      setModalMessage("기업 회원만 연락 버튼을 사용할 수 있습니다.");
     }
   };
 
@@ -123,6 +127,15 @@ const PortfolioDetailPage = () => {
             <DevContainer>{renderDeveloperInfo()}</DevContainer>
           </DeveloperField>
         </LinkDevelperSection>
+
+        {showModal && (
+          <ModalOverlay className="ModalOverlay">
+            <ModalContainer>
+              <p>{modalMessage}</p>
+              <button onClick={() => setShowModal(false)}>확인</button>
+            </ModalContainer>
+          </ModalOverlay>
+        )}
 
         <OtherInfoSection>
           {/* <ParticipationPeriodField>
@@ -395,6 +408,48 @@ const DevInfo = styled.div`
   border: 1px solid #ccc;
   border-radius: 4px;
   width: 80%;
+`;
+
+const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+`;
+
+const ModalContainer = styled.div`
+  background: white;
+  font-size: 1.3vw;
+  font-weight: bold;
+  padding: 1vw;
+  width: 25vw;
+  height: 15vh;
+
+  border-radius: 0.3125em;
+
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1001;
+
+  button {
+    margin-top: 1.5vw;
+    padding: 0.5vw 1vw;
+    background: #0a27a6;
+    color: white;
+    border: none;
+    border-radius: 0.3125em;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: #0056b3;
+  }
 `;
 
 const VideoBox = styled.div`
