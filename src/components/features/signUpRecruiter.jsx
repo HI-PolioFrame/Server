@@ -1,10 +1,71 @@
-// 정상작동하는지 확인되지 않음
-// 프론트와 연결 후 확인 필요
-
-
 import { oriUsers, oriRecruiters } from "../domain/startProgram";
 import { User } from "../domain/User";
-import { appendStringToFile, removeFromFileEnd } from "../features/fileIO";
+
+// 파일에서 데이터를 가져오는 함수 (서버 API 호출)
+export const fetchFileData = async (filePath) => {
+    try {
+        const response = await fetch('http://localhost:3000/read-number', {  // 서버의 /read-number API 호출
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ filePath }),  // filePath를 서버로 전달
+        });
+        if (!response.ok) {
+            throw new Error('네트워크 응답이 좋지 않습니다.');
+        }
+        const data = await response.json();
+        return data.number;  // 서버에서 반환된 숫자 값
+    } catch (error) {
+        console.error('파일을 읽는 중 오류가 발생했습니다.', error);
+        return null;
+    }
+};
+
+// 파일에 문자열 추가하는 함수 (서버 API 호출)
+export const appendStringToFile = async (filePath, string) => {
+    try {
+        await fetch('http://localhost:3000/append-string', {  // 서버의 /append-string API 호출
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ filePath, string }),  // filePath와 string을 서버로 전달
+        });
+    } catch (error) {
+        console.error('파일에 문자열을 추가하는 중 오류가 발생했습니다.', error);
+    }
+};
+
+// 파일 비우는 함수 (서버 API 호출)
+export const truncateFile = async (filePath) => {
+    try {
+        await fetch('http://localhost:3000/truncate-file', {  // 서버의 /truncate-file API 호출
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ filePath }),  // filePath를 서버로 전달
+        });
+    } catch (error) {
+        console.error('파일을 비우는 중 오류가 발생했습니다.', error);
+    }
+};
+
+// 파일 끝에서 문자열을 제거하는 함수 (서버 API 호출)
+export const removeFromFileEnd = async (filePath, numCharsToRemove) => {
+    try {
+        await fetch('http://localhost:3000/remove-from-file-end', {  // 서버의 /remove-from-file-end API 호출
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ filePath, numCharsToRemove }),  // filePath와 numCharsToRemove를 서버로 전달
+        });
+    } catch (error) {
+        console.error('파일 끝에서 문자열을 제거하는 중 오류가 발생했습니다.', error);
+    }
+};
 
 let idCheck = false;
 let emailCheck = false;
