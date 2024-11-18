@@ -4,38 +4,44 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/autoplay';
 import 'swiper/css/scrollbar';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Navigation, Pagination, A11y, Autoplay, Scrollbar } from 'swiper/modules';
 import Logo from "../../assets/icons/Logo.png";
 
 
 
-const CreatePortfolioSlide = ({  }) => {
-    const postIds = new Array(6).fill(null).map((_, index) => `post${index + 1}`);
+const CreatePortfolioSlide = ({ templates  }) => {
+    // const postIds = new Array(6).fill(null).map((_, index) => `post${index + 1}`);
+    const [activeTemplateId, setActiveTemplateId] = useState(null); // Track active template ID
 
+    function handleClick(templateId) {
+      setActiveTemplateId(templateId); // Set the clicked template as active
+    }
+    
     return (
       <StyledSwiper
         spaceBetween={100}
         slidesPerView={3}  
         modules={[ A11y, Scrollbar]}
-        loop={postIds.length > 3} 
+        loop={templates.length > 3} 
         speed={400}
         scrollbar={{ draggable: true }} 
         // navigation
       >
 
-        {postIds.map((postId, index) => (
-          <SwiperSlide key={postId}>
+        {templates.map((template) => (
+          <SwiperSlide key={template.templateId}>
             <CardGroup>
-              <Card backgroundImg={Logo}>
+              <Card backgroundImg={template.picture || Logo}> 
                 <CardContent>
                   <NameProfession>
-                    <span className="name">템플릿 이름</span>
-                    <span className="profession">템플릿 설명 </span>
+                    <span className="name">{template.templateName}</span>
+                    <span className="profession">{template.description} </span>
                   </NameProfession>
                   <ButtonGroup>
-                    <button className="aboutMe">선택하기</button>
+                    <button   className={activeTemplateId === template.templateId ? 'active' : ''}
+                    onClick={() => handleClick(template.templateId)}>선택하기</button>
                   </ButtonGroup>
                 </CardContent>
               </Card>
@@ -107,6 +113,7 @@ const Card = styled.div`
     border-radius: 20px 20px 0 0;
     z-index: 1;
   }
+
 `;
 
 const CardContent = styled.div`
@@ -155,20 +162,28 @@ const ButtonGroup = styled.div`
   margin-top: 10px;
 
   button {
-    background: #fff;
-    outline: none;
-    border: 1px solid #0A27A6;
-    color: #0A27A6;
-    padding: 9px 25px;
-    border-radius: 20px;
-    font-size: 14px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    font-family: "OTF B";
+  background: #fff;
+  outline: none;
+  border: 1px solid #0A27A6;
+  color: #0A27A6;
+  padding: 9px 25px;
+  border-radius: 20px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  font-family: "OTF B";
 
-    &:hover {
-      background: #0A27A6;
-      color : #fff;
-    }
+  &:hover {
+    background: #0A27A6;
+    color : #fff;
   }
+  &:active,
+  &:focus,
+  &.active {
+    color: #fff;
+    font-weight: bold;
+    background: #0A27A6;
+  }
+}
 `;
+
