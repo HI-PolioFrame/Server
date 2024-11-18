@@ -10,7 +10,7 @@ import {
   initializeData,
 } from "../../components/domain/startProgram.js";
 
-const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
+const CreatePortfolioInput = ({ onInputChange, formData, onDateChange  }) => {
   // 업로드 이미지 미리보기 코드
   const [coverimagePreview, setCoverImagePreview] = useState(null);
   const [LogoPreview, setLogoPreview] = useState(null);
@@ -18,15 +18,23 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
   const [portfolioData, setPortfolioData] = useState(null);
   const [comments, setComments] = useState([]);
   const [isOn, setIsOn] = useState(true);
-  // const [photosPreview, setPhotosPreview] = useState([
-  //   null,
-  //   null,
-  //   null,
-  //   null,
-  //   null,
-  // ]);
 
-  // console.log(portfolioData.startDate);
+  useEffect(() => {
+    const portfolio = oriProjects.get(Number(portfolioId));
+    if (portfolio) {
+      setPortfolioData(portfolio);
+    }
+  }, [portfolioId]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setPortfolioData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+    onInputChange(e); // 외부 상태 관리 함수 호출
+  };
+
   useEffect(() => {
     initializeData();
     //project ID 사용해서 포트폴리오 데이터 가져오기
@@ -81,8 +89,8 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
 if (!portfolioData) {
   return <Loading>로딩 중...</Loading>;
 }
-console.log("Portfolio ID:", portfolioId);
-console.log("Projects:", oriProjects);
+// console.log("Portfolio ID:", portfolioId);
+// console.log("Projects:", oriProjects);
 return (
     <>
       {/* 필수항목 */}
@@ -95,10 +103,10 @@ return (
             <ExText>자신만의 포트폴리오 이름을 작성해주세요</ExText>
             <VitalInput
               name="projectTitle"
-              value={formData.projectTitle || portfolioData.projectTitle || ''}
-              onChange={onInputChange}
+              value={portfolioData.projectTitle || ''}
+              onChange={handleInputChange}
             />
-            </InputWrapper>
+          </InputWrapper>
           {/* 포트폴리오 설명 -> 글자수 제한해야한다.*/}
           <InputWrapper>
             <MainText>포트폴리오 설명</MainText>
@@ -107,7 +115,7 @@ return (
               type="text"
               name="description"
               value={portfolioData.description}
-              onChange={onInputChange}
+              onChange={handleInputChange}
             ></VitalInput>
           </InputWrapper>
         </ColumnWrapper>
@@ -123,7 +131,7 @@ return (
               value={portfolioData.usedLanguage
                 ? portfolioData.usedLanguage
                 : "사용 언어 없음."}
-              onChange={onInputChange}
+              onChange={handleInputChange}
             ></VitalInput>
           </InputWrapper>
           {/* 링크 */}
@@ -138,7 +146,7 @@ return (
               name="projectLink"
               value={portfolioData.projectLink  ? portfolioData.projectLink
                 : "프로젝트 링크 없음."}
-              onChange={onInputChange}
+              onChange={handleInputChange}
             ></VitalInput>
           </InputWrapper>
         </ColumnWrapper>
@@ -157,7 +165,7 @@ return (
               value={portfolioData.solving
                 ? portfolioData.solving
                 : "문제 해결 내용 없음."}
-              onChange={onInputChange}
+              onChange={handleInputChange}
             ></VitalInput2>
           </InputWrapper>
           <InputWrapper>
@@ -172,7 +180,7 @@ return (
               value={portfolioData.challenge
                 ? portfolioData.challenge
                 : "배운 점 없음."}
-              onChange={onInputChange}
+              onChange={handleInputChange}
             ></VitalInput2>
           </InputWrapper>
         </ColumnWrapper>
@@ -185,7 +193,7 @@ return (
             <CalendarInput
               startDate={new Date(portfolioData.startDate)} 
               endDate={new Date(portfolioData.endDate)}   
-              onDateChange={onDateChange}
+              onDateChange={handleInputChange}
             />
           </InputWrapper>
           <CWrapper>
@@ -213,7 +221,7 @@ return (
                     type="text"
                     name="category"
                     value={portfolioData.category}
-                    onChange={onInputChange}
+                    onChange={handleInputChange}
                   ></VitalInput>
             </InputWrapper>
           </CWrapper>
@@ -234,7 +242,7 @@ return (
               value={portfolioData.video 
                 ? portfolioData.video
                 : "비디오 없음."}
-              onChange={onInputChange}
+              onChange={handleInputChange }
             ></ChoiceInput>
           </InputWrapper>
           {/* 커버 이미지*/}
