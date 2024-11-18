@@ -14,6 +14,9 @@ import saveComment from "../components/features/saveComment";
 import WritingBox from "../components/commmon/PortfolioDetailPage/WritingBox";
 import CommentList from "../components/commmon/PortfolioDetailPage/CommentList";
 
+//logo 이미지
+import logo from "../assets/icons/Logo.png";
+
 const PortfolioDetailPage = () => {
   const { portfolioId } = useParams();
   const [portfolioData, setPortfolioData] = useState(null);
@@ -101,7 +104,17 @@ const PortfolioDetailPage = () => {
   return (
     <DetailContainer>
       <TitleSection>
-        <ProjectTitle>{portfolioData.projectTitle}</ProjectTitle>
+        <TitleWrapper>
+          {/* {portfolioData.logo && (
+            <Logo>
+              <img src={portfolioData.logo} alt="projectLogo" />
+            </Logo>
+          )} */}
+          <Logo>
+            <img src={logo} alt="projectLogo" />
+          </Logo>
+          <ProjectTitle>{portfolioData.projectTitle}</ProjectTitle>
+        </TitleWrapper>
         <ProjectDescription>{portfolioData.description}</ProjectDescription>
         <InfoButtons>
           <Button>조회수 {portfolioData.hits || 0}</Button>
@@ -246,6 +259,22 @@ const DetailContainer = styled.div`
 
 const TitleSection = styled.div`
   margin-bottom: 2.5vw;
+`;
+
+const TitleWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const Logo = styled.h1`
+  width: 6vw;
+  height: 6vw;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
 `;
 
 const ProjectTitle = styled.h1`
