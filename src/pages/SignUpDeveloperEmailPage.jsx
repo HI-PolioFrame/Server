@@ -109,6 +109,7 @@ const SignUpDeveloperEmailPage = () => {
 
     const handleSignUp = () => {
         idSignUpDeveloper(name, birthday, emailInput, password, repassword, phone);
+        navigate("/LoginPage");
     };
     return (
         <LoginWrapper>
@@ -342,13 +343,11 @@ const LoginButton = styled.button`
     color : #fff;
     font-size : 1em;
     font-weight : 800;
-
+    width: 15em;
     border-radius : 2em;
     border : none;
     background-color : #0A27A6;
     height : 3em;
-    width : 20%;
-
     margin : 2em 0;
 `;
 

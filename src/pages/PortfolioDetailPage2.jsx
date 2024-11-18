@@ -160,7 +160,7 @@ const PortfolioDetailPage2 = () => {
               </PhotoWrappeer>
               {/* 로고 */}
               <LogoWrappeer>
-                <LogoText>로고</LogoText>
+                <PhotoText>로고</PhotoText>
                 <Image3 src={Notepad12} alt="Notepad12" />
                 <LogoContainer>
                   {portfolioData.images && portfolioData.images.length > 0 ? (
@@ -174,23 +174,26 @@ const PortfolioDetailPage2 = () => {
                   )}
                 </LogoContainer>
               </LogoWrappeer>
+
+               {/* 데모 비디오 */}
+              <VideoWrappeer>
+                <VideoText>데모 비디오</VideoText>
+                <Image3 src={Notepad12} alt="Notepad12" />
+                {portfolioData.video ? (
+                  <VideoBox>
+                    <video width="100%" height="100%" controls>
+                      <source src={portfolioData.video} type="video/mp4" />
+                      비디오를 지원하지 않는 브라우저입니다.
+                    </video>
+                  </VideoBox>
+                ) : (
+                  <VideoBox>비디오 없음</VideoBox>
+                )}
+              </VideoWrappeer>
+
             </Label2Wrapper>
 
-            {/* 데모 비디오 */}
-            <VideoWrappeer>
-              <VideoText>데모 비디오</VideoText>
-              <Image3 src={Notepad12} alt="Notepad12" />
-              {portfolioData.video ? (
-                <VideoBox>
-                  <video width="100%" height="100%" controls>
-                    <source src={portfolioData.video} type="video/mp4" />
-                    비디오를 지원하지 않는 브라우저입니다.
-                  </video>
-                </VideoBox>
-              ) : (
-                <VideoBox>비디오 없음</VideoBox>
-              )}
-            </VideoWrappeer>
+           
 
             {/* 개발자 개인정보 */}
             <InfoWrapper>
@@ -244,7 +247,7 @@ const MainWrapper = styled.div`
 
   border: 5px solid #000;
   border-radius: 2em;
-  height: 75em;
+  height: 80%;
 
   display: flex;
   flex-direction: column;
@@ -317,17 +320,16 @@ const ProblemWrapper = styled.div`
   border-radius: 2em;
   position: relative;
 `;
-const ImageContainer = styled.div`
+const GridContainer = styled.div`
   display: grid;
+  gap: 1em;
+  width: 100%;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1em;
-  width: 100%;
 `;
-const LogoContainer = styled.div`
-  display: grid;
-  gap: 1em;
-  width: 100%;
-`;
+
+const ImageContainer = GridContainer;
+const LogoContainer = GridContainer;
+
 const PhotoWrappeer = styled.div`
   display: flex;
   flex-direction: column;
@@ -376,7 +378,7 @@ const Bar = styled.p`
   position: relative;
   font-size: 1em;
   margin: 0;
-  margin-top: 2em;
+  margin-top: 2.5em;
   font-family: "OTF R";
 
   &::after {
@@ -408,7 +410,7 @@ const VideoBox = styled.div`
   border-radius: 1em;
   font-size: 1vw;
   width: 40em;
-  height: 16.5em;
+  height: 15em;
 `;
 
 //css image
@@ -416,12 +418,13 @@ const Image3 = styled.img`
   width: 10em;
   height: auto;
   margin-right: 1em;
+  margin-top : 0.2em;
 `;
 const Image5 = styled.img`
   width: 10em;
   height: auto;
-  margin-top: -2.3em;
-  margin-left: 8em;
+  margin-top: -10%;
+  margin-left: 30%;
 `;
 const Image16 = styled.img`
   width: 4em;
@@ -448,7 +451,7 @@ const PeriodText = styled.p`
   font-weight: bold;
   color: #fff;
   margin-left: 3.6em;
-  margin-top: 1.6em;
+  margin-top: 1.8em;
   font-family: "OTF R";
 `;
 
@@ -458,8 +461,8 @@ const LearnedText = styled.p`
   font-size: 1em;
   font-weight: bold;
   color: #000;
-  margin-top: -0.2em;
-  margin-left: 11.9em;
+  margin-top: -2%;
+  margin-left: 45%;
   font-family: "OTF R";
 `;
 
@@ -469,41 +472,78 @@ const ProblemText = styled.p`
   font-size: 1em;
   font-weight: bold;
   color: #000;
-  margin-top: -0.2em;
-  margin-left: 11.5em;
+ margin-top: -2%;
+  margin-left: 45%;
   font-family: "OTF R";
 `;
 
 const PhotoText = styled.p`
   position: absolute;
-  top: 0px;
+  // top: -2%;
+  left: 2.5em; 
   font-size: 1.5em;
   font-weight: bold;
   color: #000;
-  margin-left: 2.5em;
-  margin-top: 0.7em;
   font-family: "OTF R";
+
+  @media (max-width: 768px) {
+    font-size: 1.2em;
+    top: -2%;
+    left: 8%;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1em;
+    top: 6%;
+    left: 5%;
+  }
 `;
+
 const LogoText = styled.p`
   position: absolute;
-  top: 0px;
+  // top: 22%; 
+  left: 2.5em; 
   font-size: 1.5em;
   font-weight: bold;
   color: #000;
-  margin-left: 2.5em;
-  margin-top: 6em;
   font-family: "OTF R";
+
+  @media (max-width: 768px) {
+    font-size: 1.2em;
+    top: 30%;
+    left: 8%;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1em;
+    top: 33%;
+    left: 5%;
+  }
 `;
+
 const VideoText = styled.p`
   position: absolute;
-  top: 0px;
+  left: 2em; 
   font-size: 1.2em;
   font-weight: bold;
   color: #000;
-  margin-left: 1.5em;
-  margin-top: 45.3em;
   font-family: "OTF R";
+  // left: 2.5em; 
+  // font-size: 1.5em;
+
+  @media (max-width: 768px) {
+    font-size: 1em;
+    top: 72%;
+    left: 5%;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.9em;
+    top: 75%;
+    left: 5%;
+  }
 `;
+
 // 댓글 css
 const CommentsSection = styled.div`
   width: 85%;
