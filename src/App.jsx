@@ -15,6 +15,7 @@ import PortfolioPage from "./pages/PortfolioPage";
 import ProfileEditPage from "./pages/ProfileEditPage";
 import HackathonPage from "./pages/HackathonPage";
 import CreatePortfolioPage from "./pages/CreatePortfolioPage";
+import ModifyPortfolioPage from "./pages/ModifyPortfolioPage";
 import PortfolioDetailPage from "./pages/PortfolioDetailPage";
 import PortfolioDetailPage2 from "./pages/PortfolioDetailPage2";
 
@@ -62,6 +63,10 @@ function App() {
           <Route
             path="/CreatePortfolioPage"
             element={<CreatePortfolioPage />}
+          />
+          <Route
+            path="/ModifyPortfolioPage/:portfolioId"
+            element={<ModifyPortfolioPage/>}
           />
           {/* 해커톤 제작 화면 */}
           <Route

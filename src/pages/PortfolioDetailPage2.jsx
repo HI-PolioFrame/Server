@@ -413,6 +413,14 @@ const VideoBox = styled.div`
   height: 15em;
 `;
 
+const DevInfo = styled.div`
+  background-color: #f0f0f0;
+  margin: 0.8vw;
+  padding: 0.4vw;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 80%;
+`;
 //css image
 const Image3 = styled.img`
   width: 10em;
