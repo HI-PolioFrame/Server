@@ -1,57 +1,86 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
-import { oriProjects, oriComments } from "../components/domain/startProgram";
+import {
+  oriProjects,
+  oriComments,
+  initializeData,
+} from "../components/domain/startProgram";
 import { getCurrentUser } from "../components/features/currentUser";
 import Comment from "../components/domain/Comment";
 import saveComment from "../components/features/saveComment";
+import { patchContacts } from "../components/features/recruiterFeatures";
 
 import WritingBox from "../components/commmon/PortfolioDetailPage/WritingBox";
 import CommentList from "../components/commmon/PortfolioDetailPage/CommentList";
 
-//image
-import AboutMe from "../assets/images/PortfolioDetailPage3/AboutMe.png";
-import name from "../assets/images/PortfolioDetailPage3/name.png";
-import email from "../assets/images/PortfolioDetailPage3/email.png";
-import language from "../assets/images/PortfolioDetailPage3/language.svg";
-import category from "../assets/images/PortfolioDetailPage3/category.svg";
+//arrow 이미지
+import greaterThanSign from "../assets/images/PortfolioDetailPage3/greaterThanSign.svg";
+import lessThanSign from "../assets/images/PortfolioDetailPage3/lessThanSign.svg";
+
+//sample 이미지
+import sample from "../assets/images/PortfolioDetailPage3/sample.png";
+//sample 비디오
+import sampleVideo from "../assets/images/PortfolioDetailPage3/sampleVideo.mp4";
 
 const PortfolioDetailPage3 = () => {
   const { portfolioId } = useParams();
   const [portfolioData, setPortfolioData] = useState(null);
   const [comments, setComments] = useState([]);
+  const [enlargedImage, setEnlargedImage] = useState(null);
+  const [showContactInfo, setShowContactInfo] = useState(false);
+
+  const mediaRef = useRef(null); //비디오, 사진 부분 스크롤
   const currentUser = getCurrentUser();
 
   useEffect(() => {
-    // portfolioId가 7일 때만 데이터를 가져오기
-    console.log("portfolioId:", portfolioId);
-    if (Number(portfolioId) === 7) {
-      const portfolio = oriProjects.get(7);
+    initializeData();
+    const portfolio = oriProjects.get(Number(portfolioId));
+    if (portfolio) {
       setPortfolioData(portfolio);
-      console.log(portfolio);
-
-      // 댓글 필터링
-      const filteredComments = Array.from(oriComments.values()).filter(
-        (comment) => comment.portfolioId === 7
-      );
-      setComments(filteredComments);
     }
-  }, [portfolioId]);
+    console.log(portfolio);
+
+    const filteredComments = Array.from(oriComments.values()).filter(
+      (comment) => comment.portfolioId === Number(portfolioId)
+    );
+    setComments(filteredComments);
+  }, [portfolioId, portfolioData?.contacts.length, portfolioData?.hits]);
+
+  const scrollLeft = () => {
+    if (mediaRef.current) {
+      mediaRef.current.scrollTo({ left: 0, behavior: "smooth" });
+    }
+  };
+
+  const scrollRight = () => {
+    if (mediaRef.current) {
+      const maxScrollLeft =
+        mediaRef.current.scrollWidth - mediaRef.current.clientWidth;
+      const currentScrollLeft = mediaRef.current.scrollLeft;
+
+      console.log("현재 scrollLeft (이동 전):", currentScrollLeft);
+
+      // 이동할 거리 설정
+      const scrollAmount = 300;
+
+      // 현재 위치에서 scrollAmount만큼 이동하지만, 남은 거리가 적으면 끝까지 이동
+      const newScrollLeft = Math.min(
+        currentScrollLeft + scrollAmount,
+        maxScrollLeft
+      );
+
+      // 스크롤 이동
+      mediaRef.current.scrollTo({ left: newScrollLeft, behavior: "smooth" });
+
+      setTimeout(() => {
+        console.log("현재 scrollLeft (이동 후):", mediaRef.current.scrollLeft);
+      }, 500);
+    }
+  };
 
   const addComment = (newCommentObj) => {
-    // const newComment = {
-    //   commentId: Date.now(),
-    //   portfolioId: Number(portfolioId),
-    //   userId: currentUser.id,
-    //   text: newCommentObj.text,
-    //   date: new Date().toISOString(),
-    // };
-
-    // 클라이언트 측 상태 업데이트
-    //oriComments.set(newComment.commentId, newComment);
     setComments((prevComments) => [newCommentObj, ...prevComments]);
-
-    // 파일에 댓글 저장
     saveComment(
       newCommentObj.portfolioId,
       newCommentObj.userId,
@@ -59,366 +88,456 @@ const PortfolioDetailPage3 = () => {
     );
   };
 
-  // const isPortfolioOwner =
-  //   portfolioData && currentUser && portfolioData.owner === currentUser.id;
+  const handleContactClick = () => {
+    if (currentUser && currentUser.recruiter) {
+      patchContacts(Number(portfolioId), currentUser.id); // 기업 연락 호출
+      setShowContactInfo(true); // 개발자 정보 표시
+      alert("기업 연락이 저장되었습니다.");
+    } else {
+      alert("기업 회원만 연락 버튼을 사용할 수 있습니다.");
+    }
+  };
 
-  //console.log(comments);
+  const renderDeveloperInfo = () => {
+    if (currentUser.recruiter) {
+      if (showContactInfo) {
+        return (
+          <>
+            <Info>{portfolioData.ownerName || "이름 없음.."}</Info>
+            <Info>{portfolioData.ownerEmail || "이름 없음.."}</Info>
+          </>
+        );
+      } else {
+        return (
+          <ButtonWrapper>
+            <Button onClick={handleContactClick}>연락</Button>
+          </ButtonWrapper>
+        );
+      }
+    } else {
+      return (
+        <>
+          <Info>{portfolioData.ownerNickname || "익명"}</Info>
+          <Info>example@example.com</Info>
+        </>
+      );
+    }
+  };
 
   if (!portfolioData) {
     return <Loading>로딩 중...</Loading>;
   }
+
   return (
-    <>
-      <MainWrapper>
-        <TitleWrapper>
-          <InfoButtons>
-            <Button>조회수 0</Button>
-            <Button>기업 연락 0</Button>
-            <Button>좋아요 0</Button>
-          </InfoButtons>
-          <ProjectTitle>{portfolioData.projectTitle}</ProjectTitle>
-          <ProjectDescription>{portfolioData.description}</ProjectDescription>
-        </TitleWrapper>
+    <PageContainer>
+      <TitleSection>
+        <ProjectTitle>{portfolioData.projectTitle}</ProjectTitle>
+        <ProjectDescription>{portfolioData.description}</ProjectDescription>
+      </TitleSection>
 
-        <SectionContent>
-          <SectionTitle>
-            <SectionTitleText>ABOUT ME</SectionTitleText>
-          </SectionTitle>
-          <AboutMeBasicInfos>
-            <AboutMeBasicInfoWrapper>
-              <AboutMeBasicInfoItem>
-                <ImageWrapper>
-                  <Image2 src={name} alt="name" />
-                </ImageWrapper>
-                <DevInfoWrapper>
-                  <DevLabel>이름</DevLabel>
-                  <DevLabel>{portfolioData.ownerName}</DevLabel>
-                </DevInfoWrapper>
-              </AboutMeBasicInfoItem>
-            </AboutMeBasicInfoWrapper>
+      <InfoButtons>
+        <Button>조회수 {portfolioData.hits || 0}</Button>
+        <Button>기업 연락 {portfolioData.contacts.length || 0}</Button>
+        <Button>좋아요 0</Button>
+      </InfoButtons>
 
-            <AboutMeBasicInfoWrapper>
-              <AboutMeBasicInfoItem>
-                <ImageWrapper>
-                  <Image2 src={email} alt="email" />
-                </ImageWrapper>
-                <DevInfoWrapper>
-                  <DevLabel>이메일</DevLabel>
-                  <DevLabel>{portfolioData.ownerEmail}</DevLabel>
-                </DevInfoWrapper>
-              </AboutMeBasicInfoItem>
-            </AboutMeBasicInfoWrapper>
-          </AboutMeBasicInfos>
-        </SectionContent>
+      <DetailContainer>
+        <InfoSection>
+          <InfoWrapper>
+            <InfoField>프로젝트 링크</InfoField>
+            <Info>{portfolioData.projectLink || "링크 없음"}</Info>
+          </InfoWrapper>
+          <InfoWrapper>
+            <InfoField>개발자</InfoField>
+            <Info>{renderDeveloperInfo()}</Info>
+          </InfoWrapper>
+          <InfoWrapper>
+            <InfoField>참여 기간</InfoField>
+            <Info>
+              {portfolioData.startDate} - {portfolioData.endDate}
+            </Info>
+          </InfoWrapper>
+          <InfoWrapper>
+            <InfoField>사용한 스택</InfoField>
+            <Info>{portfolioData.usedLanguage || ""}</Info>
+          </InfoWrapper>
+        </InfoSection>
 
-        <SectionContent>
-          <SectionTitle>
-            <SectionTitleText>SKILLS</SectionTitleText>
-          </SectionTitle>
-          <SkillInfos>
-            <SkillInfoWrapper>
-              <SkillsName>
-                <Image3 src={language} alt="language" />
-                언어
-              </SkillsName>
-              <SkillsList>
-                <SkillsItem>{portfolioData.usedLanguage}</SkillsItem>
-              </SkillsList>
-            </SkillInfoWrapper>
+        <MediaContainer>
+          <ArrowButton onClick={scrollLeft}>
+            <Arrow src={lessThanSign} alt="Scroll Left" />
+          </ArrowButton>
+          <MediaSection ref={mediaRef}>
+            {/* {(portfolioData.video || (portfolioData.images && portfolioData.images.length > 0)) && (
+      <MediaSection ref={mediaRef}>
+        {portfolioData.video && (
+        <VideoContainer>
+          <DemoVideo>
+            <video width="100%" height="100%" controls>
+              <source src={portfolioData.video} type="video/mp4" />
+              비디오를 지원하지 않는 브라우저입니다.
+            </video>
+          </DemoVideo>
+          </VideoContainer>
+        )}
+        {portfolioData.images && portfolioData.images.length > 0 && (
+          <ImageContainer>
+            {portfolioData.images.map((image, index) => (
+              <ImageBox onClick={() => setEnlargedImage(sample)}>
+                <img src={image} alt={`프로젝트 이미지 ${index + 1}`} />
+              </ImageBox>
+            ))}
+          </ImageContainer>
+        )}
+      </MediaSection>
+    )} */}
+            <VideoContainer>
+              <DemoVideo>
+                <video width="100%" height="100%" controls>
+                  <source src={sampleVideo} type="video/mp4" />
+                </video>
+              </DemoVideo>
+            </VideoContainer>
+            <ImageContainer>
+              {/* {portfolioData.images && portfolioData.images.length > 0
+            ? portfolioData.images.map((image, index) => (
+                <ImageBox key={index} onClick={() => setEnlargedImage(image)}>
+                  <img src={image} alt={`프로젝트 이미지 ${index + 1}`} />
+                </ImageBox>
+              ))
+            : "사진 없음"} */}
+              <ImageBox onClick={() => setEnlargedImage(sample)}>
+                <img src={sample} alt="sample 이미지" />
+              </ImageBox>
+              <ImageBox onClick={() => setEnlargedImage(sample)}>
+                <img src={sample} alt="sample 이미지" />
+              </ImageBox>
+              <ImageBox onClick={() => setEnlargedImage(sample)}>
+                <img src={sample} alt="sample 이미지" />
+              </ImageBox>
+              <ImageBox onClick={() => setEnlargedImage(sample)}>
+                <img src={sample} alt="sample 이미지" />
+              </ImageBox>
+            </ImageContainer>
+          </MediaSection>
+          <ArrowButton onClick={scrollRight}>
+            <Arrow src={greaterThanSign} alt="Scroll Right" />
+          </ArrowButton>
+        </MediaContainer>
 
-            <SkillInfoWrapper>
-              <SkillsName>
-                <Image3 src={category} alt="category" />
-                카테고리
-              </SkillsName>
-              <SkillsList>
-                <SkillsItem>
-                  {portfolioData.category
-                    ? portfolioData.category
-                    : "카테고리 없음"}
-                </SkillsItem>
-              </SkillsList>
-            </SkillInfoWrapper>
-          </SkillInfos>
-        </SectionContent>
+        {enlargedImage && (
+          <Overlay onClick={() => setEnlargedImage(null)}>
+            <EnlargedImage src={enlargedImage} alt="Enlarged project image" />
+          </Overlay>
+        )}
 
-        <SectionContent>
-          <SectionTitle>
-            <SectionTitleText>PROJECT</SectionTitleText>
-          </SectionTitle>
-        </SectionContent>
-      </MainWrapper>
-    </>
+        <DescriptionSection>
+          <Section>
+            <Field>해결하는 문제</Field>
+            <Text>{portfolioData.solving || "해결한 문제 없음"}</Text>
+          </Section>
+          <Section>
+            <Field>내가 마주친 도전</Field>
+            <Text>{portfolioData.challenge || "도전 내용 없음"}</Text>
+          </Section>
+        </DescriptionSection>
+      </DetailContainer>
+
+      <CommentsSection>
+        <CommentsTitle>댓글</CommentsTitle>
+        <WritingBox addComment={addComment} />
+        <CommentList
+          comments={comments}
+          setComments={setComments}
+          portfolioId={portfolioId}
+        />
+      </CommentsSection>
+    </PageContainer>
   );
 };
 
 export default PortfolioDetailPage3;
 
-//css Wrapper
-const MainWrapper = styled.div`
-  width: 80%;
-  padding: 40px 40px;
-  margin: 0 auto;
-
-  font-family: __Noto_Sans_KR_99422f, __Noto_Sans_KR_Fallback_99422f;
-  font-style: normal;
-
-  //   border: 5px solid #000;
-  //   border-radius: 2em;
-  //   height: 75em;
-
-  display: flex;
-  flex-direction: column;
-  // align-items: center;
-`;
-
-const Loading = styled.div`
-  display: flex;
-  justify-content: center;
-
-  font-size: 1vw;
-  font-weight: bold;
-`;
-
-const TitleWrapper = styled.div`
-  margin-bottom: 2.5vw;
-`;
-
-const SectionTitle = styled.div`
-  position: relative;
-  display: table;
-  margin: 0 auto 3rem;
-`;
-
-const SectionTitleText = styled.h3`
-  font-family: __Black_Han_Sans_27e777, __Black_Han_Sans_Fallback_27e777;
-  //   font-weight: 400;
-  font-style: normal;
-  border-bottom-color: #cccccc;
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
-  font-size: 3rem;
-`;
-const ImageWrapper = styled.div`
-  position: relative;
-  flex-shrink: 0;
-  width: 1.5rem;
-  height: 2rem;
-  margin-top: 0.2rem;
-`;
-
-const SectionContent = styled.div`
-  width: 100%;
-  max-width: 71.25rem;
-  padding: 4rem 1.5rem;
+// Styled Components
+const PageContainer = styled.div`
+  width: 85%;
   margin: 0 auto;
 `;
 
-const AboutMeBasicInfos = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+const DetailContainer = styled.div`
+  // padding: 20px;
+  // max-width: 800px;
+  padding: 2vh;
+  margin-bottom: 4vh;
+
+  background-color: rgb(245, 247, 247);
 `;
 
-const SkillInfos = styled.div`
-  display: flex;
-  flex-direction: column;
-  row-gap: 2rem;
-  padding: 2rem;
-  background-color: hsla(0, 0%, 100%, 0.8);
-  box-shadow: 1rem 1rem 1rem 0 rgba(68, 68, 68, 0.2);
-  border-radius: 1rem;
-`;
-const AboutMeBasicInfoWrapper = styled.div`
-  width: 50%;
+const TitleSection = styled.div`
+  text-align: center;
+  margin-bottom: 20px;
 `;
 
-const SkillInfoWrapper = styled.div`
-  display: flex;
-  align-items: flex-start;
-  column-gap: 2rem;
+const ProjectTitle = styled.h1`
+  font-size: 5vw;
+  //font-weight: bold;
+  font-family: Impact;
 `;
 
-const AboutMeBasicInfoItem = styled.div`
-  display: flex;
-  flex-wrap: nowrap;
-  column-gap: 2rem;
-  width: 100%;
-  max-width: 14rem;
-  margin: 0 auto;
-  opacity: 0.8;
+const ProjectDescription = styled.h3`
+  font-size: 1.4vw;
+  color: #666;
+  margin-bottom: 5vh;
 `;
 
-const DevInfoWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const DevLabel = styled.label`
-  margin-bottom: 0.5rem;
-  font-weight: 700;
-`;
-
-const SkillsName = styled.div`
-  display: flex;
-  align-items: center;
-  column-gap: 1rem;
-  flex-shrink: 0;
-  width: 10rem;
-  font-weight: 900;
-`;
-
-const SkillsList = styled.ul`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  gap: 0.5rem;
-
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-`;
-
-const SkillsItem = styled.div`
-  padding: 0.25rem 0.75rem;
-  border-radius: 0.5rem;
-  font-weight: 500;
-  font-size: 0.875rem;
-
-  background-color: #2f74c0;
-  color: #ffffff;
-`;
-//css button
 const InfoButtons = styled.div`
   display: flex;
   gap: 1vw;
+  margin-bottom: 3vh;
 `;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin: 1.2vh 0;
+`;
+
 const Button = styled.button`
-  background-color: #000;
+  background-color: #0a27a6;
   color: white;
   padding: 8px 12px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-family: "OTF R";
-`;
-
-// css component
-
-//css image
-const Image1 = styled.img``;
-
-const Image2 = styled.img`
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  color: transparent;
-`;
-
-const Image3 = styled.img`
-  height: 20%;
-  width: 20%;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  color: transparent;
-`;
-
-//css text
-const ProjectTitle = styled.h1`
-  font-family: __Black_Han_Sans_27e777, __Black_Han_Sans_Fallback_27e777;
-  font-weight: 400;
-  font-style: normal;
-  font-size: 4rem;
-  line-height: 1.25;
-  word-break: keep-all;
-`;
-
-const ProjectDescription = styled.p`
-  font-family: __Black_Han_Sans_27e777, __Black_Han_Sans_Fallback_27e777;
-  font-weight: 400;
-  font-style: normal;
-  margin-top: -0.5em;
-`;
-
-const PeriodText = styled.p`
-  position: absolute;
-  top: 0px;
-  font-size: 1em;
-  font-weight: bold;
-  color: #fff;
-  margin-left: 3.6em;
-  margin-top: 1.6em;
-  font-family: "OTF R";
-`;
-
-const LearnedText = styled.p`
-  position: absolute;
-  top: 0px;
-  font-size: 1em;
-  font-weight: bold;
-  color: #000;
-  margin-top: -0.2em;
-  margin-left: 11.9em;
-  font-family: "OTF R";
-`;
-
-const ProblemText = styled.p`
-  position: absolute;
-  top: 0px;
-  font-size: 1em;
-  font-weight: bold;
-  color: #000;
-  margin-top: -0.2em;
-  margin-left: 11.5em;
-  font-family: "OTF R";
-`;
-
-const PhotoText = styled.p`
-  position: absolute;
-  top: 0px;
-  font-size: 1.5em;
-  font-weight: bold;
-  color: #000;
-  margin-left: 2.5em;
-  margin-top: 0.7em;
-  font-family: "OTF R";
-`;
-const LogoText = styled.p`
-  position: absolute;
-  top: 0px;
-  font-size: 1.5em;
-  font-weight: bold;
-  color: #000;
-  margin-left: 2.5em;
-  margin-top: 6em;
-  font-family: "OTF R";
-`;
-const VideoText = styled.p`
-  position: absolute;
-  top: 0px;
-  font-size: 1.2em;
-  font-weight: bold;
-  color: #000;
-  margin-left: 1.5em;
-  margin-top: 45.3em;
-  font-family: "OTF R";
-`;
-// 댓글 css
-const CommentsSection = styled.div`
-  width: 85%;
-  padding: 40px 40px;
-  margin: 0 auto;
-
-  margin-top: 6vh;
-`;
-const CommentsTitle = styled.h2`
-  font-weight: bold;
   font-family: "OTF B";
-  //margin-bottom: 20px;
+`;
+
+const InfoSection = styled.div`
+  // display: flex;
+  // justify-content: space-around;
+
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  margin-bottom: 5vh;
+`;
+
+const InfoWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin-bottom: 2vh;
+
+  font-family: Impact;
+`;
+const InfoField = styled.div`
+  font-size: 2vw;
+  font-weight: bold;
+`;
+
+const Info = styled.div`
+  border-radius: 0.3125em;
+
+  background-color: white;
+
+  padding: 1vw;
+  margin: 1vw;
+  min-width: 80%;
+`;
+
+const MediaContainer = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+`;
+
+const MediaSection = styled.div`
+  display: flex;
+  // overflow-x: hidden;
+
+  overflow-x: scroll;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: var(--carousel-start-offset);
+  scroll-padding-right: var(--carousel-end-offset);
+  scrollbar-width: none;
+
+  gap: 1vw;
+  padding: 1vw;
+  //background-color: rgba(207, 221, 251, 0.33);
+  border-radius: 0.3125em;
+  margin-bottom: 5vh;
+  scroll-behavior: smooth;
+`;
+
+const ArrowButton = styled.button`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: white;
+  border: none;
+  cursor: pointer;
+  padding: 1vw;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  z-index: 10;
+
+  &:hover {
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  &:first-child {
+    left: -25px;
+  }
+
+  &:last-child {
+    right: -25px;
+  }
+`;
+
+const Arrow = styled.img`
+  width: 1.5vw;
+  height: 1.5vw;
+`;
+
+const VideoContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 1vw;
+  padding: 1vw;
+  flex-shrink: 0;
+  overflow-x: auto;
+  border-radius: 0.3125em;
+
+  background-color: #0a27a6;
+  color: white;
+`;
+
+const DemoVideo = styled.div`
+  // max-width: 25vw;
+  // max-height: 14vh;
+  width: 25vw;
+  height: 20vh;
+
+  background-color: #0a27a6;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.3125em;
+  overflow: hidden;
+  flex-shrink: 0;
+
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+`;
+
+const ImageContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 1vw;
+  padding: 1vw;
+  flex-shrink: 0;
+  overflow-x: auto;
+  border-radius: 0.3125em;
+
+  background-color: #0a27a6;
+  color: white;
+`;
+
+const ImageBox = styled.div`
+  border-radius: 0.3125em;
+  // max-width: 25vw;
+  // max-height: 20vh;
+  width: 25vw;
+  height: 20vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+  cursor: pointer;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+`;
+
+const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+`;
+
+const EnlargedImage = styled.img`
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 10px;
+`;
+
+const DescriptionSection = styled.div`
+  margin-bottom: 20px;
+`;
+
+const Section = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 2vw 1vw;
+
+  font-family: Impact;
+`;
+
+const Field = styled.div`
+  font-size: 2vw;
+  font-weight: bold;
+`;
+
+const Text = styled.div`
+  border-radius: 0.3125em;
+  box-shadow: 0 0.5em 1em rgba(0, 0, 0, 0.1);
+
+  background-color: white;
+
+  padding: 1vw;
+  margin-top: 2vw;
+
+  min-width: 80%;
+`;
+
+const CommentsSection = styled.div`
+  margin-top: 20px;
+`;
+
+const CommentsTitle = styled.h2`
+  font-size: 18px;
+`;
+
+const Loading = styled.div`
+  text-align: center;
+  font-size: 18px;
+  padding: 50px;
 `;

@@ -1,6 +1,7 @@
 export const projectInfo = [
   {
     projectId: 1,
+    ownerId: "admin1",
     ownerName: "김예은",
     ownerNickname: "옝",
     ownerEmail: "nabinabi1110@naver.com",
@@ -19,6 +20,7 @@ export const projectInfo = [
   },
   {
     projectId: 2,
+    ownerId: "admin1",
     ownerName: "김예은",
     ownerNickname: "옝",
     ownerEmail: "nabinabi1110@naver.com",
@@ -32,11 +34,14 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 0,
-    contacts: []
+    hits: 3,
+    contacts: [
+      "admin1"
+    ]
   },
   {
     projectId: 3,
+    ownerId: "admin2",
     ownerName: "김태연",
     ownerNickname: "탱구리",
     ownerEmail: "tylove@naver.com",
@@ -50,11 +55,14 @@ export const projectInfo = [
     share: true,
     usedLanguage: "JavaScript",
     category: "프론트엔드",
-    hits: 0,
-    contacts: []
+    hits: 9,
+    contacts: [
+      "admin1"
+    ]
   },
   {
     projectId: 4,
+    ownerId: "admin2",
     ownerName: "김태연",
     ownerNickname: "탱구리",
     ownerEmail: "tylove@naver.com",
@@ -68,11 +76,12 @@ export const projectInfo = [
     share: true,
     usedLanguage: "JavaScript",
     category: "프론트엔드",
-    hits: 0,
+    hits: 1,
     contacts: []
   },
   {
     projectId: 5,
+    ownerId: "admin3",
     ownerName: "조수연",
     ownerNickname: "수여니",
     ownerEmail: "sylove@naver.com",
@@ -86,11 +95,12 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Phython",
     category: "백엔드",
-    hits: 1,
+    hits: 2,
     contacts: []
   },
   {
     projectId: 6,
+    ownerId: "admin3",
     ownerName: "조수연",
     ownerNickname: "수여니",
     ownerEmail: "sylove@naver.com",
@@ -109,6 +119,7 @@ export const projectInfo = [
   },
   {
     projectId: 7,
+    ownerId: "admin4",
     ownerName: "최현혜",
     ownerNickname: "현혜씽",
     ownerEmail: "hhlove@naver.com",
@@ -122,11 +133,14 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 0,
-    contacts: []
+    hits: 12,
+    contacts: [
+      "admin1"
+    ]
   },
   {
     projectId: 8,
+    ownerId: "admin4",
     ownerName: "최현혜",
     ownerNickname: "현혜씽",
     ownerEmail: "hhlove@naver.com",
@@ -140,7 +154,9 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 0,
-    contacts: []
+    hits: 8,
+    contacts: [
+      "admin1"
+    ]
   }
 ];
