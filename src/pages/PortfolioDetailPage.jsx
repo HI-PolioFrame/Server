@@ -54,11 +54,6 @@ const PortfolioDetailPage = () => {
     );
   };
 
-  // const isPortfolioOwner =
-  //   portfolioData && currentUser && portfolioData.owner === currentUser.id;
-
-  //console.log(comments);
-
   const handleContactClick = () => {
     if (currentUser && currentUser.recruiter) {
       patchContacts(Number(portfolioId), currentUser.id); // 기업 연락 호출
