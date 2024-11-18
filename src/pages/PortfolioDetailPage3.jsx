@@ -18,6 +18,8 @@ import CommentList from "../components/commmon/PortfolioDetailPage/CommentList";
 import greaterThanSign from "../assets/images/PortfolioDetailPage3/greaterThanSign.svg";
 import lessThanSign from "../assets/images/PortfolioDetailPage3/lessThanSign.svg";
 
+//logo 이미지
+import logo from "../assets/icons/Logo.png";
 //sample 이미지
 import sample from "../assets/images/PortfolioDetailPage3/sample.png";
 //sample 비디오
@@ -137,7 +139,17 @@ const PortfolioDetailPage3 = () => {
   return (
     <PageContainer>
       <TitleSection>
-        <ProjectTitle>{portfolioData.projectTitle}</ProjectTitle>
+        <TitleWrapper>
+          {/* {portfolioData.logo && (
+            <Logo>
+              <img src={portfolioData.logo} alt="projectLogo" />
+            </Logo>
+          )} */}
+          <Logo>
+            <img src={logo} alt="projectLogo" />
+          </Logo>
+          <ProjectTitle>{portfolioData.projectTitle}</ProjectTitle>
+        </TitleWrapper>
         <ProjectDescription>{portfolioData.description}</ProjectDescription>
       </TitleSection>
 
@@ -291,6 +303,22 @@ const DetailContainer = styled.div`
 const TitleSection = styled.div`
   text-align: center;
   margin-bottom: 20px;
+`;
+
+const TitleWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const Logo = styled.h1`
+  width: 6vw;
+  height: 6vw;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
 `;
 
 const ProjectTitle = styled.h1`

@@ -133,7 +133,7 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 21,
+    hits: 22,
     contacts: [
       "admin1"
     ]
