@@ -69,10 +69,11 @@ export const saveComment = async (portfolioId, userId, text) => {
   let filePath = "src/components/commmon/dummydata/commentInfo.jsx";
 
   // 파일의 끝에서 '];'를 제거하고 새 데이터를 추가
-  await removeFromFileEnd(filePath, 3);
-  await appendStringToFile(filePath, `,${string}\n];`);
+  removeFromFileEnd(filePath, 3);
+  appendStringToFile(filePath, `,${string}\n];`);
 
-  console.log("FileIO server API를 통해 댓글 달기 완료");
+  console.log('FileIO를 통해 댓글 달기 완료');
+
 };
 
 export default saveComment;

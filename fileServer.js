@@ -15,6 +15,7 @@ const port = 3000;
 app.use(cors());
 app.use(express.json());
 
+
 // 파일 읽기
 app.post('/read-number', (req, res) => {
     const { filePath } = req.body;
@@ -91,6 +92,7 @@ app.post('/get-file-size', (req, res) => {
         if (err) {
             console.error('파일 크기를 가져오는 중 오류가 발생했습니다:', err);
             return res.status(500).json({ error: '파일 크기를 가져오는 중 오류가 발생했습니다.' });
+            
         }
         const size = stats.size;
         let fileSize = '';
@@ -103,6 +105,115 @@ app.post('/get-file-size', (req, res) => {
         }
         res.json({ fileSize });
     });
+});
+
+app.post('/patch-hits', async (req, res) => {
+    try {
+        const { filePath, projectId, newHits } = req.body;
+
+        // 파일 읽기
+        const data = await fs.readFile(filePath, 'utf8');
+        
+        // JavaScript 객체 문자열을 JSON으로 변환하기 위한 전처리
+        let contentWithoutExport = data.replace('export const projectInfo = ', '');
+        contentWithoutExport = contentWithoutExport.replace(/;\s*$/, ''); // 끝에 있는 세미콜론 제거
+        
+        // JavaScript 객체를 JSON으로 변환하기 위한 함수
+        function convertToValidJSON(jsString) {
+            try {
+                // eval을 안전하게 사용하기 위한 Function 생성
+                return Function(`"use strict"; return (${jsString})`)();
+            } catch (error) {
+                console.error('JavaScript 객체 파싱 에러:', error);
+                throw error;
+            }
+        }
+
+        // JavaScript 객체 문자열을 실제 객체로 변환
+        const projectsObj = convertToValidJSON(contentWithoutExport);
+        
+        // hits 업데이트
+        const updatedProjects = projectsObj.map(project => {
+            if (project.projectId === projectId) {
+                return { ...project, hits: newHits };
+            }
+            return project;
+        });
+
+        // 다시 파일에 쓸 때는 원래 형식으로 변환
+        const updatedContent = 'export const projectInfo = ' + 
+            JSON.stringify(updatedProjects, null, 2)
+                .replace(/"([^"]+)":/g, '$1:') // 속성 이름의 따옴표 제거
+                .replace(/}]/g, '}\n]') + 
+            ';\n';
+        
+        // 파일 쓰기
+        await fs.writeFile(filePath, updatedContent, 'utf8');
+        res.json({ success: true, hits: newHits });
+
+    } catch (error) {
+        console.error('서버 에러:', error);
+        res.status(500).json({ 
+            error: '파일 처리 중 오류가 발생했습니다.',
+            details: error.message 
+        });
+    }
+});
+
+app.post('/patch-contacts', async (req, res) => {
+    try {
+        const { filePath, projectId, newContact } = req.body;
+
+        // 파일 읽기
+        const data = await fs.readFile(filePath, 'utf8');
+        
+        // JavaScript 객체 문자열을 실제 객체로 변환
+        let contentWithoutExport = data.replace('export const projectInfo = ', '');
+        contentWithoutExport = contentWithoutExport.replace(/;\s*$/, '');
+        
+        function convertToValidJSON(jsString) {
+            try {
+                return Function(`"use strict"; return (${jsString})`)();
+            } catch (error) {
+                console.error('JavaScript 객체 파싱 에러:', error);
+                throw error;
+            }
+        }
+        
+        const projectInfo = convertToValidJSON(contentWithoutExport);
+        
+        // 해당 projectId의 project 객체 찾기
+        const project = projectInfo.find(p => p.projectId === projectId);
+        
+        // contacts 필드 업데이트
+        if (project) {
+            if (!project.contacts) {
+                project.contacts = [];
+            }
+            
+            // 새 연락처 추가
+            if (!project.contacts.includes(newContact)) {
+                project.contacts.push(newContact);
+            }
+            
+            const updatedContent = 'export const projectInfo = ' + 
+            JSON.stringify(projectInfo, null, 2)
+                .replace(/"([^"]+)":/g, '$1:')
+                .replace(/}]/g, '}\n]') + 
+            ';\n';
+            
+            await fs.writeFile(filePath, updatedContent, 'utf8');
+            return { success: true, contacts: project.contacts };
+        } else {
+            return { success: false, error: `프로젝트 ID ${projectId}를 찾을 수 없습니다.` };
+        }
+    } catch (error) {
+        console.error('서버 에러:', error);
+        res.status(500).json({ 
+            error: '파일 처리 중 오류가 발생했습니다.',
+            details: error.message 
+        });
+    }
 });
 
 // Vite 개발 서버 시작

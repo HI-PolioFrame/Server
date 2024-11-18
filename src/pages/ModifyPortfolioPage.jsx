@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Logo from "../assets/icons/Logo.png";
-import CreatePortfolioInput from "../components/CreatePortfolioPage/CreatePortfolioInput";
+import ModifyPortfolioInput from "../components/ModifyPortfolioPage/ModifyPortfolioInput";
 import CreatePortfolioTemplate from "../components/CreatePortfolioPage/CreatePortfolioTemplate";
 import saveProject from "../components/features/saveProject";
 import { getCurrentUser } from "../components/features/currentUser";
 import { Navigate, useNavigate } from "react-router-dom";
-const CreatePortfolioPage = () => {
+
+const ModifyPortfolioPage = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     projectOwnerName: "", // 포폴 만든 사람 이름
@@ -89,7 +90,7 @@ const CreatePortfolioPage = () => {
       </HeaderWrapper>
 
       <ContentWrapper>
-        <CreatePortfolioInput
+        <ModifyPortfolioInput
           onInputChange={handleInputChange}
           formData={formData}
           onDateChange={handleDateChange}
@@ -98,14 +99,14 @@ const CreatePortfolioPage = () => {
         <CreateButton  onClick={() => {
             handleSaveProject(); // 프로젝트 저장 함수 호출
             navigate("/MyPage"); // 페이지 이동
-          }}>제작하기
+          }}>수정완료
         </CreateButton>
       </ContentWrapper>
     </>
   );
 };
 
-export default CreatePortfolioPage;
+export default ModifyPortfolioPage;
 
 //css Wrapper
 const HeaderWrapper = styled.div`

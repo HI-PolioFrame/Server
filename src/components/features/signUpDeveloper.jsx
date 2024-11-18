@@ -194,28 +194,25 @@ export const setId = (id) => {
 
 //현혜찡 코드
 // export const setPhoneNumber = (phoneNumber) => {
-//     // 유저 DB에 이미 해당 핸드폰 번호가 존재하면 true 반환, 없으면 false
-//     for (const [key, user] of oriUsers) {//oriUsers.forEach((value, key) => {
-//         alert(`유저의 아이디는 ${key}, 유저의 전화번호는 ${user.phoneNumber}`)
-//         if (user.phoneNumber === phoneNumber) {
-//             alert('이미 계정이 존재합니다.');
-//             phoneNumCheck = false;
-//             return phoneNumCheck; //return;
-//         }
-//     }; //);
-
-//     // 이것은 번호인증을 실제로 진행할 수 없으므로 임의 처리하는 것이다.
-//     // 이통통신기(010-XXXX-XXXX)의 형태를 갖추었는가
-//     const phonePattern = /^010-\d{4}-\d{4}$/; 
-//     if (!phonePattern.test(phoneNumber)) {
+//     // 입력된 번호가 정규식에 맞는지 확인
+//     const phonePattern = /^010-\d{4}-\d{4}$/;
+//     if (!phonePattern.test(phoneNumber.trim())) {
 //         alert('올바른 전화번호를 입력하세요.');
-//         phoneNumCheck = false;
-//         return phoneNumCheck; //return;
+//         return false;
 //     }
 
-//     phoneNumCheck = true;
-//     return phoneNumCheck; //phoneNumCheck = true;
-// }
+//     // oriUsers 배열에서 중복 확인
+//     for (const user of oriUsers) {
+//         if (user.phoneNumber === phoneNumber) {
+//             alert('이미 계정이 존재합니다.');
+//             return false;
+//         }
+//     }
+
+//     // 유효성 검증 성공
+//     return true;
+// };
+
 
 // 현혜찡 코드
 // export const setEmail = (email) => {
@@ -248,30 +245,31 @@ export const setEmail = (email) => {
     emailCheck = true;
     return emailCheck;
 };
+
 //forEach로 하면 return값이 없어서 계속 오류 메시지가 나오는 문제점이 있어서 수정함
-
 export const setPhoneNumber = (phoneNumber) => {
-    phoneNumCheck = false; 
+    console.log("oriUsers 데이터:", oriUsers);
 
-    // 유저 DB에 이미 해당 핸드폰 번호가 존재하면 true 반환, 없으면 false
-    oriUsers.forEach((value) => {
-        if (value.phoneNumber === phoneNumber) {
-            alert('이미 계정이 존재합니다.');
-            return phoneNumCheck;
-        }
-    });
-
-    // 전화번호 형식 검사
-    const phonePattern = /^010-\d{4}-\d{4}$/; // 올바른 전화번호 형식 패턴
-
-    if (!phoneNumber.match(phonePattern)) {
+    // 1. 전화번호 형식 검증
+     const phonePattern = /^010-\d{4}-\d{4}$/; // 전화번호 형식: 010-xxxx-xxxx
+    if (!phonePattern.test(phoneNumber.trim())) {
         alert('올바른 전화번호를 입력하세요. 형식: 010-xxxx-xxxx');
-        return phoneNumCheck; 
+        return false;
     }
-    
+
+    // 2. Map 객체에서 중복 확인
+    for (const [key, user] of oriUsers.entries()) {
+        if (user.phoneNumber === phoneNumber) {
+            alert('이미 사용 중인 전화번호입니다.');
+            return false;
+        }
+    }
+
+    // 중복되지 않으면 true 반환
     phoneNumCheck = true;
-    return phoneNumCheck; 
-}
+    return true;
+};
+
 
 
 export const isIdExists = (id) => {

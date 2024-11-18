@@ -41,15 +41,15 @@ export default MemberSelectionPage;
 
 // CSS Wrapper
 const MainWrapper = styled.div`
-    display: flex;
-    flex-direction: column;  
-    gap: 2em;
-    align-items: center;
-    justify-content: center;
-    padding: 1em 15em;
-    height: 100%;
-    width: 100%;
-    box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  // padding: 90px;
+  width: 85%;
+  padding: 3% 20px;
+  margin: 0 auto;
+  gap: 2em;
 `;
 
 const ButtonWrapper = styled.div`
@@ -58,6 +58,8 @@ const ButtonWrapper = styled.div`
     width: 100%;
     height: 100%;
     margin-top : -2em;
+    align-items: center;
+    justify-content: center;
 `;
 
 // CSS Buttons

@@ -1,30 +1,63 @@
-import React from "react";
+import React,{useEffect} from "react";
 import styled from "styled-components";
 import { useState } from "react";
 // import Calendar from "./Calendar.jsx";
-import CalendarInput from "./CalendarInput.jsx";
+import CalendarInput from "./ModifyCalendarInput.jsx";
+import { useParams } from "react-router-dom";
+import {
+  oriProjects,
+  oriComments,
+  initializeData,
+} from "../../components/domain/startProgram.js";
 
-const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
+const CreatePortfolioInput = ({ onInputChange, formData, onDateChange  }) => {
   // 업로드 이미지 미리보기 코드
   const [coverimagePreview, setCoverImagePreview] = useState(null);
   const [LogoPreview, setLogoPreview] = useState(null);
-
-  const [photosPreview, setPhotosPreview] = useState([
-    null,
-    null,
-    null,
-    null,
-    null,
-  ]);
+  const { portfolioId } = useParams();
+  const [portfolioData, setPortfolioData] = useState(null);
+  const [comments, setComments] = useState([]);
   const [isOn, setIsOn] = useState(true);
 
+  useEffect(() => {
+    const portfolio = oriProjects.get(Number(portfolioId));
+    if (portfolio) {
+      setPortfolioData(portfolio);
+    }
+  }, [portfolioId]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setPortfolioData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+    onInputChange(e); // 외부 상태 관리 함수 호출
+  };
+
+  useEffect(() => {
+    initializeData();
+    //project ID 사용해서 포트폴리오 데이터 가져오기
+    const portfolio = oriProjects.get(Number(portfolioId));
+    if (portfolio) {
+      setPortfolioData(portfolio);
+    }
+    console.log(portfolio);
+
+    const filteredComments = Array.from(oriComments.values()).filter(
+      (comment) => comment.portfolioId === Number(portfolioId)
+    );
+    setComments(filteredComments);
+  }, [portfolioId, portfolioData?.contacts.length, portfolioData?.hits]);
+
+  
   const handleCoverImageChange = (e) => {
     const file = e.target.files[0];
     if (file && file.type.startsWith("image/")) {
       const imageURL = URL.createObjectURL(file);
       setCoverImagePreview(imageURL);
     }
-    onInputChange(e); // formData에 coverImage 업데이트
+    onInputChange(e); 
   };
   const handleLogoChange = (e) => {
     const file = e.target.files[0];
@@ -32,7 +65,7 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
       const imageURL = URL.createObjectURL(file);
       setLogoPreview(imageURL);
     }
-    onInputChange(e); // formData에 coverImage 업데이트
+    onInputChange(e);
   };
   const handlePhotosChange = (index) => (e) => {
     const file = e.target.files[0];
@@ -52,7 +85,13 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
     setIsOn((prevIsOn) => !prevIsOn);
 };
 
-  return (
+
+if (!portfolioData) {
+  return <Loading>로딩 중...</Loading>;
+}
+// console.log("Portfolio ID:", portfolioId);
+// console.log("Projects:", oriProjects);
+return (
     <>
       {/* 필수항목 */}
       <VitalWrapper>
@@ -63,11 +102,10 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
             <MainText>포트폴리오 이름</MainText>
             <ExText>자신만의 포트폴리오 이름을 작성해주세요</ExText>
             <VitalInput
-              type="text"
               name="projectTitle"
-              value={formData.projectTitle}
-              onChange={onInputChange}
-            ></VitalInput>
+              value={portfolioData.projectTitle || ''}
+              onChange={handleInputChange}
+            />
           </InputWrapper>
           {/* 포트폴리오 설명 -> 글자수 제한해야한다.*/}
           <InputWrapper>
@@ -76,8 +114,8 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
             <VitalInput
               type="text"
               name="description"
-              value={formData.description}
-              onChange={onInputChange}
+              value={portfolioData.description}
+              onChange={handleInputChange}
             ></VitalInput>
           </InputWrapper>
         </ColumnWrapper>
@@ -90,8 +128,10 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
             <VitalInput
               type="text"
               name="usedLanguage"
-              value={formData.usedLanguage}
-              onChange={onInputChange}
+              value={portfolioData.usedLanguage
+                ? portfolioData.usedLanguage
+                : "사용 언어 없음."}
+              onChange={handleInputChange}
             ></VitalInput>
           </InputWrapper>
           {/* 링크 */}
@@ -104,8 +144,9 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
             <VitalInput
               type="url"
               name="projectLink"
-              value={formData.projectLink}
-              onChange={onInputChange}
+              value={portfolioData.projectLink  ? portfolioData.projectLink
+                : "프로젝트 링크 없음."}
+              onChange={handleInputChange}
             ></VitalInput>
           </InputWrapper>
         </ColumnWrapper>
@@ -121,8 +162,10 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
             <VitalInput2
               type="text"
               name="solving"
-              value={formData.solving}
-              onChange={onInputChange}
+              value={portfolioData.solving
+                ? portfolioData.solving
+                : "문제 해결 내용 없음."}
+              onChange={handleInputChange}
             ></VitalInput2>
           </InputWrapper>
           <InputWrapper>
@@ -134,8 +177,10 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
             <VitalInput2
               type="text"
               name="challenge"
-              value={formData.challenge}
-              onChange={onInputChange}
+              value={portfolioData.challenge
+                ? portfolioData.challenge
+                : "배운 점 없음."}
+              onChange={handleInputChange}
             ></VitalInput2>
           </InputWrapper>
         </ColumnWrapper>
@@ -146,9 +191,9 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
             <MainText>참여기간</MainText>
             <ExText>이 프로젝트에 참여한 기간을 선택해주세요. </ExText>
             <CalendarInput
-              startDate={formData.startDate}
-              endDate={formData.endDate}
-              onDateChange={onDateChange}
+              startDate={new Date(portfolioData.startDate)} 
+              endDate={new Date(portfolioData.endDate)}   
+              onDateChange={handleInputChange}
             />
           </InputWrapper>
           <CWrapper>
@@ -175,8 +220,8 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
                   <VitalInput
                     type="text"
                     name="category"
-                    value={formData.category}
-                    onChange={onInputChange}
+                    value={portfolioData.category}
+                    onChange={handleInputChange}
                   ></VitalInput>
             </InputWrapper>
           </CWrapper>
@@ -194,8 +239,10 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
             <ChoiceInput
               type="url"
               name="video"
-              value={formData.video}
-              onChange={onInputChange}
+              value={portfolioData.video 
+                ? portfolioData.video
+                : "비디오 없음."}
+              onChange={handleInputChange }
             ></ChoiceInput>
           </InputWrapper>
           {/* 커버 이미지*/}
@@ -234,25 +281,47 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
               최대 4장의 사진을 업로드하여 프로젝트를 소개해주세요
             </ExText>
             <ImageWrapper>
-              {photosPreview.map((preview, index) => (
-                <FileLabel
-                  key={index}
-                  htmlFor={`photos-${index}`}
-                  style={{
-                    backgroundImage: preview ? `url(${preview})` : "none",
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                  }}
-                >
-                  <FileInput
-                    type="file"
-                    id={`photos-${index}`}
-                    onChange={handlePhotosChange(index)}
-                  />
-                  {!preview && "+"}
-                </FileLabel>
-              ))}
+              {portfolioData?.images && portfolioData.images.length > 0 ? (
+                portfolioData.images.map((preview, index) => (
+                  <FileLabel
+                    key={index}
+                    htmlFor={`photos-${index}`}
+                    style={{
+                      backgroundImage: preview ? `url(${preview})` : "none",
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                    }}
+                  >
+                    <FileInput
+                      type="file"
+                      id={`photos-${index}`}
+                      onChange={handlePhotosChange(index)}
+                    />
+                    {!preview && "+"}
+                  </FileLabel>
+                ))
+              ) : (
+                Array(5).fill().map((_, index) => (
+                  <FileLabel
+                    key={index}
+                    htmlFor={`photos-${index}`}
+                    style={{
+                      backgroundImage: "none",
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                    }}
+                  >
+                    {"+"}
+                    <FileInput
+                      type="file"
+                      id={`photos-${index}`}
+                      onChange={handlePhotosChange(index)}
+                    />
+                  </FileLabel>
+                ))
+              )}
             </ImageWrapper>
+
 
             {/* <ChoiceInput type="file"></ChoiceInput> */}
           </InputWrapper>
@@ -289,6 +358,14 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
 export default CreatePortfolioInput;
 
 //css Wrapper
+const Loading = styled.div`
+  display: flex;
+  justify-content: center;
+
+  font-size: 1vw;
+  font-weight: bold;
+`;
+
 const CWrapper = styled.div`
   display: flex;
   flex-direction: column;

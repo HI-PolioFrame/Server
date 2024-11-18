@@ -12,6 +12,7 @@ export const userInfo = [
     link: "",
     career: "있음",
     education: "학사",
+    contact: 0
   },
   {
     id: "happytree12",
@@ -26,6 +27,7 @@ export const userInfo = [
     link: "",
     career: "없음",
     education: "학사",
+    contact: 0
   },
   {
     id: "backendDevel1!",
@@ -40,6 +42,7 @@ export const userInfo = [
     link: "",
     career: "없음",
     education: "석사",
+    contact: 0
   },
   {
     id: "admin4",
@@ -54,6 +57,7 @@ export const userInfo = [
     link: "",
     career: "있음",
     education: "박사",
+    contact: 0
   },
   {
     id: "5",
@@ -68,6 +72,7 @@ export const userInfo = [
     link: "",
     career: "있음",
     education: "석사",
+    contact: 0
   },
   {
     id: "6",
@@ -82,6 +87,7 @@ export const userInfo = [
     link: "",
     career: "없음",
     education: "박사",
+    contact: 0
   },
   {
     id: "7",
@@ -223,19 +229,6 @@ export const userInfo = [
     link: "",
     career: "없음",
     education: ""
-  },
-  {
-    id: "fscheck_myfs",
-    pageId: 17,
-    password: "close122222@@",
-    name: "강녕",
-    phoneNumber: "010-4342-3434",
-    birthday: "2024-11-03",
-    recruiter: false,
-    email: "",
-    nickname: "",
-    link: "",
-    career: "없음",
-    education: ""
   }
+
 ];
