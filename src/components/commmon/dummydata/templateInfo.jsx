@@ -10,17 +10,17 @@ export const templateInfo = [
     },
     {
       templateId: 2,
-      templateName: "나의 템플릿",
+      templateName: "노트 템플릿",
       templateOwner: 2,
-      description: "설명",
+      description: "검은콩처럼 검은색",
       picture: false,
       file: "file"
     },
     {
       templateId: 3,
-      templateName: "나의 템플릿",
+      templateName: "멋나는 템플릿",
       templateOwner: 3,
-      description: "설명",
+      description: "햄토리가 만들었다",
       picture: false,
       file: "file"
     },

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import {
   oriProjects,
@@ -21,12 +22,13 @@ import Notepad12 from "../assets/images/PortfolioDetailPage2/Notepad12.png";
 import Notepad16 from "../assets/images/PortfolioDetailPage2/Notepad16.png";
 
 const PortfolioDetailPage2 = () => {
+  const navigate = useNavigate();
   const { portfolioId } = useParams();
   const [portfolioData, setPortfolioData] = useState(null);
   const [comments, setComments] = useState([]);
   const [showContactInfo, setShowContactInfo] = useState(false);
   const currentUser = getCurrentUser();
-
+  const [isOwner, setIsOwner] = useState(false);
   useEffect(() => {
     initializeData();
     const portfolio = oriProjects.get(Number(portfolioId));
@@ -40,6 +42,19 @@ const PortfolioDetailPage2 = () => {
     );
     setComments(filteredComments);
   }, [portfolioId, portfolioData?.contacts.length, portfolioData?.hits]);
+
+  useEffect(() => {
+    console.log("portfolioData:", portfolioData);
+    console.log("currentUser.email:", currentUser.email);
+  
+    if (portfolioData && portfolioData.ownerEmail === currentUser.email) {
+      console.log("작성자 일치");
+      setIsOwner(true);
+    } else {
+      console.log("작성자 불일치");
+      setIsOwner(false);
+    }
+  }, [currentUser.email, portfolioData]);
 
   const addComment = (newCommentObj) => {
     // const newComment = {
@@ -221,8 +236,21 @@ const PortfolioDetailPage2 = () => {
             </ProblemWrapper>
           </Wrapper2>
         </Maincomponent>
+        {/* 수정 버튼 작성자와 포폴의 아이디가 동일할 경우에만 보이게한다. */}
+        {isOwner && (
+          <ButtonWrapper2>
+            <SubmitButton
+              onClick={() => {
+                navigate(`/ModifyPortfolioPage/${portfolioId}`);
+              }}
+            >
+            수정
+            </SubmitButton>
+            <SubmitButton>삭제</SubmitButton>
+          </ButtonWrapper2>
+      )}
       </MainWrapper>
-
+ 
       {/* 댓글 */}
       <CommentsSection>
         <CommentsTitle>댓글</CommentsTitle>
@@ -413,6 +441,14 @@ const VideoBox = styled.div`
   height: 15em;
 `;
 
+const DevInfo = styled.div`
+  background-color: #f0f0f0;
+  margin: 0.8vw;
+  padding: 0.4vw;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 80%;
+`;
 //css image
 const Image3 = styled.img`
   width: 10em;
@@ -556,4 +592,39 @@ const CommentsTitle = styled.h2`
   font-weight: bold;
   font-family: "OTF B";
   //margin-bottom: 20px;
+`;
+
+
+//css 수정, 삭제 버튼
+const ButtonWrapper2 = styled.div`
+display: flex;
+justify-content: flex-end;
+gap : 1em;
+`;
+const SubmitButton = styled.button`
+border: none;
+border-radius: 0.4em;
+
+margin-top: 1vh;
+width: 9.1em;
+height: 2.25em;
+
+float: right;
+
+background-color: #000;
+color: white;
+font-size: 1.1vw;
+font-family: "OTF B";
+font-weight: bold;
+cursor: pointer;
+&:hover {
+  box-shadow: 0 0.2em 1em rgba(22, 26, 63, 0.2);
+}
+transition: all 0.3s ease;
+
+@media (max-width: 768px) {
+  width: 7em;
+  height: 2.25em;
+  font-size: 0.8125em;
+}
 `;
