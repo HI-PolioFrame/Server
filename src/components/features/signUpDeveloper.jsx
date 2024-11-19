@@ -4,9 +4,6 @@ import { User } from "../domain/User";
 // 파일에서 데이터를 가져오는 함수 (서버 API 호출)
 export const fetchFileData = async (filePath) => {
     try {
-
-        console.log('로컬호스트 연결에 들어갑니다. try문 내부');
-
         const response = await fetch('http://localhost:3000/read-number', {  // 서버의 /read-number API 호출
             method: 'POST',
             headers: {
@@ -14,17 +11,10 @@ export const fetchFileData = async (filePath) => {
             },
             body: JSON.stringify({ filePath }),  // filePath를 서버로 전달
         });
-
-        console.log('fetch가 완료되었습니다. 반환 시작');
-
         if (!response.ok) {
             throw new Error('네트워크 응답이 좋지 않습니다.');
         }
-
         const data = await response.json();
-
-        console.log('반환을 받았습니다. return합니다');
-
         return data.number;  // 서버에서 반환된 숫자 값
     } catch (error) {
         console.error('파일을 읽는 중 오류가 발생했습니다.', error);
