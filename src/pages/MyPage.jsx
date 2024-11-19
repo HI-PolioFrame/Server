@@ -41,10 +41,11 @@ function MyPage() {
             title={"내가 만든 프로젝트"}
             data={myPortfolioList}
             renderItem={renderTemplateCard}
+            button={true}
           />
 
-          <Section title={"내가 만든 포트폴리오"} />
-          <Section title={"내가 만든 템플릿"} />
+          <Section title={"내가 만든 포트폴리오"} button={true} />
+          <Section title={"내가 만든 템플릿"} button={true} />
         </>
       )}
     </MyPageContainer>

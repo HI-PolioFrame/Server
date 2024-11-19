@@ -8,7 +8,7 @@ import StyledButton from "../commmon/StyledButton";
 import { Navigate, useNavigate } from "react-router-dom";
 import { oriProjects, searchSortManager } from "../domain/startProgram";
 
-const Section = ({ title, data = [], renderItem }) => {
+const Section = ({ title, data = [], renderItem, button }) => {
   // LinkedList를 배열로 변환하는 유틸리티 함수
   const linkedListToArray = (linkedList) => {
     const array = [];
@@ -73,12 +73,15 @@ const Section = ({ title, data = [], renderItem }) => {
         </TemplateGridWrapper>
       </MyContainer>
       <Line></Line>
-      <StyledButtonWrapper>
-        <StyledButton
-          text={"추가"}
-          onClick={() => console.log("추가 버튼 클릭")} //navigate 넣으면 된다요
-        />
-      </StyledButtonWrapper>
+
+      {button && (
+        <StyledButtonWrapper>
+          <StyledButton
+            text={"추가"}
+            onClick={() => console.log("추가 버튼 클릭")} //navigate 넣으면 된다요
+          />
+        </StyledButtonWrapper>
+      )}
     </>
   );
 };
