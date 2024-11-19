@@ -28,7 +28,6 @@ const SignUpRecruiterPage = () => {
     const [repassword, setrePassword] = useState("");
     const [isPasswordValid, setIsPasswordValid] = useState(false);
     const [isRePasswordEnabled, setIsRePasswordEnabled] = useState(false);
-    const [isPasswordConfirmed, setIsPasswordConfirmed] = useState(false);
 
     //눈 아이콘
     const toggleEyeVisible = () => {
@@ -111,17 +110,20 @@ const SignUpRecruiterPage = () => {
             setIsRePasswordEnabled(false);
         }
     };
-      const passwordCheck = () => {
+
+    let alertShown = false;
+
+    const passwordCheck = () => {
         if (isPassword(password, repassword)) {
-            if (!isPasswordConfirmed) { 
+            if (!alertShown) { 
                 alert("비밀번호가 인증되었습니다.");
-                setIsPasswordConfirmed(true); 
+                alertShown = true;
             }
         } else {
             setrePassword('');
+            alertShown = false; 
         }
     };
-
     const handlePassinputChange = (e) => {
     setPassword(e.target.value);
     };

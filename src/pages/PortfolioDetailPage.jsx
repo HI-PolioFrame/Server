@@ -15,11 +15,19 @@ import saveComment from "../components/features/saveComment";
 import WritingBox from "../components/commmon/PortfolioDetailPage/WritingBox";
 import CommentList from "../components/commmon/PortfolioDetailPage/CommentList";
 
+//logo 이미지
+import logo from "../assets/icons/Logo.png";
+//heart 이미지
+import heart_none from "../assets/images/PortfolioDetailPage3/heart-none.svg";
+import heart_fill from "../assets/images/PortfolioDetailPage3/heart-fill.svg";
+
 const PortfolioDetailPage = () => {
   const { portfolioId } = useParams();
   const [portfolioData, setPortfolioData] = useState(null);
   const [comments, setComments] = useState([]);
   const [showContactInfo, setShowContactInfo] = useState(false);
+  const [showModal, setShowModal] = useState(false); // "연락" 버튼 눌렀을 때 true
+  const [modalMessage, setModalMessage] = useState(""); //"연락" 버튼 눌렀을 때 창에 띄워지는 메세지
   const currentUser = getCurrentUser();
   const navigate = useNavigate();
 
@@ -72,18 +80,15 @@ const PortfolioDetailPage = () => {
     );
   };
 
-  // const isPortfolioOwner =
-  //   portfolioData && currentUser && portfolioData.owner === currentUser.id;
-
-  //console.log(comments);
-
   const handleContactClick = () => {
     if (currentUser && currentUser.recruiter) {
       patchContacts(Number(portfolioId), currentUser.id); // 기업 연락 호출
       setShowContactInfo(true); // 개발자 정보 표시
-      alert("기업 연락이 저장되었습니다.");
+      setShowModal(true);
+      setModalMessage("채용자 페이지에 저장되었습니다.");
     } else {
-      alert("기업 회원만 연락 버튼을 사용할 수 있습니다.");
+      setShowModal(true);
+      setModalMessage("기업 회원만 연락 버튼을 사용할 수 있습니다.");
     }
   };
 
@@ -122,12 +127,24 @@ const PortfolioDetailPage = () => {
   return (
     <DetailContainer>
       <TitleSection>
-        <ProjectTitle>{portfolioData.projectTitle}</ProjectTitle>
+        <TitleWrapper>
+          {/* {portfolioData.logo && (
+            <Logo>
+              <img src={portfolioData.logo} alt="projectLogo" />
+            </Logo>
+          )} */}
+          <Logo>
+            <img src={logo} alt="projectLogo" />
+          </Logo>
+          <ProjectTitle>{portfolioData.projectTitle}</ProjectTitle>
+        </TitleWrapper>
         <ProjectDescription>{portfolioData.description}</ProjectDescription>
         <InfoButtons>
           <Button>조회수 {portfolioData.hits || 0}</Button>
           <Button>기업 연락 {portfolioData.contacts.length || 0}</Button>
-          <Button>좋아요 0</Button>
+          <HeartBox onClick={() => console.log("좋아요 누름.")}>
+            <img src={heart_none} alt="heart-none" /> <Likes>0</Likes>
+          </HeartBox>
         </InfoButtons>
       </TitleSection>
 
@@ -148,6 +165,15 @@ const PortfolioDetailPage = () => {
             <DevContainer>{renderDeveloperInfo()}</DevContainer>
           </DeveloperField>
         </LinkDevelperSection>
+
+        {showModal && (
+          <ModalOverlay className="ModalOverlay">
+            <ModalContainer>
+              <p>{modalMessage}</p>
+              <button onClick={() => setShowModal(false)}>확인</button>
+            </ModalContainer>
+          </ModalOverlay>
+        )}
 
         <OtherInfoSection>
           {/* <ParticipationPeriodField>
@@ -274,6 +300,22 @@ const TitleSection = styled.div`
   margin-bottom: 2.5vw;
 `;
 
+const TitleWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const Logo = styled.h1`
+  width: 6vw;
+  height: 6vw;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+`;
+
 const ProjectTitle = styled.h1`
   font-weight: bold;
   font-family: "OTF B";
@@ -301,6 +343,28 @@ const Button = styled.button`
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  font-family: "OTF B";
+`;
+
+const HeartBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.4vw;
+  width: 2vw;
+
+  cursor: pointer;
+
+  font-weight: bold;
+
+  img {
+    width: 1.5vw; /* 하트 크기 조정 */
+    height: auto; /* 비율 유지 */
+    object-fit: contain; /* 이미지를 잘 보이게 */
+  }
+`;
+
+const Likes = styled.div`
   font-family: "OTF B";
 `;
 
@@ -434,6 +498,48 @@ const DevInfo = styled.div`
   border: 1px solid #ccc;
   border-radius: 4px;
   width: 80%;
+`;
+
+const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+`;
+
+const ModalContainer = styled.div`
+  background: white;
+  font-size: 1.3vw;
+  font-weight: bold;
+  padding: 1vw;
+  width: 25vw;
+  height: 15vh;
+
+  border-radius: 0.3125em;
+
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1001;
+
+  button {
+    margin-top: 1.5vw;
+    padding: 0.5vw 1vw;
+    background: #0a27a6;
+    color: white;
+    border: none;
+    border-radius: 0.3125em;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: #0056b3;
+  }
 `;
 
 const VideoBox = styled.div`

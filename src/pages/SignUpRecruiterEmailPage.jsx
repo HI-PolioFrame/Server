@@ -31,7 +31,6 @@ const SignUpRecruiterEmailPage= () => {
     const [repassword, setrePassword] = useState('');
     const [isPasswordValid, setIsPasswordValid] = useState(false); 
     const [isRePasswordEnabled, setIsRePasswordEnabled] = useState(false); 
-    const [isPasswordConfirmed, setIsPasswordConfirmed] = useState(false);
 
     //회사인증
     const [company, setCompany] = useState('');
@@ -118,14 +117,17 @@ const SignUpRecruiterEmailPage= () => {
             setIsRePasswordEnabled(false);
         }
     };
+    let alertShown = false;
+
     const passwordCheck = () => {
         if (isPassword(password, repassword)) {
-            if (!isPasswordConfirmed) { 
+            if (!alertShown) { 
                 alert("비밀번호가 인증되었습니다.");
-                setIsPasswordConfirmed(true); 
+                alertShown = true;
             }
         } else {
             setrePassword('');
+            alertShown = false; 
         }
     };
 
@@ -193,14 +195,14 @@ const SignUpRecruiterEmailPage= () => {
                         placeholder="비밀번호 확인"
                         value={repassword}
                         onChange={(e) => setrePassword(e.target.value)}
-                        // onBlur={passwordCheck} 
-                        onBlur={() => {
-                            if (password && repassword) {
-                                setIsPasswordConfirmed(false); 
-                                passwordCheck();
-                            }
-                        }}
-                        onKeyDown={(e) => e.key === 'Enter' && passwordCheck()}
+                        onBlur={passwordCheck} 
+                        // onBlur={() => {
+                        //     if (password && repassword) {
+                        //         setIsPasswordConfirmed(false); 
+                        //         passwordCheck();
+                        //     }
+                        // }}
+                        // onKeyDown={(e) => e.key === 'Enter' && passwordCheck()}
                         disabled={!isRePasswordEnabled} 
                     />
                     <EyeIcon

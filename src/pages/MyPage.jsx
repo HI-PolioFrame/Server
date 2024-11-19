@@ -21,10 +21,11 @@ function MyPage() {
       console.log("Current User:", currentUser);
       // console.log(oriProjects);
       const userPortfolios = Array.from(oriProjects.values()).filter(
-        (portfolio) => portfolio.ownerEmail === currentUser.email
-        // (portfolio) => portfolio.ownerOwnerName === currentUser.name
+        (portfolio) =>
+          portfolio.ownerId === currentUser.id ||
+          portfolio.ownerEmail === currentUser.email
       );
-      console.log("User Portfolios:", userPortfolios); 
+      console.log("User Portfolios:", userPortfolios);
       setmyPortfolioList(userPortfolios);
     }
   }, []);
@@ -82,7 +83,9 @@ function MyPage() {
                 />
               ))
             ) : (
-              <Text>프로젝트가 없습니다.</Text>
+              <EmptyGridItem>
+                <Text>프로젝트가 없습니다.</Text>
+              </EmptyGridItem>
             )}
           </TemplateGrid>
         </TemplateGridWrapper>
@@ -230,9 +233,13 @@ const StyledButtonWrapper = styled.div`
   width: 100%;
 `;
 
+const EmptyGridItem = styled.div`
+  grid-column: 1 / -1; /* 그리드 전체 열을 차지 */
+  display: grid; /* Flex 대신 Grid 사용 */
+  place-content: center; /* Grid로 중앙 정렬 */
+`;
+
 const Text = styled.div`
-  display: flex;
-  justify-content: center;
   font-size: 1.5vw;
   font-family: "OTF R";
   align-items: center;

@@ -95,12 +95,18 @@ const signUpDeveloperPage = () => {
       setIsRePasswordEnabled(false);
     }
   };
+  let alertShown = false;
+
   const passwordCheck = () => {
-    if (isPassword(password, repassword)) {
-      alert("비밀번호가 인증되었습니다.");
-    } else {
-      setrePassword("");
-    }
+      if (isPassword(password, repassword)) {
+          if (!alertShown) { 
+              alert("비밀번호가 인증되었습니다.");
+              alertShown = true;
+          }
+      } else {
+          setrePassword('');
+          alertShown = false; 
+      }
   };
 
   const handlePassinputChange = (e) => {

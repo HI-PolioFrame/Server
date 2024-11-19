@@ -230,5 +230,4 @@ export const userInfo = [
     career: "없음",
     education: ""
   }
-
 ];

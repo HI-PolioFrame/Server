@@ -75,7 +75,7 @@ function RecruiterPage() {
         <Line></Line>
 
         <TemplateGridWrapper>
-          {/* <TemplateGrid>
+          <TemplateGrid>
             {myPortfolioList.length > 0 ? (
               myPortfolioList.map((portfolio) => (
                 <TemplateCard
@@ -85,9 +85,11 @@ function RecruiterPage() {
                 />
               ))
             ) : (
-              <Text>프로젝트가 없습니다.</Text>
+              <EmptyGridItem>
+                <Text>프로젝트가 없습니다.</Text>
+              </EmptyGridItem>
             )}
-          </TemplateGrid> */}
+          </TemplateGrid>
         </TemplateGridWrapper>
       </MyContainer>
 
@@ -189,9 +191,13 @@ const StyledButtonWrapper = styled.div`
   width: 100%;
 `;
 
+const EmptyGridItem = styled.div`
+  grid-column: 1 / -1; /* 그리드 전체 열을 차지 */
+  display: grid; /* Flex 대신 Grid 사용 */
+  place-content: center; /* Grid로 중앙 정렬 */
+`;
+
 const Text = styled.div`
-  display: flex;
-  justify-content: center;
   font-size: 1.5vw;
   font-family: "OTF R";
   align-items: center;

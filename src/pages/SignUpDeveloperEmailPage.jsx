@@ -12,7 +12,7 @@ import {setPhoneNumber} from "../components/features/signUpDeveloper.jsx";
 import {changedPhoneNumber} from "../components/features/signUpDeveloper.jsx";
 import {isPassword} from "../components/features/signUpDeveloper.jsx";
 import { PasswordValidation } from "../components/features/signUpDeveloper.jsx";
-import {idSignUpDeveloper} from "../components/features/signUpDeveloper.jsx";
+import {emailSignUpDeveloper} from "../components/features/signUpDeveloper.jsx";
 
 const SignUpDeveloperEmailPage = () => {
     const navigate = useNavigate();
@@ -95,11 +95,17 @@ const SignUpDeveloperEmailPage = () => {
             setIsRePasswordEnabled(false);
         }
     };
+    let alertShown = false;
+
     const passwordCheck = () => {
         if (isPassword(password, repassword)) {
-            alert("비밀번호가 인증되었습니다.");
+            if (!alertShown) { 
+                alert("비밀번호가 인증되었습니다.");
+                alertShown = true;
+            }
         } else {
             setrePassword('');
+            alertShown = false; 
         }
     };
 
@@ -108,7 +114,7 @@ const SignUpDeveloperEmailPage = () => {
     };
 
     const handleSignUp = () => {
-        idSignUpDeveloper(name, birthday, emailInput, password, repassword, phone);
+        emailSignUpDeveloper(name, birthday, emailInput, password, repassword, phone);
         navigate("/LoginPage");
     };
     return (
