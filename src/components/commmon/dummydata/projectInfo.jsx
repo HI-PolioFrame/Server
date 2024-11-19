@@ -159,4 +159,24 @@ export const projectInfo = [
       "admin1"
     ]
   }
+,
+  {
+      projectId: 9,
+      projectTitle: "d", 
+      projectOwnerName: "최현혜",
+      description: "d",
+      startDate: "Fri Nov 22 2024 00:00:00 GMT+0900 (한국 표준시)", 
+      endDate: "Wed Nov 27 2024 00:00:00 GMT+0900 (한국 표준시)", 
+      category: "d", 
+      usedLanguage: "d", 
+      projectLink: "d",
+      solving: "d", 
+      challenge: "d",
+      video: "비디오 없음.",
+      coverImage: "없음.", 
+      images: [], 
+      logo: "없음.", 
+     
+      share: false
+  }
 ];

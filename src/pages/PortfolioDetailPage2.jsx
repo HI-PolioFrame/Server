@@ -95,8 +95,8 @@ const PortfolioDetailPage2 = () => {
     } else {
       return (
         <>
-          <DevInfo>{portfolioData.ownerNickname || "익명"}</DevInfo>
-          <DevInfo>example@example.com</DevInfo>
+          <Bar>{portfolioData.ownerNickname || "익명"}</Bar>
+          <Bar>example@example.com</Bar>
         </>
       );
     }
@@ -175,7 +175,7 @@ const PortfolioDetailPage2 = () => {
                 </LogoContainer>
               </LogoWrappeer>
 
-               {/* 데모 비디오 */}
+              {/* 데모 비디오 */}
               <VideoWrappeer>
                 <VideoText>데모 비디오</VideoText>
                 <Image3 src={Notepad12} alt="Notepad12" />
@@ -190,10 +190,7 @@ const PortfolioDetailPage2 = () => {
                   <VideoBox>비디오 없음</VideoBox>
                 )}
               </VideoWrappeer>
-
             </Label2Wrapper>
-
-           
 
             {/* 개발자 개인정보 */}
             <InfoWrapper>
@@ -418,7 +415,7 @@ const Image3 = styled.img`
   width: 10em;
   height: auto;
   margin-right: 1em;
-  margin-top : 0.2em;
+  margin-top: 0.2em;
 `;
 const Image5 = styled.img`
   width: 10em;
@@ -472,7 +469,7 @@ const ProblemText = styled.p`
   font-size: 1em;
   font-weight: bold;
   color: #000;
- margin-top: -2%;
+  margin-top: -2%;
   margin-left: 45%;
   font-family: "OTF R";
 `;
@@ -480,7 +477,7 @@ const ProblemText = styled.p`
 const PhotoText = styled.p`
   position: absolute;
   // top: -2%;
-  left: 2.5em; 
+  left: 2.5em;
   font-size: 1.5em;
   font-weight: bold;
   color: #000;
@@ -501,8 +498,8 @@ const PhotoText = styled.p`
 
 const LogoText = styled.p`
   position: absolute;
-  // top: 22%; 
-  left: 2.5em; 
+  // top: 22%;
+  left: 2.5em;
   font-size: 1.5em;
   font-weight: bold;
   color: #000;
@@ -523,12 +520,12 @@ const LogoText = styled.p`
 
 const VideoText = styled.p`
   position: absolute;
-  left: 2em; 
+  left: 2em;
   font-size: 1.2em;
   font-weight: bold;
   color: #000;
   font-family: "OTF R";
-  // left: 2.5em; 
+  // left: 2.5em;
   // font-size: 1.5em;
 
   @media (max-width: 768px) {
