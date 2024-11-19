@@ -4,16 +4,20 @@ import SelectBox from "../components/commmon/SelectBox";
 import SearchBarMini from "../components/MyPage/SearchBarMini";
 import TemplateCard from "../components/commmon/TemplateCard";
 import StyledButton from "../components/commmon/StyledButton";
+import DashBoard from "../components/MyPage/DashBoard";
 import { dummydata } from "../components/commmon/dummydata/dummydata"; // dummydata 파일을 import합니다.
 import { Navigate, useNavigate } from "react-router-dom";
 import {
   oriProjects,
   searchSortManager,
 } from "../components/domain/startProgram";
-import { getCurrentUser } from "../components/features/currentUser";
+import currentUser, {
+  getCurrentUser,
+} from "../components/features/currentUser";
 
 function MyPage() {
   const [myPortfolioList, setmyPortfolioList] = useState([]); // 상태로 관리되는 포트폴리오 리스트
+  const currentUser = getCurrentUser();
 
   useEffect(() => {
     const currentUser = getCurrentUser();
@@ -57,10 +61,20 @@ function MyPage() {
     setmyPortfolioList(linkedListToArray(sortedLinkedList));
   };
 
-  return (
-    <MyPageContainer className="MyPageContainer">
+  // 템플릿카드 렌더링
+  const renderTemplateCard = (item) => (
+    <TemplateCard
+      key={item.projectId}
+      portfolioId={item.projectId}
+      templateButton={"보기"}
+    />
+  );
+
+  //반복되는 구조
+  const Section = ({ title, data = [], renderItem }) => (
+    <>
       <MyContainer>
-        <MyTitle>내가 만든 프로젝트</MyTitle>
+        <MyTitle>{title}</MyTitle>
         <MyProtFolioMenuBarWrapper>
           <SelectBox onSort={handleSortApply} />
           <SearchBarMini
@@ -74,14 +88,8 @@ function MyPage() {
 
         <TemplateGridWrapper>
           <TemplateGrid>
-            {myPortfolioList.length > 0 ? (
-              myPortfolioList.map((portfolio) => (
-                <TemplateCard
-                  key={portfolio.projectId}
-                  portfolioId={portfolio.projectId}
-                  templateButton={"보기"}
-                />
-              ))
+            {data.length > 0 ? (
+              data.map((item) => renderItem(item))
             ) : (
               <EmptyGridItem>
                 <Text>프로젝트가 없습니다.</Text>
@@ -90,7 +98,6 @@ function MyPage() {
           </TemplateGrid>
         </TemplateGridWrapper>
       </MyContainer>
-
       <Line></Line>
       <StyledButtonWrapper>
         <StyledButton
@@ -98,76 +105,26 @@ function MyPage() {
           onClick={() => console.log("추가 버튼 클릭")} //navigate 넣으면 된다요
         />
       </StyledButtonWrapper>
+    </>
+  );
 
-      <MyContainer>
-        <MyTitle>내가 만든 포트폴리오</MyTitle>
-        <MyProtFolioMenuBarWrapper>
-          <SelectBox onSort={handleSortApply} />
-          <SearchBarMini
-            onChange={(e) => console.log(e.target.value)}
-            onClick={() => onSearchClick}
-            onSearch={handleSearchApply}
+  return (
+    <MyPageContainer className="MyPageContainer">
+      <DashBoardContainer>
+        <DashBoard name={currentUser.name} nickname={currentUser.nickname} />
+      </DashBoardContainer>
+      {!currentUser.recruiter && (
+        <>
+          <Section
+            title={"내가 만든 프로젝트"}
+            data={myPortfolioList}
+            renderItem={renderTemplateCard}
           />
-        </MyProtFolioMenuBarWrapper>
 
-        <Line></Line>
-
-        <TemplateGridWrapper>
-          <TemplateGrid>{/* 기능구현으로부터 함수 받아서 구현 */}</TemplateGrid>
-        </TemplateGridWrapper>
-      </MyContainer>
-
-      <Line></Line>
-      <StyledButtonWrapper>
-        <StyledButton
-          text={"추가"}
-          onClick={() => console.log("추가 버튼 클릭")} //navigate 넣으면 된다요
-        />
-      </StyledButtonWrapper>
-
-      <MyContainer className="MyTempalteContainer">
-        <MyTitle className="MyTemplateTitle">내가 만든 템플릿</MyTitle>
-        <MyTemplateMenuWrapper>
-          {/* <SelectBox /> */}
-          <SearchBarMini
-            onChange={(e) => console.log(e.target.value)}
-            onClick={() => onSearchClick}
-            onSearch={handleSearchApply}
-          />
-        </MyTemplateMenuWrapper>
-
-        <Line></Line>
-
-        <TemplateGridWrapper>
-          <TemplateGrid>
-            {/* 기능구현으로부터 필터 기능 탑재된 filterData를 넣기 */}
-            {/* {dummydata.map((data, index) => (
-            {/* {dummydata.map((data, index) => (
-              <TemplateCard
-                key={index}
-                templateName={data.postTitle}
-                description={data.postContent}
-                templateThumnail={data.postBackgroundImg}
-                templateButton={"보기"}
-                templateButton={"보기"}
-              />
-            ))} */}
-            {/* 기능 구현이 어려움으로 일단 이렇게 해둠. */}
-          </TemplateGrid>
-          <Text>비어있음</Text>
-
-          {/* <Empty>비어있음.</Empty> */}
-        </TemplateGridWrapper>
-
-        <Line></Line>
-
-        <StyledButtonWrapper>
-          <StyledButton
-            text={"추가"}
-            onClick={() => console.log("추가 버튼 클릭")} // 내가 만든 템플릿을 추가할 수 있는 버튼..
-          />
-        </StyledButtonWrapper>
-      </MyContainer>
+          <Section title={"내가 만든 포트폴리오"} />
+          <Section title={"내가 만든 템플릿"} />
+        </>
+      )}
     </MyPageContainer>
   );
 }
@@ -177,6 +134,10 @@ export default MyPage;
 const MyPageContainer = styled.div`
   width: 85%; //수정중...
   margin: 0 auto;
+`;
+
+const DashBoardContainer = styled.div`
+  display: flex;
 `;
 
 const MyContainer = styled.div`
