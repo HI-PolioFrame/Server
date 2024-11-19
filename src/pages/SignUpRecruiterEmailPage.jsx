@@ -11,24 +11,49 @@ import {setEmail} from "../components/features/signUpRecruiter.jsx";
 import {changedEmail} from "../components/features/signUpRecruiter.jsx";
 import {setPhoneNumber} from "../components/features/signUpRecruiter.jsx";
 import {changedPhoneNumber} from "../components/features/signUpRecruiter.jsx";
+import {isPassword} from "../components/features/signUpRecruiter.jsx";
+import { PasswordValidation } from "../components/features/signUpRecruiter.jsx";
 
 const SignUpRecruiterEmailPage= () => {
     const navigate = useNavigate();
-    const [eyeVisible, setEyeVisible] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false); 
-     //이메일 중복 확인
-     const [emailInput, setemailInput] = useState('');
-     const [emailCheck, setemailCheck] = useState(false);
+    const [name, setName] = useState('');
+    const [birthday, setBirthday] = useState('');    
+    //이메일 중복 확인
+    const [emailInput, setemailInput] = useState('');
+    const [emailCheck, setemailCheck] = useState(false);
     //전화번호 중복 확인
     const [phone, setPhone] = useState('');
     const [phoneChecked, setPhoneChecked] = useState(false); 
+    //비밀번호 확인
+    const [eyeVisible, setEyeVisible] = useState(false);
+    const [eyeVisibleConfirm, setEyeVisibleConfirm] = useState(false);
+    const [password, setPassword] = useState('');
+    const [repassword, setrePassword] = useState('');
+    const [isPasswordValid, setIsPasswordValid] = useState(false); 
+    const [isRePasswordEnabled, setIsRePasswordEnabled] = useState(false); 
+    const [isPasswordConfirmed, setIsPasswordConfirmed] = useState(false);
+
     //회사인증
     const [company, setCompany] = useState('');
     const [companyChecked, setcompanyChecked] = useState(false);
-
+    
+    //비번 눈 아이콘
     const toggleEyeVisible = () => {
         setEyeVisible(!eyeVisible);
     };
+
+    const toggleEyeVisibleConfirm = () => {
+        setEyeVisibleConfirm(!eyeVisibleConfirm);
+    };
+
+    //팝업창 상태 관리
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [checkStates, setCheckStates] = useState({
+        privacy: false,
+        portfolio: false,
+        violation: false,
+    });
+    //팝업 창
     const handleCheckBoxClick = () => {
         setIsModalOpen(true); // 체크박스 클릭 시 팝업 열기
     };
@@ -36,17 +61,18 @@ const SignUpRecruiterEmailPage= () => {
         setIsModalOpen(false); // 팝업 닫기
     };
 
+    
+ 
     const autoHyphen = (value) => {
-        // 숫자만 남기고 하이픈 추가
         const cleanedValue = value.replace(/[^0-9]/g, '');
         const formattedValue = cleanedValue
             .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/, "$1-$2-$3")
-            .replace(/(\-{1,2})$/, ''); // 연속된 하이픈 제거
+            .replace(/(\-{1,2})$/, ''); 
         return formattedValue;
     };
-    
-     //이메일 중복 부분  
-     const handleEmailInputChange = (e) => {
+
+    //이메일 중복 부분  
+    const handleEmailInputChange = (e) => {
         setemailInput(e.target.value);
         setemailCheck(false);
         changedEmail(); 
@@ -81,6 +107,32 @@ const SignUpRecruiterEmailPage= () => {
         }
     };
 
+    // 비밀번호 유효성 검사 및 비밀번호 확인 
+    const handlePassValidation = () => {
+        if (PasswordValidation(password)) {
+            setIsPasswordValid(true); 
+            setIsRePasswordEnabled(true);
+        } else {
+            setIsPasswordValid(false); 
+            setPassword('');
+            setIsRePasswordEnabled(false);
+        }
+    };
+    const passwordCheck = () => {
+        if (isPassword(password, repassword)) {
+            if (!isPasswordConfirmed) { 
+                alert("비밀번호가 인증되었습니다.");
+                setIsPasswordConfirmed(true); 
+            }
+        } else {
+            setrePassword('');
+        }
+    };
+
+    const handlePassinputChange = (e) => {
+        setPassword(e.target.value);
+    };
+
     // 회사인증 부분
     const handleCompanyChange = (e) => {
         setCompany(e.target.value);
@@ -91,21 +143,17 @@ const SignUpRecruiterEmailPage= () => {
         setcompanyChecked(isValid);
     };
     
-    
     return (
         <LoginWrapper>
             <MainText onClick={() => navigate("/")}>FolioFrame</MainText>
             <JoinWrapper>
-                {/* 이름, 생년월일 */}
                 <ColumnWrapper1>
-                    <NameInput placeholder="이름" type="text"></NameInput>
-                    <ColumnWrapper2>
+                    <NameInput placeholder="이름" type="text" onChange={(e) => setName(e.target.value)} />
+                <ColumnWrapper2>
                         <CalendarText>생년월일</CalendarText>
-                        <CalendarInput type="date"></CalendarInput>
+                        <CalendarInput type="date" onChange={(e) => setBirthday(e.target.value.split('-'))} />
                     </ColumnWrapper2>
                 </ColumnWrapper1>
-
-                {/* 아이디, 비밀번호, 비밀번호 확인 */}
                 <RowWrapper>
                     <EmailInput 
                          placeholder="이메일을 입력해주세요" 
@@ -123,31 +171,44 @@ const SignUpRecruiterEmailPage= () => {
                         <label htmlFor="IDcheck">중복확인</label>
                     </EmailcheckWrapper>
                 </RowWrapper>
-                    <PassWrapper>
-                        <PassInput
-                            type={eyeVisible ? "text" : "password"}
-                            placeholder="비밀번호 : 영문, 숫자, 특수문자 포함 12~20자"
-                        />
-                        <EyeIcon
-                            src={eyeVisible ? Eyeoff : Eye}
-                            alt="eye"
-                            onClick={toggleEyeVisible}
-                        />
-                    </PassWrapper>
 
-                    <PassWrapper>
-                        <PassInput
-                            type={eyeVisible ? "text" : "password"}
-                            placeholder="비밀번호 확인"
-                        />
-                        <EyeIcon
-                            src={eyeVisible ? Eyeoff : Eye}
-                            alt="eye"
-                            onClick={toggleEyeVisible}
-                        />
-                    </PassWrapper>
-              
-                {/* 전화번호  */}
+                <PassWrapper>
+                    <PassInput
+                        type={eyeVisible ? "text" : "password"}
+                        placeholder="비밀번호 : 영문+특문+숫자로 12~20자"
+                        value={password}
+                        onChange={handlePassinputChange}
+                        onBlur={handlePassValidation}
+                        onKeyDown={(e) => e.key === 'Enter' && handlePassValidation()}
+                    />
+                   <EyeIcon
+                        src={eyeVisible ? Eyeoff : Eye}
+                        alt="eye"
+                        onClick={toggleEyeVisible}
+                    />
+                </PassWrapper>
+                <PassWrapper>
+                    <PassInput
+                        type={eyeVisibleConfirm  ? "text" : "password"}
+                        placeholder="비밀번호 확인"
+                        value={repassword}
+                        onChange={(e) => setrePassword(e.target.value)}
+                        // onBlur={passwordCheck} 
+                        onBlur={() => {
+                            if (password && repassword) {
+                                setIsPasswordConfirmed(false); 
+                                passwordCheck();
+                            }
+                        }}
+                        onKeyDown={(e) => e.key === 'Enter' && passwordCheck()}
+                        disabled={!isRePasswordEnabled} 
+                    />
+                    <EyeIcon
+                        src={eyeVisibleConfirm ? Eyeoff : Eye}
+                        alt="eye"
+                        onClick={toggleEyeVisibleConfirm}
+                    />
+                </PassWrapper>
                 <RowWrapper>
                     <TelInput 
                             type="tel"
@@ -188,13 +249,18 @@ const SignUpRecruiterEmailPage= () => {
                 <Text>이미 회원이신가요? |</Text>
                 <JoinButton onClick={() => navigate("../LoginPage")}>로그인</JoinButton>
             </MemberWrapper>
-            <JoinButton onClick={() => navigate("/SignUpRecruiterPage")}>이메일로 회원가입하기</JoinButton>
+            <JoinButton onClick={() => navigate("/SignUpRecruiterPage")}>아이디로 회원가입하기</JoinButton>
 
-            {/* 팝업창 */}
-            {isModalOpen && (
+           {/* 팝업창 */}
+           {isModalOpen && (
                 <ModalOverlay>
                     <ModalContent>
-                       <Consent/>
+                       <Consent 
+                            onAgree={closeModal} 
+                            onDisagree={closeModal} 
+                            checkStates={checkStates} 
+                            setCheckStates={setCheckStates} 
+                        />
                     </ModalContent>
                 </ModalOverlay>
             )}

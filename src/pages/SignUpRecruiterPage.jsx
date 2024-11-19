@@ -6,22 +6,38 @@ import Eye from "../assets/icons/Login/Eye.png";
 import Eyeoff from "../assets/icons/Login/Eyeoff.png";
 
 // 서버 연결
-import {setId} from "../components/features/signUpDeveloper.jsx";
-import {setPhoneNumber} from "../components/features/signUpDeveloper.jsx";
-
+import { setId } from "../components/features/signUpRecruiter.jsx";
+import { changedId } from "../components/features/signUpRecruiter.jsx";
+import { setPhoneNumber } from "../components/features/signUpRecruiter.jsx";
+import { changedPhoneNumber } from "../components/features/signUpRecruiter.jsx";
+import { isPassword } from "../components/features/signUpRecruiter.jsx";
+import { PasswordValidation } from "../components/features/signUpRecruiter.jsx";
 const SignUpRecruiterPage = () => {
     const navigate = useNavigate();
-    const [eyeVisible, setEyeVisible] = useState(false);
+
     //아이디 중복 확인
-    const [idInput, setIdInput] = useState(''); // 입력된 아이디 상태
+    const [idInput, setIdInput] = useState("");
     const [idChecked, setIdChecked] = useState(false);
     //전화번호 중복 확인
-    const [phone, setPhone] = useState('');
-    const [phoneChecked, setPhoneChecked] = useState(false); 
+    const [phone, setPhone] = useState("");
+    const [phoneChecked, setPhoneChecked] = useState(false);
+    //비밀번호 확인
+    const [eyeVisible, setEyeVisible] = useState(false);
+    const [eyeVisibleConfirm, setEyeVisibleConfirm] = useState(false);
+    const [password, setPassword] = useState("");
+    const [repassword, setrePassword] = useState("");
+    const [isPasswordValid, setIsPasswordValid] = useState(false);
+    const [isRePasswordEnabled, setIsRePasswordEnabled] = useState(false);
+    const [isPasswordConfirmed, setIsPasswordConfirmed] = useState(false);
 
+    //눈 아이콘
     const toggleEyeVisible = () => {
         setEyeVisible(!eyeVisible);
     };
+    const toggleEyeVisibleConfirm = () => {
+        setEyeVisibleConfirm(!eyeVisibleConfirm);
+    };
+
     //팝업창 상태 관리
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [checkStates, setCheckStates] = useState({
@@ -29,46 +45,88 @@ const SignUpRecruiterPage = () => {
         portfolio: false,
         violation: false,
     });
-    // 화면 렌더링 -> 입력값 초기화 -> FormComponent에서 입력한 내용이 SignUpRecruiterPage의 상태와 연결
+    //팝업 창 
     const handleCheckBoxClick = () => {
         setIsModalOpen(true);
     };
-
     const closeModal = () => {
         setIsModalOpen(false);
     };
 
+    
+
     const autoHyphen = (value) => {
-        // 숫자만 남기고 하이픈 추가
-        const cleanedValue = value.replace(/[^0-9]/g, '');
+        const cleanedValue = value.replace(/[^0-9]/g, "");
         const formattedValue = cleanedValue
             .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/, "$1-$2-$3")
-            .replace(/(\-{1,2})$/, ''); // 연속된 하이픈 제거
+            .replace(/(\-{1,2})$/, "");
         return formattedValue;
     };
-    
+
     //아이디 중복 부분
     const handleIdInputChange = (e) => {
-        setIdInput(e.target.value);
-        setIdChecked(false); 
+    setIdInput(e.target.value);
+    setIdChecked(false);
+    changedId();
     };
+
     const handleIdCheck = () => {
-        const isValid = setId(idInput);
-        setIdChecked(isValid);  
+    const isValid = setId(idInput);
+    if (isValid) {
+        setIdChecked(true);
+    } else {
+        setIdChecked(false);
+        changedId();
+    }
     };
 
     // 전화번호 인증 부분
     const handlePhoneChange = (event) => {
         const { value } = event.target;
         setPhone(autoHyphen(value));
-        setPhoneChecked(false); 
+        setPhoneChecked(false);
+        changedPhoneNumber();
+        };
+        const handlePhoneCheck = () => {
+        console.log("입력된 전화번호:", phone);
+        const isValid = setPhoneNumber(phone);
+        // setPhoneChecked(isValid);
+        if (isValid) {
+            setPhoneChecked(true);
+        } else {
+            setPhoneChecked(false);
+            changedPhoneNumber();
+        }
     };
 
-    const handlePhoneCheck = () => {
-        const isValid = setPhoneNumber(phone);
-        setPhoneChecked(isValid);
+
+    // 비밀번호 유효성 검사 및 비밀번호 확인
+    const handlePassValidation = () => {
+        if (PasswordValidation(password)) {
+            setIsPasswordValid(true);
+            setIsRePasswordEnabled(true);
+        } else {
+            setIsPasswordValid(false);
+            setPassword("");
+            setIsRePasswordEnabled(false);
+        }
     };
-    
+      const passwordCheck = () => {
+        if (isPassword(password, repassword)) {
+            if (!isPasswordConfirmed) { 
+                alert("비밀번호가 인증되었습니다.");
+                setIsPasswordConfirmed(true); 
+            }
+        } else {
+            setrePassword('');
+        }
+    };
+
+    const handlePassinputChange = (e) => {
+    setPassword(e.target.value);
+    };
+
+   
     return (
         <LoginWrapper>
             <MainText onClick={() => navigate("/")}>FolioFrame</MainText>
@@ -100,30 +158,43 @@ const SignUpRecruiterPage = () => {
                         <label htmlFor="IDcheck">중복확인</label>
                     </IDcheckWrapper>
                 </RowWrapper>
-                    <PassWrapper>
+                <PassWrapper>
                         <PassInput
                             type={eyeVisible ? "text" : "password"}
-                            placeholder="비밀번호 : 영문, 숫자, 특수문자 포함 12~20자"
+                            placeholder="비밀번호 : 영문+특문+숫자로 12~20자"
+                            value={password}
+                            onChange={handlePassinputChange}
+                            onBlur={handlePassValidation}
+                            onKeyDown={(e) => e.key === "Enter" && handlePassValidation()}
                         />
                         <EyeIcon
                             src={eyeVisible ? Eyeoff : Eye}
                             alt="eye"
                             onClick={toggleEyeVisible}
                         />
-                    </PassWrapper>
-
-                    <PassWrapper>
+                        </PassWrapper>
+                        <PassWrapper>
                         <PassInput
-                            type={eyeVisible ? "text" : "password"}
+                            type={eyeVisibleConfirm ? "text" : "password"}
                             placeholder="비밀번호 확인"
+                            value={repassword}
+                            onChange={(e) => setrePassword(e.target.value)}
+                            // onBlur={passwordCheck}
+                            onBlur={() => {
+                                if (password && repassword) {
+                                    setIsPasswordConfirmed(false); 
+                                    passwordCheck();
+                                }
+                            }}
+                            onKeyDown={(e) => e.key === "Enter" && passwordCheck()}
+                            disabled={!isRePasswordEnabled}
                         />
                         <EyeIcon
-                            src={eyeVisible ? Eyeoff : Eye}
+                            src={eyeVisibleConfirm ? Eyeoff : Eye}
                             alt="eye"
-                            onClick={toggleEyeVisible}
+                            onClick={toggleEyeVisibleConfirm}
                         />
-                    </PassWrapper>
-              
+                </PassWrapper>
                 {/* 전화번호  */}
                 <RowWrapper>
                     <TelInput 
@@ -165,7 +236,7 @@ const SignUpRecruiterPage = () => {
                 <Text>이미 회원이신가요? |</Text>
                 <JoinButton onClick={() => navigate("../LoginPage")}>로그인</JoinButton>
             </MemberWrapper>
-            <JoinButton onClick={() => navigate("/SignUpRecruiterEmailPage")}>아이디로 회원가입하기</JoinButton>
+            <JoinButton onClick={() => navigate("/SignUpRecruiterEmailPage")}>이메일로 회원가입하기</JoinButton>
 
             {/* 팝업창 */}
             {isModalOpen && (
