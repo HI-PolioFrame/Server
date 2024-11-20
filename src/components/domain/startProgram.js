@@ -20,7 +20,7 @@ import { portfolioInfo } from "../commmon/dummydata/portfolioInfo.jsx"; // 저�
 import { projectInfo } from "../commmon/dummydata/projectInfo.jsx";
 import { userInfo } from "../commmon/dummydata/userInfo.jsx"; // 저장된 모든 유저 정보
 import { commentInfo } from "../commmon/dummydata/commentInfo.jsx"; //저장된 혹은 저장할 모든 댓글 정보
-import { hackathonInfo } from "../commmon/dummydata/HackathonInfo.jsx";
+import { hackathonInfo } from "../commmon/dummydata/hackathonInfo.jsx";
 import SearchSortManager from "../features/SearchSortManager.jsx";
 export const oriUsers = new Map();
 export const oriRecruiters = new Map();
@@ -120,11 +120,16 @@ export const initializeData = () => {
   hackathonInfo.forEach((data) => {
     let hackathon = new Hackathon(
       data.hackId,
-      data.hackName,
-      data.startDate,
-      data.endDate,
-      data.description,
-      data.picture
+        data.hackName,
+        data.startDate,
+        data.endDate,
+        data.link,
+        data.memNumber,
+        data.description,
+        data.video,
+        data.pictures,
+        data.coverImage,
+        data.logo
     );
     oriHackathons.set(data.hackId, hackathon);
   });

@@ -28,10 +28,10 @@ const PortfolioDetailPage = () => {
   const [showContactInfo, setShowContactInfo] = useState(false);
   const [showModal, setShowModal] = useState(false); // "연락" 버튼 눌렀을 때 true
   const [modalMessage, setModalMessage] = useState(""); //"연락" 버튼 눌렀을 때 창에 띄워지는 메세지
+  const [isOwner, setIsOwner] = useState(false);
+
   const currentUser = getCurrentUser();
   const navigate = useNavigate();
-
-  const [isOwner, setIsOwner] = useState(false);
 
   useEffect(() => {
     initializeData();
@@ -51,7 +51,7 @@ const PortfolioDetailPage = () => {
   useEffect(() => {
     console.log("portfolioData:", portfolioData);
     console.log("currentUser.email:", currentUser.email);
-  
+
     if (portfolioData && portfolioData.ownerEmail === currentUser.email) {
       console.log("작성자 일치");
       setIsOwner(true);
@@ -60,7 +60,6 @@ const PortfolioDetailPage = () => {
       setIsOwner(false);
     }
   }, [currentUser.email, portfolioData]);
-  
 
   const addComment = (newCommentObj) => {
     // 클라이언트 측 상태 업데이트
@@ -121,8 +120,6 @@ const PortfolioDetailPage = () => {
   if (!portfolioData) {
     return <Loading>로딩 중...</Loading>;
   }
-
-
 
   return (
     <DetailContainer>
@@ -251,11 +248,11 @@ const PortfolioDetailPage = () => {
             </ImageContainer>
           </ImagesField>
         </OtherInfoSection>
-        
+
         {/* 수정 버튼 작성자와 포폴의 아이디가 동일할 경우에만 보이게한다. */}
-         {isOwner && (
-        <ButtonWrapper2>
-          <SubmitButton
+        {isOwner && (
+          <ButtonWrapper2>
+            <SubmitButton
               onClick={() => {
                 navigate(`/ModifyPortfolioPage/${portfolioId}`);
               }}
@@ -263,7 +260,7 @@ const PortfolioDetailPage = () => {
               수정
             </SubmitButton>
             <SubmitButton>삭제</SubmitButton>
-        </ButtonWrapper2>
+          </ButtonWrapper2>
         )}
       </ContentSection>
 
@@ -628,7 +625,7 @@ const CommentActions = styled.div`
 const ButtonWrapper2 = styled.div`
   display: flex;
   justify-content: flex-end;
-  gap : 1em;
+  gap: 1em;
 `;
 const SubmitButton = styled.button`
   border: none;
