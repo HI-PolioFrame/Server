@@ -1,5 +1,5 @@
 export class User {
-    constructor(id, pageId=null, password, name, phoneNumber, birthday, recruiter=false, email=null, nickname=null, link=null, career=null, education=null, contact=[]) {
+    constructor(id, pageId=null, password, name, phoneNumber, birthday, recruiter=false, email=null, nickname=null, link=null, career=null, education=null, contacts=[]) {
         this.id = id; // pk
         this.pageId = pageId; // fk to MyPage
         this.password = password;
@@ -16,7 +16,7 @@ export class User {
         this.education = education;
         
         if (recruiter == true) {
-            this.contact = contact;
+            this.contacts = contacts;
         }
     }
 

@@ -8,17 +8,23 @@ export const isRecruiter = (userId) => {
 export const patchContactsByServer = async (filePath1, filePath2, projectId, newContact) => {
 
     try {
-        await fetch('http://localhost:3000/patch-contacts', {  // 서버의 /patch-contacts API 호출
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ filePath1, filePath2, projectId, newContact }),
+        console.log('Sending request with:', { filePath1, filePath2, projectId, newContact });
+        const response = await fetch('http://localhost:3000/patch-contacts', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ filePath1, filePath2, projectId, newContact }),
         });
-    } catch (error) {
-        console.error('파일에 문자열을 추가하는 중 오류가 발생했습니다.', error);
-    }
-
+        
+        if (!response.ok) {
+          console.error('Response status:', response.status);
+          const errorText = await response.text();
+          console.error('Error response:', errorText);
+        }
+      } catch (error) {
+        console.error('Detailed error:', error);
+      }
 }
 
 export const patchContacts = (projectId, userId) => {

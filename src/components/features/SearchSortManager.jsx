@@ -1,6 +1,5 @@
 import { LinkedList } from "../DataStructure/linkedList";
 import {oriUsers, oriPortfolios, oriProjects} from "../domain/startProgram.js";
-import { patchContacts } from "./recruiterFeatures.jsx";
 
 class SearchSortManager {
     constructor() {
