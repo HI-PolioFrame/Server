@@ -50,6 +50,15 @@ function RecruiterPage() {
   //   setmyPortfolioList(linkedListToArray(sortedLinkedList));
   // };
 
+  // 템플릿카드 렌더링
+  const renderTemplateCard = (item) => (
+    <TemplateCard
+      key={item.projectId}
+      portfolioId={item.projectId}
+      templateButton={"보기"}
+    />
+  );
+
   return (
     <MyPageContainer className="MyPageContainer">
       <Section title={"내가 연락한 포트폴리오"} button={false} />

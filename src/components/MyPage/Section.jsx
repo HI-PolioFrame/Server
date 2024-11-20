@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import SelectBox from "../commmon/SelectBox";
 import SearchBarMini from "../../components/MyPage/SearchBarMini";
-import TemplateCard from "../commmon/TemplateCard";
+
 import StyledButton from "../commmon/StyledButton";
 
 import { Navigate, useNavigate } from "react-router-dom";
@@ -36,15 +36,6 @@ const Section = ({ title, data = [], renderItem, button }) => {
     setmyPortfolioList(linkedListToArray(sortedLinkedList));
   };
 
-  // 템플릿카드 렌더링
-  const renderTemplateCard = (item) => (
-    <TemplateCard
-      key={item.projectId}
-      portfolioId={item.projectId}
-      templateButton={"보기"}
-    />
-  );
-
   return (
     <>
       <MyContainer>
@@ -66,7 +57,7 @@ const Section = ({ title, data = [], renderItem, button }) => {
               data.map((item) => renderItem(item))
             ) : (
               <EmptyGridItem>
-                <Text>프로젝트가 없습니다.</Text>
+                <Text>비었습니다.</Text>
               </EmptyGridItem>
             )}
           </TemplateGrid>

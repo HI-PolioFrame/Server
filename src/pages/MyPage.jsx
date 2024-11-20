@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import DashBoard from "../components/MyPage/DashBoard";
 import Section from "../components/MyPage/Section";
+import TemplateCard from "../components/commmon/TemplateCard";
 
 import {
   oriProjects,
@@ -29,6 +30,15 @@ function MyPage() {
       setmyPortfolioList(userPortfolios);
     }
   }, []);
+
+  // 템플릿카드 렌더링
+  const renderTemplateCard = (item) => (
+    <TemplateCard
+      key={item.projectId}
+      portfolioId={item.projectId}
+      templateButton={"보기"}
+    />
+  );
 
   return (
     <MyPageContainer className="MyPageContainer">

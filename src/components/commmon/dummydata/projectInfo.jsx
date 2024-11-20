@@ -16,7 +16,7 @@ export const projectInfo = [
     usedLanguage: "Java",
     category: "백엔드",
     hits: 0,
-    contacts: [],
+    contacts: []
   },
   {
     projectId: 2,
@@ -35,7 +35,9 @@ export const projectInfo = [
     usedLanguage: "Java",
     category: "백엔드",
     hits: 5,
-    contacts: ["admin1"],
+    contacts: [
+      "admin1"
+    ]
   },
   {
     projectId: 3,
@@ -54,8 +56,9 @@ export const projectInfo = [
     usedLanguage: "JavaScript",
     category: "프론트엔드",
     hits: 16,
-
-    contacts: ["admin1"],
+    contacts: [
+      "admin1"
+    ]
   },
   {
     projectId: 4,
@@ -74,7 +77,7 @@ export const projectInfo = [
     usedLanguage: "JavaScript",
     category: "프론트엔드",
     hits: 5,
-    contacts: [],
+    contacts: []
   },
   {
     projectId: 5,
@@ -93,7 +96,7 @@ export const projectInfo = [
     usedLanguage: "Phython",
     category: "백엔드",
     hits: 7,
-    contacts: [],
+    contacts: []
   },
   {
     projectId: 6,
@@ -112,7 +115,7 @@ export const projectInfo = [
     usedLanguage: "Java",
     category: "백엔드",
     hits: 3,
-    contacts: [],
+    contacts: []
   },
   {
     projectId: 7,
@@ -130,9 +133,10 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 27,
-
-    contacts: ["admin1"],
+    hits: 28,
+    contacts: [
+      "admin1"
+    ]
   },
   {
     projectId: 8,
@@ -150,9 +154,9 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Java",
     category: "백엔드",
-
     hits: 10,
-
-    contacts: ["admin1"],
-  },
+    contacts: [
+      "admin1"
+    ]
+  }
 ];
