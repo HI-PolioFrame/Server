@@ -100,7 +100,9 @@ export const initializeData = () => {
       data.logo,
       data.share,
       data.hits,
-      data.contacts
+      data.likes,
+      data.contacts,
+      data.comments
     );
     oriProjects.set(data.projectId, project);
   });

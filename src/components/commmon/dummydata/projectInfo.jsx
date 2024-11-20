@@ -16,7 +16,9 @@ export const projectInfo = [
     usedLanguage: "Java",
     category: "백엔드",
     hits: 0,
-    contacts: []
+    likes: [],
+    contacts: [],
+    comments: []
   },
   {
     projectId: 2,
@@ -35,11 +37,13 @@ export const projectInfo = [
     usedLanguage: "Java",
     category: "백엔드",
     hits: 3,
-    contacts: ["admin1"],
+    likes: [],
+    contacts: [],
+    comments: []
   },
   {
     projectId: 3,
-    ownerId: "admin2",
+    ownerId: "happytree12",
     ownerName: "김태연",
     ownerNickname: "탱구리",
     ownerEmail: "tylove@naver.com",
@@ -54,11 +58,13 @@ export const projectInfo = [
     usedLanguage: "JavaScript",
     category: "프론트엔드",
     hits: 10,
+    likes: ["admin1"],
     contacts: ["admin1", "backendDevel1!"],
+    comments: []
   },
   {
     projectId: 4,
-    ownerId: "admin2",
+    ownerId: "happytree12",
     ownerName: "김태연",
     ownerNickname: "탱구리",
     ownerEmail: "tylove@naver.com",
@@ -73,11 +79,13 @@ export const projectInfo = [
     usedLanguage: "JavaScript",
     category: "프론트엔드",
     hits: 1,
-    contacts: []
+    likes: [],
+    contacts: [],
+    comments: []
   },
   {
     projectId: 5,
-    ownerId: "admin3",
+    ownerId: "backendDevel1!",
     ownerName: "조수연",
     ownerNickname: "수여니",
     ownerEmail: "sylove@naver.com",
@@ -89,14 +97,16 @@ export const projectInfo = [
     solving: "이러이러한 곳에 사용할 수 있습니다.",
     challenge: "이러이러한 문제를 해결했습니다.",
     share: true,
-    usedLanguage: "Phython",
+    usedLanguage: "Python",
     category: "백엔드",
     hits: 2,
-    contacts: []
+    likes: [],
+    contacts: [],
+    comments: []
   },
   {
     projectId: 6,
-    ownerId: "admin3",
+    ownerId: "backendDevel1!",
     ownerName: "조수연",
     ownerNickname: "수여니",
     ownerEmail: "sylove@naver.com",
@@ -111,7 +121,9 @@ export const projectInfo = [
     usedLanguage: "Java",
     category: "백엔드",
     hits: 0,
-    contacts: []
+    likes: [],
+    contacts: [],
+    comments: []
   },
   {
     projectId: 7,
@@ -130,7 +142,9 @@ export const projectInfo = [
     usedLanguage: "Java",
     category: "백엔드",
     hits: 12,
+    likes: [],
     contacts: ["admin1"],
+    comments: []
   },
   {
     projectId: 8,
@@ -149,6 +163,8 @@ export const projectInfo = [
     usedLanguage: "Java",
     category: "백엔드",
     hits: 8,
+    likes: [],
     contacts: ["admin1"],
+    comments: []
   },
 ];
