@@ -4,6 +4,8 @@ import styled from "styled-components";
 import SelectBox from "../components/commmon/SelectBox";
 import SearchBarMini from "../components/MyPage/SearchBarMini";
 import TemplateCard from "../components/commmon/TemplateCard";
+import Section from "../components/MyPage/Section";
+
 import StyledButton from "../components/commmon/StyledButton";
 import { dummydata } from "../components/commmon/dummydata/dummydata"; // dummydata 파일을 import합니다.
 import { Navigate, useNavigate } from "react-router-dom";
@@ -16,116 +18,52 @@ import { getCurrentUser } from "../components/features/currentUser";
 function RecruiterPage() {
   const [myPortfolioList, setmyPortfolioList] = useState([]); // 상태로 관리되는 포트폴리오 리스트
   const { userId } = useParams();
-  //   useEffect(() => {
-  //     const currentUser = getCurrentUser();
-  //     if (currentUser) {
-  //       console.log(currentUser);
-  //       const userPortfolios = Array.from(oriProjects.values()).filter(
-  //         (portfolio) => portfolio.ownerEmail === currentUser.email
-  //       );
-  //       console.log(userPortfolios);
-  //       setmyPortfolioList(userPortfolios);
-  //     }
-  //   }, []);
 
   useEffect(() => {
     console.log("Recruiter userId:", userId);
   }, [userId]);
 
-  // LinkedList를 배열로 변환하는 유틸리티 함수
-  const linkedListToArray = (linkedList) => {
-    const array = [];
-    let currentNode = linkedList.head; // LinkedList의 시작점
-    while (currentNode) {
-      array.push(currentNode.value);
-      currentNode = currentNode.next;
-    }
-    return array;
-  };
+  // // LinkedList를 배열로 변환하는 유틸리티 함수
+  // const linkedListToArray = (linkedList) => {
+  //   const array = [];
+  //   let currentNode = linkedList.head; // LinkedList의 시작점
+  //   while (currentNode) {
+  //     array.push(currentNode.value);
+  //     currentNode = currentNode.next;
+  //   }
+  //   return array;
+  // };
 
-  // 검색어로 검색 시 호출되는 함수
-  const handleSearchApply = (searchTerm) => {
-    const searchedLinkedList = searchSortManager.search(searchTerm);
-    setmyPortfolioList(linkedListToArray(searchedLinkedList)); // 배열로 변환하여 상태 업데이트
-  };
+  // // 검색어로 검색 시 호출되는 함수
+  // const handleSearchApply = (searchTerm) => {
+  //   const searchedLinkedList = searchSortManager.search(searchTerm);
+  //   setmyPortfolioList(linkedListToArray(searchedLinkedList)); // 배열로 변환하여 상태 업데이트
+  // };
 
-  // 정렬/필터 적용 시 호출되는 함수
-  const handleSortApply = (category, sortOption, filterOption) => {
-    const sortedLinkedList = searchSortManager.sort(
-      category,
-      sortOption,
-      filterOption
-    );
-    setmyPortfolioList(linkedListToArray(sortedLinkedList));
-  };
+  // // 정렬/필터 적용 시 호출되는 함수
+  // const handleSortApply = (category, sortOption, filterOption) => {
+  //   const sortedLinkedList = searchSortManager.sort(
+  //     category,
+  //     sortOption,
+  //     filterOption
+  //   );
+  //   setmyPortfolioList(linkedListToArray(sortedLinkedList));
+  // };
+
+  // 템플릿카드 렌더링
+  const renderTemplateCard = (item) => (
+    <TemplateCard
+      key={item.projectId}
+      portfolioId={item.projectId}
+      templateButton={"보기"}
+    />
+  );
 
   return (
     <MyPageContainer className="MyPageContainer">
-      <MyContainer>
-        <MyTitle>내가 연락한 포트폴리오</MyTitle>
-        <MyProtFolioMenuBarWrapper>
-          <SelectBox onSort={handleSortApply} />
-          <SearchBarMini
-            onChange={(e) => console.log(e.target.value)}
-            onClick={() => onSearchClick}
-            onSearch={handleSearchApply}
-          />
-        </MyProtFolioMenuBarWrapper>
+      <Section title={"내가 연락한 포트폴리오"} button={false} />
 
-        <Line></Line>
-
-        <TemplateGridWrapper>
-          <TemplateGrid>
-            {myPortfolioList.length > 0 ? (
-              myPortfolioList.map((portfolio) => (
-                <TemplateCard
-                  key={portfolio.projectId}
-                  portfolioId={portfolio.projectId}
-                  templateButton={"보기"}
-                />
-              ))
-            ) : (
-              <EmptyGridItem>
-                <Text>프로젝트가 없습니다.</Text>
-              </EmptyGridItem>
-            )}
-          </TemplateGrid>
-        </TemplateGridWrapper>
-      </MyContainer>
-
-      <Line></Line>
-      {/* <StyledButtonWrapper>
-        <StyledButton
-          text={"추가"}
-          onClick={() => console.log("추가 버튼 클릭")} //navigate 넣으면 된다요
-        />
-      </StyledButtonWrapper> */}
-
-      <MyContainer>
-        <MyTitle>내가 찜한 포트폴리오</MyTitle>
-        <MyProtFolioMenuBarWrapper>
-          <SelectBox onSort={handleSortApply} />
-          <SearchBarMini
-            onChange={(e) => console.log(e.target.value)}
-            onClick={() => onSearchClick}
-            onSearch={handleSearchApply}
-          />
-        </MyProtFolioMenuBarWrapper>
-
-        <Line></Line>
-
-        <TemplateGridWrapper>
-          <TemplateGrid>{/* 기능구현으로부터 함수 받아서 구현 */}</TemplateGrid>
-        </TemplateGridWrapper>
-      </MyContainer>
-
-      <Line></Line>
-      {/* <StyledButtonWrapper>
-        <StyledButton
-          text={"추가"}
-          onClick={() => console.log("추가 버튼 클릭")} //navigate 넣으면 된다요
-        />
-      </StyledButtonWrapper> */}
+      <Section title={"내가 찜한 포트폴리오"} button={false} />
     </MyPageContainer>
   );
 }
