@@ -230,7 +230,8 @@ export const userInfo = [
     career: "없음",
     education: ""
   }
-,
+
+,
   {
     id: "te4939",
     pageId: 20,

@@ -55,9 +55,10 @@ export const projectInfo = [
     share: true,
     usedLanguage: "JavaScript",
     category: "프론트엔드",
-    hits: 9,
+    hits: 10,
     contacts: [
-      "admin1"
+      "admin1",
+      "backendDevel1!"
     ]
   },
   {
