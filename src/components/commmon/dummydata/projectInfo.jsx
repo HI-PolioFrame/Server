@@ -97,9 +97,7 @@ export const projectInfo = [
     usedLanguage: "Phython",
     category: "백엔드",
     hits: 2,
-    contacts: [
-      "admin1"
-    ]
+    contacts: []
   },
   {
     projectId: 6,

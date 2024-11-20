@@ -1,5 +1,6 @@
 import { LinkedList } from "../DataStructure/linkedList";
 import {oriUsers, oriPortfolios, oriProjects} from "../domain/startProgram.js";
+import { patchContacts } from "./recruiterFeatures.jsx";
 
 class SearchSortManager {
     constructor() {
@@ -27,6 +28,7 @@ class SearchSortManager {
         this.sortOption = sortOption;
         this.filterOption = filterOption;
         this.currentPortfolios = this.doSort();
+        console.log('currentPofol: ', this.currentPortfolios);
         return this.currentPortfolios;
     }
 
@@ -53,6 +55,7 @@ class SearchSortManager {
     doSearch() {
         if (!this.searchTerm) {
             console.log("검색어를 입력하세요.");
+            console.log(patchContacts(5, "admin1"));
             return;
         }
     

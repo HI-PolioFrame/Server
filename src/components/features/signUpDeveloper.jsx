@@ -121,12 +121,7 @@ export const idSignUpDeveloper = async (name, birthday, id, password, rePassword
     education: ""
   }`;
     await removeFromFileEnd(userInfoPath, 3);  // 기존 유저 정보를 파일 끝에서 
-    
-    console.log('removeFromFileEnd에서 오류 발생하지 않음');
-
     await appendStringToFile(userInfoPath, `,${userInfoString}\n];`);  // 새 유저 정보 추가
-
-    console.log('appendStringToFile에서 오류 발생하지 않음');
 };
 
 export const emailSignUpDeveloper = async (name, birthday, email, password, rePassword, phoneNumber) => {

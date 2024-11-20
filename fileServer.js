@@ -5,6 +5,12 @@ import { createServer } from 'vite';
 import cors from 'cors';
 import { fileURLToPath } from 'url';
 
+
+
+// session=========================================================================
+import session from 'express-session';
+
+
 // __dirname 설정 (ES 모듈 호환)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -15,6 +21,38 @@ const port = 3000;
 app.use(cors());
 app.use(express.json());
 
+
+
+// session==========================================================================
+app.use(session({
+    secret: 'your-secret-key', // 세션을 암호화하기 위한 키
+    resave: false,             // 세션을 항상 저장할지 여부
+    saveUninitialized: true,   // 초기화되지 않은 세션도 저장할지 여부
+    cookie: { secure: false }  // 개발 환경에서는 false, 배포 시에는 true로 설정
+}));
+
+app.post('/login', (req, res) => {
+    const { userId } = req.body; // 클라이언트로부터 userId을 받아옴
+
+    // userId이 없으면 오류 메시지 반환
+    if (!userId) {
+        return res.status(400).send('아이디를 입력해주세요.');
+    }
+
+    // 세션에 사용자 정보 저장
+    req.session.user = { userId: userId };
+
+    res.send(`로그인 되었습니다! 사용자 아이디: ${userId}`);
+});
+
+app.get('/check-login', (req, res) => {
+    // 세션에 사용자 정보가 있는지 확인하여 로그인 여부 판단
+    if (req.session.user) {
+        res.send(`로그인된 사용자: ${req.session.user.userId}`);
+    } else {
+        res.send('로그인되지 않았습니다.');
+    }
+});
 
 // 파일 읽기
 app.post('/read-number', (req, res) => {
@@ -163,7 +201,6 @@ app.post('/patch-hits', async (req, res) => {
 app.post('/patch-contacts', async (req, res) => {
     try {
         const { filePath1, filePath2, projectId, newContact } = req.body;
-        console.log('Received request:', req.body);
 
         // 파일 읽기
         const data1 = await fs.readFile(filePath1, 'utf8');
@@ -191,7 +228,6 @@ app.post('/patch-contacts', async (req, res) => {
         const project = projectInfo.find(p => p.projectId === projectId);
         // 해당 newContact의 user 객체 찾기
         const recruiter = userInfo.find(u => u.id === newContact);
-        console.log('recruiter: ', recruiter);
 
         // 프로젝트의 contacts 필드 업데이트
         if (!project.contacts) {
@@ -221,8 +257,6 @@ app.post('/patch-contacts', async (req, res) => {
                 .replace(/"([^"]+)":/g, '$1:')
                 .replace(/}]/g, '}\n]') + 
             ';\n';
-
-        console.log(updatedContent2);
 
         // 두 파일 모두 저장
         await fs.writeFile(filePath1, updatedContent1, 'utf8');
