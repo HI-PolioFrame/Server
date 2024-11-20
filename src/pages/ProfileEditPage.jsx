@@ -52,7 +52,7 @@ const ProfileEditPage = () => {
           />
           <InfoSection
             label={"휴대폰번호"}
-            value={currentUser.phonNumber}
+            value={currentUser.phoneNumber}
             button={"설정"}
           />
         </InfoContainer>
@@ -62,7 +62,9 @@ const ProfileEditPage = () => {
       <Section>
         <HeaderContainer>
           <SectionHeader>연락방법</SectionHeader>
+
           <img src={infoIcon} alt="info 아이콘" />
+          <div className="tooltip">이메일 변경 후, 재인증이 필요합니다.</div>
         </HeaderContainer>
         <InfoContainer>
           {currentUser.email ? (
@@ -107,11 +109,35 @@ const HeaderContainer = styled.div`
   gap: 0.5rem;
   -webkit-box-align: center;
   align-items: center;
+  position: relative;
 
   img {
     width: 1vw;
     height: 1vw;
     object-fit: contain;
+  }
+
+  .tooltip {
+    visibility: hidden;
+    position: absolute;
+    bottom: -1.5vw; /* 툴팁 위치 조정 */
+    //left: 4vw;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 0.5vw 1vw;
+    border-radius: 0.625em;
+    font-size: 1vw;
+    white-space: nowrap;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+  }
+
+  /* 마우스 오버 시 툴팁 표시 */
+  img:hover + .tooltip {
+    visibility: visible;
+    opacity: 1;
   }
 `;
 
