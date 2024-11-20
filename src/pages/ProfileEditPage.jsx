@@ -47,7 +47,7 @@ const ProfileEditPage = () => {
           />
           <InfoSection
             label={"비밀번호"}
-            value={currentUser.password}
+            value={"비밀번호를 설정해주세요."}
             button={"설정"}
           />
           <InfoSection
@@ -64,7 +64,9 @@ const ProfileEditPage = () => {
           <SectionHeader>연락방법</SectionHeader>
 
           <img src={infoIcon} alt="info 아이콘" />
-          <div className="tooltip">이메일 변경 후, 재인증이 필요합니다.</div>
+          <div className="tooltip">
+            포트폴리오를 공유했을 시, 기업이 연락할 수단입니다.
+          </div>
         </HeaderContainer>
         <InfoContainer>
           {currentUser.email ? (

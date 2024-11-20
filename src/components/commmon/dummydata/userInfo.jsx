@@ -1,6 +1,6 @@
 export const userInfo = [
   {
-    id: "admin1",
+    //id: "admin1",
     pageId: 1,
     password: "close22@@",
     name: "김예은",
