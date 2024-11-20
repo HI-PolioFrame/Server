@@ -1,6 +1,6 @@
+import SelectBox from "../commmon/SelectBox";
 import React from "react";
 import styled from "styled-components";
-import SelectBox from "../commmon/SelectBox";
 import SearchBarMini from "../../components/MyPage/SearchBarMini";
 
 import StyledButton from "../commmon/StyledButton";

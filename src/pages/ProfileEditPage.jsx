@@ -1,255 +1,149 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import StyledButton from "../components/commmon/StyledButton";
-//기능구현에서 만든 저장, 변경, 삭제 함수 import 하기.
+import InfoSection from "../components/ProfileEditPage/InfoSection";
 
-const ProfileEditUI = ({}) => {
-  const [name, setName] = useState(null);
-  const [nickname, setNickname] = useState(null);
-  const [email, setEmail] = useState(null);
-  const [deleteChecked, setDeleteChecked] = useState(false);
+import { getCurrentUser } from "../components/features/currentUser";
+
+//i 아이콘
+import infoIcon from "../assets/images/PortfolioEditPage/InfoIcon.svg";
+
+const ProfileEditPage = () => {
+  const [showTooltip, setShowTooltip] = useState(false);
+
+  const handleTooltipToggle = () => setShowTooltip(!showTooltip);
+  const currentUser = getCurrentUser();
 
   return (
-    <ProfileEditContainer>
+    <Container>
+      {/* 내 프로필 섹션 */}
       <Section>
-        <LabelWrapper>
-          <Label>계정 정보</Label>
-        </LabelWrapper>
-
-        <InputButtonContainer>
-          <NameInputContainer>
-            <TextInputWrapper>
-              <Text>닉네임</Text>
-              <InputWrapper>
-                <Input
-                  type="text"
-                  value={nickname}
-                  onChange={(e) => setNickname(e.target.value)}
-                />
-              </InputWrapper>
-            </TextInputWrapper>
-
-            <TextInputWrapper>
-              <Text>이름</Text>
-              <InputWrapper>
-                <Input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-              </InputWrapper>
-            </TextInputWrapper>
-          </NameInputContainer>
-
-          <StyledButtonContainer>
-            <StyledButton
-              text={"저장"}
-              onClick={() => console.log(name, nickname)}
-              // handleSave(name, nickname) <-- 기능구현에서 만들어줄 함수!! 이름과 닉네임을 변경하는 함수. 필요한 파라메터는 알려주면 수정 예정
-            />
-          </StyledButtonContainer>
-        </InputButtonContainer>
+        <SectionHeader>내 프로필</SectionHeader>
+        <InfoContainer>
+          <InfoSection
+            label={"이름"}
+            value={currentUser.name}
+            button={"설정"}
+          />
+          <InfoSection
+            label={"닉네임"}
+            value={currentUser.nickname}
+            button={"설정"}
+          />
+        </InfoContainer>
       </Section>
 
-      <Line></Line>
-
+      {/* 기본정보 섹션 */}
       <Section>
-        <LabelWrapper>
-          <Label>이메일</Label>
-        </LabelWrapper>
-
-        <InputButtonContainer>
-          <EmailInputContainer>
-            <Text>이메일</Text>
-            <InputWrapper>
-              <Input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </InputWrapper>
-          </EmailInputContainer>
-
-          <StyledButtonContainer>
-            <StyledButton
-              text={"변경"}
-              onClick={() => console.log(email)}
-              //handleEmailChange(email) <-- 기능구현에서 만들어줄 함수!! 이메일을 변경하는 함수. 필요한 파라메터는 알려주면 수정 예정
-            />
-          </StyledButtonContainer>
-        </InputButtonContainer>
+        <SectionHeader>기본 정보</SectionHeader>
+        <InfoContainer>
+          <InfoSection
+            label={"아이디/이메일"}
+            value={
+              currentUser.id ||
+              currentUser.email ||
+              "아이디/이메일을 설정해주세요."
+            }
+            button={"설정"}
+          />
+          <InfoSection
+            label={"비밀번호"}
+            value={currentUser.password}
+            button={"설정"}
+          />
+          <InfoSection
+            label={"휴대폰번호"}
+            value={currentUser.phonNumber}
+            button={"설정"}
+          />
+        </InfoContainer>
       </Section>
 
-      <Line></Line>
-
+      {/* 연락방법 섹션 */}
       <Section>
-        <LabelWrapper>
-          <DeleteLabel>계정 삭제</DeleteLabel>
-        </LabelWrapper>
-
-        <InputButtonContainer>
-          <DiscriptionWrapper>
-            <DeleteDiscription>
-              이는 영구적인 조치이며 되돌릴 수 없습니다. <br /> 계정을 삭제한
-              후에는 계정을 복구할 수 없습니다.
-            </DeleteDiscription>
-          </DiscriptionWrapper>
-          <DeleteAgreeWrapper>
-            <Checkbox
-              type="checkbox"
-              checked={deleteChecked} // deleteChecked가 true이면 체크가 되어 있고, false이면 체크가 해제
-              onChange={() => setDeleteChecked(!deleteChecked)} // 체크박스 클릭 시, 원래 상태의 반대로 토글. true -> false, false -> true
+        <HeaderContainer>
+          <SectionHeader>연락방법</SectionHeader>
+          <img src={infoIcon} alt="info 아이콘" />
+        </HeaderContainer>
+        <InfoContainer>
+          {currentUser.email ? (
+            <InfoSection
+              label={"이메일"}
+              value={currentUser.email}
+              button={"변경"}
             />
-            <DeleteDiscription>이에 동의합니다.</DeleteDiscription>
-            <DeleteButtonWrapper>
-              <DeleteButton
-                disabled={!deleteChecked} // deleteChecked가 false일 때 버튼은 눌리지 않도록 설정
-                onClick={() => console.log(deleteChecked)}
-                //handleDeleteAccount <-- 기능구현에서 만들어줄 함수!! 계정을 삭제하는 함수. 필요한 파라메터는 알려주면 수정 예정
-              >
-                계정 삭제
-              </DeleteButton>
-            </DeleteButtonWrapper>
-          </DeleteAgreeWrapper>
-        </InputButtonContainer>
+          ) : (
+            <InfoSection
+              label={"이메일"}
+              value={"등록된 이메일이 없습니다."}
+              button={"등록"}
+            />
+          )}
+        </InfoContainer>
       </Section>
-    </ProfileEditContainer>
+    </Container>
   );
 };
 
-export default ProfileEditUI;
+export default ProfileEditPage;
 
 // Styled Components
-const ProfileEditContainer = styled.div`
-  width: 85%; //수정중...
+const Container = styled.div`
+  width: 70%; //수정중...
   margin: 0 auto;
-
-  // display: grid;
-  // grid-template-rows: repeat(5, 1fr);
 `;
 
 const Section = styled.div`
-  //height: 20vh;
+  margin-top: 5vh;
+  padding: 1.5rem 2rem;
+  border: 1px solid #ddd;
+  border-radius: 0.625em;
 
-  display: grid;
-  grid-template-columns: 1fr 2fr;
+  gap: 1rem;
 `;
 
-const LabelWrapper = styled.div``;
-
-const Label = styled.h3`
-  font-size: 24px;
-`;
-
-const InputButtonContainer = styled.div`
+const HeaderContainer = styled.div`
   display: flex;
-  flex-direction: column;
-
-  padding: 1vw;
-
-  border: 1px solid #c8c8c8;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 0.4em;
-`;
-
-const NameInputContainer = styled.div`
-  display: grid;
-  //flex-direction: column;
-  grid-template-columns: 1fr 1fr;
-  margin: 1vw 0;
-`;
-
-const InputWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  margin-top: 1vw;
-`;
-
-const TextInputWrapper = styled.div`
-  display: grid;
-  //flex-direction: column;
-  grid-template-rows: 1fr 1fr;
-
-  margin-left: 0.5vw;
-`;
-
-const Text = styled.div`
-  display: flex;
+  flex: 0 0 140px;
+  gap: 0.5rem;
+  -webkit-box-align: center;
   align-items: center;
 
-  font-family: "Inria Sans";
+  img {
+    width: 1vw;
+    height: 1vw;
+    object-fit: contain;
+  }
+`;
+
+const SectionHeader = styled.div`
+  font-family: "OTF R";
   font-style: normal;
   font-weight: 700;
-  font-size: 1.3vw;
-  margin: 0;
-  color: #919194;
+  font-size: 1.8vw;
+  line-height: 2.25em;
+  color: #000000;
 `;
 
-const Input = styled.input`
-  margin-right: 0.5vw;
-  padding: 5px;
-  width: 22vw;
-`;
-
-const StyledButtonContainer = styled.div`
+const InfoContainer = styled.div`
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  width: 100%;
+  gap: 0.5rem;
+  flex-direction: column;
 `;
 
-const EmailInputContainer = styled.div`
-  display: grid;
-  grid-template-rows: 1fr 1fr;
-
-  margin-left: 0.5vw;
+const TooltipIcon = styled.span`
+  font-size: 14px;
+  margin-left: 5px;
+  cursor: pointer;
 `;
 
-const DeleteLabel = styled(Label)`
-  color: #e72525;
-`;
-
-const DiscriptionWrapper = styled.div`
-  display: flex;
-  align-items: center;
-
-  //margin-left: 0.5vw;
-`;
-
-const DeleteAgreeWrapper = styled.div`
-  display: flex;
-  align-items: center;
-
-  margin-left: 0.5vw;
-  margin-right: 0.5vw;
-`;
-
-const Checkbox = styled.input``;
-
-const DeleteDiscription = styled.p`
-  flex: 1;
-  margin-left: 0.5vw;
-  font-size: 1vw;
-`;
-
-const DeleteButtonWrapper = styled.div`
-  display: inline-block;
-  width: 5vw;
-`;
-
-const DeleteButton = styled.button`
-  padding: 0.625em 0em;
-  background-color: ${({ disabled }) => (disabled ? "#ccc" : "#e72525")};
-  color: white;
-  border: none;
-  border-radius: 0.4em;
-  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
-  width: 100%;
-
-  font-size: 1vw;
-`;
-
-const Line = styled.hr`
-  margin: 2vw 0;
-  border: 1px solid #d0d1d9;
+const Tooltip = styled.div`
+  position: absolute;
+  top: -40px;
+  left: 0;
+  padding: 10px;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 12px;
+  width: 200px;
 `;
