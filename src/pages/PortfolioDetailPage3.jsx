@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import {
   oriProjects,
@@ -18,6 +19,11 @@ import CommentList from "../components/commmon/PortfolioDetailPage/CommentList";
 import greaterThanSign from "../assets/images/PortfolioDetailPage3/greaterThanSign.svg";
 import lessThanSign from "../assets/images/PortfolioDetailPage3/lessThanSign.svg";
 
+//logo 이미지
+import logo from "../assets/icons/Logo.png";
+//heart 이미지
+import heart_none from "../assets/images/PortfolioDetailPage3/heart-none.svg";
+import heart_fill from "../assets/images/PortfolioDetailPage3/heart-fill.svg";
 //sample 이미지
 import sample from "../assets/images/PortfolioDetailPage3/sample.png";
 //sample 비디오
@@ -25,13 +31,16 @@ import sampleVideo from "../assets/images/PortfolioDetailPage3/sampleVideo.mp4";
 
 const PortfolioDetailPage3 = () => {
   const { portfolioId } = useParams();
-  const [portfolioData, setPortfolioData] = useState(null);
-  const [comments, setComments] = useState([]);
-  const [enlargedImage, setEnlargedImage] = useState(null);
+  const [portfolioData, setPortfolioData] = useState(null); //oriProjects로 부터 받아온 포트폴리오
+  const [comments, setComments] = useState([]); // oriComments로 부터 받아온 필터된 포트폴리오
+  const [enlargedImage, setEnlargedImage] = useState(null); //
   const [showContactInfo, setShowContactInfo] = useState(false);
+  const [showModal, setShowModal] = useState(false); // "연락" 버튼 눌렀을 때 true
+  const [modalMessage, setModalMessage] = useState(""); //"연락" 버튼 눌렀을 때 창에 띄워지는 메세지
 
   const mediaRef = useRef(null); //비디오, 사진 부분 스크롤
   const currentUser = getCurrentUser();
+  const navigate = useNavigate();
 
   useEffect(() => {
     initializeData();
@@ -45,6 +54,8 @@ const PortfolioDetailPage3 = () => {
       (comment) => comment.portfolioId === Number(portfolioId)
     );
     setComments(filteredComments);
+
+    console.log(portfolioData?.contacts.length);
   }, [portfolioId, portfolioData?.contacts.length, portfolioData?.hits]);
 
   const scrollLeft = () => {
@@ -79,6 +90,19 @@ const PortfolioDetailPage3 = () => {
     }
   };
 
+  useEffect(() => {
+    console.log("portfolioData:", portfolioData);
+    console.log("currentUser.email:", currentUser.email);
+
+    if (portfolioData && portfolioData.ownerEmail === currentUser.email) {
+      console.log("작성자 일치");
+      setIsOwner(true);
+    } else {
+      console.log("작성자 불일치");
+      setIsOwner(false);
+    }
+  }, [currentUser.email, portfolioData]);
+
   const addComment = (newCommentObj) => {
     setComments((prevComments) => [newCommentObj, ...prevComments]);
     saveComment(
@@ -92,9 +116,11 @@ const PortfolioDetailPage3 = () => {
     if (currentUser && currentUser.recruiter) {
       patchContacts(Number(portfolioId), currentUser.id); // 기업 연락 호출
       setShowContactInfo(true); // 개발자 정보 표시
-      alert("기업 연락이 저장되었습니다.");
+      setShowModal(true);
+      setModalMessage("채용자 페이지에 저장되었습니다.");
     } else {
-      alert("기업 회원만 연락 버튼을 사용할 수 있습니다.");
+      setShowModal(true);
+      setModalMessage("기업 회원만 연락 버튼을 사용할 수 있습니다.");
     }
   };
 
@@ -131,14 +157,26 @@ const PortfolioDetailPage3 = () => {
   return (
     <PageContainer>
       <TitleSection>
-        <ProjectTitle>{portfolioData.projectTitle}</ProjectTitle>
+        <TitleWrapper>
+          {/* {portfolioData.logo && (
+            <Logo>
+              <img src={portfolioData.logo} alt="projectLogo" />
+            </Logo>
+          )} */}
+          <Logo>
+            <img src={logo} alt="projectLogo" />
+          </Logo>
+          <ProjectTitle>{portfolioData.projectTitle}</ProjectTitle>
+        </TitleWrapper>
         <ProjectDescription>{portfolioData.description}</ProjectDescription>
       </TitleSection>
 
       <InfoButtons>
         <Button>조회수 {portfolioData.hits || 0}</Button>
         <Button>기업 연락 {portfolioData.contacts.length || 0}</Button>
-        <Button>좋아요 0</Button>
+        <HeartBox onClick={() => console.log("좋아요 누름.")}>
+          <img src={heart_none} alt="heart-none" /> <Likes>0</Likes>
+        </HeartBox>
       </InfoButtons>
 
       <DetailContainer>
@@ -162,6 +200,15 @@ const PortfolioDetailPage3 = () => {
             <Info>{portfolioData.usedLanguage || ""}</Info>
           </InfoWrapper>
         </InfoSection>
+
+        {showModal && (
+          <ModalOverlay className="ModalOverlay">
+            <ModalContainer>
+              <p>{modalMessage}</p>
+              <button onClick={() => setShowModal(false)}>확인</button>
+            </ModalContainer>
+          </ModalOverlay>
+        )}
 
         <MediaContainer>
           <ArrowButton onClick={scrollLeft}>
@@ -243,6 +290,20 @@ const PortfolioDetailPage3 = () => {
         </DescriptionSection>
       </DetailContainer>
 
+      {/* 수정 버튼 작성자와 포폴의 아이디가 동일할 경우에만 보이게한다. */}
+      {isOwner && (
+        <ButtonWrapper2>
+          <SubmitButton
+            onClick={() => {
+              navigate(`/ModifyPortfolioPage/${portfolioId}`);
+            }}
+          >
+            수정
+          </SubmitButton>
+          <SubmitButton>삭제</SubmitButton>
+        </ButtonWrapper2>
+      )}
+
       <CommentsSection>
         <CommentsTitle>댓글</CommentsTitle>
         <WritingBox addComment={addComment} />
@@ -278,6 +339,22 @@ const TitleSection = styled.div`
   margin-bottom: 20px;
 `;
 
+const TitleWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const Logo = styled.h1`
+  width: 6vw;
+  height: 6vw;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+`;
+
 const ProjectTitle = styled.h1`
   font-size: 5vw;
   //font-weight: bold;
@@ -310,7 +387,29 @@ const Button = styled.button`
   padding: 8px 12px;
   border: none;
   border-radius: 4px;
+  //cursor: pointer;
+  font-family: "OTF B";
+`;
+
+const HeartBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.4vw;
+  width: 2vw;
+
   cursor: pointer;
+
+  font-weight: bold;
+
+  img {
+    width: 1.5vw; /* 하트 크기 조정 */
+    height: auto; /* 비율 유지 */
+    object-fit: contain; /* 이미지를 잘 보이게 */
+  }
+`;
+
+const Likes = styled.div`
   font-family: "OTF B";
 `;
 
@@ -345,6 +444,48 @@ const Info = styled.div`
   padding: 1vw;
   margin: 1vw;
   min-width: 80%;
+`;
+
+const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+`;
+
+const ModalContainer = styled.div`
+  background: white;
+  font-size: 1.3vw;
+  font-weight: bold;
+  padding: 1vw;
+  width: 25vw;
+  height: 15vh;
+
+  border-radius: 0.3125em;
+
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1001;
+
+  button {
+    margin-top: 1.5vw;
+    padding: 0.5vw 1vw;
+    background: #0a27a6;
+    color: white;
+    border: none;
+    border-radius: 0.3125em;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: #0056b3;
+  }
 `;
 
 const MediaContainer = styled.div`
@@ -540,4 +681,37 @@ const Loading = styled.div`
   text-align: center;
   font-size: 18px;
   padding: 50px;
+`;
+//css 수정, 삭제 버튼
+const ButtonWrapper2 = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: 1em;
+`;
+const SubmitButton = styled.button`
+  border: none;
+  border-radius: 0.4em;
+
+  margin-top: 1vh;
+  width: 9.1em;
+  height: 2.25em;
+
+  float: right;
+
+  background-color: #0a27a6;
+  color: white;
+  font-size: 1.1vw;
+  font-family: "OTF B";
+  font-weight: bold;
+  cursor: pointer;
+  &:hover {
+    box-shadow: 0 0.2em 1em rgba(22, 26, 63, 0.2);
+  }
+  transition: all 0.3s ease;
+
+  @media (max-width: 768px) {
+    width: 7em;
+    height: 2.25em;
+    font-size: 0.8125em;
+  }
 `;
