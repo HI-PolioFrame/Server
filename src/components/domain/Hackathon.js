@@ -1,11 +1,16 @@
 class Hackathon {
-    constructor(hackId, hackName, startDate, endDate, description=null, picture=null) {
+    constructor(hackId, hackName, startDate, endDate, link, memNumber, description, video=null, pictures=null, coverImage=null, logo=null) {
         this.hackId = hackId;
         this.hackName = hackName;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.link = link;
+        this.memNumber = memNumber;
         this.description = description;
-        this.picture = picture;
+        this.video = video;
+        this.pictures = pictures;
+        this.coverImage = coverImage;
+        this.logo = logo;
     }
 }
 
