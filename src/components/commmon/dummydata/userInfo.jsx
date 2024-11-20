@@ -12,7 +12,7 @@ export const userInfo = [
     link: "",
     career: "있음",
     education: "학사",
-    contact: 0
+    contact: []
   },
   {
     id: "happytree12",
@@ -27,7 +27,6 @@ export const userInfo = [
     link: "",
     career: "없음",
     education: "학사",
-    contact: 0
   },
   {
     id: "backendDevel1!",
@@ -42,7 +41,6 @@ export const userInfo = [
     link: "",
     career: "없음",
     education: "석사",
-    contact: 0
   },
   {
     id: "admin4",
@@ -57,7 +55,6 @@ export const userInfo = [
     link: "",
     career: "있음",
     education: "박사",
-    contact: 0
   },
   {
     id: "5",
@@ -72,7 +69,6 @@ export const userInfo = [
     link: "",
     career: "있음",
     education: "석사",
-    contact: 0
   },
   {
     id: "6",
@@ -87,7 +83,6 @@ export const userInfo = [
     link: "",
     career: "없음",
     education: "박사",
-    contact: 0
   },
   {
     id: "7",
