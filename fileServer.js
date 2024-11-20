@@ -201,7 +201,6 @@ app.post('/patch-hits', async (req, res) => {
 app.post('/patch-contacts', async (req, res) => {
     try {
         const { filePath1, filePath2, projectId, newContact } = req.body;
-        console.log('Received request:', req.body);
 
         // 파일 읽기
         const data1 = await fs.readFile(filePath1, 'utf8');
@@ -229,7 +228,6 @@ app.post('/patch-contacts', async (req, res) => {
         const project = projectInfo.find(p => p.projectId === projectId);
         // 해당 newContact의 user 객체 찾기
         const recruiter = userInfo.find(u => u.id === newContact);
-        console.log('recruiter: ', recruiter);
 
         // 프로젝트의 contacts 필드 업데이트
         if (!project.contacts) {
@@ -259,8 +257,6 @@ app.post('/patch-contacts', async (req, res) => {
                 .replace(/"([^"]+)":/g, '$1:')
                 .replace(/}]/g, '}\n]') + 
             ';\n';
-
-        console.log(updatedContent2);
 
         // 두 파일 모두 저장
         await fs.writeFile(filePath1, updatedContent1, 'utf8');

@@ -31,6 +31,11 @@ export const patchContacts = (projectId, userId) => {
     // projectId: 컨택 버튼이 눌린 프로젝트의 id
     // userId: 컨택을 하는 기업회원의 id
 
+    if (!oriUsers.get(userId) || !oriProjects.get(projectId)) {
+      console.log("아이디가 존재하지 않음");
+      return;
+  }
+
     const FILE_PATH_1 = 'src/components/commmon/dummydata/projectInfo.jsx';
     const FILE_PATH_2 = 'src/components/commmon/dummydata/userInfo.jsx';
 
