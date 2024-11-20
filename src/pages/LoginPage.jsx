@@ -8,6 +8,21 @@ import Eyeoff from "../assets/icons/Login/Eyeoff.png";
 
 import { userInfo } from "../components/commmon/dummydata/userInfo.jsx";
 
+// 로그인 세션 (서버 API 호출)
+export const loginSession = async (userId) => {
+  try {
+      await fetch('http://localhost:3000/login', {  // 서버의 /login API 호출
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ userId }),  // userId를 서버로 전달
+      });
+  } catch (error) {
+      console.error('로그인 중 오류가 발생했습니다.', error);
+  }
+};
+
 const LoginPage = () => {
   const [eyeVisible, setEyeVisible] = useState(false);
   const [email, setEmail] = useState("");
@@ -46,6 +61,15 @@ const LoginPage = () => {
     if (user) {
       // 로그인 성공 시 accessToken 저장
       localStorage.setItem("accessToken", "yourAccessTokenHere"); // 실제 accessToken 사용
+      
+      
+      // login session
+      console.log("login session에 id를 등록합니다.");
+      //const meg = await loginSession(user.id.toString());
+      //console.log(`${msg}`);
+
+
+      
       setCurrentUser(user); //현재 사용자 정보 저장
       navigate("./MainPage");
     } else {

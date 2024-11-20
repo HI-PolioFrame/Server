@@ -32,23 +32,23 @@ app.use(session({
 }));
 
 app.post('/login', (req, res) => {
-    const { username } = req.body; // 클라이언트로부터 username을 받아옴
+    const { userId } = req.body; // 클라이언트로부터 userId을 받아옴
 
-    // username이 없으면 오류 메시지 반환
-    if (!username) {
+    // userId이 없으면 오류 메시지 반환
+    if (!userId) {
         return res.status(400).send('아이디를 입력해주세요.');
     }
 
     // 세션에 사용자 정보 저장
-    req.session.user = { username: username };
+    req.session.user = { userId: userId };
 
-    res.send(`로그인 되었습니다! 사용자 아이디: ${username}`);
+    res.send(`로그인 되었습니다! 사용자 아이디: ${userId}`);
 });
 
 app.get('/check-login', (req, res) => {
     // 세션에 사용자 정보가 있는지 확인하여 로그인 여부 판단
     if (req.session.user) {
-        res.send(`로그인된 사용자: ${req.session.user.username}`);
+        res.send(`로그인된 사용자: ${req.session.user.userId}`);
     } else {
         res.send('로그인되지 않았습니다.');
     }
