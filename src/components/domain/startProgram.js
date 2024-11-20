@@ -52,7 +52,7 @@ export const initializeData = () => {
       data.link,
       data.career,
       data.education,
-      data.contact
+      data.contacts
     );
     oriUsers.set(data.id, user);
     if (user.recruiter === true) {

@@ -200,14 +200,18 @@ app.post('/patch-hits', async (req, res) => {
 
 app.post('/patch-contacts', async (req, res) => {
     try {
-        const { filePath, projectId, newContact } = req.body;
+        const { filePath1, filePath2, projectId, newContact } = req.body;
+        console.log('Received request:', req.body);
 
         // 파일 읽기
-        const data = await fs.readFile(filePath, 'utf8');
+        const data1 = await fs.readFile(filePath1, 'utf8');
+        const data2 = await fs.readFile(filePath2, 'utf8');
         
         // JavaScript 객체 문자열을 실제 객체로 변환
-        let contentWithoutExport = data.replace('export const projectInfo = ', '');
-        contentWithoutExport = contentWithoutExport.replace(/;\s*$/, '');
+        let contentWithoutExport1 = data1.replace('export const projectInfo = ', '');
+        contentWithoutExport1 = contentWithoutExport1.replace(/;\s*$/, '');
+        let contentWithoutExport2 = data2.replace('export const userInfo = ', '');
+        contentWithoutExport2 = contentWithoutExport2.replace(/;\s*$/, '');
         
         function convertToValidJSON(jsString) {
             try {
@@ -218,36 +222,54 @@ app.post('/patch-contacts', async (req, res) => {
             }
         }
         
-        const projectInfo = convertToValidJSON(contentWithoutExport);
+        const projectInfo = convertToValidJSON(contentWithoutExport1);
+        const userInfo = convertToValidJSON(contentWithoutExport2); // 수정됨
         
         // 해당 projectId의 project 객체 찾기
         const project = projectInfo.find(p => p.projectId === projectId);
-        
-        // contacts 필드 업데이트
-        if (project) {
-            if (!project.contacts) {
-                project.contacts = [];
-            }
-            
-            // 새 연락처 추가
-            if (!project.contacts.includes(newContact)) {
-                project.contacts.push(newContact);
-            }
-            
-            const updatedContent = 'export const projectInfo = ' + 
+        // 해당 newContact의 user 객체 찾기
+        const recruiter = userInfo.find(u => u.id === newContact);
+        console.log('recruiter: ', recruiter);
+
+        // 프로젝트의 contacts 필드 업데이트
+        if (!project.contacts) {
+            project.contacts = [];
+        }
+        if (!project.contacts.includes(newContact)) {
+            project.contacts.push(newContact);
+        }
+
+        // 채용자의 contacts 필드 업데이트
+        if (!recruiter.contacts) {
+            recruiter.contacts = [];
+        }
+        if (!recruiter.contacts.includes(projectId)) {
+            recruiter.contacts.push(projectId);
+        }
+
+        // 두 파일 모두 업데이트
+        const updatedContent1 = 'export const projectInfo = ' + 
             JSON.stringify(projectInfo, null, 2)
                 .replace(/"([^"]+)":/g, '$1:')
                 .replace(/}]/g, '}\n]') + 
             ';\n';
-            
-            await fs.writeFile(filePath, updatedContent, 'utf8');
-            return { success: true, contacts: project.contacts };
-        } else {
-            return { success: false, error: `프로젝트 ID ${projectId}를 찾을 수 없습니다.` };
-        }
+
+        const updatedContent2 = 'export const userInfo = ' + 
+            JSON.stringify(userInfo, null, 2)
+                .replace(/"([^"]+)":/g, '$1:')
+                .replace(/}]/g, '}\n]') + 
+            ';\n';
+
+        console.log(updatedContent2);
+
+        // 두 파일 모두 저장
+        await fs.writeFile(filePath1, updatedContent1, 'utf8');
+        await fs.writeFile(filePath2, updatedContent2, 'utf8');
+
     } catch (error) {
         console.error('서버 에러:', error);
         res.status(500).json({ 
+            success: false,
             error: '파일 처리 중 오류가 발생했습니다.',
             details: error.message 
         });

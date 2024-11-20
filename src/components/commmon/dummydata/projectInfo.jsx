@@ -16,7 +16,7 @@ export const projectInfo = [
     usedLanguage: "Java",
     category: "백엔드",
     hits: 0,
-    contacts: [],
+    contacts: []
   },
   {
     projectId: 2,
@@ -73,7 +73,7 @@ export const projectInfo = [
     usedLanguage: "JavaScript",
     category: "프론트엔드",
     hits: 1,
-    contacts: [],
+    contacts: []
   },
   {
     projectId: 5,
@@ -92,7 +92,7 @@ export const projectInfo = [
     usedLanguage: "Phython",
     category: "백엔드",
     hits: 2,
-    contacts: [],
+    contacts: []
   },
   {
     projectId: 6,
@@ -111,7 +111,7 @@ export const projectInfo = [
     usedLanguage: "Java",
     category: "백엔드",
     hits: 0,
-    contacts: [],
+    contacts: []
   },
   {
     projectId: 7,
