@@ -216,6 +216,67 @@ app.post('/patch-contacts', async (req, res) => {
     }
 });
 
+app.post('/update-field', (req, res) => {
+    const { filePath, hackId, field, newValue } = req.body;
+    const absolutePath = path.resolve(__dirname, filePath);
+    
+    fs.readFile(absolutePath, 'utf8', (err, data) => {
+        if (err) {
+            console.error('파일을 읽는 중 오류가 발생했습니다:', err);
+            return res.status(500).json({ error: '파일을 읽는 중 오류가 발생했습니다.' });
+        }
+
+        // hackId로 해당 객체를 찾고, 그 안에서 특정 필드를 찾아 수정
+        let pattern;
+        if (typeof newValue === 'string') {
+            // 문자열 값인 경우 (따옴표로 감싸진 값을 찾음)
+            pattern = new RegExp(`(hackId: ${hackId}[^}]*${field}: )['"](.*?)['"]`, 'g');
+            data = data.replace(pattern, `$1"${newValue}"`);
+        } else {
+            // 숫자 값인 경우 (따옴표 없는 값을 찾음)
+            pattern = new RegExp(`(hackId: ${hackId}[^}]*${field}: )(\\d+)`, 'g');
+            data = data.replace(pattern, `$1${newValue}`);
+        }
+
+        fs.writeFile(absolutePath, data, 'utf8', (err) => {
+            if (err) {
+                console.error('파일을 저장하는 중 오류가 발생했습니다:', err);
+                return res.status(500).json({ error: '파일을 저장하는 중 오류가 발생했습니다.' });
+            }
+            res.json({ success: true });
+        });
+    });
+});
+
+app.post('/delete-hackathon', (req, res) => {
+    const { filePath, hackId } = req.body;
+    const absolutePath = path.resolve(__dirname, filePath);
+    
+    fs.readFile(absolutePath, 'utf8', (err, data) => {
+        if (err) {
+            console.error('파일을 읽는 중 오류가 발생했습니다:', err);
+            return res.status(500).json({ error: '파일을 읽는 중 오류가 발생했습니다.' });
+        }
+
+        // 해당 hackId를 가진 객체를 찾아서 제거
+        const pattern = new RegExp(`\\s*\\{\\s*hackId:\\s*${hackId}[^}]*\\},?`, 'g');
+        let newData = data.replace(pattern, '');
+        
+        // 만약 삭제된 객체가 마지막이 아니었다면 남은 쉼표 처리
+        newData = newData.replace(/,(\s*\])/g, '$1');
+        // 만약 삭제된 객체가 마지막이었다면 마지막 쉼표 추가
+        newData = newData.replace(/}(\s*\])/g, '},\n$1');
+
+        fs.writeFile(absolutePath, newData, 'utf8', (err) => {
+            if (err) {
+                console.error('파일을 저장하는 중 오류가 발생했습니다:', err);
+                return res.status(500).json({ error: '파일을 저장하는 중 오류가 발생했습니다.' });
+            }
+            res.json({ success: true });
+        });
+    });
+});
+
 // Vite 개발 서버 시작
 async function startVite() {
     const vite = await createServer({

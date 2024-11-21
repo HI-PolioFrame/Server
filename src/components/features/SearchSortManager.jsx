@@ -1,5 +1,6 @@
 import { LinkedList } from "../DataStructure/linkedList";
-import {oriUsers, oriPortfolios, oriProjects} from "../domain/startProgram.js";
+import {oriUsers, oriPortfolios, oriProjects, oriHackathons} from "../domain/startProgram.js";
+import { deleteHackathon } from "./hackathonFeatures.jsx";
 
 class SearchSortManager {
     constructor() {
@@ -53,6 +54,9 @@ class SearchSortManager {
     doSearch() {
         if (!this.searchTerm) {
             console.log("검색어를 입력하세요.");
+            console.log("hackathon 3: ", oriHackathons.get(3))
+            console.log(deleteHackathon(3));
+            console.log(oriHackathons);
             return;
         }
     

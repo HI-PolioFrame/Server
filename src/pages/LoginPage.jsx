@@ -38,8 +38,9 @@ const LoginPage = () => {
 
     const user = userInfo.find(
       (user) =>
-        (user.email.toLowerCase() === trimmedEmail.toLowerCase() ||
-          user.id.toString() === trimmedId) &&
+        ((user.email &&
+          user.email.toLowerCase() === trimmedEmail.toLowerCase()) ||
+          (user.id && user.id.toString() === trimmedId)) &&
         user.password.toString() === trimmedPassword
     );
 
@@ -139,7 +140,7 @@ const IDinput = styled.input`
   height: 3em;
   width: 200%;
   text-indent: 1em;
-  outline:none;
+  outline: none;
 
   &::placeholder {
     text-indent: 1em;
@@ -152,7 +153,7 @@ const PASSinput = styled.input`
   height: 3em;
   width: 100%;
   text-indent: 1em;
-  outline:none;
+  outline: none;
 
   &::placeholder {
     text-indent: 1em;

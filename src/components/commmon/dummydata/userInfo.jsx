@@ -1,6 +1,6 @@
 export const userInfo = [
   {
-    id: "admin1",
+    //id: "admin1",
     pageId: 1,
     password: "close22@@",
     name: "김예은",
@@ -12,7 +12,7 @@ export const userInfo = [
     link: "",
     career: "있음",
     education: "학사",
-    contact: 0
+    contact: 0,
   },
   {
     id: "happytree12",
@@ -27,7 +27,7 @@ export const userInfo = [
     link: "",
     career: "없음",
     education: "학사",
-    contact: 0
+    contact: 0,
   },
   {
     id: "backendDevel1!",
@@ -42,7 +42,7 @@ export const userInfo = [
     link: "",
     career: "없음",
     education: "석사",
-    contact: 0
+    contact: 0,
   },
   {
     id: "admin4",
@@ -57,7 +57,7 @@ export const userInfo = [
     link: "",
     career: "있음",
     education: "박사",
-    contact: 0
+    contact: 0,
   },
   {
     id: "5",
@@ -72,7 +72,7 @@ export const userInfo = [
     link: "",
     career: "있음",
     education: "석사",
-    contact: 0
+    contact: 0,
   },
   {
     id: "6",
@@ -87,7 +87,7 @@ export const userInfo = [
     link: "",
     career: "없음",
     education: "박사",
-    contact: 0
+    contact: 0,
   },
   {
     id: "7",
@@ -115,7 +115,7 @@ export const userInfo = [
     nickname: "",
     link: "",
     career: "없음",
-    education: ""
+    education: "",
   },
   {
     id: "removefromfile",
@@ -129,7 +129,7 @@ export const userInfo = [
     nickname: "",
     link: "",
     career: "없음",
-    education: ""
+    education: "",
   },
   {
     id: "cleansaveinfo",
@@ -143,7 +143,7 @@ export const userInfo = [
     nickname: "",
     link: "",
     career: "없음",
-    education: ""
+    education: "",
   },
   {
     id: "world443322",
@@ -157,7 +157,7 @@ export const userInfo = [
     nickname: "",
     link: "",
     career: "없음",
-    education: ""
+    education: "",
   },
   {
     id: "okaykimofyou",
@@ -171,7 +171,7 @@ export const userInfo = [
     nickname: "",
     link: "",
     career: "없음",
-    education: ""
+    education: "",
   },
   {
     id: "my._.movie_lover",
@@ -185,9 +185,8 @@ export const userInfo = [
     nickname: "",
     link: "",
     career: "없음",
-    education: ""
-  }
-,
+    education: "",
+  },
   {
     id: "whyisntwork",
     pageId: 14,
@@ -200,7 +199,7 @@ export const userInfo = [
     nickname: "",
     link: "",
     career: "없음",
-    education: ""
+    education: "",
   },
   {
     id: "feelingsogood",
@@ -214,7 +213,7 @@ export const userInfo = [
     nickname: "",
     link: "",
     career: "없음",
-    education: ""
+    education: "",
   },
   {
     id: "angel1234567",
@@ -228,6 +227,6 @@ export const userInfo = [
     nickname: "",
     link: "",
     career: "없음",
-    education: ""
-  }
+    education: "",
+  },
 ];

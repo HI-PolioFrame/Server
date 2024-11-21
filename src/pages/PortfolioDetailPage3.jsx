@@ -37,6 +37,7 @@ const PortfolioDetailPage3 = () => {
   const [showContactInfo, setShowContactInfo] = useState(false);
   const [showModal, setShowModal] = useState(false); // "연락" 버튼 눌렀을 때 true
   const [modalMessage, setModalMessage] = useState(""); //"연락" 버튼 눌렀을 때 창에 띄워지는 메세지
+  const [isOwner, setIsOwner] = useState(false);
 
   const mediaRef = useRef(null); //비디오, 사진 부분 스크롤
   const currentUser = getCurrentUser();
@@ -130,7 +131,7 @@ const PortfolioDetailPage3 = () => {
         return (
           <>
             <Info>{portfolioData.ownerName || "이름 없음.."}</Info>
-            <Info>{portfolioData.ownerEmail || "이름 없음.."}</Info>
+            <Info>{portfolioData.ownerEmail || "이메일 없음.."}</Info>
           </>
         );
       } else {
