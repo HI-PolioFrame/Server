@@ -10,7 +10,9 @@ export const hackathonInfo = [
         video: "",
         pictures: "",
         coverImage: "",
-        logo: ""
+        logo: "",
+        ownerId: "happytree12", 
+        ownerEmail: "tylove@naver.com" 
     },
     {
         hackId: 2,
@@ -23,7 +25,9 @@ export const hackathonInfo = [
         video: "",
         pictures: "",
         coverImage: "",
-        logo: ""
+        logo: "",
+        ownerId: "backendDevel1!",
+        ownerEmail: "sylove@naver.com" 
     },
 
 
