@@ -6,6 +6,8 @@ import CreatePortfolioTemplate from "../components/CreatePortfolioPage/CreatePor
 import saveProject from "../components/features/saveProject";
 import { getCurrentUser } from "../components/features/currentUser";
 import { Navigate, useNavigate } from "react-router-dom";
+
+
 const CreatePortfolioPage = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -30,6 +32,7 @@ const CreatePortfolioPage = () => {
 
   // const [currentUser, setCurrentUser] = useState(null);
   const currentUser = getCurrentUser();
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   useEffect(() => {
     if (currentUser) {
@@ -39,6 +42,29 @@ const CreatePortfolioPage = () => {
       console.log("currentUser 없음");
     }
   }, []);
+
+  // 필수 항목 채워졌는지 확인
+  useEffect(() => {
+    const {
+      projectTitle,
+      description,
+      startDate,
+      endDate,
+      solving,
+      challenge,
+      usedLanguage,
+    } = formData;
+
+    const isFormValid =
+      projectTitle &&
+      description &&
+      startDate &&
+      endDate &&
+      solving &&
+      challenge &&
+      usedLanguage;
+    setIsButtonDisabled(!isFormValid);
+  }, [formData]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -56,6 +82,8 @@ const CreatePortfolioPage = () => {
   };
 
   const handleSaveProject = () => {
+    console.log("handleSaveProject 호출됨"); // 호출 확인 로그 추가
+  
     saveProject(
       currentUser.name, // 사용자 이름
       currentUser.id, // 사용자 아이디
@@ -78,6 +106,7 @@ const CreatePortfolioPage = () => {
       formData.share
     );
     console.log(formData.startDate, formData.endDate);
+    navigate("/MyPage"); 
   };
   //이미지, 비디오 업로드
   
@@ -95,10 +124,13 @@ const CreatePortfolioPage = () => {
           onDateChange={handleDateChange}
         />
         <CreatePortfolioTemplate />
-        <CreateButton  onClick={() => {
-            handleSaveProject(); // 프로젝트 저장 함수 호출
-            navigate("/MyPage"); // 페이지 이동
-          }}>제작하기
+        <CreateButton  
+             disabled={isButtonDisabled}
+             onClick={handleSaveProject}
+            // onClick={() => {
+            // handleSaveProject(); // 프로젝트 저장 함수 호출
+            // navigate("/MyPage")}};
+          >제작하기
         </CreateButton>
       </ContentWrapper>
     </>
@@ -163,4 +195,10 @@ const CreateButton = styled.button`
   align-items: center;
   justify-content: center;
   position: relative;
+  
+  &:disabled {
+    background-color: #0a27a6; // 기본 배경색
+    opacity: 0.5; // 흐리게 보이도록 설정
+    cursor: not-allowed; // 커서를 금지 아이콘으로 변경
+  }
 `;

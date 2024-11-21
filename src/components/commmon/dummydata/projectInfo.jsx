@@ -19,6 +19,7 @@ export const projectInfo = [
     likes: [],
     contacts: [],
     comments: []
+
   },
   {
     projectId: 2,
@@ -39,7 +40,7 @@ export const projectInfo = [
     hits: 4,
     likes: [],
     contacts: [],
-    comments: []
+    comments: [],
   },
   {
     projectId: 3,
@@ -63,6 +64,7 @@ export const projectInfo = [
       "admin1"
     ],
     comments: []
+
   },
   {
     projectId: 4,
@@ -84,6 +86,7 @@ export const projectInfo = [
     likes: [],
     contacts: [],
     comments: []
+
   },
   {
     projectId: 5,
@@ -149,6 +152,7 @@ export const projectInfo = [
       "admin1"
     ],
     comments: []
+
   },
   {
     projectId: 8,

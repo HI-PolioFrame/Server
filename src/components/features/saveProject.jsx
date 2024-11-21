@@ -41,13 +41,18 @@ export const saveProject = async (
   endDate,
   category,
   usedLanguage,
-  projectLink = null,
+  // projectLink = null,
+  projectLink = "없음",
   solving,
   challenge,
-  video = null,
-  coverImage = null,
-  images = null,
-  logo = null,
+  // video = null,
+  // coverImage = null,
+  // images = null,
+  // logo = null,
+  video = "없음",
+  coverImage = "없음",
+  images = [],
+  logo = "없음",
   share = false // 공유 여부
 ) => {
   if (

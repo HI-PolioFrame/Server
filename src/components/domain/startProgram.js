@@ -75,6 +75,7 @@ export const initializeData = () => {
       data.likes
     );
     oriPortfolios.set(data.portfolioId, portfolio);
+    
   });
 
   projectInfo.forEach((data) => {

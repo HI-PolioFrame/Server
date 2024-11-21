@@ -256,6 +256,15 @@ export const isPassword = (password, rePassword) => {
     }
     return 1;
 }
+export const PasswordValidation = (password) => {
+    const passPattern = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*\W).{12,20}$/;
+    const passMatcher = password.match(passPattern);
+    if (!passMatcher) {
+        alert('비밀번호는 영문+특수문자+숫자로 12자 이상, 20자 이하로 입력하세요.');
+        return 0;
+    }
+    return 1;
+}
 
 export const generateRandomString = (length) => {
     const characters = 'abcdefghijklmnopqrstuvwxyz0123456789_.';

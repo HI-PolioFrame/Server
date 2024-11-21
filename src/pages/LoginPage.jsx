@@ -46,14 +46,18 @@ const LoginPage = () => {
 
     if (user) {
       // 로그인 성공 시 accessToken 저장
-      localStorage.setItem("accessToken", "yourAccessTokenHere"); // 실제 accessToken 사용
+      localStorage.setItem("accessToken", "yourAccessTokenHere"); 
       setCurrentUser(user); //현재 사용자 정보 저장
       navigate("./MainPage");
     } else {
       console.log("로그인 실패 - 입력값이 더미 데이터와 일치하지 않음");
     }
   };
-
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleLogin();
+    }
+  };
   return (
     <LoginWrapper>
       <MainText onClick={() => navigate("/")}>FolioFrame</MainText>
@@ -68,6 +72,7 @@ const LoginPage = () => {
               setId(e.target.value);
             }
           }}
+          onKeyDown={handleKeyDown} 
         />
         <PassWrapper>
           <PASSinput
@@ -75,6 +80,7 @@ const LoginPage = () => {
             placeholder="비밀번호"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            onKeyDown={handleKeyDown} 
           />
           <EyeIcon
             src={eyeVisible ? Eyeoff : Eye}
