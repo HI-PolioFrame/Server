@@ -122,6 +122,7 @@ function partition(head, end, target) {
 
     while (current !== pivot) {
         // target에 대한 수가 클 때
+        console.log(current.value);
         if (current.value[target].length > pivot.value[target].length) {
             if (!newHead) {
                 newHead = current;
