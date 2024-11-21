@@ -37,6 +37,7 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Java",
     category: "백엔드",
+
     hits: 4,
     likes: [],
     contacts: [],
@@ -174,7 +175,6 @@ export const projectInfo = [
     likes: [],
     contacts: [
       "admin1"
-    ],
-    comments: []
-  }
+    ]
+  },
 ];
