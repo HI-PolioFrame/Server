@@ -2,31 +2,36 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import defaultProfilePicture from "../../assets/icons/profileIcon.svg"; // 기본 이미지
+
+import MyPageInfoSection from "./MyPageInfoSection";
 import { useNavigate } from "react-router-dom";
+import { getCurrentUser } from "../features/currentUser";
 
 const DashBoard = ({ name, nickname }) => {
   const navigate = useNavigate();
+  const currentUser = getCurrentUser();
 
   return (
     <DashboardContainer className="DashBoardContainer">
       <DashboardTitle>대시보드</DashboardTitle>
-      <DashboardCard className="DashBoardCard">
+      <Section>
+        <SectionHeader>내 프로필</SectionHeader>
         <InfoContainer>
-          <Info className="Info">
-            <Name className="Name">이름</Name>
-            <UserName className="UserName">{name}</UserName>
-          </Info>
-          <Info>
-            <Nickname className="Nickname">닉네임</Nickname>
-            <UserNickname className="UserNickname">{nickname}</UserNickname>
-          </Info>
+          <MyPageInfoSection label={"이름"} value={currentUser.name} />
+          <MyPageInfoSection label={"닉네임"} value={currentUser.nickname} />
+          <MyPageInfoSection
+            label={"아이디/이메일"}
+            value={currentUser.id || currentUser.email}
+          />
         </InfoContainer>
-        <Button className="Button">
-          <ProfileButton onClick={() => navigate("../ProfileEditPage")}>
-            프로필 편집
-          </ProfileButton>
-        </Button>
-      </DashboardCard>
+        <ButtonContainer>
+          <ButtonWrapper onClick={() => navigate("/ProfileEditPage")}>
+            <Button>
+              <ButtonText>프로필 편집</ButtonText>
+            </Button>
+          </ButtonWrapper>
+        </ButtonContainer>
+      </Section>
     </DashboardContainer>
   );
 };
@@ -49,92 +54,84 @@ const DashboardContainer = styled.div`
 `;
 
 const DashboardTitle = styled.div`
-  width: 45%;
-  top: 11.375em;
   font-family: "OTF B";
   font-style: normal;
   font-weight: 700;
-  font-size: 1.875em;
+  font-size: 2.2vw;
   line-height: 2.25em;
-
-  display: flex;
-  align-items: center;
-  text-align: center;
-  letter-spacing: -0.025em;
   color: #000000;
 `;
 
-const DashboardCard = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  border: 0.0625em solid #d9d9d9;
-  box-shadow: 0em 0.25em 0.25em rgba(0, 0, 0, 0.25);
+const Section = styled.div`
+  padding: 1.5rem 2rem;
+  border: 1px solid #ddd;
   border-radius: 0.625em;
-  padding: 1.5em;
-  margin-top: 0.625em;
+
+  gap: 1rem;
+`;
+
+const SectionHeader = styled.div`
+  font-family: "OTF R";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 1.8vw;
+  line-height: 2.25em;
+  color: #000000;
 `;
 
 const InfoContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1vw;
-`;
-
-const Info = styled.div`
   display: flex;
+  gap: 0.5rem;
   flex-direction: column;
 `;
 
-const Name = styled.p`
-  font-family: "OTF R";
-  font-style: normal;
-  font-weight: 700;
-
-  margin: 0;
-  color: #919194;
-`;
-
-const UserName = styled.div`
-  height: 1.5625em;
-  font-family: "Inria Sans", sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 1.5625em;
-  line-height: 1.625em;
+const ButtonContainer = styled.div`
   display: flex;
-  align-items: center;
-  margin-bottom: 0.625em;
+  justify-content: flex-end;
 `;
 
-const Nickname = styled.p`
+const ButtonWrapper = styled.button`
+  position: relative;
+  display: inline-block;
+  width: auto;
+  padding: 0px 1.125rem;
+  appearance: none;
+  text-align: left;
+  text-decoration: none;
+  line-height: 1;
+  box-sizing: border-box;
+  height: 2.25rem;
+
+  border-radius: 0.5rem;
   font-family: "OTF R";
-  font-style: normal;
-  font-weight: 700;
+  font-weight: 600;
 
-  margin: 0;
-  color: #919194;
-`;
-
-const UserNickname = styled.div`
-  height: 1.5625em;
-  font-family: "Inria Sans", sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 1em;
-  line-height: 1.5em;
-  display: flex;
-  align-items: center;
+  font-size: 0.875rem;
+  user-select: none;
+  cursor: pointer;
+  border: 0.0625rem solid rgb(206, 212, 218);
+  background-color: rgb(255, 255, 255);
+  color: rgb(33, 37, 41);
 `;
 
 const Button = styled.div`
   display: flex;
+  -webkit-box-align: center;
   align-items: center;
-  justify-content: flex-end;
+  -webkit-box-pack: center;
+  justify-content: center;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+`;
 
-  margin-top: 1vh;
-
-  width: 100%;
+const ButtonText = styled.span`
+  white-space: nowrap;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
 `;
 
 const ProfileButton = styled.button`
