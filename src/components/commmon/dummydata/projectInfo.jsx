@@ -34,7 +34,7 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 8,
+    hits: 9,
     contacts: [
       "admin1"
     ]
@@ -159,5 +159,23 @@ export const projectInfo = [
     contacts: [
       "admin1"
     ]
+  },
+  {
+    projectId: 9,
+    projectTitle: "w",
+    projectOwnerName: "김태연",
+    description: "w",
+    startDate: "Mon Nov 25 2024 00:00:00 GMT+0900 (한국 표준시)",
+    endDate: "Thu Nov 28 2024 00:00:00 GMT+0900 (한국 표준시)",
+    category: "s",
+    usedLanguage: "w",
+    projectLink: "w",
+    solving: "w",
+    challenge: "w",
+    video: "비디오 없음.",
+    coverImage: "없음.",
+    images: [],
+    logo: "없음.",
+    share: true
   }
 ];
