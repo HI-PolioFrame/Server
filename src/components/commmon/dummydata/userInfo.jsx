@@ -40,7 +40,8 @@ export const userInfo = [
     nickname: "이쁜이",
     link: "",
     career: "없음",
-    education: "석사"
+    education: "석사",
+    contacts: []
   },
   {
     id: "admin4",

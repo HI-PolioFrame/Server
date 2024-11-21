@@ -272,6 +272,60 @@ app.post('/patch-contacts', async (req, res) => {
     }
 });
 
+app.post('/patch-likes', async (req, res) => {
+    try {
+        const { filePath, projectId, userId } = req.body;
+
+        // 파일 읽기
+        const data = await fs.readFile(filePath, 'utf8');
+        
+        // JavaScript 객체 문자열을 실제 객체로 변환
+        let contentWithoutExport = data.replace('export const projectInfo = ', '');
+        contentWithoutExport = contentWithoutExport.replace(/;\s*$/, '');
+        
+        function convertToValidJSON(jsString) {
+            try {
+                return Function(`"use strict"; return (${jsString})`)();
+            } catch (error) {
+                console.error('JavaScript 객체 파싱 에러:', error);
+                throw error;
+            }
+        }
+        
+        const projectInfo = convertToValidJSON(contentWithoutExport);
+        
+        // 해당 projectId의 project 객체 찾기
+        const project = projectInfo.find(p => p.projectId === projectId);
+
+        // 프로젝트의 likes 필드 업데이트
+        if (!project.likes) {
+            project.likes = [];
+        }
+        if (!project.likes.includes(userId)) {
+            project.likes.push(userId);
+        }
+        else {
+            project.likes = project.likes.filter((element => element != userId));
+        }
+
+        const updatedContent = 'export const projectInfo = ' + 
+            JSON.stringify(projectInfo, null, 2)
+                .replace(/"([^"]+)":/g, '$1:')
+                .replace(/}]/g, '}\n]') + 
+            ';\n';
+
+        await fs.writeFile(filePath, updatedContent, 'utf8');
+
+    } catch (error) {
+        console.error('서버 에러:', error);
+        res.status(500).json({ 
+            success: false,
+            error: '파일 처리 중 오류가 발생했습니다.',
+            details: error.message 
+        });
+    }
+});
+
 app.post('/update-field', (req, res) => {
     const { filePath, hackId, field, newValue } = req.body;
     const absolutePath = path.resolve(__dirname, filePath);

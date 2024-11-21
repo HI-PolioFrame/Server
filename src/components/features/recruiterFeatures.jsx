@@ -1,4 +1,4 @@
-import {oriUsers} from "../domain/startProgram.js";
+import {oriUsers, oriProjects} from "../domain/startProgram.js";
 
 export const isRecruiter = (userId) => {
     let user = oriUsers.get(userId);
