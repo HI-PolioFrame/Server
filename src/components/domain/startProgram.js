@@ -132,9 +132,12 @@ export const initializeData = () => {
         data.video,
         data.pictures,
         data.coverImage,
-        data.logo
+        data.logo,
+        data.ownerId, 
+        data.ownerEmail,
     );
     oriHackathons.set(data.hackId, hackathon);
+
   });
 
   // templateInfo.forEach((data) => {
