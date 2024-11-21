@@ -8,9 +8,6 @@ import { getCurrentUser } from "../components/features/currentUser";
 import infoIcon from "../assets/images/PortfolioEditPage/InfoIcon.svg";
 
 const ProfileEditPage = () => {
-  const [showTooltip, setShowTooltip] = useState(false);
-
-  const handleTooltipToggle = () => setShowTooltip(!showTooltip);
   const currentUser = getCurrentUser();
 
   return (
@@ -84,6 +81,25 @@ const ProfileEditPage = () => {
           )}
         </InfoContainer>
       </Section>
+
+      <Section>
+        <DeleteHeader>계정삭제</DeleteHeader>
+        <InfoContainer>
+          <DeleteInfo>
+            1. 계정 탈퇴 시, 폴리오프레임 서비스에서 모두 탈퇴됩니다.
+            <br />
+            <br />
+            2. 탈퇴 시 계정과 관련된 모든 권한이 사라지며 복구할 수 없습니다.
+          </DeleteInfo>
+          <DeleteButtonContainer>
+            <DeleteButtonWrapper>
+              <DeleteButton>
+                <ButtonText>탈퇴</ButtonText>
+              </DeleteButton>
+            </DeleteButtonWrapper>
+          </DeleteButtonContainer>
+        </InfoContainer>
+      </Section>
     </Container>
   );
 };
@@ -152,26 +168,68 @@ const SectionHeader = styled.div`
   color: #000000;
 `;
 
+const DeleteHeader = styled.div`
+  font-family: "OTF R";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 1.8vw;
+  line-height: 2.25em;
+  color: red;
+`;
+
 const InfoContainer = styled.div`
   display: flex;
   gap: 0.5rem;
   flex-direction: column;
 `;
 
-const TooltipIcon = styled.span`
-  font-size: 14px;
-  margin-left: 5px;
-  cursor: pointer;
+const DeleteInfo = styled.div``;
+
+const DeleteButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
 `;
 
-const Tooltip = styled.div`
-  position: absolute;
-  top: -40px;
-  left: 0;
-  padding: 10px;
-  background: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 12px;
-  width: 200px;
+const DeleteButtonWrapper = styled.button`
+  position: relative;
+  display: inline-block;
+  width: auto;
+  padding: 0px 1.125rem;
+  appearance: none;
+  text-align: left;
+  text-decoration: none;
+  line-height: 1;
+  box-sizing: border-box;
+  height: 2.25rem;
+
+  border-radius: 0.5rem;
+  font-family: "OTF R";
+  font-weight: 600;
+
+  font-size: 0.875rem;
+  user-select: none;
+  cursor: pointer;
+  border: 0.0625rem solid rgb(206, 212, 218);
+  background-color: rgb(255, 255, 255);
+  color: red;
+`;
+
+const DeleteButton = styled.div`
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+`;
+
+const ButtonText = styled.span`
+  white-space: nowrap;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
 `;
