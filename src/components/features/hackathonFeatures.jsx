@@ -5,6 +5,7 @@ import { appendStringToFile, removeFromFileEnd } from "./signUpDeveloper";
 export const saveHackathon = async (hackName, startDate, endDate, link, memNumber, description, video=null, pictures=null, coverImage=null, logo=null) => {
 
     if (!hackName || !startDate || !endDate || !link || !memNumber || !description) {
+        console.log(hackName,startDate,endDate,link,memNumber,description);
         console.log("필수 정보가 누락됨");
         return;
     }

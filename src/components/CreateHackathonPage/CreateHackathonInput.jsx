@@ -4,12 +4,11 @@ import { useState } from "react";
 // import Calendar from "./Calendar.jsx";
 import CalendarInput from "./CalendarInput.jsx";
 
-const CreateHackathonInput = () => {
+const CreateHackathonInput = ({ onInputChange, formData, onDateChange }) => {
   // 업로드 이미지 미리보기 코드
   const [coverimagePreview, setCoverImagePreview] = useState(null);
   const [LogoPreview, setLogoPreview] = useState(null);
   const [photosPreview, setPhotosPreview] = useState([null, null, null, null, null]);
-  const [isOn, setIsOn] = useState(true);
 
   const handleCoverImageChange = (e) => {
     const file = e.target.files[0];
@@ -17,6 +16,7 @@ const CreateHackathonInput = () => {
       const imageURL = URL.createObjectURL(file);
       setCoverImagePreview(imageURL);
     }
+    onInputChange(e);
   };
   const handleLogoChange = (e) => {
     const file = e.target.files[0];
@@ -24,6 +24,7 @@ const CreateHackathonInput = () => {
       const imageURL = URL.createObjectURL(file);
       setLogoPreview(imageURL);
     }
+    onInputChange(e);
   };
   const handlePhotosChange = (index) => (e) => {
     const file = e.target.files[0];
@@ -32,6 +33,7 @@ const CreateHackathonInput = () => {
       newPhotosPreview[index] = URL.createObjectURL(file);
       setPhotosPreview(newPhotosPreview);
     }
+    // onInputChange(e);
   };
 
 
@@ -45,13 +47,23 @@ const CreateHackathonInput = () => {
           <InputWrapper>
               <MainText>해커톤 이름</MainText>
               <ExText>해커톤 이름을 작성해주세요</ExText>
-              <VitalInput type="text"></VitalInput>
+              <VitalInput 
+                type="text"
+                name="hackName" 
+                value={formData.hackName}
+                onChange={onInputChange}>
+              </VitalInput>
           </InputWrapper>
         {/* 링크 */}
         <InputWrapper>
               <MainText>Links</MainText>
               <ExText>해커톤을 설명할 자료 링크를 입력해주세요.</ExText>
-              <VitalInput type="url"></VitalInput>
+              <VitalInput 
+                type="url"
+                name="link" 
+                value={formData.link}
+                onChange={onInputChange}>
+              </VitalInput>
           </InputWrapper>
         </ColumnWrapper>
 
@@ -67,7 +79,12 @@ const CreateHackathonInput = () => {
         <InputWrapper>
               <MainText>모집인원</MainText>
               <ExText>모집인원을 입력해주세요.</ExText>
-              <VitalInput type="url"></VitalInput>
+              <VitalInput 
+                type="text"
+                name="memNumber" 
+                value={formData.memNumber}
+                onChange={onInputChange}
+              ></VitalInput>
           </InputWrapper>
         </ColumnWrapper>
 
@@ -76,13 +93,21 @@ const CreateHackathonInput = () => {
           <InputWrapper>
               <MainText>참여기간</MainText>
               <ExText>이 프로젝트에 참여한 기간을 선택해주세요. </ExText>
-              <CalendarInput/>
+              <CalendarInput
+                startDate={formData.startDate}
+                endDate={formData.endDate}
+                onDateChange={onDateChange}
+              />
           </InputWrapper>
           {/* 공유 여부 */}
           <InputWrapper>
               <MainText>해커톤 설명</MainText>
               <ExText>해커톤에 대해서 자세히 설명해주세요</ExText>
-              <VitalInput2></VitalInput2>
+              <VitalInput2
+                name="description" 
+                value={formData.description}
+                onChange={onInputChange}
+              ></VitalInput2>
             </InputWrapper>
         </ColumnWrapper3>
         
