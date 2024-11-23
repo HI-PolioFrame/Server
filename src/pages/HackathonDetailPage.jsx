@@ -42,32 +42,21 @@ const HackathonDetailPage = () => {
     }
   }, [hackId]);
 
-  // useEffect(() => {
-  //   if (currentUser) {
-  //     console.log("현재 사용자:", currentUser);
-  //     setFormData((prevData) => ({
-  //       ...prevData,
-  //       ownerId: currentUser.id,
-  //       ownerEmail: currentUser.email,
-  //     }));
-  //   }
-  // }, [currentUser]);
 
   useEffect(() => {
-    console.log("portfolioData:", HackathonData);
-    console.log("currentUser.email:", currentUser.email);
-
-    if (HackathonData && HackathonData.ownerEmail === currentUser.email) {
-      console.log("작성자 일치");
-      setIsOwner(true);
-    } else {
-      console.log("작성자 불일치");
-      setIsOwner(false);
+    if (HackathonData && currentUser) {
+      
+    if (HackathonData && HackathonData.ownerEmail === currentUser.email|| 
+        HackathonData.ownerId === currentUser.id) {
+        setIsOwner(true);
+      } else {
+        setIsOwner(false);
+      }
     }
-  }, [currentUser.email, HackathonData]);
+  }, [HackathonData?.ownerEmail, HackathonData?.ownerId, currentUser?.email, currentUser?.id]);
+  
+  // console.log(hackId);
 
-
-  console.log(hackId);
   if (!HackathonData) {
     return <Loading>로딩 중...</Loading>;
   }
@@ -250,17 +239,17 @@ const HackathonDetailPage = () => {
     <DetailContainer>
     {/* 수정, 삭제 버튼 */}
     {isOwner && (
-            <ButtonWrapper2>
-              <SubmitButton
-                onClick={() => {
-                  navigate(`/ModifyHackathonPage/${HackId}`);
-                }}
-              >
-                수정
-              </SubmitButton>
-              <SubmitButton>삭제</SubmitButton>
-            </ButtonWrapper2>
-          )}
+      <ButtonWrapper2>
+        <SubmitButton
+          onClick={() => {
+            navigate(`/ModifyHackathonPage/${hackId}`);
+          }}
+        >
+        수정
+        </SubmitButton>
+        <SubmitButton>삭제</SubmitButton>
+      </ButtonWrapper2>
+    )}
     </DetailContainer>
       
     </>

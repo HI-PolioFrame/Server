@@ -7,7 +7,7 @@ import {
   oriProjects,
   oriComments,
   initializeData,
-} from "../../components/domain/startProgram.js";
+} from "../domain/startProgram.js";
 
 const CalendarInput = ({ startDate, endDate, onDateChange }) => {
   // state 관리
