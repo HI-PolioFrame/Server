@@ -30,16 +30,21 @@ const CreateHackathonPage = () => {
     const user = getCurrentUser();
     if (user) {
       setCurrentUser(user);
-      setFormData((prevData) => ({
-        ...prevData,
-        ownerId: user.id,
-        ownerEmail: user.email,
-      }));
-      console.log(currentUser);
     } else {
       console.log("user 없음");
     }
   }, []);
+  
+  useEffect(() => {
+    if (currentUser) {
+      setFormData((prevData) => ({
+        ...prevData,
+        ownerId: currentUser.id,
+        ownerEmail: currentUser.email,
+      }));
+    }
+  }, [currentUser]);
+  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

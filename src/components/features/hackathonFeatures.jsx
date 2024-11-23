@@ -30,6 +30,8 @@ export const saveHackathon = async (hackName, startDate, endDate, link, memNumbe
         pictures: "${pictures || ""}",
         coverImage: "${coverImage || ""}",
         logo: "${logo || ""}"
+        ownerId: "${ownerId}",
+        ownerEmail: "${ownerEmail}",
     }`;
 
         await removeFromFileEnd(filePath, 2);

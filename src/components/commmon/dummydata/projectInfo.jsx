@@ -15,7 +15,7 @@ export const projectInfo = [
     share: false,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 0,
+    hits: 1,
     likes: [],
     contacts: [],
     comments: []
@@ -171,25 +171,23 @@ export const projectInfo = [
     contacts: [
       "admin1"
     ]
-  }
-,
+  },
   {
-      projectId: 9,
-      projectTitle: "d", 
-      projectOwnerName: "김태연",
-      description: "d",
-      startDate: "Mon Nov 25 2024 00:00:00 GMT+0900 (한국 표준시)", 
-      endDate: "Wed Nov 27 2024 00:00:00 GMT+0900 (한국 표준시)", 
-      category: "d", 
-      usedLanguage: "d", 
-      projectLink: "d",
-      solving: "d", 
-      challenge: "d",
-      video: "비디오 없음.",
-      coverImage: "없음.", 
-      images: [], 
-      logo: "없음.", 
-     
-      share: false
+    projectId: 9,
+    projectTitle: "d",
+    projectOwnerName: "김태연",
+    description: "d",
+    startDate: "Mon Nov 25 2024 00:00:00 GMT+0900 (한국 표준시)",
+    endDate: "Wed Nov 27 2024 00:00:00 GMT+0900 (한국 표준시)",
+    category: "d",
+    usedLanguage: "d",
+    projectLink: "d",
+    solving: "d",
+    challenge: "d",
+    video: "비디오 없음.",
+    coverImage: "없음.",
+    images: [],
+    logo: "없음.",
+    share: false
   }
 ];
