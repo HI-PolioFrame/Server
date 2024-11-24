@@ -227,12 +227,6 @@ export const userInfo = [
     nickname: "",
     link: "",
     career: "없음",
-<<<<<<< HEAD
-    education: ""
-  }
-];
-=======
     education: "",
   },
 ];
->>>>>>> e198bc7eb4e98a608321708cd80c6b0de7939127
