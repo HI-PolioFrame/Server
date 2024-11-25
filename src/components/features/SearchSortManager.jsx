@@ -59,6 +59,9 @@ class SearchSortManager {
         }
     
         let curPortfolios = null;
+
+        // 이미 링크드리스트 존재하면 그대로
+        // 없으면 oriProjects로부터 링크드리스트 생성(최신순으로)
         if (this.state.sortState) curPortfolios = this.currentPortfolios;
         else{
             curPortfolios = new LinkedList();
@@ -91,6 +94,9 @@ class SearchSortManager {
         if ( this.category == null && this.sortOption == null && this.filterOption.length == 0 ){
             this.state.sortState = false;
             let result = null;
+
+            // search 되어 있으면 search만 하고 반환
+            // 없으면 아예 oriProjects로부터 링크드리스트 생성(최신순으로)
             if (this.state.searchState) result = this.doSearch();
             else{
                 result = new LinkedList();
@@ -105,6 +111,8 @@ class SearchSortManager {
         let sortedPortfolios = new LinkedList();
         let curPortfolios = null;
 
+        // search 되어 있으면 search 된 것에서 시작
+        // 없으면 oriProjects로부터 링크드리스트 생성(최신순으로)
         if (this.state.searchState == true) {
             if (this.state.sortState == true) {
                 this.state.sortState = false;
