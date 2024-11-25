@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { LinkedList } from "../DataStructure/linkedList";
 import {oriUsers, oriProjects} from "../domain/startProgram.js";
 
@@ -57,7 +58,18 @@ class SearchSortManager {
             return;
         }
     
-        let curPortfolios = this.state.sortState == true ? this.currentPortfolios : oriProjects;
+        let curPortfolios = null;
+
+        // 이미 링크드리스트 존재하면 그대로
+        // 없으면 oriProjects로부터 링크드리스트 생성(최신순으로)
+        if (this.state.sortState) curPortfolios = this.currentPortfolios;
+        else{
+            curPortfolios = new LinkedList();
+            oriProjects.forEach((pofol, key) => {
+                curPortfolios.append(pofol);
+            });
+            curPortfolios.reverse();
+        }
         
         let searchedPortfolios = new LinkedList(); // 검색 결과를 저장할 linked list, 초기화하여 이전 검색 결과를 지움
     
@@ -72,7 +84,7 @@ class SearchSortManager {
                 searchedPortfolios.append(pofol);
             }
         });
-    
+
         searchedPortfolios.print();
         this.state.searchState = true;
         return searchedPortfolios;
@@ -81,13 +93,26 @@ class SearchSortManager {
     doSort() {
         if ( this.category == null && this.sortOption == null && this.filterOption.length == 0 ){
             this.state.sortState = false;
-            let result = this.state.searchState == true ? this.doSearch() : oriProjects;
+            let result = null;
+
+            // search 되어 있으면 search만 하고 반환
+            // 없으면 아예 oriProjects로부터 링크드리스트 생성(최신순으로)
+            if (this.state.searchState) result = this.doSearch();
+            else{
+                result = new LinkedList();
+                oriProjects.forEach((pofol, key) => {
+                    result.append(pofol);
+                });
+                result.reverse();
+            }
             return result;
         }
     
         let sortedPortfolios = new LinkedList();
         let curPortfolios = null;
 
+        // search 되어 있으면 search 된 것에서 시작
+        // 없으면 oriProjects로부터 링크드리스트 생성(최신순으로)
         if (this.state.searchState == true) {
             if (this.state.sortState == true) {
                 this.state.sortState = false;
@@ -95,7 +120,11 @@ class SearchSortManager {
             curPortfolios = this.doSearch();
         }
         else {
-            curPortfolios = oriProjects;
+            curPortfolios = new LinkedList();
+            oriProjects.forEach((pofol, key) => {
+                curPortfolios.append(pofol);
+            });
+            curPortfolios.reverse();
         }
         
         // 카테고리에 따른 리스트 초기 추가
@@ -121,10 +150,10 @@ class SearchSortManager {
             case "댓글순":
                 sortedPortfolios.quickSort("comments");
                 break;
-            case "최신순": // 최신순이면 리스트가 리버스된다.(애초 데이터가 생성된 순서로 저장되므로)
+            //case "최신순": // 최신순이면 리스트가 리버스된다.(애초 데이터가 생성된 순서로 저장되므로)
                 // 그러나 이미 reverse가 진행되어 있을 수 있다.
-                sortedPortfolios.reverse(); // 함수 구현하기
-                break;
+                //sortedPortfolios.reverse(); // 함수 구현하기
+                //break;
         }
     
         // 필터옵션에 따른 리스트 수정
@@ -201,10 +230,11 @@ class SearchSortManager {
                     break;
             }
         }
+
+        if (!this.searchState) sortedPortfolios.reverse
     
         sortedPortfolios.print();
         this.state.sortState = true;
-
         return sortedPortfolios;
     }
     
