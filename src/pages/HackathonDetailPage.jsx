@@ -11,6 +11,7 @@ import { getCurrentUser } from "../components/features/currentUser";
 import { patchContacts } from "../components/features/recruiterFeatures";
 import Comment from "../components/domain/Comment";
 import saveComment from "../components/features/saveComment";
+import { deleteHackathon } from "../components/features/hackathonFeatures";
 
 import WritingBox from "../components/commmon/PortfolioDetailPage/WritingBox";
 import CommentList from "../components/commmon/PortfolioDetailPage/CommentList";
@@ -29,6 +30,9 @@ const HackathonDetailPage = () => {
   const { hackId } = useParams(); // URL에서 hackId를 추출
   const [HackathonData, setHackathonData] = useState(null);
   const [comments, setComments] = useState([]);
+  const [isOwner, setIsOwner] = useState(false);
+  const navigate = useNavigate();
+  const currentUser = getCurrentUser();
 
 
   useEffect(() => {
@@ -39,7 +43,21 @@ const HackathonDetailPage = () => {
     }
   }, [hackId]);
 
-  console.log(hackId);
+
+  useEffect(() => {
+    if (HackathonData && currentUser) {
+      
+    if (HackathonData && HackathonData.ownerEmail === currentUser.email|| 
+        HackathonData.ownerId === currentUser.id) {
+        setIsOwner(true);
+      } else {
+        setIsOwner(false);
+      }
+    }
+  }, [HackathonData?.ownerEmail, HackathonData?.ownerId, currentUser?.email, currentUser?.id]);
+  
+  // console.log(hackId);
+  
   if (!HackathonData) {
     return <Loading>로딩 중...</Loading>;
   }
@@ -107,6 +125,7 @@ const HackathonDetailPage = () => {
 
   
   return (
+    <>
     <MainWrapper>
       {/* 본문 */}
       <LeftContent>
@@ -216,11 +235,31 @@ const HackathonDetailPage = () => {
         </RowWrapper>
         <StartButton>지원하기</StartButton>
       </ContentSection1>
-      
+
     </MainWrapper>
-  
-
-
+    <DetailContainer>
+    {/* 수정, 삭제 버튼 */}
+    {isOwner && (
+      <ButtonWrapper2>
+        <SubmitButton
+          onClick={() => {
+            navigate(`/ModifyHackathonPage/${hackId}`);
+          }}
+        >
+        수정
+        </SubmitButton>
+        <SubmitButton
+          onClick={async () => {
+            // 해커톤 삭제
+            await deleteHackathon(hackId);
+            // Mypage로 이동
+          navigate("/Mypage");
+      }}>삭제</SubmitButton>
+      </ButtonWrapper2>
+    )}
+    </DetailContainer>
+      
+    </>
     //   {/* <CommentsSection>
     //     <CommentsTitle>댓글</CommentsTitle>
     //     <WritingBox addComment={addComment} />
@@ -230,7 +269,6 @@ const HackathonDetailPage = () => {
     //       portfolioId={portfolioId}
     //     />
     //   </CommentsSection> */}
-    // </DetailContainer>
   );
 };
 
@@ -336,7 +374,10 @@ const Mem = styled.p`
   align-items: center; 
   justify-content: center;
 `;
-
+const DetailContainer = styled.div`
+  width: 85%;
+  margin: 0 auto;
+`;
 //css Input
 const LinkInput = styled.input`
   border: 1.4px solid #0a27a6;
@@ -454,4 +495,40 @@ const FileLabel = styled.label`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+
+// css 수정, 삭제 버튼
+const ButtonWrapper2 = styled.div`
+  display: flex;
+  margin-right : 2em;
+  justify-content: flex-end;
+  gap: 1em;
+`;
+const SubmitButton = styled.button`
+  border: none;
+  border-radius: 0.4em;
+
+  margin-top: 1vh;
+  width: 9.1em;
+  height: 2.25em;
+
+  float: right;
+
+  background-color: #0a27a6;
+  color: white;
+  font-size: 1.1vw;
+  font-family: "OTF B";
+  font-weight: bold;
+  cursor: pointer;
+  &:hover {
+    box-shadow: 0 0.2em 1em rgba(22, 26, 63, 0.2);
+  }
+  transition: all 0.3s ease;
+
+  @media (max-width: 768px) {
+    width: 7em;
+    height: 2.25em;
+    font-size: 0.8125em;
+  }
 `;

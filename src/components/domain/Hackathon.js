@@ -31,8 +31,8 @@ class Hackathon {
         pictures = null,
         coverImage = null,
         logo = null,
-        ownerId, // 추가된 매개변수
-        ownerEmail // 추가된 매개변수
+        ownerId, 
+        ownerEmail 
     ) {
         this.hackId = hackId;
         this.hackName = hackName;
@@ -45,8 +45,8 @@ class Hackathon {
         this.pictures = pictures;
         this.coverImage = coverImage;
         this.logo = logo;
-        this.ownerId = ownerId; // 저장
-        this.ownerEmail = ownerEmail; // 저장
+        this.ownerId = ownerId; 
+        this.ownerEmail = ownerEmail;
     }
 }
 
