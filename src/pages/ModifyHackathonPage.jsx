@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Logo from "../assets/icons/Logo.png";
-import CreateHackathonInput from "../components/CreateHackathonPage/CreateHackathonInput";
+import ModifyHackathonInput from "../components/ModifyHackathonPage/ModifyHackathonInput.jsx";
 import { getCurrentUser } from "../components/features/currentUser";
 import { saveHackathon } from "../components/features/hackathonFeatures";
 import { Navigate, useNavigate } from "react-router-dom";
@@ -88,7 +88,7 @@ const ModifyHackathonPage = () => {
       </HeaderWrapper>
 
       <ContentWrapper>
-        <CreateHackathonInput 
+        <ModifyHackathonInput 
           onInputChange={handleInputChange}
           formData={formData}
           onDateChange={handleDateChange}

@@ -53,13 +53,15 @@ const CreateHackathonPage = () => {
       [name]: value,
     }));
   };
-
+// YYYY-MM-DD 형식 -> 서버와 연결할 때 오류가 나옴! 수정함
   const handleDateChange = (name, date) => {
+    const formattedDate = date ? date.toISOString().split('T')[0] : ""; 
     setFormData((prevData) => ({
       ...prevData,
-      [name]: date,
+      [name]: formattedDate,
     }));
   };
+  
 
   const handleSaveHack = () => {
     saveHackathon(

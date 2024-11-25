@@ -16,8 +16,8 @@ const Calendar = ({
     const [endDate, setEndDate] = useState(initialEndDate || null);
 
     useEffect(() => {
-        setStartDate(initialStartDate);
-        setEndDate(initialEndDate);
+        setStartDate(initialStartDate ? new Date(initialStartDate) : null);
+        setEndDate(initialEndDate ? new Date(initialEndDate) : null);
     }, [initialStartDate, initialEndDate]);
 
     const handleDateClick = (day) => {

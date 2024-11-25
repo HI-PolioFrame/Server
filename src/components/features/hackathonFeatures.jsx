@@ -2,7 +2,9 @@ import { oriHackathons } from "../domain/startProgram";
 import Hackathon from "../domain/Hackathon";
 import { appendStringToFile, removeFromFileEnd } from "./signUpDeveloper";
 
-export const saveHackathon = async (hackName, startDate, endDate, link, memNumber, description, video=null, pictures=null, coverImage=null, logo=null) => {
+// const filePath = "/src/components/commmon/dummydata/hackathonInfo.jsx";
+
+export const saveHackathon = async (hackName, startDate, endDate, link, memNumber, description, video=null, pictures=null, coverImage=null, logo=null, ownerId,ownerEmail ) => {
 
     if (!hackName || !startDate || !endDate || !link || !memNumber || !description) {
         console.log(hackName,startDate,endDate,link,memNumber,description);
@@ -15,7 +17,7 @@ export const saveHackathon = async (hackName, startDate, endDate, link, memNumbe
     let hackIds = Array.from(oriHackathons.keys());
     const hackId = hackIds.length > 0 ? hackIds[hackIds.length - 1] + 1 : 1;
     
-    let hackathon = new Hackathon(hackId, hackName, startDate, endDate, link, memNumber, description, video, pictures, coverImage, logo);
+    let hackathon = new Hackathon(hackId, hackName, startDate, endDate, link, memNumber, description, video, pictures, coverImage, logo,ownerId,ownerEmail);
     oriHackathons.set(hackId, hackathon);
 
     const string = `    {
@@ -29,7 +31,7 @@ export const saveHackathon = async (hackName, startDate, endDate, link, memNumbe
         video: "${video || ""}",
         pictures: "${pictures || ""}",
         coverImage: "${coverImage || ""}",
-        logo: "${logo || ""}"
+        logo: "${logo || ""}",
         ownerId: "${ownerId}",
         ownerEmail: "${ownerEmail}",
     }`;
@@ -42,7 +44,7 @@ export const saveHackathon = async (hackName, startDate, endDate, link, memNumbe
     
         console.log('appendStringToFile에서 오류 발생하지 않음');
 
-}
+};
 
 export const updateHackathon = async (hackId, field, newValue) => {
     const hackathon = oriHackathons.get(hackId);

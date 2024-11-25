@@ -160,6 +160,8 @@ app.post('/remove-from-file-end', (req, res) => {
 app.post('/append-string', (req, res) => {
     const { filePath, string } = req.body;
     const absolutePath = path.resolve(__dirname, filePath); // 절대 경로로 변환
+    console.log('파일 경로:', absolutePath);  // 절대 경로 확인
+
     fs.readFile(absolutePath, 'utf8', (err, data) => {
         if (err) {
             console.error('파일을 읽는 중 오류가 발생했습니다:', err);

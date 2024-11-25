@@ -29,17 +29,4 @@ export const hackathonInfo = [
         ownerId: "backendDevel1!",
         ownerEmail: "sylove@naver.com" 
     }
-,    {
-        hackId: 3,
-        hackName: "d",
-        startDate: "Tue Nov 26 2024 00:00:00 GMT+0900 (한국 표준시)",
-        endDate: "Sat Nov 30 2024 00:00:00 GMT+0900 (한국 표준시)",
-        link: "d",
-        memNumber: 2,
-        description: "d",
-        video: "",
-        pictures: "",
-        coverImage: "",
-        logo: ""
-    }
 ];
