@@ -52,6 +52,9 @@ const HackathonPage = () => {
     console.log("sharedHackathonArray 값:", sharedHackathonArray); //-> O
 
     setsharedHackathonList(sharedHackathonArray); // 상태 업데이트
+
+    const initialList = searchSortManager.sort(null, null, []);
+    setsharedHackathonList(linkedListToArray(initialList));
   }, []);
 
   const handleSortApply = (category, sortOption, filterOption) => {
