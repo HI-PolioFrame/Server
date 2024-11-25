@@ -43,14 +43,18 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
     }
   };
 
-  //토글 기능
-  const handleToggle = (value = null) => {
-    if (value !== null) {
-        setIsOn(value);
-        return;
-    }
-    setIsOn((prevIsOn) => !prevIsOn);
-};
+  const handleToggle = () => {
+    console.log("Toggled! Current share state:", !formData.share);
+    const newShareValue = !formData.share;
+    onInputChange({
+      target: {
+        name: "share",
+        value: newShareValue,
+      },
+    });
+  };
+  
+  
 
   return (
     <>
@@ -156,16 +160,27 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
                 <MainText>공개</MainText>
                 <ExText>이 프로젝트의 공개 여부를 선택해주세요. <br></br>공개를 하시면 포트폴리오 열람 화면에서 확인하실 수 있습니다. </ExText>
                 <ToggleWrapper>
-                  <OnToggleText onClick={() => handleToggle(true)} isOn={isOn}>
-                      공개
-                  </OnToggleText>
-                  <ToggleBox onClick={() => handleToggle()}>
-                  <Toggle isOn={isOn}></Toggle>
-                  </ToggleBox>
-                  <OffToggleText onClick={() => handleToggle(false)} isOn={isOn}>
-                      비공개
-                  </OffToggleText>
-                </ToggleWrapper>
+                {/* 공개 상태 */}
+                <OnToggleText
+                  onClick={handleToggle}
+                  isOn={formData.share}
+                >
+                  공개
+                </OnToggleText>
+
+                {/* 토글 박스 */}
+                <ToggleBox onClick={handleToggle}>
+                  <Toggle isOn={formData.share}></Toggle>
+                </ToggleBox>
+
+                {/* 비공개 상태 */}
+                <OffToggleText
+                  onClick={handleToggle}
+                  isOn={!formData.share}
+                >
+                  비공개
+                </OffToggleText>
+              </ToggleWrapper>
             </InputWrapper>
             <InputWrapper>
                   <MainText>카테고리</MainText>
