@@ -1,14 +1,50 @@
-import React from "react";
+import React,{useEffect} from "react";
 import styled from "styled-components";
 import { useState } from "react";
 // import Calendar from "./Calendar.jsx";
-import CalendarInput from "./CalendarInput.jsx";
+import CalendarInput from "./ModifyCalendarInput.jsx";
+import { useParams } from "react-router-dom";
+import {
+  oriHackathons,
+  oriComments,
+  initializeData,
+} from "../domain/startProgram.js";
 
-const CreateHackathonInput = ({ onInputChange, formData, onDateChange }) => {
+const ModifyHackathonInput = ({ onInputChange, formData, onDateChange }) => {
   // 업로드 이미지 미리보기 코드
   const [coverimagePreview, setCoverImagePreview] = useState(null);
   const [LogoPreview, setLogoPreview] = useState(null);
   const [photosPreview, setPhotosPreview] = useState([null, null, null, null, null]);
+
+  const { hackId } = useParams();
+  const [HackathonData, setHackathonData] = useState({}); 
+
+  // 해커톤 데이터 로드
+  useEffect(() => {
+    const Hackathon = oriHackathons.get(Number(hackId)); // 로컬 또는 서버에서 데이터를 가져옴
+    if (Hackathon) {
+      setHackathonData(Hackathon);
+    }
+  }, [hackId]);
+
+  // `HackathonData`가 변경될 때 `onInputChange` 호출하여 초기값 설정
+  useEffect(() => {
+    if (HackathonData) {
+      Object.entries(HackathonData).forEach(([key, value]) => {
+        onInputChange({ target: { name: key, value } });
+      });
+    }
+  }, [HackathonData, onInputChange]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setHackathonData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+    onInputChange(e); // 부모 상태 동기화
+  };
+
 
   const handleCoverImageChange = (e) => {
     const file = e.target.files[0];
@@ -50,8 +86,8 @@ const CreateHackathonInput = ({ onInputChange, formData, onDateChange }) => {
               <VitalInput 
                 type="text"
                 name="hackName" 
-                value={formData.hackName}
-                onChange={onInputChange}>
+                value={HackathonData.hackName}
+                onChange={handleInputChange}>
               </VitalInput>
           </InputWrapper>
         {/* 링크 */}
@@ -61,8 +97,8 @@ const CreateHackathonInput = ({ onInputChange, formData, onDateChange }) => {
               <VitalInput 
                 type="url"
                 name="link" 
-                value={formData.link}
-                onChange={onInputChange}>
+                value={HackathonData.link}
+                onChange={handleInputChange}>
               </VitalInput>
           </InputWrapper>
         </ColumnWrapper>
@@ -82,8 +118,8 @@ const CreateHackathonInput = ({ onInputChange, formData, onDateChange }) => {
               <VitalInput 
                 type="text"
                 name="memNumber" 
-                value={formData.memNumber}
-                onChange={onInputChange}
+                value={HackathonData.memNumber}
+                onChange={handleInputChange}
               ></VitalInput>
           </InputWrapper>
         </ColumnWrapper>
@@ -94,9 +130,9 @@ const CreateHackathonInput = ({ onInputChange, formData, onDateChange }) => {
               <MainText>참여기간</MainText>
               <ExText>이 프로젝트에 참여한 기간을 선택해주세요. </ExText>
               <CalendarInput
-                startDate={formData.startDate}
-                endDate={formData.endDate}
-                onDateChange={onDateChange}
+                startDate={new Date(HackathonData.startDate)} 
+                endDate={new Date(HackathonData.endDate)}   
+                onDateChange={handleInputChange}
               />
           </InputWrapper>
           {/* 공유 여부 */}
@@ -105,8 +141,8 @@ const CreateHackathonInput = ({ onInputChange, formData, onDateChange }) => {
               <ExText>해커톤에 대해서 자세히 설명해주세요</ExText>
               <VitalInput2
                 name="description" 
-                value={formData.description}
-                onChange={onInputChange}
+                value={HackathonData.description}
+                onChange={handleInputChange}
               ></VitalInput2>
             </InputWrapper>
         </ColumnWrapper3>
@@ -203,7 +239,7 @@ const CreateHackathonInput = ({ onInputChange, formData, onDateChange }) => {
     );
 };
 
-export default CreateHackathonInput;
+export default ModifyHackathonInput;
 
 //css Wrapper
 

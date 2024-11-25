@@ -16,9 +16,10 @@ import ProfileEditPage from "./pages/ProfileEditPage";
 import HackathonPage from "./pages/HackathonPage";
 import CreatePortfolioPage from "./pages/CreatePortfolioPage";
 import ModifyPortfolioPage from "./pages/ModifyPortfolioPage";
+import ModifyHackathonPage from "./pages/ModifyHackathonPage";
 import PortfolioDetailPage from "./pages/PortfolioDetailPage";
 import PortfolioDetailPage2 from "./pages/PortfolioDetailPage2";
-
+import HackathonDetailPage from "./pages/HackathonDetailPage";
 import PortfolioDetailPage3 from "./pages/PortfolioDetailPage3";
 import RecruiterPage from "./pages/RecruiterPage";
 import CreateHackathonPage from "./pages/CreateHackathonPage";
@@ -72,6 +73,15 @@ function App() {
           <Route
             path="/CreateHackathonPage"
             element={<CreateHackathonPage />}
+          />
+           <Route
+            path="/ModifyHackathonPage/:hackId"
+            element={<ModifyHackathonPage/>}
+          />
+          {/* 해커톤 상세 페이지 */}
+          <Route
+            path="/HackathonDetailPage/:hackId"
+            element={<HackathonDetailPage />}
           />
           {/* 포폴 상세 페이지 템플릿 2 */}
           <Route

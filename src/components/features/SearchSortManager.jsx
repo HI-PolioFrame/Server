@@ -1,6 +1,5 @@
 import { LinkedList } from "../DataStructure/linkedList";
-import {oriUsers, oriPortfolios, oriProjects, oriHackathons} from "../domain/startProgram.js";
-import { deleteHackathon } from "./hackathonFeatures.jsx";
+import {oriUsers, oriProjects} from "../domain/startProgram.js";
 
 class SearchSortManager {
     constructor() {
@@ -28,6 +27,7 @@ class SearchSortManager {
         this.sortOption = sortOption;
         this.filterOption = filterOption;
         this.currentPortfolios = this.doSort();
+        console.log('currentPofol: ', this.currentPortfolios);
         return this.currentPortfolios;
     }
 
@@ -54,13 +54,10 @@ class SearchSortManager {
     doSearch() {
         if (!this.searchTerm) {
             console.log("검색어를 입력하세요.");
-            console.log("hackathon 3: ", oriHackathons.get(3))
-            console.log(deleteHackathon(3));
-            console.log(oriHackathons);
             return;
         }
     
-        let curPortfolios = this.state.sortState == true ? this.currentPortfolios : oriPortfolios;
+        let curPortfolios = this.state.sortState == true ? this.currentPortfolios : oriProjects;
         
         let searchedPortfolios = new LinkedList(); // 검색 결과를 저장할 linked list, 초기화하여 이전 검색 결과를 지움
     
@@ -68,10 +65,9 @@ class SearchSortManager {
             // 포트폴리오 이름, 포트폴리오 공유자의 닉네임으로 검색
             let owner = oriUsers.get(pofol.owner);
             let isItTarget = false;
-            if ((pofol.title && pofol.title.toLowerCase().includes(this.searchTerm.toLowerCase())) || (owner && oriUsers.get(pofol.owner).nickname.toLowerCase().includes(this.searchTerm.toLowerCase()))) {
+            if ((pofol.projectTitle && pofol.projectTitle.toLowerCase().includes(this.searchTerm.toLowerCase())) || (owner && oriUsers.get(pofol.ownerId).nickname.toLowerCase().includes(this.searchTerm.toLowerCase()))) {
                 isItTarget = true;
             }
-            // const isItTarget = pofol.title.toLowerCase().includes(this.searchTerm.toLowerCase()) || this.oriUsers.get(pofol.owner).nickname.toLowerCase().includes(this.searchTerm.toLowerCase());
             if (isItTarget) {
                 searchedPortfolios.append(pofol);
             }
@@ -84,20 +80,8 @@ class SearchSortManager {
 
     doSort() {
         if ( this.category == null && this.sortOption == null && this.filterOption.length == 0 ){
-            // if (this.state.searchState == true) {
-            //     this.state.sortState = false;
-            //     return this.currentPortfolios;
-            // } else {
-            //     if (this.currentPortfolios.size != 0) {
-            //         return oriPortfolios;
-            //     }
-            //     else {
-            //         return 
-            //     }
-            // }
             this.state.sortState = false;
-            let result = this.state.searchState == true ? this.doSearch() : oriPortfolios;
-            console.log(result);
+            let result = this.state.searchState == true ? this.doSearch() : oriProjects;
             return result;
         }
     
@@ -111,7 +95,7 @@ class SearchSortManager {
             curPortfolios = this.doSearch();
         }
         else {
-            curPortfolios = oriPortfolios;
+            curPortfolios = oriProjects;
         }
         
         // 카테고리에 따른 리스트 초기 추가
@@ -124,12 +108,6 @@ class SearchSortManager {
                 if ( pofol.category == this.category ){
                     sortedPortfolios.append(pofol);
                 }
-            });
-        }
-
-        if (this.state.searchState == false && sortedPortfolios.size == 0) {
-            oriPortfolios.forEach((pofol) => {
-                sortedPortfolios.append(pofol);
             });
         }
     
@@ -163,8 +141,8 @@ class SearchSortManager {
                 case "있음":
                 case "없음":
                     sortedPortfolios.forEach(pofol => {
-                        let user = oriUsers.get(pofol.owner);
-                        if ((user && user.career != element) || !user){
+                        let user = oriUsers.get(pofol.ownerId);
+                        if ((user && user.career != element)){
                             sortedPortfolios.remove(pofol);
                         }
                     });
@@ -172,23 +150,35 @@ class SearchSortManager {
                 case "Java":
                 case "Python":
                 case "JavaScript":
-                    sortedPortfolios.forEach(pofol => {
-                        // 포트폴리오를 순회하면서
-                        // 포폴 내부의 projects(배열)를 순회하면서
-                        // 언어를 포함하지 않는 경우 포폴을 리스트에서 삭제
+                    // sortedPortfolios.forEach(pofol => {
+                    //     // 포트폴리오를 순회하면서
+                    //     // 포폴 내부의 projects(배열)를 순회하면서
+                    //     // 언어를 포함하지 않는 경우 포폴을 리스트에서 삭제
     
-                        // 그러나... 하나라도 포함하면 리스트에서 삭제하면 안 된다.
-                        let nonFilterCount = 0;
-                        pofol.projects.forEach(project => {
-                            // 각 포폴의 progects 배열을 순회하면 progectId를 얻음
-                            // project는 각 포폴 속 프로젝트아이디의 '스트링' 배열
-                            if(oriProjects.get(Number(project)).stack != element){      // !=이 논리상 맞는데 why??? 
-                                nonFilterCount++;
-                            }
-                        });
-                        // 언어 필터 선택과 다른 경우가 포트폴리오 속 프로젝트수와
-                        // 일치하면 해당 포폴을 연결 리스트에서 삭제
-                        if(nonFilterCount == pofol.projects.length){
+                    //     // 그러나... 하나라도 포함하면 리스트에서 삭제하면 안 된다.
+                    //     let nonFilterCount = 0;
+                    //     pofol.projects.forEach(project => {
+                    //         // 각 포폴의 progects 배열을 순회하면 progectId를 얻음
+                    //         // project는 각 포폴 속 프로젝트아이디의 '스트링' 배열
+                    //         if(oriProjects.get(Number(project)).stack != element){      // !=이 논리상 맞는데 why??? 
+                    //             nonFilterCount++;
+                    //         }
+                    //     });
+                    //     // 언어 필터 선택과 다른 경우가 포트폴리오 속 프로젝트수와
+                    //     // 일치하면 해당 포폴을 연결 리스트에서 삭제
+                    //     if(nonFilterCount == pofol.projects.length){
+                    //         sortedPortfolios.remove(pofol);
+                    //     }
+                    // });
+
+                    sortedPortfolios.forEach(pofol => {
+                        // 선택된 모든 언어 조건을 체크
+                        const languageMatch = this.filterOption.some(
+                            language => pofol.usedLanguage === language
+                        );
+                        
+                        // 언어 조건에 하나도 맞지 않으면 삭제
+                        if (!languageMatch) {
                             sortedPortfolios.remove(pofol);
                         }
                     });
@@ -197,8 +187,14 @@ class SearchSortManager {
                 case "석사":
                 case "박사":
                     sortedPortfolios.forEach(pofol => {
-                        let user = oriUsers.get(pofol.owner);
-                        if ((user && user.education != element) || !user){
+                        let user = oriUsers.get(pofol.ownerId);
+                        // 선택된 모든 학력 조건을 체크
+                        const educationMatch = this.filterOption.some(
+                            education => user && user.education === education
+                        );
+                        
+                        // 학력 조건에 하나도 맞지 않으면 삭제
+                        if (!educationMatch || !user) {
                             sortedPortfolios.remove(pofol);
                         }
                     });

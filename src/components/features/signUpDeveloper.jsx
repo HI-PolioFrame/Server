@@ -121,12 +121,7 @@ export const idSignUpDeveloper = async (name, birthday, id, password, rePassword
     education: ""
   }`;
     await removeFromFileEnd(userInfoPath, 3);  // 기존 유저 정보를 파일 끝에서 
-    
-    console.log('removeFromFileEnd에서 오류 발생하지 않음');
-
     await appendStringToFile(userInfoPath, `,${userInfoString}\n];`);  // 새 유저 정보 추가
-
-    console.log('appendStringToFile에서 오류 발생하지 않음');
 };
 
 export const emailSignUpDeveloper = async (name, birthday, email, password, rePassword, phoneNumber) => {
@@ -311,16 +306,24 @@ export const isPhoneNumberChecked = () => {
     }
     return 1;
 }
-
 export const isPassword = (password, rePassword) => {
     // 비밀번호와 비밀번호 확인란이 동일한가
     if (password !== rePassword) {
         alert('비밀번호와 재입력한 비밀번호가 일치하지 않습니다');
         return 0;
     }
-    
+
+    // 비밀번호가 조건에 들어맞는가
+    // 영문+특문+숫자로 12자 이상, 20자 이하
+    const passPattern = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*\W).{12,20}$/;
+    const passMatcher = password.match(passPattern);
+    if (!passMatcher) {
+        alert('비밀번호는 영문+특수문자+숫자로 12자 이상, 20자 이하로 입력하세요.');
+        return 0;
+    }
     return 1;
 }
+
 export const PasswordValidation = (password) => {
     const passPattern = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*\W).{12,20}$/;
     const passMatcher = password.match(passPattern);

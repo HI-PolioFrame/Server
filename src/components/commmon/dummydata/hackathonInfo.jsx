@@ -6,24 +6,28 @@ export const hackathonInfo = [
         endDate: "2024-12-31",
         link: "",
         memNumber: 4,
-        description: "설명입니다",
+        description: "오늘의 날씨를 알려주자!!!! ",
         video: "",
         pictures: "",
         coverImage: "",
-        logo: ""
+        logo: "",
+        ownerId: "happytree12", 
+        ownerEmail: "tylove@naver.com" 
     },
     {
         hackId: 2,
         hackName: "해커톤2",
-        startDate: "2024-12-1",
+        startDate: "2024-11-1",
         endDate: "2024-12-31",
         link: "",
-        memNumber: 4,
+        memNumber: 20,
         description: "설명입니다",
         video: "",
         pictures: "",
         coverImage: "",
-        logo: ""
+        logo: "",
+        ownerId: "backendDevel1!",
+        ownerEmail: "sylove@naver.com" 
     },
 
 

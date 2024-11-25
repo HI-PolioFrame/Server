@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Logo from "../assets/icons/Logo.png";
-import CreateHackathonInput from "../components/CreateHackathonPage/CreateHackathonInput";
+import ModifyHackathonInput from "../components/ModifyHackathonPage/ModifyHackathonInput.jsx";
 import { getCurrentUser } from "../components/features/currentUser";
-import { saveHackathon } from "../components/features/hackathonFeatures";
+// import { saveHackathon } from "../components/features/hackathonFeatures";
 import { Navigate, useNavigate } from "react-router-dom";
+import { updateHackathon } from "../components/features/hackathonFeatures";
 
-const CreateHackathonPage = () => {
+const ModifyHackathonPage = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
+    hackId: "", 
     hackName: "",
     startDate: null,
     endDate: null,
@@ -26,14 +28,16 @@ const CreateHackathonPage = () => {
 
   const [currentUser, setCurrentUser] = useState(null);
 
+  // 무한루프 수정함! 
   useEffect(() => {
     const user = getCurrentUser();
-    if (user) {
+    if (user && !currentUser) {
       setCurrentUser(user);
     } else {
       console.log("user 없음");
     }
-  }, []);
+  }, [currentUser]); 
+  
   
   useEffect(() => {
     if (currentUser) {
@@ -53,34 +57,38 @@ const CreateHackathonPage = () => {
       [name]: value,
     }));
   };
-// YYYY-MM-DD 형식 -> 서버와 연결할 때 오류가 나옴! 수정함
+
   const handleDateChange = (name, date) => {
-    const formattedDate = date ? date.toISOString().split('T')[0] : ""; 
     setFormData((prevData) => ({
       ...prevData,
-      [name]: formattedDate,
+      [name]: date,
     }));
   };
-  
 
   const handleSaveHack = () => {
-    saveHackathon(
-      formData.hackName,
-      formData.startDate,
-      formData.endDate,
-      formData.link,
-      formData.memNumber,
-      formData.description,
-      formData.video,
-      formData.pictures,
-      formData.coverImage,
-      formData.logo,
-      formData.ownerId,
-      formData.ownerEmail
-    );
+    Object.keys(formData).forEach((field) => {
+      if (field !== "hackId" && formData[field]) {
+        //숫자 오류
+        const valueToUpdate = field === "memNumber" ? Number(formData[field]) : formData[field];
+        updateHackathon(formData.hackId, field, valueToUpdate);
+      }
+    });
+
     console.log(formData.startDate, formData.endDate);
     navigate("/MyPage"); 
-  };
+};
+
+  // const handleSaveHack = () => {
+  //   Object.keys(formData).forEach((field) => {
+  //     if (field !== "hackId" && formData[field]) {
+  //       updateHackathon(formData.hackId, field, formData[field]);
+  //     }
+  //   });
+
+  //   console.log(formData.startDate, formData.endDate);
+  //   navigate("/MyPage"); 
+  // };
+
 
   return (
     <>
@@ -90,19 +98,18 @@ const CreateHackathonPage = () => {
       </HeaderWrapper>
 
       <ContentWrapper>
-        <CreateHackathonInput 
+        <ModifyHackathonInput 
           onInputChange={handleInputChange}
           formData={formData}
           onDateChange={handleDateChange}
         />
-        <CreateButton onClick={handleSaveHack}>제작하기</CreateButton>
+        <CreateButton onClick={handleSaveHack}>수정완료</CreateButton>
       </ContentWrapper>
     </>
   );
 };
 
-export default CreateHackathonPage;
-
+export default ModifyHackathonPage;
 
 //css Wrapper
 const HeaderWrapper = styled.div`
@@ -151,7 +158,7 @@ const CreateButton = styled.button`
   background-color: #0a27a6;
   height: 3em;
   width: 20%;
-  margin-top: -6em;
+  margin-top: 2em;
   font-family: "OTF R";
 
   cursor: pointer;

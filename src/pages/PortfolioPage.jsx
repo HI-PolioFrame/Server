@@ -14,6 +14,7 @@ import {
 //import { initializeData } from "../components/domain/startProgram";
 
 import PageHeader from "../components/commmon/PageHeader";
+import { getCurrentUser, setCurrentUser } from "../components/features/currentUser";
 
 const PortfolioPage = () => {
   const navigate = useNavigate();
@@ -53,6 +54,10 @@ const PortfolioPage = () => {
     const searchedLinkedList = searchSortManager.search(searchTerm);
     setsharedPortfolioList(linkedListToArray(searchedLinkedList));
   };
+  const [accessToken, setAccessToken] = useState(
+    localStorage.getItem("accessToken")
+  );
+  const currentUser = getCurrentUser();
 
   return (
     <TemplatePageContainer className="TemplatePageContainer">
@@ -77,9 +82,12 @@ const PortfolioPage = () => {
       </TemplateGridWrapper>
       <ButtonWrapper>
         {/* 포트폴리오 제작 페이지로 넘어갈 수 있는 버튼 추가 */}
-        <StartButton onClick={() => navigate("/CreatePortfolioPage")}>
-          포트폴리오 제작하기
-        </StartButton>
+        {accessToken && currentUser?.recruiter === false && (           
+           <StartButton onClick={() => navigate("/CreatePortfolioPage")}>
+           포트폴리오 제작하기
+         </StartButton>
+        )}
+        
       </ButtonWrapper>
     </TemplatePageContainer>
   );
