@@ -16,8 +16,8 @@ const Calendar = ({
     const [endDate, setEndDate] = useState(initialEndDate || null);
 
     useEffect(() => {
-        setStartDate(initialStartDate ? new Date(initialStartDate) : null);
-        setEndDate(initialEndDate ? new Date(initialEndDate) : null);
+        setStartDate(initialStartDate);
+        setEndDate(initialEndDate);
     }, [initialStartDate, initialEndDate]);
 
     const handleDateClick = (day) => {
@@ -57,16 +57,31 @@ const Calendar = ({
     const cells = [];
     const today = new Date();
 
+    // const isDateSelected = (day) => {
+    //     const currentDate = new Date(date.getFullYear(), date.getMonth(), day);
+    //     return (
+    //         startDate &&
+    //         endDate &&
+    //         (currentDate.toDateString() === startDate.toDateString() ||
+    //             currentDate.toDateString() === endDate.toDateString())
+    //     );
+    // };
     const isDateSelected = (day) => {
         const currentDate = new Date(date.getFullYear(), date.getMonth(), day);
+    
+        // startDate와 endDate가 문자열일 경우 Date 객체로 변환
+        const parsedStartDate = new Date(startDate);
+        const parsedEndDate = new Date(endDate);
+    
         return (
-            startDate &&
-            endDate &&
-            (currentDate.toDateString() === startDate.toDateString() ||
-                currentDate.toDateString() === endDate.toDateString())
+            parsedStartDate &&
+            parsedEndDate &&
+            (currentDate.toDateString() === parsedStartDate.toDateString() ||
+                currentDate.toDateString() === parsedEndDate.toDateString())
         );
     };
-
+    
+      
     const isInSelectionRange = (day) => {
         if (!startDate || !endDate) return false;
         const currentDate = new Date(date.getFullYear(), date.getMonth(), day);
