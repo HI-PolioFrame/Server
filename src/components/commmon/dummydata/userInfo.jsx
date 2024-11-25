@@ -12,9 +12,7 @@ export const userInfo = [
     link: "",
     career: "있음",
     education: "학사",
-    contacts: [
-      7
-    ]
+    contacts: []
   },
   {
     id: "happytree12",
