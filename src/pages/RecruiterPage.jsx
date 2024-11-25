@@ -16,39 +16,30 @@ import {
 import { getCurrentUser } from "../components/features/currentUser";
 
 function RecruiterPage() {
-  const [myPortfolioList, setmyPortfolioList] = useState([]); // 상태로 관리되는 포트폴리오 리스트
+  const [myPortfolioList, setMyPortfolioList] = useState([]); // 상태로 관리되는 포트폴리오 리스트
   const { userId } = useParams();
+  const currentUser = getCurrentUser();
 
   useEffect(() => {
     console.log("Recruiter userId:", userId);
-  }, [userId]);
 
-  // // LinkedList를 배열로 변환하는 유틸리티 함수
-  // const linkedListToArray = (linkedList) => {
-  //   const array = [];
-  //   let currentNode = linkedList.head; // LinkedList의 시작점
-  //   while (currentNode) {
-  //     array.push(currentNode.value);
-  //     currentNode = currentNode.next;
-  //   }
-  //   return array;
-  // };
+    const updateCurrentUser = getCurrentUser();
+    if (updateCurrentUser) {
+      console.log("Current User:", updateCurrentUser);
 
-  // // 검색어로 검색 시 호출되는 함수
-  // const handleSearchApply = (searchTerm) => {
-  //   const searchedLinkedList = searchSortManager.search(searchTerm);
-  //   setmyPortfolioList(linkedListToArray(searchedLinkedList)); // 배열로 변환하여 상태 업데이트
-  // };
+      const userPortfolios = Array.from(oriProjects.values()).filter(
+        (project) =>
+          project.contacts.some(
+            (contact) =>
+              contact === updateCurrentUser.id ||
+              contact === updateCurrentUser.email
+          )
+      );
 
-  // // 정렬/필터 적용 시 호출되는 함수
-  // const handleSortApply = (category, sortOption, filterOption) => {
-  //   const sortedLinkedList = searchSortManager.sort(
-  //     category,
-  //     sortOption,
-  //     filterOption
-  //   );
-  //   setmyPortfolioList(linkedListToArray(sortedLinkedList));
-  // };
+      console.log("User Portfolios:", userPortfolios);
+      setMyPortfolioList(userPortfolios);
+    }
+  }, [userId, oriProjects]);
 
   // 템플릿카드 렌더링
   const renderTemplateCard = (item) => (
@@ -61,7 +52,12 @@ function RecruiterPage() {
 
   return (
     <MyPageContainer className="MyPageContainer">
-      <Section title={"내가 연락한 포트폴리오"} button={false} />
+      <Section
+        title={"내가 연락한 포트폴리오"}
+        data={myPortfolioList}
+        renderItem={renderTemplateCard}
+        button={false}
+      />
 
       <Section title={"내가 찜한 포트폴리오"} button={false} />
     </MyPageContainer>
