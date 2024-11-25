@@ -11,6 +11,7 @@ import { getCurrentUser } from "../components/features/currentUser";
 import { patchContacts } from "../components/features/recruiterFeatures";
 import Comment from "../components/domain/Comment";
 import saveComment from "../components/features/saveComment";
+import { deleteHackathon } from "../components/features/hackathonFeatures";
 
 import WritingBox from "../components/commmon/PortfolioDetailPage/WritingBox";
 import CommentList from "../components/commmon/PortfolioDetailPage/CommentList";
@@ -56,7 +57,7 @@ const HackathonDetailPage = () => {
   }, [HackathonData?.ownerEmail, HackathonData?.ownerId, currentUser?.email, currentUser?.id]);
   
   // console.log(hackId);
-
+  
   if (!HackathonData) {
     return <Loading>로딩 중...</Loading>;
   }
@@ -247,7 +248,13 @@ const HackathonDetailPage = () => {
         >
         수정
         </SubmitButton>
-        <SubmitButton>삭제</SubmitButton>
+        <SubmitButton
+          onClick={async () => {
+            // 해커톤 삭제
+            await deleteHackathon(hackId);
+            // Mypage로 이동
+          navigate("/Mypage");
+      }}>삭제</SubmitButton>
       </ButtonWrapper2>
     )}
     </DetailContainer>

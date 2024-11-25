@@ -48,14 +48,22 @@ export const saveHackathon = async (hackName, startDate, endDate, link, memNumbe
 
 export const updateHackathon = async (hackId, field, newValue) => {
     const hackathon = oriHackathons.get(hackId);
+    
+    // 같은 값으로 업데이트하려는 경우 방지
     if (hackathon[field] == newValue) {
         console.log("기존과 같은 값이 입력됨");
         return;
     }
 
     try {
+        // memNumber는 숫자형이어야 하므로 이를 숫자형으로 변환
+        if (field === "memNumber") {
+            newValue = Number(newValue); // 숫자로 변환
+        }
+
         const filePath = "src/components/commmon/dummydata/hackathonInfo.jsx";
         
+        // 필드를 업데이트하는 API 호출
         await fetch('http://localhost:3000/update-field', {
             method: 'POST',
             headers: {

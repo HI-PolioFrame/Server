@@ -3,13 +3,15 @@ import styled from "styled-components";
 import Logo from "../assets/icons/Logo.png";
 import ModifyHackathonInput from "../components/ModifyHackathonPage/ModifyHackathonInput.jsx";
 import { getCurrentUser } from "../components/features/currentUser";
-import { saveHackathon } from "../components/features/hackathonFeatures";
+// import { saveHackathon } from "../components/features/hackathonFeatures";
 import { Navigate, useNavigate } from "react-router-dom";
+import { updateHackathon } from "../components/features/hackathonFeatures";
 
 const ModifyHackathonPage = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
+    hackId: "", 
     hackName: "",
     startDate: null,
     endDate: null,
@@ -26,14 +28,16 @@ const ModifyHackathonPage = () => {
 
   const [currentUser, setCurrentUser] = useState(null);
 
+  // 무한루프 수정함! 
   useEffect(() => {
     const user = getCurrentUser();
-    if (user) {
+    if (user && !currentUser) {
       setCurrentUser(user);
     } else {
       console.log("user 없음");
     }
-  }, []);
+  }, [currentUser]); 
+  
   
   useEffect(() => {
     if (currentUser) {
@@ -62,23 +66,29 @@ const ModifyHackathonPage = () => {
   };
 
   const handleSaveHack = () => {
-    saveHackathon(
-      formData.hackName,
-      formData.startDate,
-      formData.endDate,
-      formData.link,
-      formData.memNumber,
-      formData.description,
-      formData.video,
-      formData.pictures,
-      formData.coverImage,
-      formData.logo,
-      formData.ownerId,
-      formData.ownerEmail
-    );
+    Object.keys(formData).forEach((field) => {
+      if (field !== "hackId" && formData[field]) {
+        //숫자 오류
+        const valueToUpdate = field === "memNumber" ? Number(formData[field]) : formData[field];
+        updateHackathon(formData.hackId, field, valueToUpdate);
+      }
+    });
+
     console.log(formData.startDate, formData.endDate);
     navigate("/MyPage"); 
-  };
+};
+
+  // const handleSaveHack = () => {
+  //   Object.keys(formData).forEach((field) => {
+  //     if (field !== "hackId" && formData[field]) {
+  //       updateHackathon(formData.hackId, field, formData[field]);
+  //     }
+  //   });
+
+  //   console.log(formData.startDate, formData.endDate);
+  //   navigate("/MyPage"); 
+  // };
+
 
   return (
     <>

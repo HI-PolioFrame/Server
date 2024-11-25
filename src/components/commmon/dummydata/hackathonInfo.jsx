@@ -28,5 +28,7 @@ export const hackathonInfo = [
         logo: "",
         ownerId: "backendDevel1!",
         ownerEmail: "sylove@naver.com" 
-    }
+    },
+
+
 ];
