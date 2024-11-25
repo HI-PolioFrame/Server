@@ -173,4 +173,24 @@ export const projectInfo = [
     ],
     comments: []
   }
+,
+  {
+      projectId: 9,
+      projectTitle: "포폴", 
+      projectOwnerName: "조수연",
+      description: "설명",
+      startDate: "Mon Nov 25 2024 00:00:00 GMT+0900 (한국 표준시)", 
+      endDate: "Sat Nov 30 2024 00:00:00 GMT+0900 (한국 표준시)", 
+      category: "백엔드", 
+      usedLanguage: "Java", 
+      projectLink: "link",
+      solving: "해결하는 문제", 
+      challenge: "내가 마주친 도전",
+      video: "비디오 없음.",
+      coverImage: "없음.", 
+      images: [], 
+      logo: "없음.", 
+     
+      share: false
+  }
 ];
