@@ -8,7 +8,13 @@ import {
   initializeData,
 } from "../components/domain/startProgram";
 import { getCurrentUser } from "../components/features/currentUser";
+//기업 연락
 import { patchContacts } from "../components/features/recruiterFeatures";
+//좋아요
+import {
+  patchLikes,
+  isIncludedLikes,
+} from "../components/features/likeFeatures";
 import Comment from "../components/domain/Comment";
 import saveComment from "../components/features/saveComment";
 
@@ -29,6 +35,7 @@ const PortfolioDetailPage = () => {
   const [showModal, setShowModal] = useState(false); // "연락" 버튼 눌렀을 때 true
   const [modalMessage, setModalMessage] = useState(""); //"연락" 버튼 눌렀을 때 창에 띄워지는 메세지
   const [isOwner, setIsOwner] = useState(false);
+  const [isLiked, setIsLiked] = useState(false); //"좋아요" 눌렀을 때 상태 반영
 
   const currentUser = getCurrentUser();
   const navigate = useNavigate();
@@ -39,14 +46,16 @@ const PortfolioDetailPage = () => {
     const portfolio = oriProjects.get(Number(portfolioId));
     if (portfolio) {
       setPortfolioData(portfolio);
+      setIsLiked(isIncludedLikes(portfolio.projectId, currentUser.id)); //초기상태
     }
-    console.log(portfolio);
 
     const filteredComments = Array.from(oriComments.values()).filter(
       (comment) => comment.portfolioId === Number(portfolioId)
     );
     setComments(filteredComments);
-  }, [portfolioId, portfolioData?.contacts.length, portfolioData?.hits]);
+
+    console.log(portfolio);
+  }, [currentUser, oriProjects]);
 
   useEffect(() => {
     console.log("portfolioData:", portfolioData);
@@ -88,6 +97,16 @@ const PortfolioDetailPage = () => {
     } else {
       setShowModal(true);
       setModalMessage("기업 회원만 연락 버튼을 사용할 수 있습니다.");
+    }
+  };
+
+  //좋아요 클릭
+  const handleLikeClick = () => {
+    if (isLiked) {
+      console.log("좋아요 취소.. 아직 기능 미완");
+    } else {
+      patchLikes(portfolioData.projectId, currentUser.id);
+      setIsLiked(true);
     }
   };
 
@@ -139,8 +158,12 @@ const PortfolioDetailPage = () => {
         <InfoButtons>
           <Button>조회수 {portfolioData.hits || 0}</Button>
           <Button>기업 연락 {portfolioData.contacts.length || 0}</Button>
-          <HeartBox onClick={() => console.log("좋아요 누름.")}>
-            <img src={heart_none} alt="heart-none" /> <Likes>0</Likes>
+          <HeartBox onClick={handleLikeClick}>
+            <img
+              src={isLiked ? heart_fill : heart_none} // 좋아요 상태에 따라 이미지 변경
+              alt={isLiked ? "heart-fill" : "heart-none"}
+            />
+            <Likes>{portfolioData.likes.length}</Likes>
           </HeartBox>
         </InfoButtons>
       </TitleSection>

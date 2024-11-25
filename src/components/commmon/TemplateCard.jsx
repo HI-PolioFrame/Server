@@ -86,7 +86,7 @@ const Loading = styled.div`
 
 const Card = styled.div`
   //position: relative;
-  width: 20vw;
+  width: 100%;
   height: 35vh; // 원래 17.625em
   background-color: #ffffff;
   border: 0.125em solid #d0d1d9;

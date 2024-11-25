@@ -4,7 +4,7 @@ import arrow from "../../assets/icons/SelectBox/arrow.png";
 import StyledButton from "./StyledButton";
 
 const categories = ["프론트엔드", "백엔드", "디자인"];
-const sortOptions = ["인기순", "댓글순", "최신순"];
+const sortOptions = ["인기순", "댓글순"];
 const filterOptions = [
   "경력",
   "있음",
