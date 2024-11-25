@@ -230,8 +230,6 @@ class SearchSortManager {
                     break;
             }
         }
-
-        if (!this.searchState) sortedPortfolios.reverse
     
         sortedPortfolios.print();
         this.state.sortState = true;

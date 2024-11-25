@@ -26,7 +26,7 @@ const LoginPage = () => {
 
   // 비밀번호 눈
   const toggleEyeVisible = () => {
-    setEyeVisible(!eyeVisible);
+    setEyeVisible(!eyeVisible);ㅇ
   };
 
   // API연결 X
