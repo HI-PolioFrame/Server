@@ -54,7 +54,6 @@ class SearchSortManager {
 
   doSearch() {
     if (!this.searchTerm) {
-      console.log("검색어를 입력하세요.");
       return;
     }
 

@@ -47,6 +47,7 @@ export const saveHackathon = async (hackName, startDate, endDate, link, memNumbe
 };
 
 export const updateHackathon = async (hackId, field, newValue) => {
+    const idField = "hackId";
     const hackathon = oriHackathons.get(hackId);
     
     // 같은 값으로 업데이트하려는 경우 방지
@@ -71,6 +72,7 @@ export const updateHackathon = async (hackId, field, newValue) => {
             },
             body: JSON.stringify({
                 filePath,
+                idField,
                 hackId,
                 field,
                 newValue
@@ -92,14 +94,16 @@ export const updateHackathon = async (hackId, field, newValue) => {
 export const deleteHackathon = async (hackId) => {
     try {
         const filePath = "src/components/commmon/dummydata/hackathonInfo.jsx";
+        const idField = "hackId";
         
-        await fetch('http://localhost:3000/delete-hackathon', {
+        await fetch('http://localhost:3000/delete-object', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
                 filePath,
+                idField,
                 hackId
             }),
         });
