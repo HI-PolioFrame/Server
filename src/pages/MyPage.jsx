@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import DashBoard from "../components/MyPage/DashBoard";
-import Section from "../components/MyPage/Section";
+import Section from "../components/commmon/Section";
 import TemplateCard from "../components/commmon/TemplateCard";
+import HackTemplateCard from "../components/commmon/HackTemplateCard";
 
 import {
   oriProjects,
+  oriHackathons,
   searchSortManager,
 } from "../components/domain/startProgram";
 import currentUser, {
@@ -14,6 +16,8 @@ import currentUser, {
 
 function MyPage() {
   const [myPortfolioList, setmyPortfolioList] = useState([]); // 상태로 관리되는 포트폴리오 리스트
+  const [myHackathonList, setmyHackathonList] = useState([]);
+
   const currentUser = getCurrentUser();
 
   useEffect(() => {
@@ -28,6 +32,15 @@ function MyPage() {
       );
       console.log("User Portfolios:", userPortfolios);
       setmyPortfolioList(userPortfolios);
+
+      const userHackathons = Array.from(oriHackathons.values()).filter(
+        (hackathon) =>
+          hackathon.ownerId === currentUser.id ||
+          hackathon.ownerEmail === currentUser.email
+      );
+
+      console.log("User Hackathons:", userHackathons);
+      setmyHackathonList(userHackathons);
     }
   }, []);
 
@@ -39,7 +52,13 @@ function MyPage() {
       templateButton={"보기"}
     />
   );
-
+  const renderHackTemplateCard = (item) => (
+    <HackTemplateCard
+      key={item.hackId}
+      hackId={item.hackId}
+      templateButton={"보기"}
+    />
+  );
   return (
     <MyPageContainer className="MyPageContainer">
       <DashBoardContainer>
@@ -55,7 +74,12 @@ function MyPage() {
           />
 
           <Section title={"내가 만든 포트폴리오"} button={true} />
-          <Section title={"내가 만든 템플릿"} button={true} />
+          <Section
+            title={"내가 만든 해커톤"}
+            data={myHackathonList}
+            renderItem={renderHackTemplateCard}
+            button={true}
+          />
         </>
       )}
     </MyPageContainer>

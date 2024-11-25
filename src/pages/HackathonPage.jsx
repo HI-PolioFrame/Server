@@ -2,16 +2,20 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import PageHeader from "../components/commmon/PageHeader.jsx";
-import TemplateCard from "../components/commmon/TemplateCard.jsx";
+import HackTemplateCard from "../components/commmon/HackTemplateCard.jsx";
 import { dummydata } from "../components/commmon/dummydata/dummydata";
 import SelectBox from "../components/commmon/SelectBox.jsx";
 import SearchBar from "../components/commmon/SearchBar";
 import StyledButton from "../components/commmon/StyledButton";
 import HackathonPageSlide from "../components/HackathonPage/HackathonPageSlide.jsx";
 import { Navigate, useNavigate } from "react-router-dom";
+import {
+  getCurrentUser,
+  setCurrentUser,
+} from "../components/features/currentUser";
 
 import {
-  oriProjects,
+  oriHackathons,
   searchSortManager,
   initializeData,
 } from "../components/domain/startProgram";
@@ -19,7 +23,7 @@ import {
 const HackathonPage = () => {
   const navigate = useNavigate();
 
-  const [sharedPortfolioList, setsharedPortfolioList] = useState([]);
+  const [sharedHackathonList, setsharedHackathonList] = useState([]);
 
   //LinkedList를 배열로 바꾸는 함수
   const linkedListToArray = (linkedList) => {
@@ -33,12 +37,24 @@ const HackathonPage = () => {
   };
 
   // 페이지 최초 로드 시 oriProjects를 순회하여 상태에 설정
+  // useEffect(() => {
+  //   initializeData(); // 데이터를 초기화
+  //   const sharedHackathonList = Array.from(oriHackathons.values()).filter(
+  //     (Hackathon) => Hackathon.share === true
+  //   ); // Map을 배열로 변환
+  //   setsharedHackathonList(sharedHackathonList); // 초기 포트폴리오 목록을 상태로 설정
+  // }, []);
   useEffect(() => {
     initializeData(); // 데이터를 초기화
-    const sharedPortfolios = Array.from(oriProjects.values()).filter(
-      (portfolio) => portfolio.share === true
-    ); // Map을 배열로 변환
-    setsharedPortfolioList(sharedPortfolios); // 초기 포트폴리오 목록을 상태로 설정
+    console.log("oriHackathons 값:", oriHackathons); //-> O
+
+    const sharedHackathonArray = Array.from(oriHackathons.values()); // Map을 배열로 변환
+    console.log("sharedHackathonArray 값:", sharedHackathonArray); //-> O
+
+    setsharedHackathonList(sharedHackathonArray); // 상태 업데이트
+
+    const initialList = searchSortManager.sort(null, null, []);
+    setsharedHackathonList(linkedListToArray(initialList));
   }, []);
 
   const handleSortApply = (category, sortOption, filterOption) => {
@@ -54,35 +70,25 @@ const HackathonPage = () => {
     const searchedLinkedList = searchSortManager.search(searchTerm);
     setsharedPortfolioList(linkedListToArray(searchedLinkedList));
   };
+  const currentUser = getCurrentUser();
 
   return (
     <>
       <PageHeader pageTitle="Hackathon" />
       <MainWrapper>
-        <MyTemplateMenuWrapper>
-          <SelectBox />
-        </MyTemplateMenuWrapper>
+        <SelectBoxWrapper>
+          <SelectBox onSort={handleSearchApply} />
+        </SelectBoxWrapper>
         <Line></Line>
 
         {/* 12개의 카드를 그리드 형태로 출력 */}
         <HackathonGridWrapper>
-          {/* <TemplateGrid>
-            {dummydata.map((data, index) => (
-              <TemplateCard
-                key={index}
-                templateName={data.postTitle || "빈 제목"}
-                description={data.postContent || "빈 설명"}
-                templateThumnail={data.postBackgroundImg || "default-image.png"}
-                templateButton={"보기"}
-              />
-            ))}
-          </TemplateGrid> */}
           <TemplateGridWrapper>
             <TemplateGrid>
-              {sharedPortfolioList.map((portfolio) => (
-                <TemplateCard
-                  key={portfolio.projectId}
-                  portfolioId={portfolio.projectId}
+              {sharedHackathonList.map((Hackathon) => (
+                <HackTemplateCard
+                  key={Hackathon.hackId}
+                  hackId={Hackathon.hackId}
                   templateButton={"보기"}
                 />
               ))}
@@ -92,15 +98,14 @@ const HackathonPage = () => {
         {/* 기존 해커톤 */}
         <Line2></Line2>
 
-        <HackathonPageSlide/>
+        <HackathonPageSlide />
 
         <ButtonWrapper>
-        {/* 포트폴리오 제작 페이지로 넘어갈 수 있는 버튼 추가 */}
-        <StartButton onClick={() => navigate("/CreateHackathonPage")}>
-          해커톤 제작하기
-        </StartButton>
-      </ButtonWrapper>
-
+          {/* 포트폴리오 제작 페이지로 넘어갈 수 있는 버튼 추가 */}
+          <StartButton onClick={() => navigate("/CreateHackathonPage")}>
+            해커톤 제작하기
+          </StartButton>
+        </ButtonWrapper>
       </MainWrapper>
     </>
   );
@@ -121,7 +126,11 @@ const PageCategoryWrapper = styled.div`
   justify-content: center;
   position: relative;
 `;
-
+const SelectBoxWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 10vh;
+`;
 const MyTemplateMenuWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -176,10 +185,12 @@ const SearchInput = styled.input`
 const TemplateGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  place-content: center center;
+  //place-content: center center;
+  //justify-content: center;
   gap: 3vw 1vw;
+
   margin-top: 2em;
-  max-width: 80em;
+  width: 100%;
 `;
 
 const Line = styled.hr`

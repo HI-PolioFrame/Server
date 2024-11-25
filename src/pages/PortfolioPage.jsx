@@ -14,6 +14,10 @@ import {
 //import { initializeData } from "../components/domain/startProgram";
 
 import PageHeader from "../components/commmon/PageHeader";
+import {
+  getCurrentUser,
+  setCurrentUser,
+} from "../components/features/currentUser";
 
 const PortfolioPage = () => {
   const navigate = useNavigate();
@@ -38,6 +42,11 @@ const PortfolioPage = () => {
       (portfolio) => portfolio.share === true
     ); // Map을 배열로 변환
     setsharedPortfolioList(sharedPortfolios); // 초기 포트폴리오 목록을 상태로 설정
+
+    const initialList = searchSortManager.sort(null, null, []);
+    setsharedPortfolioList(linkedListToArray(initialList));
+
+    console.log(sharedPortfolioList);
   }, []);
 
   const handleSortApply = (category, sortOption, filterOption) => {
@@ -53,6 +62,10 @@ const PortfolioPage = () => {
     const searchedLinkedList = searchSortManager.search(searchTerm);
     setsharedPortfolioList(linkedListToArray(searchedLinkedList));
   };
+  const [accessToken, setAccessToken] = useState(
+    localStorage.getItem("accessToken")
+  );
+  const currentUser = getCurrentUser();
 
   return (
     <TemplatePageContainer className="TemplatePageContainer">
@@ -77,9 +90,11 @@ const PortfolioPage = () => {
       </TemplateGridWrapper>
       <ButtonWrapper>
         {/* 포트폴리오 제작 페이지로 넘어갈 수 있는 버튼 추가 */}
-        <StartButton onClick={() => navigate("/CreatePortfolioPage")}>
-          포트폴리오 제작하기
-        </StartButton>
+        {accessToken && currentUser?.recruiter === false && (
+          <StartButton onClick={() => navigate("/CreatePortfolioPage")}>
+            포트폴리오 제작하기
+          </StartButton>
+        )}
       </ButtonWrapper>
     </TemplatePageContainer>
   );
@@ -95,6 +110,7 @@ const TemplatePageContainer = styled.div`
 const SelectBoxWrapper = styled.div`
   display: flex;
   align-items: center;
+
   margin-top: 10vh;
 `;
 
@@ -112,10 +128,12 @@ const ButtonWrapper = styled.div`
 const TemplateGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  place-content: center center;
+  //place-content: center center;
+  //justify-content: center;
   gap: 3vw 1vw;
+
   margin-top: 2em;
-  max-width: 80em;
+  width: 100%;
 `;
 
 const Line = styled.hr`

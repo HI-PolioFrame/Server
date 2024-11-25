@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Calendar from './Calendar.jsx';
 // import { useDispatch } from 'react-redux';
 
-const CalendarInput = () => {
+const CalendarInput = ({startDate, endDate, onDateChange}) => {
         // state 관리
         const [recruitmentStartDate, setRecruitmentStartDate] = useState(null);
         const [recruitmentEndDate, setRecruitmentEndDate] = useState(null);
@@ -31,6 +31,7 @@ const CalendarInput = () => {
             }
             const formattedDate = formatDate(date);
             console.log('Start Date:', formattedDate);
+            onDateChange("startDate", date);
             // dispatch(setRecruitStartDay(formattedDate));
         };
     
@@ -42,6 +43,7 @@ const CalendarInput = () => {
             }
             const formattedDate = formatDate(date);
             console.log('End Date:', formattedDate);
+            onDateChange("endDate", date);
             // dispatch(setRecruitEndDay(formattedDate));
         };
 
@@ -53,6 +55,8 @@ const CalendarInput = () => {
                     <Calendar
                         onStartDateChange={handleRecruitStartDateChange}
                         onEndDateChange={handleRecruitEndDateChange}
+                        startDate={startDate}
+                        endDate={endDate}
                     />
                 )}
                 <PeriodWrapper1>
