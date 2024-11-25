@@ -18,7 +18,7 @@ import CreatePortfolioPage from "./pages/CreatePortfolioPage";
 import ModifyPortfolioPage from "./pages/ModifyPortfolioPage";
 import PortfolioDetailPage from "./pages/PortfolioDetailPage";
 import PortfolioDetailPage2 from "./pages/PortfolioDetailPage2";
-
+import HackathonDetailPage from "./pages/HackathonDetailPage";
 import PortfolioDetailPage3 from "./pages/PortfolioDetailPage3";
 import RecruiterPage from "./pages/RecruiterPage";
 import CreateHackathonPage from "./pages/CreateHackathonPage";
@@ -65,13 +65,18 @@ function App() {
             element={<CreatePortfolioPage />}
           />
           <Route
-            path="/ModifyPortfolioPage/:portfolioId"
+            path="/ModifyPortfolioPage/:hackId"
             element={<ModifyPortfolioPage/>}
           />
           {/* 해커톤 제작 화면 */}
           <Route
             path="/CreateHackathonPage"
             element={<CreateHackathonPage />}
+          />
+          {/* 해커톤 상세 페이지 */}
+          <Route
+            path="/HackathonDetailPage/:hackId"
+            element={<HackathonDetailPage />}
           />
           {/* 포폴 상세 페이지 템플릿 2 */}
           <Route

@@ -21,7 +21,9 @@ class Project {
     logo = null,
     share = false,
     hits = 0,
-    contacts = []
+    likes = [],
+    contacts = [],
+    comments = []
   ) {
     this.ownerName = ownerName;
     this.ownerId = ownerId;
@@ -45,7 +47,9 @@ class Project {
     this.logo = logo;
     this.share = share;
     this.hits = hits;
+    this.likes = likes;
     this.contacts = contacts;
+    this.comments = comments;
   }
 }
 

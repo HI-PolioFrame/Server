@@ -1,4 +1,4 @@
-import oriUsers from '../domain/startProgram.js';
+import {oriUsers} from '../domain/startProgram.js'; // 여기 수정함
 
 // 로그인 세션 (서버 API 호출)
 export const loginSession = async (userId) => {

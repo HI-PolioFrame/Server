@@ -52,7 +52,7 @@ export const initializeData = () => {
       data.link,
       data.career,
       data.education,
-      data.contact
+      data.contacts
     );
     oriUsers.set(data.id, user);
     if (user.recruiter === true) {
@@ -75,6 +75,7 @@ export const initializeData = () => {
       data.likes
     );
     oriPortfolios.set(data.portfolioId, portfolio);
+    
   });
 
   projectInfo.forEach((data) => {
@@ -100,7 +101,9 @@ export const initializeData = () => {
       data.logo,
       data.share,
       data.hits,
-      data.contacts
+      data.likes,
+      data.contacts,
+      data.comments
     );
     oriProjects.set(data.projectId, project);
   });
@@ -129,9 +132,12 @@ export const initializeData = () => {
         data.video,
         data.pictures,
         data.coverImage,
-        data.logo
+        data.logo,
+        data.ownerId, 
+        data.ownerEmail,
     );
     oriHackathons.set(data.hackId, hackathon);
+
   });
 
   // templateInfo.forEach((data) => {
