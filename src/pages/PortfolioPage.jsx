@@ -42,6 +42,11 @@ const PortfolioPage = () => {
       (portfolio) => portfolio.share === true
     ); // Map을 배열로 변환
     setsharedPortfolioList(sharedPortfolios); // 초기 포트폴리오 목록을 상태로 설정
+
+    const initialList = searchSortManager.sort(null, null, []);
+    setsharedPortfolioList(linkedListToArray(initialList));
+
+    console.log(sharedPortfolioList);
   }, []);
 
   const handleSortApply = (category, sortOption, filterOption) => {
