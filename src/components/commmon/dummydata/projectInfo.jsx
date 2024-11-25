@@ -59,9 +59,7 @@ export const projectInfo = [
     category: "프론트엔드",
     hits: 12,
     likes: [],
-    contacts: [
-      "admin1"
-    ],
+    contacts: [],
     comments: []
   },
   {
@@ -143,7 +141,7 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 12,
+    hits: 16,
     likes: [],
     contacts: [
       "admin1"
@@ -168,8 +166,6 @@ export const projectInfo = [
     category: "백엔드",
     hits: 9,
     likes: [],
-    contacts: [
-      "admin1"
-    ]
+    contacts: []
   }
 ];
