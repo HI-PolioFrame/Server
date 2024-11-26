@@ -227,4 +227,4 @@ class HackathonSearchSortManager {
 //   }
 }
 
-export default SearchSortManager;
+export default HackathonSearchSortManager;
