@@ -188,7 +188,7 @@ const ProfilePicMenu = styled.div`
   //position: absolute;
   //top: 135%;
   width: 10vw;
-  height: 17vh;
+  //height: 17vh;
   background-color: #15243e80;
   border-radius: 0.625em;
   display: ${({ isOpen }) => (isOpen ? "flex" : "none")};
