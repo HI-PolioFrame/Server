@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { LinkedList } from "../DataStructure/linkedList";
 import { oriUsers, oriProjects } from "../domain/startProgram.js";
-
 class SearchSortManager {
   constructor() {
     this.currentPortfolios = new LinkedList();
@@ -31,27 +30,7 @@ class SearchSortManager {
     console.log("currentPofol: ", this.currentPortfolios);
     return this.currentPortfolios;
   }
-
-  // cancelSearch() {
-  //     this.state.searchState = false;
-  //     this.currentPortfolios = new LinkedList();
-
-  //     if (this.state.sortState == true) {
-  //         this.currentPortfolios = this.doSort();
-  //         return this.currentPortfolios;
-  //     }
-  // }
-
-  // cancelSort() {
-  //     this.state.sortState = false;
-  //     this.currentPortfolios = new LinkedList();
-
-  //     if (this.state.searchState == true) {
-  //         this.currentPortfolios = this.doSearch();
-  //         return this.currentPortfolios;
-  //     }
-  // }
-
+  
   doSearch() {
     if (!this.searchTerm) {
       return;
