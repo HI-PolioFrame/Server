@@ -12,7 +12,9 @@ export const userInfo = [
     link: "",
     career: "있음",
     education: "학사",
-    contacts: []
+    contacts: [
+      7
+    ]
   },
   {
     id: "happytree12",
@@ -26,7 +28,8 @@ export const userInfo = [
     nickname: "탱구리",
     link: "",
     career: "없음",
-    education: "학사"
+    education: "학사",
+    contacts: []
   },
   {
     id: "backendDevel1!",

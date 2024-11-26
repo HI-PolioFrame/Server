@@ -1,29 +1,6 @@
 import { oriUsers } from '../domain/startProgram.js'; 
 
-// loginSession.js
-export const loginSession = async (userId, password) => {
-    try {
-        const response = await fetch('http://localhost:3000/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ userId, password }),
-        });
 
-        if (!response.ok) {
-            const errorText = await response.text();
-            throw new Error(`로그인 실패: ${errorText}`);
-        }
-
-        const data = await response.text();
-        console.log(data);
-        return data; 
-    } catch (error) {
-        console.error('로그인 중 오류가 발생했습니다.', error);
-        throw new Error('서버와의 통신 중 문제가 발생했습니다.');
-    }
-};
 
 const login = async (inputId, inputPwd) => {
     if (!inputId || !inputPwd) {
@@ -31,7 +8,8 @@ const login = async (inputId, inputPwd) => {
         return;
     }
 
-    const user = oriUsers.find(user => user.id === inputId); 
+    // const user = oriUsers.find(user => user.id === inputId); 
+    const user = [...oriUsers.values()].find(user => user.id === inputId);
 
     if (!user || user.password !== inputPwd) {
         console.log("아이디 또는 패스워드가 일치하지 않습니다.");
@@ -43,6 +21,42 @@ const login = async (inputId, inputPwd) => {
         return user;
     }
 }
+
+
+// loginSession
+export const loginSession = async (trimmedIdOrEmail, trimmedPassword) => {
+    try {
+        const response = await fetch('http://localhost:3000/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userId: trimmedIdOrEmail,  // userId 또는 email
+                password: trimmedPassword
+            }),
+        })
+        // .then(response => response.text())
+        .then(data => console.log(data))
+        .catch(error => console.error('Error:', error));
+
+        // if (!response.ok) {
+        //     const errorText = await response.text();
+        //     throw new Error(`로그인 실패: ${errorText}`);
+        // }
+
+        const data = await response.text();
+        console.log(data);
+
+
+
+        return data; 
+    } catch (error) {
+        console.error('로그인 중 오류가 발생했습니다.', error);
+        throw new Error('서버와의 통신 중 문제가 발생했습니다.');
+    }
+};
+
 
 
 export default login;
