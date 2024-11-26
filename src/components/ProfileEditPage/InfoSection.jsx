@@ -1,7 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
-const InfoSection = ({ label, value, button }) => {
+const InfoSection = ({ label, value, isButton = true, button, onSave }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [inputValue, setInputValue] = useState(value);
+  const [isModified, setIsModified] = useState(false);
+
+  const handleEditClick = () => {
+    setIsEditing(true);
+    setIsModified(false); // 편집 시작 시 상태 초기화
+  };
+
+  const handleCancelClick = () => {
+    setInputValue(value);
+    setIsEditing(false);
+    setIsModified(false);
+  };
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+    setIsModified(e.target.value !== value); // 기존 값과 다른 경우에만 수정 상태 활성화
+  };
+
+  const handleSaveClick = () => {
+    if (isModified && inputValue.trim()) {
+      onSave(inputValue.trim()); // 부모 컴포넌트로 변경된 값 전달
+    }
+    setIsEditing(false);
+    setIsModified(false);
+  };
+
   return (
     <>
       <InfoWrapper>
@@ -10,13 +38,35 @@ const InfoSection = ({ label, value, button }) => {
         </LabelWrapper>
         <ValueContainer>
           <ValueWrapper>
-            <Value>{value}</Value>
+            {isEditing ? (
+              <Input
+                type="text"
+                value={inputValue}
+                onChange={handleInputChange}
+              />
+            ) : (
+              <Value>{value}</Value>
+            )}
           </ValueWrapper>
-          <ButtonContainer>
-            <ButtonWrapper>
-              <Button>{button}</Button>
-            </ButtonWrapper>
-          </ButtonContainer>
+          {isButton && (
+            <ButtonContainer>
+              <ButtonWrapper>
+                {isEditing ? (
+                  <>
+                    <Button onClick={handleCancelClick}>취소</Button>
+                    <Button
+                      onClick={handleSaveClick}
+                      disabled={!isModified} // 변경 사항이 없을 경우 비활성화
+                    >
+                      저장
+                    </Button>
+                  </>
+                ) : (
+                  <Button onClick={handleEditClick}>{button}</Button>
+                )}
+              </ButtonWrapper>
+            </ButtonContainer>
+          )}
         </ValueContainer>
       </InfoWrapper>
     </>

@@ -40,7 +40,7 @@ const ProfileEditPage = () => {
               currentUser.email ||
               "아이디/이메일을 설정해주세요."
             }
-            button={"설정"}
+            isButton={false}
           />
           <InfoSection
             label={"비밀번호"}
