@@ -338,13 +338,20 @@ app.post('/update-field', (req, res) => {
             return res.status(500).json({ error: '파일을 읽는 중 오류가 발생했습니다.' });
         }
 
-        // 정확한 필드 매칭을 위해 단어 경계 추가
-        const pattern = new RegExp(`(${idField}: *['"]${id}['"][^}]*\\b${field}\\b: *)['"'].*?['"']`, 'g');
+        const pattern = new RegExp(`(${idField}: *['"]?)${id}(['"]?[^}]*\\b${field}\\b: *)['"']?.*?['"']?(?=,|})`, 'g');
+
+        console.log(pattern);
         
-        const updatedData = data.replace(pattern, (match, prefix) => {
-            const quote = match.includes('"') ? '"' : "'";
-            return `${prefix}${quote}${newValue}${quote}`;
+        const updatedData = data.replace(pattern, (match, prefix1, prefix2) => {
+            // newValue의 타입에 따라 다르게 처리
+            if (typeof newValue === 'number') {
+                return `${prefix1}${id}${prefix2}${newValue}`;
+            } else {
+                const quote = match.includes('"') ? '"' : "'";
+                return `${prefix1}${id}${prefix2}${quote}${newValue}${quote}`;
+            }
         });
+        console.log(updatedData);
 
         fs.writeFile(absolutePath, updatedData, 'utf8', (err) => {
             if (err) {
@@ -366,12 +373,19 @@ app.post('/delete-object', (req, res) => {
             return res.status(500).json({ error: '파일을 읽는 중 오류가 발생했습니다.' });
         }
 
+        // 객체 삭제를 위한 정규식
         const pattern = new RegExp(`(,?\\s*\\{[^}]*${idField}:\\s*['"]?${id}['"]?[^}]*\\},?)`, 'g');
         let newData = data.replace(pattern, '');
         
-        // 쉼표 및 공백 정리
-        newData = newData.replace(/,\s*]/g, ']');
+        // 연속된 쉼표 제거
+        newData = newData.replace(/,\s*,/g, ',');
+        
+        // 배열의 시작과 끝 쉼표 정리
         newData = newData.replace(/\[\s*,/g, '[');
+        newData = newData.replace(/,\s*]/g, ']');
+        
+        // 객체 사이의 불필요한 공백 및 개행 정리
+        newData = newData.replace(/}\s*{/g, '},\n  {');
 
         fs.writeFile(absolutePath, newData, 'utf8', (err) => {
             if (err) {
