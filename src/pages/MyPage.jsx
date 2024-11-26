@@ -10,9 +10,7 @@ import {
   oriHackathons,
   searchSortManager,
 } from "../components/domain/startProgram";
-import currentUser, {
-  getCurrentUser,
-} from "../components/features/currentUser";
+import {setCurrentUser, getCurrentUser} from "../components/features/currentUser";
 
 function MyPage() {
   const [myPortfolioList, setmyPortfolioList] = useState([]); // 상태로 관리되는 포트폴리오 리스트

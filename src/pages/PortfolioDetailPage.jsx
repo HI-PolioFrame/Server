@@ -284,7 +284,11 @@ const PortfolioDetailPage = () => {
             >
               수정
             </SubmitButton>
-            <SubmitButton>삭제</SubmitButton>
+            <SubmitButton
+              onClick={async () => {
+              await deleteProject(portfolioId);
+              navigate("/Mypage");
+          }}>삭제</SubmitButton>
           </ButtonWrapper2>
         )}
         

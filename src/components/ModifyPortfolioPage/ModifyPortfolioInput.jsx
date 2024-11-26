@@ -14,8 +14,10 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange  }) => {
   // 업로드 이미지 미리보기 코드
   const [coverimagePreview, setCoverImagePreview] = useState(null);
   const [LogoPreview, setLogoPreview] = useState(null);
+
   const { portfolioId } = useParams();
   const [portfolioData, setPortfolioData] = useState(null);
+  
   const [comments, setComments] = useState([]);
   const [isOn, setIsOn] = useState(true);
 
@@ -26,6 +28,19 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange  }) => {
     }
   }, [portfolioId]);
 
+
+  useEffect(() => {
+    if (portfolioData) {
+      onInputChange({
+        target: {
+          name: "projectId",
+          value: Number(portfolioId),
+        },
+      });
+    }
+  }, [portfolioId, portfolioData]);
+
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setPortfolioData((prevData) => ({

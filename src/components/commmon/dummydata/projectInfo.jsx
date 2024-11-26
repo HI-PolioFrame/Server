@@ -168,5 +168,26 @@ export const projectInfo = [
     hits: 10,
     likes: [],
     contacts: []
+  },
+  {
+      projectId: 9,
+      projectTitle: "wfdsvcx", 
+      projectOwnerName: "김태연",
+      description: "wrvscx",
+      startDate: "Wed Nov 27 2024 00:00:00 GMT+0900 (한국 표준시)", 
+      endDate: "Sat Nov 30 2024 00:00:00 GMT+0900 (한국 표준시)", 
+      category: "ㅇㄷㄷ", 
+      usedLanguage: "ㅎㄱㅁㄿ", 
+      projectLink: "ㄿgaf",
+      solving: "ㅎㅁㅍ", 
+      challenge: "vfrscx",
+      video: "비디오 없음.",
+      coverImage: "없음.", 
+      images: [], 
+      logo: "없음.", 
+      share: true,
+
+      ownerId: "happytree12",
+      ownerEmail: "tylove@naver.com"
   }
 ];
