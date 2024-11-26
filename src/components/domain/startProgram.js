@@ -136,6 +136,7 @@ export const initializeData = () => {
         data.logo,
         data.ownerId, 
         data.ownerEmail,
+        data.participant
     );
     oriHackathons.set(data.hackId, hackathon);
 
