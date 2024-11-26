@@ -6,7 +6,6 @@ import cors from 'cors';
 import { fileURLToPath } from 'url';
 
 
-
 // session=========================================================================
 import session from 'express-session';
 
@@ -33,23 +32,23 @@ app.use(session({
 app.post('/login', (req, res) => {
     const { userId, password } = req.body; // 클라이언트로부터 userId, password를 받아옴
     console.log(req.body);
-    // userId와 password가 없으면 오류 메시지 반환
-    if (!userId || !password) {
-        return res.status(400).send('아이디와 비밀번호를 입력해주세요.');
-    }
+    // // userId와 password가 없으면 오류 메시지 반환
+    // if (!userId || !password) {
+    //     return res.status(400).send('아이디와 비밀번호를 입력해주세요.');
+    // }
 
-    // oriUsers 배열에서 해당 userId를 찾음
-    let user = oriUsers.find(user => user.id === userId);
+    // // oriUsers 배열에서 해당 userId를 찾음
+    // let user = oriUsers.find(user => user.id === userId);
     
-    // userId가 일치하는 사용자가 없으면 오류 메시지 반환
-    if (!user) {
-        return res.status(404).send('해당 아이디를 찾을 수 없습니다.');
-    }
+    // // userId가 일치하는 사용자가 없으면 오류 메시지 반환
+    // if (!user) {
+    //     return res.status(404).send('해당 아이디를 찾을 수 없습니다.');
+    // }
 
-    // 비밀번호가 일치하는지 확인
-    if (user.password !== password) {
-        return res.status(401).send('비밀번호가 일치하지 않습니다.');
-    }
+    // // 비밀번호가 일치하는지 확인
+    // if (user.password !== password) {
+    //     return res.status(401).send('비밀번호가 일치하지 않습니다.');
+    // }
 
     // 세션에 사용자 정보 저장
     req.session.user = { userId: userId };
