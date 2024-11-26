@@ -6,7 +6,6 @@ import cors from 'cors';
 import { fileURLToPath } from 'url';
 
 
-
 // session=========================================================================
 import session from 'express-session';
 
@@ -21,7 +20,6 @@ app.use(cors());
 app.use(express.json());
 
 
-
 // session==========================================================================
 app.use(session({
     secret: 'your-secret-key', // 세션을 암호화하기 위한 키
@@ -30,34 +28,20 @@ app.use(session({
     cookie: { secure: false }  // 개발 환경에서는 false, 배포 시에는 true로 설정
 }));
 
+// initializeData();
+// console.log("oriUsers 상태:", Array.from(oriUsers.entries())); 
+
+// 서버 코드에서 userId 또는 email로 사용자 찾기
 app.post('/login', (req, res) => {
     const { userId, password } = req.body; // 클라이언트로부터 userId, password를 받아옴
     console.log(req.body);
-    // userId와 password가 없으면 오류 메시지 반환
-    if (!userId || !password) {
-        return res.status(400).send('아이디와 비밀번호를 입력해주세요.');
-    }
-
-    // oriUsers 배열에서 해당 userId를 찾음
-    let user = oriUsers.find(user => user.id === userId);
-    
-    // userId가 일치하는 사용자가 없으면 오류 메시지 반환
-    if (!user) {
-        return res.status(404).send('해당 아이디를 찾을 수 없습니다.');
-    }
-
-    // 비밀번호가 일치하는지 확인
-    if (user.password !== password) {
-        return res.status(401).send('비밀번호가 일치하지 않습니다.');
-    }
 
     // 세션에 사용자 정보 저장
-    req.session.user = { userId: userId };
+    req.session.user = { userId: user.id };
 
     // 로그인 성공 메시지 반환
-    res.send(`로그인 되었습니다! 사용자 아이디: ${userId}`);
+    res.send(`로그인 되었습니다! 사용자 아이디: ${user.id}`);
 });
-
 
 app.get('/check-login', (req, res) => {
     // 세션에 사용자 정보가 있는지 확인하여 로그인 여부 판단
@@ -69,44 +53,6 @@ app.get('/check-login', (req, res) => {
 });
 
 
-// app.post('/login', (req, res) => {
-//     console.log("로그인 요청 들어옴:", req.body);
-//     const { emailOrId, password } = req.body;
-
-//     if (!emailOrId || !password) {
-//         return res.status(400).json({ message: '아이디 또는 비밀번호가 입력되지 않았습니다.' });
-//     }
-
-//     let user;
-//     if (emailOrId.includes('@')) {
-//         user = oriUsers.find(user => user.email === emailOrId);
-//     } else {
-//         user = oriUsers.find(user => user.id === emailOrId);
-//     }
-
-//     if (!user) {
-//         return res.status(404).json({ message: '아이디 또는 이메일이 존재하지 않습니다.' });
-//     }
-
-//     if (user.password !== password) {
-//         return res.status(401).json({ message: '비밀번호가 일치하지 않습니다.' });
-//     }
-
-//     // 로그인 성공 시
-//     req.session.user = {user };
-//     res.send(`로그인 성공`);
-// });
-
-
-
-// app.get('/check-login', (req, res) => {
-//     // 세션에 사용자 정보가 있는지 확인하여 로그인 여부 판단
-//     if (req.session.user) {
-//         res.send(`로그인된 사용자: ${req.session.user.userId}`);
-//     } else {
-//         res.send('로그인되지 않았습니다.');
-//     }
-// });
 
 // 파일 읽기
 app.post('/read-number', (req, res) => {

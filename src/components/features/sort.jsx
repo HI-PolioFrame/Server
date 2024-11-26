@@ -1,3 +1,14 @@
+
+
+
+
+   // 포트폴리오(현재 실질적으로 프로젝트) 게시판: SearchSortManager.jsx
+   // 마이페이지 포트폴리오(현재 실질적으로 프로젝트): MyProjectsSearchSortManager.jsx
+
+
+
+
+
 import { oriUsers, oriPortfolios, oriProjects } from "../domain/startProgram.js";
 import { LinkedList } from "../DataStructure/linkedList.jsx"
 

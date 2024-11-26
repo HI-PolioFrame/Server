@@ -27,6 +27,7 @@ export const userInfo = [
     link: "",
     career: "없음",
     education: "학사",
+    contacts: [],
   },
   {
     id: "backendDevel1!",
