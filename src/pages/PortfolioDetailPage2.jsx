@@ -8,7 +8,13 @@ import {
   initializeData,
 } from "../components/domain/startProgram";
 import { getCurrentUser } from "../components/features/currentUser";
+//기업 연락
 import { patchContacts } from "../components/features/recruiterFeatures";
+//좋아요
+import {
+  patchLikes,
+  isIncludedLikes,
+} from "../components/features/likeFeatures";
 import Comment from "../components/domain/Comment";
 import saveComment from "../components/features/saveComment";
 
@@ -21,32 +27,41 @@ import Notepad5 from "../assets/images/PortfolioDetailPage2/Notepad5.png";
 import Notepad12 from "../assets/images/PortfolioDetailPage2/Notepad12.png";
 import Notepad16 from "../assets/images/PortfolioDetailPage2/Notepad16.png";
 
+//heart 이미지
+import heart_none from "../assets/images/PortfolioDetailPage3/heart-none.svg";
+import heart_fill from "../assets/images/PortfolioDetailPage3/heart-fill.svg";
+
 const PortfolioDetailPage2 = () => {
   const navigate = useNavigate();
   const { portfolioId } = useParams();
   const [portfolioData, setPortfolioData] = useState(null);
   const [comments, setComments] = useState([]);
   const [showContactInfo, setShowContactInfo] = useState(false);
-  const currentUser = getCurrentUser();
   const [isOwner, setIsOwner] = useState(false);
+  const [isLiked, setIsLiked] = useState(false); //"좋아요" 눌렀을 때 상태 반영
+
+  const currentUser = getCurrentUser();
+
   useEffect(() => {
     initializeData();
     const portfolio = oriProjects.get(Number(portfolioId));
     if (portfolio) {
       setPortfolioData(portfolio);
+      setIsLiked(isIncludedLikes(portfolio.projectId, currentUser.id));
     }
-    console.log(portfolio);
 
     const filteredComments = Array.from(oriComments.values()).filter(
       (comment) => comment.portfolioId === Number(portfolioId)
     );
     setComments(filteredComments);
-  }, [portfolioId, portfolioData?.contacts.length, portfolioData?.hits]);
+
+    console.log(portfolio);
+  }, [currentUser, oriProjects]);
 
   useEffect(() => {
     console.log("portfolioData:", portfolioData);
     console.log("currentUser.email:", currentUser.email);
-  
+
     if (portfolioData && portfolioData.ownerEmail === currentUser.email) {
       console.log("작성자 일치");
       setIsOwner(true);
@@ -84,6 +99,16 @@ const PortfolioDetailPage2 = () => {
       alert("기업 연락이 저장되었습니다.");
     } else {
       alert("기업 회원만 연락 버튼을 사용할 수 있습니다.");
+    }
+  };
+
+  //좋아요 클릭
+  const handleLikeClick = () => {
+    if (isLiked) {
+      console.log("좋아요 취소.. 아직 기능 미완");
+    } else {
+      patchLikes(portfolioData.projectId, currentUser.id);
+      setIsLiked(true);
     }
   };
 
@@ -127,7 +152,13 @@ const PortfolioDetailPage2 = () => {
           <InfoButtons>
             <Button>조회수 {portfolioData.hits || 0}</Button>
             <Button>기업 연락 {portfolioData.contacts.length || 0}</Button>
-            <Button>좋아요 0</Button>
+            <HeartBox onClick={handleLikeClick}>
+              <img
+                src={isLiked ? heart_fill : heart_none} // 좋아요 상태에 따라 이미지 변경
+                alt={isLiked ? "heart-fill" : "heart-none"}
+              />
+              <Likes>{portfolioData.likes.length}</Likes>
+            </HeartBox>
           </InfoButtons>
           <ProjectTitle>{portfolioData.projectTitle}</ProjectTitle>
           <ProjectDescription>{portfolioData.description}</ProjectDescription>
@@ -241,13 +272,13 @@ const PortfolioDetailPage2 = () => {
                 navigate(`/ModifyPortfolioPage/${portfolioId}`);
               }}
             >
-            수정
+              수정
             </SubmitButton>
             <SubmitButton>삭제</SubmitButton>
           </ButtonWrapper2>
-      )}
+        )}
       </MainWrapper>
- 
+
       {/* 댓글 */}
       <CommentsSection>
         <CommentsTitle>댓글</CommentsTitle>
@@ -396,6 +427,28 @@ const Button = styled.button`
   border-radius: 4px;
   cursor: pointer;
   font-family: "OTF R";
+`;
+
+const HeartBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.4vw;
+  width: 2vw;
+
+  cursor: pointer;
+
+  font-weight: bold;
+
+  img {
+    width: 1.5vw; /* 하트 크기 조정 */
+    height: auto; /* 비율 유지 */
+    object-fit: contain; /* 이미지를 잘 보이게 */
+  }
+`;
+
+const Likes = styled.div`
+  font-family: "OTF B";
 `;
 
 // css component
@@ -591,37 +644,36 @@ const CommentsTitle = styled.h2`
   //margin-bottom: 20px;
 `;
 
-
 //css 수정, 삭제 버튼
 const ButtonWrapper2 = styled.div`
-display: flex;
-justify-content: flex-end;
-gap : 1em;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1em;
 `;
 const SubmitButton = styled.button`
-border: none;
-border-radius: 0.4em;
+  border: none;
+  border-radius: 0.4em;
 
-margin-top: 1vh;
-width: 9.1em;
-height: 2.25em;
-
-float: right;
-
-background-color: #000;
-color: white;
-font-size: 1.1vw;
-font-family: "OTF B";
-font-weight: bold;
-cursor: pointer;
-&:hover {
-  box-shadow: 0 0.2em 1em rgba(22, 26, 63, 0.2);
-}
-transition: all 0.3s ease;
-
-@media (max-width: 768px) {
-  width: 7em;
+  margin-top: 1vh;
+  width: 9.1em;
   height: 2.25em;
-  font-size: 0.8125em;
-}
+
+  float: right;
+
+  background-color: #000;
+  color: white;
+  font-size: 1.1vw;
+  font-family: "OTF B";
+  font-weight: bold;
+  cursor: pointer;
+  &:hover {
+    box-shadow: 0 0.2em 1em rgba(22, 26, 63, 0.2);
+  }
+  transition: all 0.3s ease;
+
+  @media (max-width: 768px) {
+    width: 7em;
+    height: 2.25em;
+    font-size: 0.8125em;
+  }
 `;

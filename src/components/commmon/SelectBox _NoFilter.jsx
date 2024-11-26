@@ -5,7 +5,7 @@ import StyledButton from "./StyledButton";
 //sort 함수 import
 
 const categories = ["프론트엔드", "백엔드", "디자인"];
-const sortOptions = ["인기순", "댓글순", "최신순"];
+const sortOptions = ["인기순", "댓글순"];
 
 const SelectBox_NoFilter = () => {
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
@@ -123,7 +123,6 @@ const SelectButton = styled.button`
 
   width: 80%;
   float: left;
-  
 `;
 
 const ArrowImg = styled.img`

@@ -356,7 +356,7 @@ app.post('/patch-likes', async (req, res) => {
 });
 
 app.post('/update-field', (req, res) => {
-    const { filePath, hackId, field, newValue } = req.body;
+    const { filePath, idField, id, field, newValue } = req.body;
     const absolutePath = path.resolve(__dirname, filePath);
     
     fs.readFile(absolutePath, 'utf8', (err, data) => {
@@ -365,19 +365,15 @@ app.post('/update-field', (req, res) => {
             return res.status(500).json({ error: '파일을 읽는 중 오류가 발생했습니다.' });
         }
 
-        // hackId로 해당 객체를 찾고, 그 안에서 특정 필드를 찾아 수정
-        let pattern;
-        if (typeof newValue === 'string') {
-            // 문자열 값인 경우 (따옴표로 감싸진 값을 찾음)
-            pattern = new RegExp(`(hackId: ${hackId}[^}]*${field}: )['"](.*?)['"]`, 'g');
-            data = data.replace(pattern, `$1"${newValue}"`);
-        } else {
-            // 숫자 값인 경우 (따옴표 없는 값을 찾음)
-            pattern = new RegExp(`(hackId: ${hackId}[^}]*${field}: )(\\d+)`, 'g');
-            data = data.replace(pattern, `$1${newValue}`);
-        }
+        // 정확한 필드 매칭을 위해 단어 경계 추가
+        const pattern = new RegExp(`(${idField}: *['"]${id}['"][^}]*\\b${field}\\b: *)['"'].*?['"']`, 'g');
+        
+        const updatedData = data.replace(pattern, (match, prefix) => {
+            const quote = match.includes('"') ? '"' : "'";
+            return `${prefix}${quote}${newValue}${quote}`;
+        });
 
-        fs.writeFile(absolutePath, data, 'utf8', (err) => {
+        fs.writeFile(absolutePath, updatedData, 'utf8', (err) => {
             if (err) {
                 console.error('파일을 저장하는 중 오류가 발생했습니다:', err);
                 return res.status(500).json({ error: '파일을 저장하는 중 오류가 발생했습니다.' });
@@ -387,8 +383,8 @@ app.post('/update-field', (req, res) => {
     });
 });
 
-app.post('/delete-hackathon', (req, res) => {
-    const { filePath, hackId } = req.body;
+app.post('/delete-object', (req, res) => {
+    const { filePath, idField, id } = req.body;
     const absolutePath = path.resolve(__dirname, filePath);
     
     fs.readFile(absolutePath, 'utf8', (err, data) => {
@@ -397,14 +393,12 @@ app.post('/delete-hackathon', (req, res) => {
             return res.status(500).json({ error: '파일을 읽는 중 오류가 발생했습니다.' });
         }
 
-        // 해당 hackId를 가진 객체를 찾아서 제거
-        const pattern = new RegExp(`\\s*\\{\\s*hackId:\\s*${hackId}[^}]*\\},?`, 'g');
+        const pattern = new RegExp(`(,?\\s*\\{[^}]*${idField}:\\s*['"]?${id}['"]?[^}]*\\},?)`, 'g');
         let newData = data.replace(pattern, '');
         
-        // 만약 삭제된 객체가 마지막이 아니었다면 남은 쉼표 처리
-        newData = newData.replace(/,(\s*\])/g, '$1');
-        // 만약 삭제된 객체가 마지막이었다면 마지막 쉼표 추가
-        newData = newData.replace(/}(\s*\])/g, '},\n$1');
+        // 쉼표 및 공백 정리
+        newData = newData.replace(/,\s*]/g, ']');
+        newData = newData.replace(/\[\s*,/g, '[');
 
         fs.writeFile(absolutePath, newData, 'utf8', (err) => {
             if (err) {

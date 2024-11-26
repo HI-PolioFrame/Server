@@ -1,7 +1,7 @@
 import SelectBox from "../commmon/SelectBox";
 import React from "react";
 import styled from "styled-components";
-import SearchBarMini from "../../components/MyPage/SearchBarMini";
+import SearchBarMini from "../MyPage/SearchBarMini";
 
 import StyledButton from "../commmon/StyledButton";
 
@@ -118,7 +118,12 @@ const TemplateGridWrapper = styled.div`
 const TemplateGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1vw;
+  //place-content: center center;
+  //justify-content: center;
+  gap: 3vw 1vw;
+
+  margin-top: 2em;
+  width: 100%;
 `;
 
 const Line = styled.hr`

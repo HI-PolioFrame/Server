@@ -9,7 +9,10 @@ import SearchBar from "../components/commmon/SearchBar";
 import StyledButton from "../components/commmon/StyledButton";
 import HackathonPageSlide from "../components/HackathonPage/HackathonPageSlide.jsx";
 import { Navigate, useNavigate } from "react-router-dom";
-import { getCurrentUser, setCurrentUser } from "../components/features/currentUser";
+import {
+  getCurrentUser,
+  setCurrentUser,
+} from "../components/features/currentUser";
 
 import {
   oriHackathons,
@@ -49,8 +52,11 @@ const HackathonPage = () => {
     console.log("sharedHackathonArray 값:", sharedHackathonArray); //-> O
 
     setsharedHackathonList(sharedHackathonArray); // 상태 업데이트
+
+    const initialList = searchSortManager.sort(null, null, []);
+    setsharedHackathonList(linkedListToArray(initialList));
   }, []);
-  
+
   const handleSortApply = (category, sortOption, filterOption) => {
     const sortedLinkedList = searchSortManager.sort(
       category,
@@ -92,15 +98,14 @@ const HackathonPage = () => {
         {/* 기존 해커톤 */}
         <Line2></Line2>
 
-        <HackathonPageSlide/>
+        <HackathonPageSlide />
 
         <ButtonWrapper>
-        {/* 포트폴리오 제작 페이지로 넘어갈 수 있는 버튼 추가 */}
-        <StartButton onClick={() => navigate("/CreateHackathonPage")}>
-          해커톤 제작하기
-        </StartButton>
-      </ButtonWrapper>
-
+          {/* 포트폴리오 제작 페이지로 넘어갈 수 있는 버튼 추가 */}
+          <StartButton onClick={() => navigate("/CreateHackathonPage")}>
+            해커톤 제작하기
+          </StartButton>
+        </ButtonWrapper>
       </MainWrapper>
     </>
   );
@@ -180,10 +185,12 @@ const SearchInput = styled.input`
 const TemplateGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  place-content: center center;
+  //place-content: center center;
+  //justify-content: center;
   gap: 3vw 1vw;
+
   margin-top: 2em;
-  max-width: 80em;
+  width: 100%;
 `;
 
 const Line = styled.hr`
