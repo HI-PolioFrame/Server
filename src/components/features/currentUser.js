@@ -13,5 +13,3 @@ export const clearCurrentUser = () => {
   currentUser = null;
   localStorage.removeItem("currentUser"); // 로그아웃 시 localStorage에서 제거
 };
-
-export default currentUser;
