@@ -40,7 +40,7 @@ const ModifyPortfolioPage = () => {
     video: null,
     coverImage: null,
     images: [],
-    logo: null,
+    logo: null
   });
 
   // const [currentUser, setCurrentUser] = useState(null);

@@ -18,7 +18,7 @@ export const projectInfo = [
     hits: 17,
     likes: [],
     contacts: [],
-    comments: []
+    comments: [],
   },
   {
     projectId: 2,
@@ -39,7 +39,7 @@ export const projectInfo = [
     hits: 7,
     likes: [],
     contacts: [],
-    comments: []
+    comments: [],
   },
   {
     projectId: 3,
@@ -60,7 +60,7 @@ export const projectInfo = [
     hits: 12,
     likes: [],
     contacts: [],
-    comments: []
+    comments: [],
   },
   {
     projectId: 4,
@@ -81,7 +81,7 @@ export const projectInfo = [
     hits: 1,
     likes: [],
     contacts: [],
-    comments: []
+    comments: [],
   },
   {
     projectId: 5,
@@ -102,7 +102,7 @@ export const projectInfo = [
     hits: 2,
     likes: [],
     contacts: [],
-    comments: []
+    comments: [],
   },
   {
     projectId: 6,
@@ -123,7 +123,7 @@ export const projectInfo = [
     hits: 0,
     likes: [],
     contacts: [],
-    comments: []
+    comments: [],
   },
   {
     projectId: 7,
@@ -141,13 +141,11 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Java",
     category: "백엔드",
-
     hits: 16,
+
     likes: [],
-    contacts: [
-      "admin1"
-    ],
-    comments: []
+    contacts: [],
+    comments: [],
   },
   {
     projectId: 8,
@@ -167,27 +165,5 @@ export const projectInfo = [
     category: "백엔드",
     hits: 10,
     likes: [],
-    contacts: []
-  },
-  {
-      projectId: 9,
-      projectTitle: "wfdsvcx", 
-      projectOwnerName: "김태연",
-      description: "wrvscx",
-      startDate: "Wed Nov 27 2024 00:00:00 GMT+0900 (한국 표준시)", 
-      endDate: "Sat Nov 30 2024 00:00:00 GMT+0900 (한국 표준시)", 
-      category: "ㅇㄷㄷ", 
-      usedLanguage: "ㅎㄱㅁㄿ", 
-      projectLink: "ㄿgaf",
-      solving: "ㅎㅁㅍ", 
-      challenge: "vfrscx",
-      video: "비디오 없음.",
-      coverImage: "없음.", 
-      images: [], 
-      logo: "없음.", 
-      share: true,
-
-      ownerId: "happytree12",
-      ownerEmail: "tylove@naver.com"
-  }
-];
+    contacts: ["admin1"],
+  }]; 

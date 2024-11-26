@@ -77,7 +77,7 @@ const HackathonPage = () => {
       <HackPageHeader pageTitle="Hackathon" />
       <MainWrapper>
         <SelectBoxWrapper>
-          <SelectBox onSort={handleSearchApply} />
+          <SelectBox onSort={handleSortApply} />
         </SelectBoxWrapper>
         <Line></Line>
 
