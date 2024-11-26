@@ -5,7 +5,11 @@ import defaultProfilePicture from "../../assets/icons/Header/profileIcon.png"; /
 import StyledButton from "./StyledButton";
 import { Navigate, useNavigate } from "react-router-dom";
 import HackathonPage from "../../pages/HackathonPage";
-import { getCurrentUser, setCurrentUser } from "../features/currentUser";
+import {
+  getCurrentUser,
+  setCurrentUser,
+  clearCurrentUser,
+} from "../features/currentUser";
 
 import { SiPagekit } from "react-icons/si";
 import { LuPen, LuLogOut } from "react-icons/lu";
@@ -19,9 +23,9 @@ const profileMenuItems = [
 function Header({}) {
   const navigate = useNavigate();
 
-  const [accessToken, setAccessToken] = useState(
-    localStorage.getItem("accessToken")
-  );
+  // const [accessToken, setAccessToken] = useState(
+  //   localStorage.getItem("accessToken")
+  // );
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   // 프로필 클릭 이벤트 추가했다구리
   const menuRef = useRef(null);
@@ -29,20 +33,20 @@ function Header({}) {
 
   // useEffect로 컴포넌트가 처음 렌더링될 때 accessToken 업데이트
   useEffect(() => {
-    const handleStorageChange = () => {
-      setAccessToken(localStorage.getItem("accessToken"));
-    };
+    // const handleStorageChange = () => {
+    //   setAccessToken(localStorage.getItem("accessToken"));
+    // };
     // 여기 추가
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setIsProfileMenuOpen(false);
       }
     };
-    window.addEventListener("storage", handleStorageChange);
+    //window.addEventListener("storage", handleStorageChange);
     document.addEventListener("mousedown", handleClickOutside);
     // 컴포넌트가 언마운트 될 때 이벤트 리스너 제거
     return () => {
-      window.removeEventListener("storage", handleStorageChange);
+      //window.removeEventListener("storage", handleStorageChange);
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
@@ -50,8 +54,9 @@ function Header({}) {
   const handleLogout = () => {
     // localStorage.removeItem("accessToken");
     // localStorage.removeItem("Id");
-    setAccessToken(null); // 로그아웃 시 상태 초기화
-    setCurrentUser(null);
+    clearCurrentUser();
+    //setAccessToken(null); // 로그아웃 시 상태 초기화
+    //setCurrentUser(null);
     navigate("./");
   };
 
@@ -80,7 +85,7 @@ function Header({}) {
         <TextWrapper>
           <Text onClick={() => navigate("/PortfolioPage")}>포트폴리오</Text>
           <Text onClick={() => navigate("/HackathonPage")}>해커톤</Text>
-          {accessToken && currentUser?.recruiter && (
+          {currentUser?.recruiter && (
             <Text onClick={() => navigate(`/RecruiterPage/${currentUser.id}`)}>
               채용
             </Text>
@@ -95,7 +100,7 @@ function Header({}) {
 
       {/* 로그인 여부에 따라 프로필 이미지 또는 로그인/로그아웃 버튼 렌더링 */}
       <Profile className="Profile">
-        {accessToken && getCurrentUser() ? (
+        {getCurrentUser() ? (
           <>
             <ProfileWrapper className="ProfileWrapper">
               <ProfilePic
@@ -188,7 +193,7 @@ const ProfilePicMenu = styled.div`
   //position: absolute;
   //top: 135%;
   width: 10vw;
-  height: 17vh;
+  //height: 17vh;
   background-color: #15243e80;
   border-radius: 0.625em;
   display: ${({ isOpen }) => (isOpen ? "flex" : "none")};

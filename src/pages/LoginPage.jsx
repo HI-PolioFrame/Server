@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Navigate, useNavigate } from "react-router-dom";
-import { setCurrentUser } from "../components/features/currentUser.js";
+import {
+  setCurrentUser,
+  getCurrentUser,
+} from "../components/features/currentUser.js";
 
 import Eye from "../assets/icons/Login/Eye.png";
 import Eyeoff from "../assets/icons/Login/Eyeoff.png";
@@ -18,6 +21,14 @@ const LoginPage = () => {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    //이미 로그인된 사용자 있으면 홈으로
+    const currentUser = getCurrentUser();
+    if (currentUser) {
+      navigate("/");
+    }
+  }, [navigate]);
+
   // 회원가입 페이지 이동
 
   const onClickImg = () => {
@@ -26,7 +37,8 @@ const LoginPage = () => {
 
   // 비밀번호 눈
   const toggleEyeVisible = () => {
-    setEyeVisible(!eyeVisible); ㅇ
+    setEyeVisible(!eyeVisible);
+    ㅇ;
   };
 
   // // API연결 X
@@ -49,7 +61,7 @@ const LoginPage = () => {
 
     if (user) {
       // 로그인 성공 시 accessToken 저장
-      localStorage.setItem("accessToken", "yourAccessTokenHere"); // 실제 accessToken 사용
+      //localStorage.setItem("accessToken", "yourAccessTokenHere"); // 실제 accessToken 사용
       setCurrentUser(user); //현재 사용자 정보 저장
 
       // // session 사용
@@ -67,12 +79,12 @@ const LoginPage = () => {
   // const handleLogin = async () => {
   //     const trimmedIdOrEmail = emailOrId.trim();  // 입력값을 trim하여 처리
   //     const trimmedPassword = password.trim();
-  
+
   //     console.log('아이디/이메일:', trimmedIdOrEmail);  // 확인을 위해 로그 출력
-  //     console.log('비밀번호:', trimmedPassword); 
+  //     console.log('비밀번호:', trimmedPassword);
 
   //     const isInputEmail = isEmail(trimmedIdOrEmail);
-  
+
   //     try {
   //         const loginMessage = await loginSession(trimmedIdOrEmail, trimmedPassword);
   //         if (loginMessage.includes("로그인 되었습니다!")) {
@@ -87,10 +99,9 @@ const LoginPage = () => {
   //         alert("서버와의 통신 중 오류가 발생했습니다.");
   //     }
   // };
-  
 
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleLogin();
     }
   };
@@ -100,18 +111,18 @@ const LoginPage = () => {
       <MainText onClick={() => navigate("/")}>FolioFrame</MainText>
       <JoinWrapper>
         <IDinput
-         placeholder="이메일 주소 또는 아이디"
-         value={Id}  
-         onChange={(e) => {
-             if (e.target.value.includes("@")) {
-                 setEmail(e.target.value);
-             } else {
-                setId(e.target.value);
-             }
-         }}
-        //  value={emailOrId}  
-        //  onChange={(e) => setemailOrId(e.target.value)} // 이메일 또는 아이디 입력
-         onKeyDown={handleKeyDown}
+          placeholder="이메일 주소 또는 아이디"
+          value={Id}
+          onChange={(e) => {
+            if (e.target.value.includes("@")) {
+              setEmail(e.target.value);
+            } else {
+              setId(e.target.value);
+            }
+          }}
+          //  value={emailOrId}
+          //  onChange={(e) => setemailOrId(e.target.value)} // 이메일 또는 아이디 입력
+          onKeyDown={handleKeyDown}
         />
         <PassWrapper>
           <PASSinput

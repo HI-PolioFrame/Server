@@ -1,14 +1,93 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import InfoSection from "../components/ProfileEditPage/InfoSection";
 
-import { getCurrentUser } from "../components/features/currentUser";
+import {
+  getCurrentUser,
+  setCurrentUser,
+  clearCurrentUser,
+} from "../components/features/currentUser";
+import { initializeData, oriUsers } from "../components/domain/startProgram";
+import {
+  updateName,
+  updateNickname,
+  updateEmail,
+  updatePassword,
+  updatePhoneNumber,
+  deleteAccount,
+} from "../components/features/profileFeatures";
+import { useNavigate } from "react-router-dom";
 
 //i 아이콘
 import infoIcon from "../assets/images/PortfolioEditPage/InfoIcon.svg";
 
+// 모달 컴포넌트
+const Modal = ({ isOpen, onClose, onConfirm }) => {
+  if (!isOpen) return null;
+
+  return (
+    <ModalOverlay>
+      <ModalContent>
+        <ModalText>
+          정말로 탈퇴하시겠습니까? 이 작업은 되돌릴 수 없습니다.
+        </ModalText>
+        <ButtonContainer>
+          <CancelButton onClick={onClose}>취소</CancelButton>
+          <ConfirmButton onClick={onConfirm}>확인</ConfirmButton>
+        </ButtonContainer>
+      </ModalContent>
+    </ModalOverlay>
+  );
+};
+
 const ProfileEditPage = () => {
-  const currentUser = getCurrentUser();
+  const [currentUser, setLocalCurrentUser] = useState(getCurrentUser()); // 초기값 가져오기
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    initializeData();
+    // oriUsers에서 현재 유저 정보 동기화
+    const userId = currentUser?.id;
+    if (userId) {
+      const updatedUser = oriUsers.get(userId);
+      if (updatedUser) {
+        setLocalCurrentUser(updatedUser); // 로컬 상태 업데이트
+        setCurrentUser(updatedUser); // localStorage에 반영
+      }
+    }
+    console.log(currentUser);
+  }, [oriUsers]); // oriUsers 변경 시 실행
+
+  const handleUpdateName = (newName) => {
+    updateName(currentUser.id, newName);
+  };
+
+  const handleUpdateNickname = (newNickname) => {
+    updateNickname(currentUser.id, newNickname);
+  };
+
+  const handleUpdateEmail = (newEmail) => {
+    updateEmail(currentUser.id, newEmail);
+  };
+
+  const handleUpdatePassword = (newPassword) => {
+    updatePassword(currentUser.id, newPassword);
+  };
+
+  const handleUpdatePhone = (newPhone) => {
+    updatePhoneNumber(currentUser.id, newPhone);
+  };
+
+  const handleDeleteAccount = () => {
+    setIsModalOpen(false);
+    //alert("계정이 성공적으로 삭제되었습니다.");
+    // 추가 작업: 로그아웃 처리 또는 메인 페이지로 리다이렉트
+    clearCurrentUser();
+    navigate("/");
+    deleteAccount(currentUser.id);
+  };
 
   return (
     <Container>
@@ -19,12 +98,13 @@ const ProfileEditPage = () => {
           <InfoSection
             label={"이름"}
             value={currentUser.name}
-            button={"설정"}
+            isButton={false}
           />
           <InfoSection
             label={"닉네임"}
             value={currentUser.nickname}
             button={"설정"}
+            onSave={handleUpdateNickname}
           />
         </InfoContainer>
       </Section>
@@ -40,17 +120,19 @@ const ProfileEditPage = () => {
               currentUser.email ||
               "아이디/이메일을 설정해주세요."
             }
-            button={"설정"}
+            isButton={false}
           />
           <InfoSection
             label={"비밀번호"}
             value={"비밀번호를 설정해주세요."}
             button={"설정"}
+            onSave={handleUpdatePassword}
           />
           <InfoSection
             label={"휴대폰번호"}
             value={currentUser.phoneNumber}
             button={"설정"}
+            onSave={handleUpdatePhone}
           />
         </InfoContainer>
       </Section>
@@ -70,13 +152,14 @@ const ProfileEditPage = () => {
             <InfoSection
               label={"이메일"}
               value={currentUser.email}
-              button={"변경"}
+              isButton={false}
             />
           ) : (
             <InfoSection
               label={"이메일"}
               value={"등록된 이메일이 없습니다."}
               button={"등록"}
+              onSave={handleUpdateEmail}
             />
           )}
         </InfoContainer>
@@ -92,7 +175,7 @@ const ProfileEditPage = () => {
             2. 탈퇴 시 계정과 관련된 모든 권한이 사라지며 복구할 수 없습니다.
           </DeleteInfo>
           <DeleteButtonContainer>
-            <DeleteButtonWrapper>
+            <DeleteButtonWrapper onClick={() => setIsModalOpen(true)}>
               <DeleteButton>
                 <ButtonText>탈퇴</ButtonText>
               </DeleteButton>
@@ -100,6 +183,13 @@ const ProfileEditPage = () => {
           </DeleteButtonContainer>
         </InfoContainer>
       </Section>
+
+      {/* 탈퇴 확인 모달 */}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={handleDeleteAccount}
+      />
     </Container>
   );
 };
@@ -232,4 +322,54 @@ const ButtonText = styled.span`
   display: flex;
   -webkit-box-align: center;
   align-items: center;
+`;
+
+//탈퇴시
+const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+`;
+
+const ModalContent = styled.div`
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  width: 300px;
+`;
+
+const ModalText = styled.p`
+  font-size: 16px;
+  margin-bottom: 20px;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+`;
+
+const CancelButton = styled.button`
+  background: gray;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+`;
+
+const ConfirmButton = styled.button`
+  background: red;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 `;

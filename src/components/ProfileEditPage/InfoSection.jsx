@@ -1,117 +1,168 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
-const InfoSection = ({ label, value, button }) => {
+const InfoSection = ({
+  label,
+  value,
+  isButton = true,
+  button = "설정",
+  onSave,
+}) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [inputValue, setInputValue] = useState(value);
+  const [isModified, setIsModified] = useState(false);
+
+  const handleEditClick = () => {
+    setIsEditing(true);
+    setIsModified(false);
+  };
+
+  const handleCancelClick = () => {
+    setInputValue(value);
+    setIsEditing(false);
+    setIsModified(false);
+  };
+
+  const handleInputChange = (e) => {
+    const newValue = e.target.value;
+    setInputValue(newValue);
+    setIsModified(newValue !== value);
+  };
+
+  const handleSaveClick = () => {
+    if (isModified && inputValue.trim()) {
+      console.log(inputValue.trim());
+      onSave(inputValue.trim());
+      setIsEditing(false);
+      setIsModified(false);
+    }
+  };
+
   return (
-    <>
-      <InfoWrapper>
-        <LabelWrapper>
-          <Label>{label}</Label>
-        </LabelWrapper>
-        <ValueContainer>
-          <ValueWrapper>
-            <Value>{value}</Value>
-          </ValueWrapper>
-          <ButtonContainer>
-            <ButtonWrapper>
-              <Button>{button}</Button>
-            </ButtonWrapper>
-          </ButtonContainer>
-        </ValueContainer>
-      </InfoWrapper>
-    </>
+    <Container>
+      <Label>{label}</Label>
+      <Content>
+        {isEditing ? (
+          <EditContainer>
+            <Input
+              type="text"
+              value={inputValue}
+              onChange={handleInputChange}
+              placeholder="값을 입력해주세요."
+            />
+            <ButtonGroup>
+              <CancelButton onClick={handleCancelClick}>취소</CancelButton>
+              <SaveButton onClick={handleSaveClick} disabled={!isModified}>
+                저장
+              </SaveButton>
+            </ButtonGroup>
+          </EditContainer>
+        ) : (
+          <DisplayContainer>
+            <Value>{value || "값을 설정해주세요."}</Value>
+            {isButton && (
+              <EditButton onClick={handleEditClick}>{button}</EditButton>
+            )}
+          </DisplayContainer>
+        )}
+      </Content>
+    </Container>
   );
 };
 
 export default InfoSection;
 
-const ValueContainer = styled.div`
+// Styled Components
+const Container = styled.div`
   display: flex;
-  flex: 1 1 auto;
-  width: 100%;
-  min-width: 0px;
-`;
-
-const ButtonContainer = styled.button`
-  position: relative;
-  display: inline-block;
-  width: auto;
-  padding: 0px 1.125rem;
-  appearance: none;
-  text-align: left;
-  text-decoration: none;
-  line-height: 1;
-  box-sizing: border-box;
-  height: 2.25rem;
-
-  border-radius: 0.5rem;
-  font-family: "OTF R";
-  font-weight: 600;
-
-  font-size: 0.875rem;
-  user-select: none;
-  cursor: pointer;
-  border: 0.0625rem solid rgb(206, 212, 218);
-  background-color: rgb(255, 255, 255);
-  color: rgb(33, 37, 41);
-`;
-
-const InfoWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  gap: 0.5rem;
-  -webkit-box-align: center;
-  align-items: center;
-`;
-
-const LabelWrapper = styled.div`
-  display: flex;
-  flex: 0 0 140px;
-  gap: 0.5rem;
-  -webkit-box-align: center;
-  align-items: center;
-`;
-
-const ValueWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  -webkit-box-align: center;
-  align-items: center;
-  -webkit-box-pack: justify;
-  justify-content: space-between;
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  -webkit-box-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  justify-content: center;
-  height: 100%;
-  overflow: visible;
-  pointer-events: none;
+  align-items: flex-start;
+  padding: 1rem 0;
+  border-bottom: 1px solid #ddd;
 `;
 
 const Label = styled.div`
-  flex: 0 0 auto;
-`;
-
-const Value = styled.p`
-  //font-family: "OTF R";
-  -webkit-tap-highlight-color: transparent;
+  flex: 0 0 140px;
   font-size: 1rem;
-  text-decoration: none;
-  color: rgb(33, 37, 41);
-  font-weight: 600;
-  line-height: 1.5;
-  text-underline-position: under;
+  font-weight: bold;
+  line-height: 2.5rem; /* Label과 Input을 수평 정렬 */
 `;
 
-const Button = styled.span`
-  white-space: nowrap;
-  height: 100%;
-  overflow: hidden;
+const Content = styled.div`
+  flex: 1;
+`;
+
+const DisplayContainer = styled.div`
   display: flex;
-  -webkit-box-align: center;
   align-items: center;
+  justify-content: space-between;
+`;
+
+const Value = styled.div`
+  font-size: 1rem;
+  color: #aaa;
+  flex: 1;
+  text-align: left;
+  line-height: 2.5rem; /* Label과 Value를 수평 정렬 */
+`;
+
+const EditButton = styled.button`
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  background-color: #fff;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f9f9f9;
+  }
+`;
+
+const EditContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`;
+
+const Input = styled.input`
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+`;
+
+const ButtonGroup = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+`;
+
+const CancelButton = styled.button`
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  background-color: #fff;
+  color: #555;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f9f9f9;
+  }
+`;
+
+const SaveButton = styled.button`
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  background-color: ${(props) => (props.disabled ? "#ddd" : "#007bff")};
+  color: ${(props) => (props.disabled ? "#aaa" : "#fff")};
+  border: 1px solid ${(props) => (props.disabled ? "#ddd" : "#007bff")};
+  border-radius: 0.5rem;
+  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+
+  &:hover {
+    background-color: ${(props) => (props.disabled ? "#ddd" : "#0056b3")};
+  }
 `;
