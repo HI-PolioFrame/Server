@@ -143,14 +143,6 @@ class MyProjectsSearchSortManager {
         }
     
         // 필터옵션에 따른 리스트 수정
-        //
-        // 필터옵션은 있음, 없음 중 1 + Java, Python, JavaScript 중 1 + 학사, 석사, 박사 중 1이거나
-        // 선택이 안 된 필터의 경우 값이 아예 들어있지 않은 배열이다.
-        //
-        // 배열을 처음부터 순회하면서 switch-case문으로
-        // case 1과 2: 각 '있음', '없음'
-        // case 3과 4와 5: 각 '자바'...
-        // case 6과 7과 8: 각 학력으로 한다.
         for(const element of this.filterOption){
             switch(element){
                 default:
