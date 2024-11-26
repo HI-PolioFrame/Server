@@ -7,5 +7,3 @@ export const setCurrentUser = (user) => {
 export const getCurrentUser = () => {
   return currentUser;
 };
-
-export default currentUser;
