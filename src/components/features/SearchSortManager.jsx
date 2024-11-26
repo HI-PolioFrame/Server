@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { LinkedList } from "../DataStructure/linkedList";
-import { oriUsers, oriProjects } from "../domain/startProgram.js";
+import { oriUsers, oriProjects, oriHackathons } from "../domain/startProgram.js";
+import { updateParticipant } from "./hackathonFeatures.jsx";
 class SearchSortManager {
   constructor() {
     this.currentPortfolios = new LinkedList();
@@ -53,6 +54,8 @@ class SearchSortManager {
 
   doSearch() {
     if (!this.searchTerm) {
+      console.log(updateParticipant(1, "admin1"));
+      console.log(oriHackathons);
       return;
     }
 

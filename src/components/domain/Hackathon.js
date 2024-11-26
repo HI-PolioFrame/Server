@@ -32,7 +32,8 @@ class Hackathon {
         coverImage = null,
         logo = null,
         ownerId, 
-        ownerEmail 
+        ownerEmail,
+        participant = []
     ) {
         this.hackId = hackId;
         this.hackName = hackName;
@@ -47,6 +48,7 @@ class Hackathon {
         this.logo = logo;
         this.ownerId = ownerId; 
         this.ownerEmail = ownerEmail;
+        this.participant = participant;
     }
 }
 

@@ -328,6 +328,66 @@ app.post('/patch-likes', async (req, res) => {
     }
 });
 
+app.post('/patch-participant', async (req, res) => {
+    try {
+        const { filePath, hackId, userId, newMemNumber } = req.body;
+
+        // 파일 읽기
+        const data = await fs.readFile(filePath, 'utf8');
+        
+        // JavaScript 객체 문자열을 실제 객체로 변환
+        let contentWithoutExport = data.replace('export const hackathonInfo = ', '');
+        contentWithoutExport = contentWithoutExport.replace(/;\s*$/, '');
+        
+        function convertToValidJSON(jsString) {
+            try {
+                return Function(`"use strict"; return (${jsString})`)();
+            } catch (error) {
+                console.error('JavaScript 객체 파싱 에러:', error);
+                throw error;
+            }
+        }
+        
+        const hackathonInfo = convertToValidJSON(contentWithoutExport);
+        
+        const hackathon = hackathonInfo.find(p => p.hackId === hackId);
+
+        if (!hackathon.participant) {
+            hackathon.participant = [];
+        }
+        if (!hackathon.participant.includes(userId)) {
+            hackathon.participant.push(userId);
+        }
+        else {
+            hackathon.participant = hackathon.participant.filter((element => element != userId));
+        }
+
+        // hits 업데이트
+        const updatedHackathon = hackathonInfo.map(hackathon => {
+            if (hackathon.hackId === hackId) {
+                return { ...hackathon, memNumber: newMemNumber };
+            }
+            return hackathon;
+        });
+
+        const updatedContent = 'export const hackathonInfo = ' + 
+            JSON.stringify(updatedHackathon, null, 2)
+                .replace(/"([^"]+)":/g, '$1:')
+                .replace(/}]/g, '}\n]') + 
+            ';\n';
+
+        await fs.writeFile(filePath, updatedContent, 'utf8');
+
+    } catch (error) {
+        console.error('서버 에러:', error);
+        res.status(500).json({ 
+            success: false,
+            error: '파일 처리 중 오류가 발생했습니다.',
+            details: error.message 
+        });
+    }
+});
+
 app.post('/update-field', (req, res) => {
     const { filePath, idField, id, field, newValue } = req.body;
     const absolutePath = path.resolve(__dirname, filePath);
@@ -339,8 +399,6 @@ app.post('/update-field', (req, res) => {
         }
 
         const pattern = new RegExp(`(${idField}: *['"]?)${id}(['"]?[^}]*\\b${field}\\b: *)['"']?.*?['"']?(?=,|})`, 'g');
-
-        console.log(pattern);
         
         const updatedData = data.replace(pattern, (match, prefix1, prefix2) => {
             // newValue의 타입에 따라 다르게 처리
@@ -351,7 +409,6 @@ app.post('/update-field', (req, res) => {
                 return `${prefix1}${id}${prefix2}${quote}${newValue}${quote}`;
             }
         });
-        console.log(updatedData);
 
         fs.writeFile(absolutePath, updatedData, 'utf8', (err) => {
             if (err) {
