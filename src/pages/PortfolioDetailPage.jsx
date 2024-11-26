@@ -4,10 +4,14 @@ import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import {
   oriProjects,
+  oriUsers,
   oriComments,
   initializeData,
 } from "../components/domain/startProgram";
-import { getCurrentUser } from "../components/features/currentUser";
+import {
+  getCurrentUser,
+  setCurrentUser,
+} from "../components/features/currentUser";
 //기업 연락
 import { patchContacts } from "../components/features/recruiterFeatures";
 //좋아요
@@ -37,7 +41,7 @@ const PortfolioDetailPage = () => {
   const [isOwner, setIsOwner] = useState(false);
   const [isLiked, setIsLiked] = useState(false); //"좋아요" 눌렀을 때 상태 반영
 
-  const currentUser = getCurrentUser();
+  const [currentUser, setLocalCurrentUser] = useState(getCurrentUser()); // 초기값 가져오기
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -49,13 +53,23 @@ const PortfolioDetailPage = () => {
       setIsLiked(isIncludedLikes(portfolio.projectId, currentUser.id)); //초기상태
     }
 
+    // oriUsers에서 현재 유저 정보 동기화
+    const userId = currentUser?.id;
+    if (userId) {
+      const updatedUser = oriUsers.get(userId);
+      if (updatedUser) {
+        setLocalCurrentUser(updatedUser); // 로컬 상태 업데이트
+        setCurrentUser(updatedUser); // localStorage에 반영
+      }
+    }
+
     const filteredComments = Array.from(oriComments.values()).filter(
       (comment) => comment.portfolioId === Number(portfolioId)
     );
     setComments(filteredComments);
 
     console.log(portfolio);
-  }, [currentUser, oriProjects]);
+  }, [oriProjects, oriUsers]);
 
   useEffect(() => {
     console.log("portfolioData:", portfolioData);
@@ -90,7 +104,9 @@ const PortfolioDetailPage = () => {
 
   const handleContactClick = () => {
     if (currentUser && currentUser.recruiter) {
+      //const updatedContacts = [...(currentUser.contacts || []), portfolioId];
       patchContacts(Number(portfolioId), currentUser.id); // 기업 연락 호출
+      //updateCurrentUserContacts(updatedContacts); // localStorage 업데이트
       setShowContactInfo(true); // 개발자 정보 표시
       setShowModal(true);
       setModalMessage("채용자 페이지에 저장되었습니다.");
@@ -271,23 +287,21 @@ const PortfolioDetailPage = () => {
             </ImageContainer>
           </ImagesField>
         </OtherInfoSection>
-
-      
       </ContentSection>
-       {/* 수정 버튼 작성자와 포폴의 아이디가 동일할 경우에만 보이게한다. */}
-        {isOwner && (
-          <ButtonWrapper2>
-            <SubmitButton
-              onClick={() => {
-                navigate(`/ModifyPortfolioPage/${portfolioId}`);
-              }}
-            >
-              수정
-            </SubmitButton>
-            <SubmitButton>삭제</SubmitButton>
-          </ButtonWrapper2>
-        )}
-        
+      {/* 수정 버튼 작성자와 포폴의 아이디가 동일할 경우에만 보이게한다. */}
+      {isOwner && (
+        <ButtonWrapper2>
+          <SubmitButton
+            onClick={() => {
+              navigate(`/ModifyPortfolioPage/${portfolioId}`);
+            }}
+          >
+            수정
+          </SubmitButton>
+          <SubmitButton>삭제</SubmitButton>
+        </ButtonWrapper2>
+      )}
+
       <CommentsSection>
         <CommentsTitle>댓글</CommentsTitle>
         <WritingBox addComment={addComment} />

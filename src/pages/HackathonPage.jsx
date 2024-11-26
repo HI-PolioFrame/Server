@@ -55,6 +55,8 @@ const HackathonPage = () => {
 
     const initialList = searchSortManager.sort(null, null, []);
     setsharedHackathonList(linkedListToArray(initialList));
+
+    console.log(sharedHackathonList);
   }, []);
 
   const handleSortApply = (category, sortOption, filterOption) => {
@@ -77,7 +79,7 @@ const HackathonPage = () => {
       <PageHeader pageTitle="Hackathon" />
       <MainWrapper>
         <SelectBoxWrapper>
-          <SelectBox onSort={handleSearchApply} />
+          <SelectBox onSort={handleSortApply} />
         </SelectBoxWrapper>
         <Line></Line>
 
