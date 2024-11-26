@@ -187,7 +187,7 @@ const TextWrapper2 = styled.div`
   flex-direction: column;
   position: absolute;
   // left : 20em;
-  // margin-top : -5em;   
+  margin-top : -2em;   
 
 `;
 

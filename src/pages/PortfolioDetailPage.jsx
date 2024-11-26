@@ -272,7 +272,9 @@ const PortfolioDetailPage = () => {
           </ImagesField>
         </OtherInfoSection>
 
-        {/* 수정 버튼 작성자와 포폴의 아이디가 동일할 경우에만 보이게한다. */}
+      
+      </ContentSection>
+       {/* 수정 버튼 작성자와 포폴의 아이디가 동일할 경우에만 보이게한다. */}
         {isOwner && (
           <ButtonWrapper2>
             <SubmitButton
@@ -285,8 +287,7 @@ const PortfolioDetailPage = () => {
             <SubmitButton>삭제</SubmitButton>
           </ButtonWrapper2>
         )}
-      </ContentSection>
-
+        
       <CommentsSection>
         <CommentsTitle>댓글</CommentsTitle>
         <WritingBox addComment={addComment} />

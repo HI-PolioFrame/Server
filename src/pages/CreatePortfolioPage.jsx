@@ -21,7 +21,7 @@ const CreatePortfolioPage = () => {
     endDate: null,
     solving: "",
     challenge: "",
-    share: false, // 공유 여부
+    share: false,
     usedLanguage: "",
     category: "",
     video: null,
@@ -79,7 +79,7 @@ const CreatePortfolioPage = () => {
       ...prevData,
       [name]: date,
     }));
-  };
+  }; 
 
   const handleSaveProject = () => {
     console.log("handleSaveProject 호출됨"); // 호출 확인 로그 추가

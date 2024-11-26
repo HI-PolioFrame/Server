@@ -23,6 +23,7 @@ import { commentInfo } from "../commmon/dummydata/commentInfo.jsx"; //저장된 
 import { hackathonInfo } from "../commmon/dummydata/hackathonInfo.jsx";
 import SearchSortManager from "../features/SearchSortManager.jsx";
 export const oriUsers = new Map();
+console.log(oriUsers);
 export const oriRecruiters = new Map();
 export const oriPortfolios = new Map();
 export const oriProjects = new Map();
@@ -170,3 +171,6 @@ export const searchSortManager = new SearchSortManager(
   oriUsers,
   oriProjects
 );
+
+
+// module.exports = oriUsers;
