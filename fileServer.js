@@ -5,11 +5,6 @@ import { createServer } from 'vite';
 import cors from 'cors';
 import { fileURLToPath } from 'url';
 
-
-// session=========================================================================
-import session from 'express-session';
-
-
 // __dirname 설정 (ES 모듈 호환)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,41 +13,6 @@ const port = 3000;
 
 app.use(cors());
 app.use(express.json());
-
-
-// session==========================================================================
-app.use(session({
-    secret: 'your-secret-key', // 세션을 암호화하기 위한 키
-    resave: false,             // 세션을 항상 저장할지 여부
-    saveUninitialized: true,   // 초기화되지 않은 세션도 저장할지 여부
-    cookie: { secure: false }  // 개발 환경에서는 false, 배포 시에는 true로 설정
-}));
-
-// initializeData();
-// console.log("oriUsers 상태:", Array.from(oriUsers.entries())); 
-
-// 서버 코드에서 userId 또는 email로 사용자 찾기
-app.post('/login', (req, res) => {
-    const { userId, password } = req.body; // 클라이언트로부터 userId, password를 받아옴
-    console.log(req.body);
-
-    // 세션에 사용자 정보 저장
-    req.session.user = { userId: user.id };
-
-    // 로그인 성공 메시지 반환
-    res.send(`로그인 되었습니다! 사용자 아이디: ${user.id}`);
-});
-
-app.get('/check-login', (req, res) => {
-    // 세션에 사용자 정보가 있는지 확인하여 로그인 여부 판단
-    if (req.session.user) {
-        res.send(`로그인된 사용자: ${req.session.user.userId}`);
-    } else {
-        res.send('로그인되지 않았습니다.');
-    }
-});
-
-
 
 // 파일 읽기
 app.post('/read-number', (req, res) => {
