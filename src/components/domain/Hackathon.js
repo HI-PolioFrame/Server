@@ -48,7 +48,7 @@ class Hackathon {
         this.logo = logo;
         this.ownerId = ownerId; 
         this.ownerEmail = ownerEmail;
-        this.participant = participant || []; 
+        this.participant = Array.isArray(participant) ? participant : [];
     }
 
 }

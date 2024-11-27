@@ -33,8 +33,11 @@ const HackathonDetailPage = () => {
   const [HackathonData, setHackathonData] = useState(null);
   const [comments, setComments] = useState([]);
   const [isOwner, setIsOwner] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false); // 팝업 상태 추가
+
   const navigate = useNavigate();
   const currentUser = getCurrentUser();
+
   const userId = currentUser.id;
   console.log(userId);
   console.log(hackId);
@@ -120,6 +123,9 @@ const HackathonDetailPage = () => {
     );
   };
 
+  const handlePopupToggle = () => {
+    setIsPopupOpen((prev) => !prev);
+  };
 
   if (!HackathonData) {
     return <Loading>로딩 중...</Loading>;
@@ -237,10 +243,12 @@ const HackathonDetailPage = () => {
           </TimeWrapper>
         </RowWrapper>
         <StartButton
-         onClick={async () => {
-          // 해커톤 지원하기
-          await updateParticipant(hackId,userId);
-        }}>지원하기
+            onClick={isOwner ? handlePopupToggle : async () => {
+              // 해커톤 지원하기
+              await updateParticipant(hackId, userId);
+            }}
+          >
+            {isOwner ? "지원현황" : "지원하기"}
         </StartButton>
       </ContentSection1>
 
@@ -265,18 +273,34 @@ const HackathonDetailPage = () => {
       }}>삭제</SubmitButton>
       </ButtonWrapper2>
     )}
+
+    {/* 지원현황을 클릭하면 지원자들을 볼 수 있도록 (내가 제작한 해커톤인 경우에만 보이게 ) */}
+    {isOwner && isPopupOpen && (
+      <PopupOverlay>
+        <PopupContainer>
+          <CloseButton onClick={handlePopupToggle}>X</CloseButton>
+          <CommentsSection>
+            <CommentsTitle>지원자</CommentsTitle>
+            <ParticipantList>
+              {HackathonData.participant && HackathonData.participant.length > 0 ? (
+                HackathonData.participant.map((participant, index) => (
+                  <li key={index}>{participant}</li>
+                ))
+              ) : (
+                <li>지원자가 없습니다.</li>
+              )}
+            </ParticipantList>
+          </CommentsSection>
+        </PopupContainer>
+      </PopupOverlay>
+    )}
+
+
     </DetailContainer>
-      
+        
+
     </>
-    //   {/* <CommentsSection>
-    //     <CommentsTitle>댓글</CommentsTitle>
-    //     <WritingBox addComment={addComment} />
-    //     <CommentList
-    //       comments={comments}
-    //       setComments={setComments}
-    //       portfolioId={portfolioId}
-    //     />
-    //   </CommentsSection> */}
+    
   );
 };
 
@@ -539,4 +563,55 @@ const SubmitButton = styled.button`
     height: 2.25em;
     font-size: 0.8125em;
   }
+`;
+
+//css 지원자 
+const CommentsSection = styled.div`
+  margin-top: 6vh;
+`;
+
+const CommentsTitle = styled.h2`
+  font-weight: bold;
+  font-family: "OTF B";
+  color : #0a27a6;
+
+  text-align: center; 
+`;
+
+const ParticipantList = styled.p`
+  color:#000;
+`;
+
+const PopupOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+`;
+
+const PopupContainer = styled.div`
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 50vw;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative; 
+
+`;
+
+const CloseButton = styled.button`
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  position: absolute;
+  top: 1em;
+  right: 1em;
+  cursor: pointer;
+  color : #0a27a6;
 `;

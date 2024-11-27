@@ -41,7 +41,6 @@ const LoginPage = () => {
     ㅇ;
   };
 
-  // // API연결 X
   const handleLogin = () => {
     const trimmedEmail = email.trim();
     const trimmedId = Id.trim();
@@ -70,33 +69,6 @@ const LoginPage = () => {
     }
   };
 
-  //  서버 연결 로그인 처리
-  // const isEmail = (str) => /\S+@\S+\.\S+/.test(str); // 이메일 형식 확인
-
-  // const handleLogin = async () => {
-  //     const trimmedIdOrEmail = emailOrId.trim();  // 입력값을 trim하여 처리
-  //     const trimmedPassword = password.trim();
-
-  //     console.log('아이디/이메일:', trimmedIdOrEmail);  // 확인을 위해 로그 출력
-  //     console.log('비밀번호:', trimmedPassword);
-
-  //     const isInputEmail = isEmail(trimmedIdOrEmail);
-
-  //     try {
-  //         const loginMessage = await loginSession(trimmedIdOrEmail, trimmedPassword);
-  //         if (loginMessage.includes("로그인 되었습니다!")) {
-  //             alert("로그인 성공");
-  //             localStorage.setItem("accessToken", "yourAccessTokenHere");  // 실제 accessToken 사용
-  //             navigate("/");  // 로그인 성공 후 메인 페이지로 이동
-  //         } else {
-  //             alert("로그인 실패: " + loginMessage);
-  //         }
-  //     } catch (error) {
-  //         console.error("로그인 중 오류가 발생했습니다.", error);
-  //         alert("서버와의 통신 중 오류가 발생했습니다.");
-  //     }
-  // };
-
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       handleLogin();
@@ -107,20 +79,25 @@ const LoginPage = () => {
     <LoginWrapper>
       <MainText onClick={() => navigate("/")}>FolioFrame</MainText>
       <JoinWrapper>
-        <IDinput
-          placeholder="이메일 주소 또는 아이디"
-          value={Id}
-          onChange={(e) => {
-            if (e.target.value.includes("@")) {
-              setEmail(e.target.value);
-            } else {
-              setId(e.target.value);
-            }
-          }}
-          //  value={emailOrId}
-          //  onChange={(e) => setemailOrId(e.target.value)} // 이메일 또는 아이디 입력
-          onKeyDown={handleKeyDown}
-        />
+      <IDinput
+        placeholder="이메일 주소 또는 아이디"
+        value={emailOrId}
+        onChange={(e) => {
+          const inputValue = e.target.value.trim();
+
+          // 이메일 형식인지 확인
+          if (inputValue.includes("@")) {
+            setEmail(inputValue);
+            setId(""); 
+          } else {
+            setId(inputValue);
+            setEmail(""); 
+          }
+
+          setemailOrId(inputValue); 
+        }}
+        onKeyDown={handleKeyDown}
+      />
         <PassWrapper>
           <PASSinput
             type={eyeVisible ? "text" : "password"}
