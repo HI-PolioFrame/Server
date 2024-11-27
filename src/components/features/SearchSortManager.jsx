@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { LinkedList } from "../DataStructure/linkedList";
 import { oriUsers, oriProjects, oriHackathons } from "../domain/startProgram.js";
+import { updateParticipant } from "./hackathonFeatures.jsx";
 
 class SearchSortManager {
   constructor() {
