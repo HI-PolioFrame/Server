@@ -64,9 +64,6 @@ const LoginPage = () => {
       //localStorage.setItem("accessToken", "yourAccessTokenHere"); // 실제 accessToken 사용
       setCurrentUser(user); //현재 사용자 정보 저장
 
-      // // session 사용
-      // const msg = await loginSession(trimmedId, trimmedPassword);
-      // console.log(msg);
       navigate("/");
     } else {
       console.log("로그인 실패 - 입력값이 더미 데이터와 일치하지 않음");

@@ -35,6 +35,8 @@ import Notepad16 from "../assets/images/PortfolioDetailPage2/Notepad16.png";
 import heart_none from "../assets/images/PortfolioDetailPage3/heart-none.svg";
 import heart_fill from "../assets/images/PortfolioDetailPage3/heart-fill.svg";
 
+import {deleteProject} from "../components/features/projectFeatures";
+
 const PortfolioDetailPage2 = () => {
   const { portfolioId } = useParams();
   const [portfolioData, setPortfolioData] = useState(null);
@@ -289,7 +291,11 @@ const PortfolioDetailPage2 = () => {
             >
               수정
             </SubmitButton>
-            <SubmitButton>삭제</SubmitButton>
+            <SubmitButton
+              onClick={async () => {
+              await deleteProject(portfolioId);
+              navigate("/Mypage");
+          }}>삭제</SubmitButton>
           </ButtonWrapper2>
         )}
       </MainWrapper>

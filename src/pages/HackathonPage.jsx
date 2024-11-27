@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-import PageHeader from "../components/commmon/PageHeader.jsx";
+import HackPageHeader from "../components/commmon/HackPageHeader.jsx";
 import HackTemplateCard from "../components/commmon/HackTemplateCard.jsx";
 import { dummydata } from "../components/commmon/dummydata/dummydata";
 import SelectBox from "../components/commmon/SelectBox.jsx";
-import SearchBar from "../components/commmon/SearchBar";
+import HackSearchBar from "../components/commmon/HackSearchBar";
 import StyledButton from "../components/commmon/StyledButton";
 import HackathonPageSlide from "../components/HackathonPage/HackathonPageSlide.jsx";
 import { Navigate, useNavigate } from "react-router-dom";
@@ -16,7 +16,7 @@ import {
 
 import {
   oriHackathons,
-  searchSortManager,
+  hackathonSearchSortManeger,
   initializeData,
 } from "../components/domain/startProgram";
 
@@ -53,14 +53,12 @@ const HackathonPage = () => {
 
     setsharedHackathonList(sharedHackathonArray); // 상태 업데이트
 
-    const initialList = searchSortManager.sort(null, null, []);
-    setsharedHackathonList(linkedListToArray(initialList));
-
-    console.log(sharedHackathonList);
+    // const initialList = hackathonSearchSortManeger.sort(null, null, []);
+    // setsharedHackathonList(linkedListToArray(initialList));
   }, []);
 
   const handleSortApply = (category, sortOption, filterOption) => {
-    const sortedLinkedList = searchSortManager.sort(
+    const sortedLinkedList = hackathonSearchSortManeger.sort(
       category,
       sortOption,
       filterOption
@@ -69,14 +67,14 @@ const HackathonPage = () => {
   };
 
   const handleSearchApply = (searchTerm) => {
-    const searchedLinkedList = searchSortManager.search(searchTerm);
+    const searchedLinkedList = hackathonSearchSortManeger.search(searchTerm);
     setsharedPortfolioList(linkedListToArray(searchedLinkedList));
   };
   const currentUser = getCurrentUser();
 
   return (
     <>
-      <PageHeader pageTitle="Hackathon" />
+      <HackPageHeader pageTitle="Hackathon" />
       <MainWrapper>
         <SelectBoxWrapper>
           <SelectBox onSort={handleSortApply} />

@@ -42,7 +42,7 @@ const ModifyHackathonInput = ({ onInputChange, formData, onDateChange }) => {
       ...prevData,
       [name]: value,
     }));
-    onInputChange(e); // 부모 상태 동기화
+    onInputChange(e); 
   };
 
 

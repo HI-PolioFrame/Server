@@ -4,7 +4,11 @@ export const updateProject = async (projectId, field, newValue) => {
 
     const idField = "projectId";
     let project = oriProjects.get(projectId);
-
+    if (!project) {
+      console.error(`프로젝트 ID ${projectId}에 해당하는 데이터가 없습니다.`);
+      return;
+    }
+    
     if (project[field] == newValue) {
         console.log("기존과 같은 값이 입력됨");
         return;
@@ -48,8 +52,10 @@ export const updateProject = async (projectId, field, newValue) => {
     } catch (error) {
         console.error('필드 업데이트 중 오류가 발생했습니다:', error);
     }
-}
+};
 
+
+// 프로젝트 삭제
 export const deleteProject = async (projectId) => {
     try {
         const filePath = "src/components/commmon/dummydata/projectInfo.jsx";

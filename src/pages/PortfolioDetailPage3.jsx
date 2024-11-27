@@ -39,6 +39,9 @@ import sample from "../assets/images/PortfolioDetailPage3/sample.png";
 //sample 비디오
 import sampleVideo from "../assets/images/PortfolioDetailPage3/sampleVideo.mp4";
 
+import {deleteProject} from "../components/features/projectFeatures";
+
+
 const PortfolioDetailPage3 = () => {
   const { portfolioId } = useParams();
   const [portfolioData, setPortfolioData] = useState(null); //oriProjects로 부터 받아온 포트폴리오
@@ -338,7 +341,11 @@ const PortfolioDetailPage3 = () => {
           >
             수정
           </SubmitButton>
-          <SubmitButton>삭제</SubmitButton>
+          <SubmitButton
+              onClick={async () => {
+              await deleteProject(portfolioId);
+              navigate("/Mypage");
+          }}>삭제</SubmitButton>
         </ButtonWrapper2>
       )}
 
