@@ -311,6 +311,8 @@ app.post('/patch-participant', async (req, res) => {
         const hackathonInfo = convertToValidJSON(contentWithoutExport);
         
         const hackathon = hackathonInfo.find(p => p.hackId === hackId);
+        console.log("hackId: ", hackId);
+        console.log("hackathon: ", hackathon);
 
         if (!hackathon.participant) {
             hackathon.participant = [];
