@@ -125,7 +125,7 @@ export const initializeData = () => {
 
   hackathonInfo.forEach((data) => {
     let hackathon = new Hackathon(
-      data.hackId,
+        data.hackId,
         data.hackName,
         data.startDate,
         data.endDate,
