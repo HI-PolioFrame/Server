@@ -33,6 +33,8 @@ const HackathonDetailPage = () => {
   const [HackathonData, setHackathonData] = useState(null);
   const [comments, setComments] = useState([]);
   const [isOwner, setIsOwner] = useState(false);
+  const [isFull, setIsFull] = useState(false);
+
   const [isPopupOpen, setIsPopupOpen] = useState(false); // 팝업 상태 추가
 
   const navigate = useNavigate();
@@ -243,10 +245,17 @@ const HackathonDetailPage = () => {
           </TimeWrapper>
         </RowWrapper>
         <StartButton
-            onClick={isOwner ? handlePopupToggle : async () => {
-              // 해커톤 지원하기
-              await updateParticipant(hackId, userId);
-            }}
+            isFull={HackathonData.memNumber === HackathonData.maxMemNumber}
+            onClick={
+              isOwner
+                ? handlePopupToggle
+                : async () => {
+                    if (HackathonData.memNumber !== HackathonData.maxMemNumber) {
+                      await updateParticipant(hackId, userId);
+                    }
+                  }
+            }
+            disabled={HackathonData.memNumber === HackathonData.maxMemNumber}
           >
             {isOwner ? "지원현황" : "지원하기"}
         </StartButton>
@@ -486,12 +495,12 @@ const DesTitle = styled.p`
 
 //css button
 const StartButton = styled.button`
-  color: #fff;
+  // color: #fff;
   font-size: 1em;
   font-weight: 800;
   border-radius: 2em;
   border: none;
-  background-color: #0a27a6;
+  // background-color: #0a27a6;
   height: 3em;
   width: 50%;
   font-family: "OTF R";
@@ -500,6 +509,11 @@ const StartButton = styled.button`
   align-items: center;
   justify-content: center;
   position: relative;
+
+  background-color: ${({ isFull }) => (isFull ? "#cccccc" : "#0a27a6")};
+  color: ${({ isFull }) => (isFull ? "#666666" : "#ffffff")};
+  cursor: ${({ isFull }) => (isFull ? "not-allowed" : "pointe")};
+
 `;
 
 

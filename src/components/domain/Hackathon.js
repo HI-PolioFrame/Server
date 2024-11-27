@@ -25,7 +25,8 @@ class Hackathon {
         startDate,
         endDate,
         link,
-        memNumber,
+        memNumber = 0,
+        maxMemNumber,
         description,
         video = null,
         pictures = null,
@@ -41,6 +42,7 @@ class Hackathon {
         this.endDate = endDate;
         this.link = link;
         this.memNumber = memNumber;
+        this.maxMemNumber = maxMemNumber;
         this.description = description;
         this.video = video;
         this.pictures = pictures;

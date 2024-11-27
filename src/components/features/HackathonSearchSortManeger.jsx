@@ -46,6 +46,9 @@ class HackathonSearchSortManager {
         curHackathons.append(hack);
       });
       curHackathons.reverse();
+
+      // 확인용
+      curHackathons.print();
     //}
 
     if (!this.searchTerm) {
