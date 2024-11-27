@@ -12,7 +12,8 @@ export const hackathonInfo = [
         coverImage: "",
         logo: "",
         ownerId: "happytree12", 
-        ownerEmail: "tylove@naver.com" 
+        ownerEmail: "tylove@naver.com",
+        participant: []
     },
     {
         hackId: 2,
@@ -27,7 +28,8 @@ export const hackathonInfo = [
         coverImage: "",
         logo: "",
         ownerId: "backendDevel1!",
-        ownerEmail: "sylove@naver.com" 
+        ownerEmail: "sylove@naver.com",
+        participant: []
     },
 
 
