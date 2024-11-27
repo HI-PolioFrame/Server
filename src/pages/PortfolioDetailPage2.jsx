@@ -4,10 +4,14 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import {
   oriProjects,
+  oriUsers,
   oriComments,
   initializeData,
 } from "../components/domain/startProgram";
-import { getCurrentUser } from "../components/features/currentUser";
+import {
+  getCurrentUser,
+  setCurrentUser,
+} from "../components/features/currentUser";
 //기업 연락
 import { patchContacts } from "../components/features/recruiterFeatures";
 //좋아요
@@ -32,7 +36,6 @@ import heart_none from "../assets/images/PortfolioDetailPage3/heart-none.svg";
 import heart_fill from "../assets/images/PortfolioDetailPage3/heart-fill.svg";
 
 const PortfolioDetailPage2 = () => {
-  const navigate = useNavigate();
   const { portfolioId } = useParams();
   const [portfolioData, setPortfolioData] = useState(null);
   const [comments, setComments] = useState([]);
@@ -40,14 +43,26 @@ const PortfolioDetailPage2 = () => {
   const [isOwner, setIsOwner] = useState(false);
   const [isLiked, setIsLiked] = useState(false); //"좋아요" 눌렀을 때 상태 반영
 
-  const currentUser = getCurrentUser();
+  const [currentUser, setLocalCurrentUser] = useState(getCurrentUser()); // 초기값 가져오기
+  const navigate = useNavigate();
 
   useEffect(() => {
     initializeData();
+    //project ID 사용해서 포트폴리오 데이터 가져오기
     const portfolio = oriProjects.get(Number(portfolioId));
     if (portfolio) {
       setPortfolioData(portfolio);
-      setIsLiked(isIncludedLikes(portfolio.projectId, currentUser.id));
+      setIsLiked(isIncludedLikes(portfolio.projectId, currentUser.id)); //초기상태
+    }
+
+    // oriUsers에서 현재 유저 정보 동기화
+    const userId = currentUser?.id;
+    if (userId) {
+      const updatedUser = oriUsers.get(userId);
+      if (updatedUser) {
+        setLocalCurrentUser(updatedUser); // 로컬 상태 업데이트
+        setCurrentUser(updatedUser); // localStorage에 반영
+      }
     }
 
     const filteredComments = Array.from(oriComments.values()).filter(
@@ -56,7 +71,7 @@ const PortfolioDetailPage2 = () => {
     setComments(filteredComments);
 
     console.log(portfolio);
-  }, [currentUser, oriProjects]);
+  }, [oriProjects, oriUsers]);
 
   useEffect(() => {
     console.log("portfolioData:", portfolioData);

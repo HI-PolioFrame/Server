@@ -4,10 +4,14 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import {
   oriProjects,
+  oriUsers,
   oriComments,
   initializeData,
 } from "../components/domain/startProgram";
-import { getCurrentUser } from "../components/features/currentUser";
+import {
+  getCurrentUser,
+  setCurrentUser,
+} from "../components/features/currentUser";
 import Comment from "../components/domain/Comment";
 import saveComment from "../components/features/saveComment";
 //기업 연락
@@ -47,15 +51,26 @@ const PortfolioDetailPage3 = () => {
   const [isLiked, setIsLiked] = useState(false); //"좋아요" 눌렀을 때 상태 반영
 
   const mediaRef = useRef(null); //비디오, 사진 부분 스크롤
-  const currentUser = getCurrentUser();
+  const [currentUser, setLocalCurrentUser] = useState(getCurrentUser()); // 초기값 가져오기
   const navigate = useNavigate();
 
   useEffect(() => {
     initializeData();
+    //project ID 사용해서 포트폴리오 데이터 가져오기
     const portfolio = oriProjects.get(Number(portfolioId));
     if (portfolio) {
       setPortfolioData(portfolio);
       setIsLiked(isIncludedLikes(portfolio.projectId, currentUser.id)); //초기상태
+    }
+
+    // oriUsers에서 현재 유저 정보 동기화
+    const userId = currentUser?.id;
+    if (userId) {
+      const updatedUser = oriUsers.get(userId);
+      if (updatedUser) {
+        setLocalCurrentUser(updatedUser); // 로컬 상태 업데이트
+        setCurrentUser(updatedUser); // localStorage에 반영
+      }
     }
 
     const filteredComments = Array.from(oriComments.values()).filter(
@@ -64,7 +79,7 @@ const PortfolioDetailPage3 = () => {
     setComments(filteredComments);
 
     console.log(portfolio);
-  }, [currentUser, oriProjects]);
+  }, [oriProjects, oriUsers]);
 
   const scrollLeft = () => {
     if (mediaRef.current) {
