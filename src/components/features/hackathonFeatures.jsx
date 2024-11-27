@@ -117,14 +117,20 @@ export const deleteHackathon = async (hackId) => {
     }
 };
 
+// // 해커톤 지원
 export const updateParticipant = async (hackId, userId) => {
-    const hackathon = oriHackathons.get(hackId);
+    const hackathon = oriHackathons.get(Number(hackId));
+
+    // hackathon이 undefined인 경우 처리
+    if (!hackathon) {
+        console.error(`Hackathon with id ${hackId} not found.`);
+        return;
+    }
     const newMemNumber = hackathon["memNumber"] + 1;
 
     try {
-
         const filePath = "src/components/commmon/dummydata/hackathonInfo.jsx";
-        
+
         // 필드를 업데이트하는 API 호출
         await fetch('http://localhost:3000/patch-participant', {
             method: 'POST',
@@ -140,15 +146,49 @@ export const updateParticipant = async (hackId, userId) => {
         });
 
         // Map 객체도 업데이트
-        if (hackathon) {
-            hackathon["participant"] = hackathon["participant"].push(userId);
-            hackathon["memNumber"] = newMemNumber;
-            oriHackathons.set(hackId, hackathon);
-        }
+        hackathon["participant"] = hackathon["participant"] || []; // participant가 없으면 빈 배열로 초기화
+        hackathon["participant"].push(userId); // userId 추가
+        hackathon["memNumber"] = newMemNumber;
+        oriHackathons.set(hackId, hackathon);
 
         console.log(`${hackathon["participant"]} 필드가 성공적으로 업데이트되었습니다.`);
     } catch (error) {
         console.error('필드 업데이트 중 오류가 발생했습니다:', error);
     }
+};
 
-}
+// export const updateParticipant = async (hackId, userId) => {
+//     const hackathon = oriHackathons.get(hackId);
+//     const newMemNumber = hackathon["memNumber"] + 1;
+
+//     try {
+
+//         const filePath = "src/components/commmon/dummydata/hackathonInfo.jsx";
+        
+//         // 필드를 업데이트하는 API 호출
+//         await fetch('http://localhost:3000/patch-participant', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//             body: JSON.stringify({
+//                 filePath,
+//                 hackId,
+//                 userId,
+//                 newMemNumber
+//             }),
+//         });
+
+//         // Map 객체도 업데이트
+//         if (hackathon) {
+//             hackathon["participant"] = hackathon["participant"].push(userId);
+//             hackathon["memNumber"] = newMemNumber;
+//             oriHackathons.set(hackId, hackathon);
+//         }
+
+//         console.log(`${hackathon["participant"]} 필드가 성공적으로 업데이트되었습니다.`);
+//     } catch (error) {
+//         console.error('필드 업데이트 중 오류가 발생했습니다:', error);
+//     }
+
+// }

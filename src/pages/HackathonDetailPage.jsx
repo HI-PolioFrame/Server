@@ -26,6 +26,8 @@ import Calendar from "../assets/icons/Calendar.png";
 import  Link  from "../assets/icons/Link.png";
 import { SiThangs } from "react-icons/si";
 
+import {updateParticipant} from "../components/features/hackathonFeatures";
+
 const HackathonDetailPage = () => {
   const { hackId } = useParams(); // URL에서 hackId를 추출
   const [HackathonData, setHackathonData] = useState(null);
@@ -33,8 +35,9 @@ const HackathonDetailPage = () => {
   const [isOwner, setIsOwner] = useState(false);
   const navigate = useNavigate();
   const currentUser = getCurrentUser();
-
-
+  const userId = currentUser.id;
+  console.log(userId);
+  console.log(hackId);
   useEffect(() => {
     // hackId를 사용하여 해당 해커톤 데이터를 가져오기
     const Hackathon = oriHackathons.get(Number(hackId)); // hackId가 숫자로 저장되어 있다면 Number로 변환
@@ -233,7 +236,12 @@ const HackathonDetailPage = () => {
             </RowWrapper>
           </TimeWrapper>
         </RowWrapper>
-        <StartButton>지원하기</StartButton>
+        <StartButton
+         onClick={async () => {
+          // 해커톤 지원하기
+          await updateParticipant(hackId,userId);
+        }}>지원하기
+        </StartButton>
       </ContentSection1>
 
     </MainWrapper>

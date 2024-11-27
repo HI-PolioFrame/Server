@@ -48,8 +48,9 @@ class Hackathon {
         this.logo = logo;
         this.ownerId = ownerId; 
         this.ownerEmail = ownerEmail;
-        this.participant = participant;
+        this.participant = participant || []; 
     }
+
 }
 
 export default Hackathon;

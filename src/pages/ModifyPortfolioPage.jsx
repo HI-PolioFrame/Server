@@ -3,12 +3,26 @@ import styled from "styled-components";
 import Logo from "../assets/icons/Logo.png";
 import ModifyPortfolioInput from "../components/ModifyPortfolioPage/ModifyPortfolioInput";
 import CreatePortfolioTemplate from "../components/CreatePortfolioPage/CreatePortfolioTemplate";
-import saveProject from "../components/features/saveProject";
+import { updateProject }  from "../components/features/projectFeatures";
 import { getCurrentUser } from "../components/features/currentUser";
 import { Navigate, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const ModifyPortfolioPage = () => {
   const navigate = useNavigate();
+  const { portfolioId } = useParams();
+  // console.log(portfolioId); -> 잘 나옴
+
+  useEffect(() => {
+    if (portfolioId) {
+      setFormData((prevData) => ({
+        ...prevData,
+        projectId: Number(portfolioId),
+      }));
+    }
+  }, [portfolioId]);
+
+
   const [formData, setFormData] = useState({
     projectOwnerName: "", // 포폴 만든 사람 이름
     projectOwnerNickname: "",
@@ -26,7 +40,7 @@ const ModifyPortfolioPage = () => {
     video: null,
     coverImage: null,
     images: [],
-    logo: null,
+    logo: null
   });
 
   // const [currentUser, setCurrentUser] = useState(null);
@@ -80,7 +94,23 @@ const ModifyPortfolioPage = () => {
     );
     console.log(formData.startDate, formData.endDate);
   };
+  
   //이미지, 비디오 업로드
+  const handleSavePortfolio = () => {
+    Object.keys(formData).forEach((field) => {
+      const newValue = formData[field];
+      if (newValue !== undefined && newValue !== null) {
+        updateProject(formData.projectId, field, newValue);
+      } else {
+        console.log(`${field} 값이 비어 있습니다.`);
+      }
+    });
+    
+
+    console.log("시작일:", formData.startDate, "종료일:", formData.endDate);
+    navigate("/MyPage");
+  };
+
   
   return (
     <>
@@ -97,7 +127,7 @@ const ModifyPortfolioPage = () => {
         />
         <CreatePortfolioTemplate />
         <CreateButton  onClick={() => {
-            handleSaveProject(); // 프로젝트 저장 함수 호출
+            handleSavePortfolio(); // 프로젝트 저장 함수 호출
             navigate("/MyPage"); // 페이지 이동
           }}>수정완료
         </CreateButton>

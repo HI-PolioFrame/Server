@@ -10,12 +10,14 @@ import {
   initializeData,
 } from "../../components/domain/startProgram.js";
 
-const CreatePortfolioInput = ({ onInputChange, formData, onDateChange  }) => {
+const ModifyPortfolioInput = ({ onInputChange, formData, onDateChange  }) => {
   // 업로드 이미지 미리보기 코드
   const [coverimagePreview, setCoverImagePreview] = useState(null);
   const [LogoPreview, setLogoPreview] = useState(null);
+
   const { portfolioId } = useParams();
   const [portfolioData, setPortfolioData] = useState(null);
+  
   const [comments, setComments] = useState([]);
   const [isOn, setIsOn] = useState(true);
 
@@ -26,6 +28,19 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange  }) => {
     }
   }, [portfolioId]);
 
+
+  useEffect(() => {
+    if (portfolioData) {
+      onInputChange({
+        target: {
+          name: "projectId",
+          value: Number(portfolioId),
+        },
+      });
+    }
+  }, [portfolioId, portfolioData]);
+
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setPortfolioData((prevData) => ({
@@ -34,7 +49,9 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange  }) => {
     }));
     onInputChange(e); // 외부 상태 관리 함수 호출
   };
-
+  console.log('portfolioData:', portfolioData);
+  console.log('formData:', formData);
+  
   useEffect(() => {
     initializeData();
     //project ID 사용해서 포트폴리오 데이터 가져오기
@@ -103,7 +120,7 @@ return (
             <ExText>자신만의 포트폴리오 이름을 작성해주세요</ExText>
             <VitalInput
               name="projectTitle"
-              value={portfolioData.projectTitle || ''}
+              value={portfolioData.projectTitle || '비었습니다.'}
               onChange={handleInputChange}
             />
           </InputWrapper>
@@ -355,7 +372,7 @@ return (
   );
 };
 
-export default CreatePortfolioInput;
+export default ModifyPortfolioInput;
 
 //css Wrapper
 const Loading = styled.div`
