@@ -65,6 +65,7 @@ const LoginPage = () => {
 
       navigate("/");
     } else {
+      alert('아이디 혹은 이메일과 비밀번호를 정확하게 입력하세요.');
       console.log("로그인 실패 - 입력값이 더미 데이터와 일치하지 않음");
     }
   };
