@@ -73,7 +73,7 @@ const SearchBarMini = ({ onSearch }) => {
           value={inputValue} // 입력 필드가 상태와 동기화
           onChange={handleInputChange}
           onKeyUp={handleKeyUp}
-          placeholder="제목, 공유자 이름 검색"
+          placeholder="포트폴리오 이름 검색"
           spellCheck="false"
         />
         <IconWrapper>

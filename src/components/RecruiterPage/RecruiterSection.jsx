@@ -8,7 +8,15 @@ import StyledButton from "../commmon/StyledButton";
 import { Navigate, useNavigate } from "react-router-dom";
 import { oriProjects, searchSortManager } from "../domain/startProgram";
 
-const Section = ({ title, data = [], renderItem, button }) => {
+const RecruiterSection = ({
+  title,
+  data = [],
+  renderItem,
+  button,
+  buttonKey,
+}) => {
+  const navigate = useNavigate();
+
   // LinkedList를 배열로 변환하는 유틸리티 함수
   const linkedListToArray = (linkedList) => {
     const array = [];
@@ -69,14 +77,20 @@ const Section = ({ title, data = [], renderItem, button }) => {
         <StyledButtonWrapper>
           <StyledButton
             text={"추가"}
-            onClick={() => console.log("추가 버튼 클릭")} //navigate 넣으면 된다요
+            onClick={() => {
+              if (buttonKey == "프로젝트") {
+                navigate("/CreatePortfolioPage");
+              } else if (buttonKey == "해커톤") {
+                navigate("/CreateHackathonPage");
+              }
+            }} //navigate 넣으면 된다요
           />
         </StyledButtonWrapper>
       )}
     </>
   );
 };
-export default Section;
+export default RecruiterSection;
 
 const MyContainer = styled.div`
   margin-top: 10vh;
