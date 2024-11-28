@@ -23,6 +23,7 @@ import { commentInfo } from "../commmon/dummydata/commentInfo.jsx"; //저장된 
 import { hackathonInfo } from "../commmon/dummydata/hackathonInfo.jsx";
 import SearchSortManager from "../features/SearchSortManager.jsx";
 import HackathonSearchSortManeger from "../features/HackathonSearchSortManeger.jsx";
+import MyProjectsSearchSortManager from "../features/MyProjectsSearchSortManager.jsx";
 
 export const oriUsers = new Map();
 console.log(oriUsers);
@@ -78,7 +79,6 @@ export const initializeData = () => {
       data.likes
     );
     oriPortfolios.set(data.portfolioId, portfolio);
-    
   });
 
   projectInfo.forEach((data) => {
@@ -125,24 +125,23 @@ export const initializeData = () => {
 
   hackathonInfo.forEach((data) => {
     let hackathon = new Hackathon(
-        data.hackId,
-        data.hackName,
-        data.startDate,
-        data.endDate,
-        data.link,
-        data.memNumber,
-        data.maxMemNumber,
-        data.description,
-        data.video,
-        data.pictures,
-        data.coverImage,
-        data.logo,
-        data.ownerId, 
-        data.ownerEmail,
-        data.participant
+      data.hackId,
+      data.hackName,
+      data.startDate,
+      data.endDate,
+      data.link,
+      data.memNumber,
+      data.maxMemNumber,
+      data.description,
+      data.video,
+      data.pictures,
+      data.coverImage,
+      data.logo,
+      data.ownerId,
+      data.ownerEmail,
+      data.participant
     );
     oriHackathons.set(data.hackId, hackathon);
-
   });
 
   // templateInfo.forEach((data) => {
@@ -178,6 +177,11 @@ export const searchSortManager = new SearchSortManager(
 
 export const hackathonSearchSortManeger = new HackathonSearchSortManeger(
   oriHackathons,
-  oriUsers,
+  oriUsers
 );
 
+export const myProjectsSearchSortManager = new MyProjectsSearchSortManager(
+  oriProjects,
+  oriHackathons,
+  oriUsers
+);

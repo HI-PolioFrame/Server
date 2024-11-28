@@ -10,7 +10,11 @@ import { getCurrentUser } from "./currentUser.js";
 
 class MyProjectsSearchSortManager {
   constructor() {
-    this.userId = getCurrentUser();
+    // this.userId = getCurrentUser();
+    const currentUser = getCurrentUser();
+    console.log("Current User Object:", currentUser);
+    this.userId = currentUser?.id || null;
+    console.log("userId: ", this.userId);
     this.currentPortfolios = new LinkedList();
 
     this.state = {
@@ -99,7 +103,7 @@ class MyProjectsSearchSortManager {
         result = new LinkedList();
         oriProjects.forEach((pofol, key) => {
           if (this.userId === pofol.ownerId) {
-            curPortfolios.append(pofol);
+            result.append(pofol);
           }
         });
         result.reverse();
