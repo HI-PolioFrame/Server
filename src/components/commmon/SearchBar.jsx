@@ -20,9 +20,9 @@ const SearchBar = ({ onSearch }) => {
   const [inputValue, setInputValue] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [nowIndex, setNowIndex] = useState(-1);
-  
-  const searchBarRef = useRef(null);  
-  const inputRef = useRef(null);   
+
+  const searchBarRef = useRef(null);
+  const inputRef = useRef(null);
 
   const handleInputChange = (e) => {
     const newValue = e.target.value;
@@ -65,7 +65,7 @@ const SearchBar = ({ onSearch }) => {
   //   }
   // };
 
-  // 키보드 검색어 이동 
+  // 키보드 검색어 이동
   const handleKeyDown = (e) => {
     if (e.key === "ArrowDown") {
       setNowIndex((prevIndex) => (prevIndex + 1) % suggestions.length);
@@ -91,23 +91,22 @@ const SearchBar = ({ onSearch }) => {
 
   useEffect(() => {
     if (nowIndex >= 0 && suggestions[nowIndex]) {
-      setInputValue(suggestions[nowIndex]);  
+      setInputValue(suggestions[nowIndex]);
     } else {
-      setInputValue(inputValue); 
+      setInputValue(inputValue);
     }
   }, [nowIndex]);
 
- //검색창 외부 클릭 시 검색창을 닫음
+  //검색창 외부 클릭 시 검색창을 닫음
   useEffect(() => {
     const handleClickOutside = (e) => {
-     
       if (
         searchBarRef.current &&
         !searchBarRef.current.contains(e.target) &&
         inputRef.current &&
         !inputRef.current.contains(e.target)
       ) {
-        setSuggestions([]);  
+        setSuggestions([]);
       }
     };
 
@@ -119,14 +118,17 @@ const SearchBar = ({ onSearch }) => {
 
   return (
     <SearchBarContainer ref={searchBarRef}>
-      <SearchBarWrapper expanded={suggestions.length > 0} className="SearchBarWrapper" >
+      <SearchBarWrapper
+        expanded={suggestions.length > 0}
+        className="SearchBarWrapper"
+      >
         <SearchInput
           value={inputValue} // 입력 필드가 상태와 동기화
           onChange={handleInputChange}
-          ref={inputRef} 
+          ref={inputRef}
           // onKeyUp={handleKeyUp}
-          onKeyDown={handleKeyDown} 
-          placeholder="포트폴리오 제목 검색"
+          onKeyDown={handleKeyDown}
+          placeholder="포트폴리오 이름 검색"
           spellCheck="false"
         />
         <IconWrapper>
@@ -153,8 +155,8 @@ const SearchBar = ({ onSearch }) => {
                 setSuggestions([]);
               }}
               style={{
-                backgroundColor: index === nowIndex ? "#d3d3d3" : "white", 
-                color: index === nowIndex ? "black" : "gray", 
+                backgroundColor: index === nowIndex ? "#d3d3d3" : "white",
+                color: index === nowIndex ? "black" : "gray",
               }}
             >
               {suggestion
@@ -178,14 +180,14 @@ export default SearchBar;
 
 const SearchBarContainer = styled.div`
   display: flex;
-  flex-direction: column; 
-  align-items: center; 
-  width: 40vw; 
+  flex-direction: column;
+  align-items: center;
+  width: 40vw;
 `;
 
 const SearchBarWrapper = styled.div`
   height: 6.8vh;
-  width: 100%; 
+  width: 100%;
   box-shadow: ${(props) =>
     props.expanded
       ? "0px -4px 8px rgba(0, 0, 0, 0.1)"
@@ -199,8 +201,8 @@ const SearchBarWrapper = styled.div`
 
 const AutoCompleteContainer = styled.div`
   position: absolute;
-  top: 100%; 
-  width: 40vw; 
+  top: 100%;
+  width: 40vw;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -209,7 +211,7 @@ const AutoCompleteContainer = styled.div`
   color: #919194;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 0 0 15px 15px;
-  margin-top: -0.5rem; 
+  margin-top: -0.5rem;
 `;
 
 const SuggestionItem = styled.div`
@@ -218,7 +220,7 @@ const SuggestionItem = styled.div`
   width: 100%;
   display: block;
   text-indent: 0.1em;
-  
+
   &.active {
     background: #e0e5f6;
     color: #000;
@@ -232,7 +234,6 @@ const SuggestionItem = styled.div`
     background: #e0e5f6;
   }
 `;
-
 
 const SearchInput = styled.input`
   width: 85%;
@@ -272,7 +273,6 @@ const SearchIcon = styled.img`
   width: 2vw;
   border-radius: 50%;
 `;
-
 
 const HighlightedText = styled.span`
   font-weight: bold;
