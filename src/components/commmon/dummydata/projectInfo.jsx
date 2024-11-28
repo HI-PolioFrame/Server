@@ -120,9 +120,11 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 0,
+    hits: 1,
     likes: [],
-    contacts: [],
+    contacts: [
+      "admin4"
+    ],
     comments: []
   },
   {
