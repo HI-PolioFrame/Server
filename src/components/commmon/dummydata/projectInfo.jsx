@@ -57,7 +57,7 @@ export const projectInfo = [
     share: true,
     usedLanguage: "JavaScript",
     category: "프론트엔드",
-    hits: 12,
+    hits: 13,
     likes: [],
     contacts: [],
     comments: []
@@ -120,7 +120,7 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 1,
+    hits: 2,
     likes: [],
     contacts: [
       "admin4"
