@@ -69,6 +69,7 @@ function MyPage() {
             data={myPortfolioList}
             renderItem={renderTemplateCard}
             button={true}
+            buttonKey={"프로젝트"}
           />
 
           <Section title={"내가 만든 포트폴리오"} button={true} />
@@ -77,6 +78,7 @@ function MyPage() {
             data={myHackathonList}
             renderItem={renderHackTemplateCard}
             button={true}
+            buttonKey={"해커톤"}
           />
         </>
       )}
