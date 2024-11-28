@@ -8,7 +8,13 @@ import StyledButton from "../commmon/StyledButton";
 import { Navigate, useNavigate } from "react-router-dom";
 import { oriProjects, searchSortManager } from "../domain/startProgram";
 
-const Section = ({ title, data = [], renderItem, button, buttonKey }) => {
+const RecruiterSection = ({
+  title,
+  data = [],
+  renderItem,
+  button,
+  buttonKey,
+}) => {
   const navigate = useNavigate();
 
   // LinkedList를 배열로 변환하는 유틸리티 함수
@@ -84,7 +90,7 @@ const Section = ({ title, data = [], renderItem, button, buttonKey }) => {
     </>
   );
 };
-export default Section;
+export default RecruiterSection;
 
 const MyContainer = styled.div`
   margin-top: 10vh;
