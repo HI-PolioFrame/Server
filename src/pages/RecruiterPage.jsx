@@ -9,37 +9,38 @@ import RecruiterSection from "../components/RecruiterPage/RecruiterSection";
 import StyledButton from "../components/commmon/StyledButton";
 import { dummydata } from "../components/commmon/dummydata/dummydata"; // dummydata 파일을 import합니다.
 import { Navigate, useNavigate } from "react-router-dom";
+import { oriUsers, oriProjects } from "../components/domain/startProgram";
 import {
-  oriProjects,
-  searchSortManager,
-} from "../components/domain/startProgram";
-import { getCurrentUser } from "../components/features/currentUser";
+  getCurrentUser,
+  setCurrentUser,
+} from "../components/features/currentUser";
 
 function RecruiterPage() {
   const [myPortfolioList, setMyPortfolioList] = useState([]); // 상태로 관리되는 포트폴리오 리스트
   const { userId } = useParams();
-  const currentUser = getCurrentUser();
+  const [currentUser, setLocalCurrentUser] = useState(getCurrentUser()); // 초기값 가져오기
 
   useEffect(() => {
-    console.log("Recruiter userId:", userId);
+    //console.log("Recruiter userId:", userId);
 
-    const updateCurrentUser = getCurrentUser();
-    if (updateCurrentUser) {
-      console.log("Current User:", updateCurrentUser);
+    if (userId) {
+      const updatedUser = oriUsers.get(userId);
+      if (updatedUser) {
+        setLocalCurrentUser(updatedUser); // 로컬 상태 업데이트
+        setCurrentUser(updatedUser); // localStorage에 반영
+      }
 
       const userPortfolios = Array.from(oriProjects.values()).filter(
         (project) =>
           project.contacts.some(
             (contact) =>
-              contact === updateCurrentUser.id ||
-              contact === updateCurrentUser.email
+              contact === updatedUser.id || contact === updatedUser.email
           )
       );
-
       console.log("User Portfolios:", userPortfolios);
       setMyPortfolioList(userPortfolios);
     }
-  }, [userId, oriProjects]);
+  }, [oriProjects]);
 
   // 템플릿카드 렌더링
   const renderTemplateCard = (item) => (
