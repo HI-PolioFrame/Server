@@ -128,6 +128,11 @@ export const updateParticipant = async (hackId, userId) => {
     }
     const newMemNumber = hackathon["memNumber"] + 1;
 
+    if (hackathon["maxMemNumber"] < newMemNumber) {
+        alert("모집 인원을 초과하여 지원할 수 없습니다.");
+        return;
+    }
+
     try {
         const filePath = "src/components/commmon/dummydata/hackathonInfo.jsx";
 
@@ -139,8 +144,8 @@ export const updateParticipant = async (hackId, userId) => {
             },
             body: JSON.stringify({
                 filePath,
-                hackId,
-                userId,
+                hackId: Number(hackId),
+                userId: String(userId),
                 newMemNumber
             }),
         });
