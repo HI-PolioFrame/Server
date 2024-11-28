@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import DashBoard from "../components/MyPage/DashBoard";
-import Section from "../components/commmon/Section";
+import MyPageSection from "../components/MyPage/MyPageSection";
 import TemplateCard from "../components/commmon/TemplateCard";
 import HackTemplateCard from "../components/commmon/HackTemplateCard";
 
@@ -64,19 +64,21 @@ function MyPage() {
       </DashBoardContainer>
       {!currentUser.recruiter && (
         <>
-          <Section
+          <MyPageSection
             title={"내가 만든 프로젝트"}
             data={myPortfolioList}
             renderItem={renderTemplateCard}
             button={true}
+            buttonKey={"프로젝트"}
           />
 
-          <Section title={"내가 만든 포트폴리오"} button={true} />
-          <Section
+          <MyPageSection title={"내가 만든 포트폴리오"} button={true} />
+          <MyPageSection
             title={"내가 만든 해커톤"}
             data={myHackathonList}
             renderItem={renderHackTemplateCard}
             button={true}
+            buttonKey={"해커톤"}
           />
         </>
       )}

@@ -4,7 +4,7 @@ import styled from "styled-components";
 import SelectBox from "../components/commmon/SelectBox";
 import SearchBarMini from "../components/MyPage/SearchBarMini";
 import TemplateCard from "../components/commmon/TemplateCard";
-import Section from "../components/commmon/Section";
+import RecruiterSection from "../components/RecruiterPage/RecruiterSection";
 
 import StyledButton from "../components/commmon/StyledButton";
 import { dummydata } from "../components/commmon/dummydata/dummydata"; // dummydata 파일을 import합니다.
@@ -52,14 +52,14 @@ function RecruiterPage() {
 
   return (
     <MyPageContainer className="MyPageContainer">
-      <Section
+      <RecruiterSection
         title={"내가 연락한 포트폴리오"}
         data={myPortfolioList}
         renderItem={renderTemplateCard}
         button={false}
       />
 
-      <Section title={"내가 찜한 포트폴리오"} button={false} />
+      <RecruiterSection title={"내가 찜한 포트폴리오"} button={false} />
     </MyPageContainer>
   );
 }
