@@ -3,10 +3,7 @@ import { LinkedList } from "../DataStructure/linkedList";
 import { oriUsers, oriProjects } from "../domain/startProgram.js";
 import { getCurrentUser } from "./currentUser.js";
 
-// 해야 할 일:
-// 1. export const loginSession = ... 로그인한 userId 불러오기
-//      -> currentUser.js로 수정
-// 2. 모든 데이터 초기화할 때 userId와 같은 프로젝트만 넣기 끝.
+// 모든 데이터 초기화할 때 userId와 같은 프로젝트만 넣기 끝.
 
 class MyProjectsSearchSortManager {
   constructor() {
@@ -99,7 +96,7 @@ class MyProjectsSearchSortManager {
         result = new LinkedList();
         oriProjects.forEach((pofol, key) => {
           if (this.userId === pofol.ownerId) {
-            curPortfolios.append(pofol);
+            result.append(pofol);
           }
         });
         result.reverse();
