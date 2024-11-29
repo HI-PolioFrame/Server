@@ -168,11 +168,15 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 10,
-    likes: [],
+    hits: 12,
+    likes: [
+      7
+    ],
     contacts: [
       "admin1",
       "admin4"
+    ],
+    comments: [
     ]
   }
 ];
