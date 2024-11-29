@@ -91,6 +91,7 @@ function RecruiterPage() {
         button={true}
         onSearch={handleSearchApply}
         onSort={handleSortApply}
+        userId={userId}
       />
 
       <RecruiterSection title={"내가 찜한 포트폴리오"} button={false} />

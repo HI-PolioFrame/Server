@@ -50,3 +50,22 @@ export const userProjectDataList = (input, userId) => {
 
   return new Set(trie.autoComplete(input));
 };
+
+// 채용자 페이지 검색용
+export const recruiterProjectDataList = (input, userId) => {
+  if (!input || !userId) {
+    console.log("검색어 또는 사용자 ID가 입력되지 않음");
+    return new Set();
+  }
+
+  let trie = new Trie();
+
+  for (let key of oriProjects.keys()) {
+    const project = oriProjects.get(key);
+    if (project.contacts && project.contacts.includes(userId)) {
+      trie.insert(project.projectTitle);
+    }
+  }
+
+  return new Set(trie.autoComplete(input));
+};

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { userProjectDataList } from "../features/dataList"; // dataList를 import 할 경로 지정
+import { recruiterProjectDataList } from "../features/dataList"; // dataList를 import 할 경로 지정
 
 import searchImg from "../../assets/icons/Header/search.png";
 import { ImCancelCircle } from "react-icons/im";
@@ -26,7 +26,9 @@ const RecruiterPageSearchBar = ({ userId, onSearch }) => {
 
     if (newValue.trim()) {
       // dataList 함수로부터 자동완성 결과 가져오기
-      const results = Array.from(userProjectDataList(newValue, userId) || []);
+      const results = Array.from(
+        recruiterProjectDataList(newValue, userId) || []
+      );
       setSuggestions(results);
     } else {
       setSuggestions([]);
