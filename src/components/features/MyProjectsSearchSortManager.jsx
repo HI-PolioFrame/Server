@@ -7,7 +7,11 @@ import { getCurrentUser } from "./currentUser.js";
 
 class MyProjectsSearchSortManager {
   constructor() {
-    this.userId = getCurrentUser();
+    // this.userId = getCurrentUser();
+    const currentUser = getCurrentUser();
+    console.log("Current User Object:", currentUser);
+    this.userId = currentUser?.id || null;
+    console.log("userId: ", this.userId);
     this.currentPortfolios = new LinkedList();
 
     this.state = {
@@ -19,6 +23,21 @@ class MyProjectsSearchSortManager {
     this.category = null;
     this.sortOption = null;
     this.filterOption = [];
+  }
+
+  updateUserData(userId) {
+    this.userId = userId || this.userId;
+    console.log("Updated User ID:", this.userId);
+
+    // 최신 oriProjects로 currentPortfolios 초기화
+    this.currentPortfolios = new LinkedList();
+    oriProjects.forEach((pofol, key) => {
+      if (this.userId === pofol.ownerId) {
+        this.currentPortfolios.append(pofol);
+      }
+    });
+    this.currentPortfolios.reverse();
+    console.log("Updated currentPortfolios:", this.currentPortfolios);
   }
 
   search(searchTerm) {
