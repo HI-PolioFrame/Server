@@ -25,6 +25,21 @@ class MyProjectsSearchSortManager {
     this.filterOption = [];
   }
 
+  updateUserData(userId) {
+    this.userId = userId || this.userId;
+    console.log("Updated User ID:", this.userId);
+
+    // 최신 oriProjects로 currentPortfolios 초기화
+    this.currentPortfolios = new LinkedList();
+    oriProjects.forEach((pofol, key) => {
+      if (this.userId === pofol.ownerId) {
+        this.currentPortfolios.append(pofol);
+      }
+    });
+    this.currentPortfolios.reverse();
+    console.log("Updated currentPortfolios:", this.currentPortfolios);
+  }
+
   search(searchTerm) {
     this.searchTerm = searchTerm;
     this.currentPortfolios = this.doSearch();

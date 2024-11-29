@@ -54,6 +54,8 @@ function MyPage() {
       console.log("User Hackathons:", userHackathons);
       setmyHackathonList(userHackathons);
 
+      myProjectsSearchSortManager.updateUserData(currentUser.id);
+
       const initialList = myProjectsSearchSortManager.sort(null, null, []);
       setmyPortfolioList(linkedListToArray(initialList));
 
