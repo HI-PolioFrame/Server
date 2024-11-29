@@ -107,6 +107,7 @@ function MyPage() {
             buttonKey={"프로젝트"}
             onSearch={handleSearchApply}
             onSort={handleSortApply}
+            userId={currentUser?.id}
           />
 
           <MyPageSection title={"내가 만든 포트폴리오"} button={true} />

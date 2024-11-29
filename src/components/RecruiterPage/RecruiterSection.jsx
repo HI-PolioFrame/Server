@@ -1,7 +1,7 @@
 import SelectBox from "../commmon/SelectBox";
 import React from "react";
 import styled from "styled-components";
-import SearchBarMini from "../MyPage/SearchBarMini";
+import RecruiterPageSearchBar from "./RecruiterPageSearchBar";
 
 import StyledButton from "../commmon/StyledButton";
 
@@ -16,6 +16,7 @@ const RecruiterSection = ({
   buttonKey,
   onSearch,
   onSort,
+  userId,
 }) => {
   const navigate = useNavigate();
 
@@ -36,10 +37,11 @@ const RecruiterSection = ({
         <MyTitle>{title}</MyTitle>
         <MyProtFolioMenuBarWrapper>
           <SelectBox onSort={onSort} />
-          <SearchBarMini
+          <RecruiterPageSearchBar
             onChange={(e) => console.log(e.target.value)}
             onClick={() => onSearchClick}
             onSearch={onSearch}
+            userId={userId}
           />
         </MyProtFolioMenuBarWrapper>
 

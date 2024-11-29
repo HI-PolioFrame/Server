@@ -1,14 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import SelectBox from "../components/commmon/SelectBox";
-import SearchBarMini from "../components/MyPage/SearchBarMini";
 import TemplateCard from "../components/commmon/TemplateCard";
 import RecruiterSection from "../components/RecruiterPage/RecruiterSection";
 
-import StyledButton from "../components/commmon/StyledButton";
-import { dummydata } from "../components/commmon/dummydata/dummydata"; // dummydata 파일을 import합니다.
-import { Navigate, useNavigate } from "react-router-dom";
 import {
   initializeData,
   oriUsers,

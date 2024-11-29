@@ -1,7 +1,7 @@
 import MyPageSelectBox from "../MyPage/MyPageSelectBox";
 import React from "react";
 import styled from "styled-components";
-import SearchBarMini from "./SearchBarMini";
+import MyPageSearchBar from "./MyPageSearchBar";
 
 import StyledButton from "../commmon/StyledButton";
 
@@ -16,6 +16,7 @@ const MyPageSection = ({
   buttonKey,
   onSearch,
   onSort,
+  userId,
 }) => {
   const navigate = useNavigate();
 
@@ -25,10 +26,10 @@ const MyPageSection = ({
         <MyTitle>{title}</MyTitle>
         <MyProtFolioMenuBarWrapper>
           <MyPageSelectBox onSort={onSort} />
-          <SearchBarMini
+          <MyPageSearchBar
             onChange={(e) => console.log(e.target.value)}
-            onClick={() => onSearchClick}
             onSearch={onSearch}
+            userId={userId}
           />
         </MyProtFolioMenuBarWrapper>
 

@@ -17,7 +17,6 @@ export const dataList = (input) => {
   return new Set(trie.autoComplete(input));
 };
 
-
 export const HackdataList = (input) => {
   if (!input) {
     console.log("검색어가 입력되지 않음");
@@ -28,6 +27,25 @@ export const HackdataList = (input) => {
 
   for (let key of oriHackathons.keys()) {
     trie.insert(oriHackathons.get(key).hackName);
+  }
+
+  return new Set(trie.autoComplete(input));
+};
+
+//마이페이지 검색용
+export const userProjectDataList = (input, userId) => {
+  if (!input || !userId) {
+    console.log("검색어 또는 사용자 ID가 입력되지 않음");
+    return new Set();
+  }
+
+  let trie = new Trie();
+
+  for (let key of oriProjects.keys()) {
+    const project = oriProjects.get(key);
+    if (project.ownerId === userId) {
+      trie.insert(project.projectTitle);
+    }
   }
 
   return new Set(trie.autoComplete(input));
