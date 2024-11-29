@@ -24,6 +24,7 @@ import { hackathonInfo } from "../commmon/dummydata/hackathonInfo.jsx";
 import SearchSortManager from "../features/SearchSortManager.jsx";
 import HackathonSearchSortManeger from "../features/HackathonSearchSortManeger.jsx";
 import MyProjectsSearchSortManager from "../features/MyProjectsSearchSortManager.jsx";
+import callRecSearchSortManager from "../features/callRecSearchSortManager.jsx";
 
 export const oriUsers = new Map();
 console.log(oriUsers);
@@ -185,3 +186,5 @@ export const myProjectsSearchSortManager = new MyProjectsSearchSortManager(
   oriHackathons,
   oriUsers
 );
+
+export const recSearchSortManager = new callRecSearchSortManager(oriProjects);

@@ -14,6 +14,8 @@ const RecruiterSection = ({
   renderItem,
   button,
   buttonKey,
+  onSearch,
+  onSort,
 }) => {
   const navigate = useNavigate();
 
@@ -28,32 +30,16 @@ const RecruiterSection = ({
     return array;
   };
 
-  // 검색어로 검색 시 호출되는 함수
-  const handleSearchApply = (searchTerm) => {
-    const searchedLinkedList = searchSortManager.search(searchTerm);
-    setmyPortfolioList(linkedListToArray(searchedLinkedList)); // 배열로 변환하여 상태 업데이트
-  };
-
-  // 정렬/필터 적용 시 호출되는 함수
-  const handleSortApply = (category, sortOption, filterOption) => {
-    const sortedLinkedList = searchSortManager.sort(
-      category,
-      sortOption,
-      filterOption
-    );
-    setmyPortfolioList(linkedListToArray(sortedLinkedList));
-  };
-
   return (
     <>
       <MyContainer>
         <MyTitle>{title}</MyTitle>
         <MyProtFolioMenuBarWrapper>
-          <SelectBox onSort={handleSortApply} />
+          <SelectBox onSort={onSort} />
           <SearchBarMini
             onChange={(e) => console.log(e.target.value)}
             onClick={() => onSearchClick}
-            onSearch={handleSearchApply}
+            onSearch={onSearch}
           />
         </MyProtFolioMenuBarWrapper>
 
@@ -78,11 +64,7 @@ const RecruiterSection = ({
           <StyledButton
             text={"추가"}
             onClick={() => {
-              if (buttonKey == "프로젝트") {
-                navigate("/CreatePortfolioPage");
-              } else if (buttonKey == "해커톤") {
-                navigate("/CreateHackathonPage");
-              }
+              navigate("/PortfolioPage");
             }} //navigate 넣으면 된다요
           />
         </StyledButtonWrapper>
