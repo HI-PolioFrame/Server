@@ -11,7 +11,7 @@ class callRecSearchSortManager {
     console.log("Current User Object:", currentUser);
     this.userId = currentUser?.id || null;
     // this.contacts = this.userId.contacts;
-    this.contacts = currentUser.contacts;
+    this.contacts = currentUser?.contacts || null;
     console.log("CurrentUser contacts: ", this.contacts);
     this.currentPortfolios = new LinkedList();
 
