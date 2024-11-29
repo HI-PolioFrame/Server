@@ -1,7 +1,5 @@
 import { oriUsers } from '../domain/startProgram.js'; 
 
-
-
 const login = async (inputIdOrEmail, inputPwd) => {
     if (!inputIdOrEmail || !inputPwd) {
         console.log("아이디 또는 패스워드가 입력되지 않음");

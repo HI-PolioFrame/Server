@@ -1,5 +1,8 @@
 import { oriUsers, oriRecruiters } from "../domain/startProgram";
 import { User } from "../domain/User";
+import { hashFunction } from "./hashFunction";
+
+// 사실 이 해시함수는 프론트에서 돌려서 서버에 원본 패스워드가 아예 전달되지 않도록 하는 게 좋다.
 
 // 파일에 문자열 추가하는 함수 (서버 API 호출)
 export const appendStringToFile = async (filePath, string) => {
@@ -46,7 +49,8 @@ export const idSignUpRecruiter = async (name, birthday, id, password, rePassword
     if (!isPassword(password, rePassword)) return;
 
     // oriUsers, oriRecruiters 링크드 리스트와 userInfo.jsx에 유저(기업회원) 추가
-    const user = new User(id, null, password, name, phoneNumber, birthday, true);
+    const hashPwd = await hashFunction(password);
+    const user = new User(id, null, hashPwd, name, phoneNumber, birthday, true);
     oriUsers.set(id, user);
     oriRecruiters.set(id, user);
 
@@ -56,7 +60,7 @@ export const idSignUpRecruiter = async (name, birthday, id, password, rePassword
         {
             id: "${id}",
             pageId: null,
-            password: "${password}",
+            password: "${hashPwd}",
             name: "${name}",
             phoneNumber: "${phoneNumber}",
             birthday: "${birthday[0]}-${birthday[1]}-${birthday[2]}",
@@ -87,7 +91,8 @@ export const emailSignUpRecruiter = async (name, birthday, email, password, rePa
     let randomId = getRandomId();
     while (isIdExists(randomId)) randomId = getRandomId();
 
-    const user = new User(randomId, null, password, name, phoneNumber, birthday, true, email);
+    const hashPwd = await hashFunction(password);
+    const user = new User(randomId, null, hashPwd, name, phoneNumber, birthday, true, email);
     oriUsers.set(randomId, user);
     oriRecruiters.set(randomId, user);
 
@@ -97,7 +102,7 @@ export const emailSignUpRecruiter = async (name, birthday, email, password, rePa
         {
             id: "${randomId}",
             pageId: null,
-            password: "${password}",
+            password: "${hashPwd}",
             name: "${name}",
             phoneNumber: "${phoneNumber}",
             birthday: "${birthday[0]}-${birthday[1]}-${birthday[2]}",
