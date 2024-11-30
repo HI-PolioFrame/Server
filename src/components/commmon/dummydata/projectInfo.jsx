@@ -103,7 +103,7 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Python",
     category: "백엔드",
-    hits: 3,
+    hits: 4,
     likes: [],
     contacts: [
       "admin4"

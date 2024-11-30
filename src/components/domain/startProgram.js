@@ -138,9 +138,10 @@ export const initializeData = () => {
       data.pictures,
       data.coverImage,
       data.logo,
+      data.part,
       data.ownerId,
       data.ownerEmail,
-      data.participant
+      data.participant,
     );
     oriHackathons.set(data.hackId, hackathon);
   });

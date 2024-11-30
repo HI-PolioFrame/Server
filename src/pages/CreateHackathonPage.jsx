@@ -20,8 +20,9 @@ const CreateHackathonPage = () => {
     pictures: null,
     coverImage: null,
     logo: null,
+    part: "",
     ownerId: "",
-    ownerEmail: "",
+    ownerEmail: ""
   });
 
   const [currentUser, setCurrentUser] = useState(null);
@@ -75,6 +76,7 @@ const CreateHackathonPage = () => {
       formData.pictures,
       formData.coverImage,
       formData.logo,
+      formData.part,
       formData.ownerId,
       formData.ownerEmail
     );

@@ -14,7 +14,8 @@ export const hackathonInfo = [
         logo: "",
         ownerId: "happytree12", 
         ownerEmail: "tylove@naver.com",
-        participant: ["admin1","happytree12"]
+        participant: ["admin1","happytree12"],
+        part: "프론트",
     },
     {
         hackId: 2,
@@ -31,7 +32,9 @@ export const hackathonInfo = [
         logo: "",
         ownerId: "backendDevel1!",
         ownerEmail: "sylove@naver.com",
-        participant: []
+        participant: [],
+        part: "프론트"
+
     },
 
 
@@ -47,6 +50,23 @@ export const hackathonInfo = [
         pictures: "",
         coverImage: "",
         logo: "",
+        ownerId: "happytree12",
+        ownerEmail: "tylove@naver.com",
+        part: "프론트",
+    }
+,    {
+        hackId: 4,
+        hackName: "DDD",
+        startDate: "2024-11-13",
+        endDate: "2024-11-26",
+        link: "DGF",
+        memNumber: 2,
+        description: "DD",
+        video: "",
+        pictures: "",
+        coverImage: "",
+        logo: "",
+        part: "백인데요",
         ownerId: "happytree12",
         ownerEmail: "tylove@naver.com",
     }

@@ -4,9 +4,9 @@ import { appendStringToFile, removeFromFileEnd } from "./signUpDeveloper";
 
 // const filePath = "/src/components/commmon/dummydata/hackathonInfo.jsx";
 
-export const saveHackathon = async (hackName, startDate, endDate, link, memNumber, description, video=null, pictures=null, coverImage=null, logo=null, ownerId,ownerEmail ) => {
+export const saveHackathon = async (hackName, startDate, endDate, link, memNumber, description, video=null, pictures=null, coverImage=null, logo=null, part, ownerId,ownerEmail ) => {
 
-    if (!hackName || !startDate || !endDate || !link || !memNumber || !description) {
+    if (!hackName || !startDate || !endDate || !link || !memNumber || !description || !part) {
         console.log(hackName,startDate,endDate,link,memNumber,description);
         console.log("필수 정보가 누락됨");
         return;
@@ -17,7 +17,7 @@ export const saveHackathon = async (hackName, startDate, endDate, link, memNumbe
     let hackIds = Array.from(oriHackathons.keys());
     const hackId = hackIds.length > 0 ? hackIds[hackIds.length - 1] + 1 : 1;
     
-    let hackathon = new Hackathon(hackId, hackName, startDate, endDate, link, memNumber, description, video, pictures, coverImage, logo,ownerId,ownerEmail);
+    let hackathon = new Hackathon(hackId, hackName, startDate, endDate, link, memNumber, description, video, pictures, coverImage, logo,part, ownerId,ownerEmail);
     oriHackathons.set(hackId, hackathon);
 
     const string = `    {
@@ -32,6 +32,7 @@ export const saveHackathon = async (hackName, startDate, endDate, link, memNumbe
         pictures: "${pictures || ""}",
         coverImage: "${coverImage || ""}",
         logo: "${logo || ""}",
+        part: "${part || ""}",
         ownerId: "${ownerId}",
         ownerEmail: "${ownerEmail}",
     }`;
@@ -117,7 +118,7 @@ export const deleteHackathon = async (hackId) => {
     }
 };
 
-// // 해커톤 지원
+// 해커톤 지원
 export const updateParticipant = async (hackId, userId) => {
     const hackathon = oriHackathons.get(Number(hackId));
 
