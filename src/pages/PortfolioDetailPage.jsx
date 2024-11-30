@@ -31,7 +31,7 @@ import logo from "../assets/icons/Logo.png";
 import heart_none from "../assets/images/PortfolioDetailPage3/heart-none.svg";
 import heart_fill from "../assets/images/PortfolioDetailPage3/heart-fill.svg";
 
-import {deleteProject} from "../components/features/projectFeatures";
+import { deleteProject } from "../components/features/projectFeatures";
 
 const PortfolioDetailPage = () => {
   const { portfolioId } = useParams();
@@ -290,24 +290,27 @@ const PortfolioDetailPage = () => {
           </ImagesField>
         </OtherInfoSection>
       </ContentSection>
-       {/* 수정 버튼 작성자와 포폴의 아이디가 동일할 경우에만 보이게한다. */}
-        {isOwner && (
-          <ButtonWrapper2>
-            <SubmitButton
-              onClick={() => {
-                navigate(`/ModifyPortfolioPage/${portfolioId}`);
-              }}
-            >
-              수정
-            </SubmitButton>
-            <SubmitButton
-              onClick={async () => {
+      {/* 수정 버튼 작성자와 포폴의 아이디가 동일할 경우에만 보이게한다. */}
+      {isOwner && (
+        <ButtonWrapper2>
+          <SubmitButton
+            onClick={() => {
+              navigate(`/ModifyPortfolioPage/${portfolioId}`);
+            }}
+          >
+            수정
+          </SubmitButton>
+          <SubmitButton
+            onClick={async () => {
               await deleteProject(portfolioId);
               navigate("/Mypage");
-          }}>삭제</SubmitButton>
-          </ButtonWrapper2>
-        )}
-        
+            }}
+          >
+            삭제
+          </SubmitButton>
+        </ButtonWrapper2>
+      )}
+
       <CommentsSection>
         <CommentsTitle>댓글</CommentsTitle>
         <WritingBox addComment={addComment} />
@@ -560,7 +563,6 @@ const ModalContainer = styled.div`
   font-weight: bold;
   padding: 1vw;
   width: 25vw;
-  height: 15vh;
 
   border-radius: 0.3125em;
 

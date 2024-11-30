@@ -39,8 +39,7 @@ import sample from "../assets/images/PortfolioDetailPage3/sample.png";
 //sample 비디오
 import sampleVideo from "../assets/images/PortfolioDetailPage3/sampleVideo.mp4";
 
-import {deleteProject} from "../components/features/projectFeatures";
-
+import { deleteProject } from "../components/features/projectFeatures";
 
 const PortfolioDetailPage3 = () => {
   const { portfolioId } = useParams();
@@ -342,10 +341,13 @@ const PortfolioDetailPage3 = () => {
             수정
           </SubmitButton>
           <SubmitButton
-              onClick={async () => {
+            onClick={async () => {
               await deleteProject(portfolioId);
               navigate("/Mypage");
-          }}>삭제</SubmitButton>
+            }}
+          >
+            삭제
+          </SubmitButton>
         </ButtonWrapper2>
       )}
 
@@ -510,7 +512,6 @@ const ModalContainer = styled.div`
   font-weight: bold;
   padding: 1vw;
   width: 25vw;
-  height: 15vh;
 
   border-radius: 0.3125em;
 

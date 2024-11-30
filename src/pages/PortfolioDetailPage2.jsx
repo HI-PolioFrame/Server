@@ -35,13 +35,15 @@ import Notepad16 from "../assets/images/PortfolioDetailPage2/Notepad16.png";
 import heart_none from "../assets/images/PortfolioDetailPage3/heart-none.svg";
 import heart_fill from "../assets/images/PortfolioDetailPage3/heart-fill.svg";
 
-import {deleteProject} from "../components/features/projectFeatures";
+import { deleteProject } from "../components/features/projectFeatures";
 
 const PortfolioDetailPage2 = () => {
   const { portfolioId } = useParams();
   const [portfolioData, setPortfolioData] = useState(null);
   const [comments, setComments] = useState([]);
   const [showContactInfo, setShowContactInfo] = useState(false);
+  const [showModal, setShowModal] = useState(false); // "연락" 버튼 눌렀을 때 true
+  const [modalMessage, setModalMessage] = useState("");
   const [isOwner, setIsOwner] = useState(false);
   const [isLiked, setIsLiked] = useState(false); //"좋아요" 눌렀을 때 상태 반영
 
@@ -109,13 +111,16 @@ const PortfolioDetailPage2 = () => {
     );
   };
 
+  //기업 연락
   const handleContactClick = () => {
     if (currentUser && currentUser.recruiter) {
       patchContacts(Number(portfolioId), currentUser.id); // 기업 연락 호출
       setShowContactInfo(true); // 개발자 정보 표시
-      alert("기업 연락이 저장되었습니다.");
+      setShowModal(true);
+      setModalMessage("채용자 페이지에 저장되었습니다.");
     } else {
-      alert("기업 회원만 연락 버튼을 사용할 수 있습니다.");
+      setShowModal(true);
+      setModalMessage("기업 회원만 연락 버튼을 사용할 수 있습니다.");
     }
   };
 
@@ -268,6 +273,15 @@ const PortfolioDetailPage2 = () => {
             </InfoWrapper>
           </Wrapper1>
 
+          {showModal && (
+            <ModalOverlay className="ModalOverlay">
+              <ModalContainer>
+                <p>{modalMessage}</p>
+                <button onClick={() => setShowModal(false)}>확인</button>
+              </ModalContainer>
+            </ModalOverlay>
+          )}
+
           <Wrapper2>
             {/* 배운점 */}
             <LearnedWrapper>
@@ -293,9 +307,12 @@ const PortfolioDetailPage2 = () => {
             </SubmitButton>
             <SubmitButton
               onClick={async () => {
-              await deleteProject(portfolioId);
-              navigate("/Mypage");
-          }}>삭제</SubmitButton>
+                await deleteProject(portfolioId);
+                navigate("/Mypage");
+              }}
+            >
+              삭제
+            </SubmitButton>
           </ButtonWrapper2>
         )}
       </MainWrapper>
@@ -696,5 +713,47 @@ const SubmitButton = styled.button`
     width: 7em;
     height: 2.25em;
     font-size: 0.8125em;
+  }
+`;
+
+//모달
+const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+`;
+
+const ModalContainer = styled.div`
+  background: white;
+  font-size: 1.3vw;
+  font-weight: bold;
+  padding: 1vw;
+  width: 25vw;
+
+  border-radius: 0.3125em;
+
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1001;
+
+  button {
+    margin-top: 1.5vw;
+    padding: 0.5vw 1vw;
+    background: #0a27a6;
+    color: white;
+    border: none;
+    border-radius: 0.3125em;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: #0056b3;
   }
 `;
