@@ -292,6 +292,8 @@ app.post('/patch-comments', async (req, res) => {
     try {
         const { filePath, projectId, commentId } = req.body;
 
+        if (!projectId) return;
+
         // 파일 읽기
         const data = await fs.readFile(filePath, 'utf8');
         
@@ -311,6 +313,8 @@ app.post('/patch-comments', async (req, res) => {
         const projectInfo = convertToValidJSON(contentWithoutExport);
 
         const project = projectInfo.find(p => p.projectId === projectId);
+        console.log("projectId: ", projectId);
+        console.log("project: ", project);
 
         if (!project.comments) {
             project.comments = [];

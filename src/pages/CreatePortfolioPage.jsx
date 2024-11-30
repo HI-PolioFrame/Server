@@ -197,8 +197,8 @@ const CreateButton = styled.button`
   position: relative;
   
   &:disabled {
-    background-color: #0a27a6; // 기본 배경색
-    opacity: 0.5; // 흐리게 보이도록 설정
-    cursor: not-allowed; // 커서를 금지 아이콘으로 변경
+    background-color: #0a27a6; 
+    opacity: 0.5; 
+    cursor: not-allowed; 
   }
 `;

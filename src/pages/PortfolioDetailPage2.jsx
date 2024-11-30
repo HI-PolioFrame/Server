@@ -54,6 +54,7 @@ const PortfolioDetailPage2 = () => {
     initializeData();
     //project ID 사용해서 포트폴리오 데이터 가져오기
     const portfolio = oriProjects.get(Number(portfolioId));
+    console.log("portfolioId: ", Number(portfolioId));
     if (portfolio) {
       setPortfolioData(portfolio);
       setIsLiked(isIncludedLikes(portfolio.projectId, currentUser.id)); //초기상태
@@ -80,6 +81,8 @@ const PortfolioDetailPage2 = () => {
   useEffect(() => {
     console.log("portfolioData:", portfolioData);
     console.log("currentUser.email:", currentUser.email);
+    console.log("portfolioId: ", Number(portfolioId));
+
 
     if (portfolioData && portfolioData.ownerEmail === currentUser.email) {
       console.log("작성자 일치");

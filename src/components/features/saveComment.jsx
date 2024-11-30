@@ -54,6 +54,11 @@ export const saveComment = async (portfolioId, userId, text) => {
     return;
   }
 
+  if (!portfolioId) {
+    console.log("portfolioId 값이 없음");
+    return;
+  }
+
   // 새 댓글 ID 생성
   let commentIds = Array.from(oriComments.keys());
   const commentId =
@@ -95,8 +100,6 @@ export const saveComment = async (portfolioId, userId, text) => {
 
 export const removeComment = async (commentId) => {
   const commentIdField = "commentId";
-  const projectIdField = "projectId";
-  const field = "comments";
 
   let comment = oriComments.get(commentId);
   const projectId = comment.portfolioId;
