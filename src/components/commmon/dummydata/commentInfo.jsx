@@ -26,5 +26,5 @@ export const commentInfo = [
     userId: "admin4",
     text: `잘 만드셨네요ㅋㅋ`,
     date: `Thu Nov 14 2024 16:32:22 GMT+0900 (한국 표준시)`,
-  },
+  }
 ];
