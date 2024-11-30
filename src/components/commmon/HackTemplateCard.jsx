@@ -67,8 +67,8 @@ const Card = styled.div`
   width: 20vw;
   height: 35vh; // 원래 17.625em
   background-color: #ffffff;
-  border: 0.125em solid #d0d1d9;
-  border-radius: 0.3125em;
+  border-radius: 1em;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -83,8 +83,8 @@ const ImageContainer = styled.div`
   background-color: #f9f9f9;
 
   border: 0.0625em solid #d0d1d9;
-  border-radius: 0.625em;
-
+  // border-radius: 0.625em;
+  border-radius: 1em;
   display: flex;
   justify-content: center;
   align-items: center;

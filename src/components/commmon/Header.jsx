@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import defaultProfilePicture from "../../assets/icons/Header/profileIcon.png"; // 기본 이미지
 import StyledButton from "./StyledButton";
+import { useLocation } from "react-router-dom";
 import { Navigate, useNavigate } from "react-router-dom";
 import HackathonPage from "../../pages/HackathonPage";
 import {
@@ -30,6 +31,9 @@ function Header({}) {
   // 프로필 클릭 이벤트 추가했다구리
   const menuRef = useRef(null);
   const currentUser = getCurrentUser();
+  const location = useLocation();
+
+  const isActive = (path) => location.pathname === path;
 
   // useEffect로 컴포넌트가 처음 렌더링될 때 accessToken 업데이트
   useEffect(() => {
@@ -83,11 +87,19 @@ function Header({}) {
         <Logo onClick={() => navigate("./")}>FolioFrame</Logo>
         {/* 네비게이션바에 있는 메뉴들 */}
         <TextWrapper>
-          <Text onClick={() => navigate("/PortfolioPage")}>포트폴리오</Text>
-          <Text onClick={() => navigate("/HackathonPage")}>해커톤</Text>
+          <Text 
+            onClick={() => navigate("/PortfolioPage")}
+            active={isActive("/PortfolioPage")}
+          >포트폴리오</Text>
+          <Text 
+            onClick={() => navigate("/HackathonPage")}
+            active={isActive("/HackathonPage")}
+          >해커톤</Text>
           {currentUser?.recruiter && (
-            <Text onClick={() => navigate(`/RecruiterPage/${currentUser.id}`)}>
-              채용
+            <Text 
+              onClick={() => navigate(`/RecruiterPage/${currentUser.id}`)}
+              active={isActive(`/RecruiterPage/${currentUser.id}`)}
+            >채용
             </Text>
           )}
         </TextWrapper>
@@ -270,6 +282,8 @@ const TextWrapper = styled.nav`
   display: flex;
   align-items: center;
   margin-left: 200px;
+
+
 `;
 
 const Text = styled.a`
@@ -280,8 +294,10 @@ const Text = styled.a`
   line-height: 36px;
   color: #919194;
   text-decoration: none;
-  margin-left: 20px;
+  margin-left: 30px;
   cursor: pointer;
+
+  color: ${(props) => (props.active ? "#0a27a6" : "#919194")}; 
 
   &:hover {
     color: #0a27a6;

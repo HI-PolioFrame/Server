@@ -26,6 +26,7 @@ const CreateHackathonPage = () => {
   });
 
   const [currentUser, setCurrentUser] = useState(null);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   useEffect(() => {
     const user = getCurrentUser();
@@ -83,6 +84,26 @@ const CreateHackathonPage = () => {
     console.log(formData.startDate, formData.endDate);
     navigate("/MyPage"); 
   };
+  // 필수 항목에 모두 입력이 되었는지 확인하고 "제작하기" 버튼 활성화 여부를 정한다.
+  useEffect(() => {
+    const checkRequiredFields = () => {
+      const requiredFields = [
+        "hackName",
+        "startDate",
+        "endDate",
+        "link",
+        "memNumber",
+        "description",
+        "part",
+      ];
+      const allFieldsFilled = requiredFields.every(
+        (field) => formData[field] && formData[field].trim() !== ""
+      );
+      setIsButtonDisabled(!allFieldsFilled);
+    };
+
+    checkRequiredFields();
+  }, [formData]);
 
   return (
     <>
@@ -97,7 +118,9 @@ const CreateHackathonPage = () => {
           formData={formData}
           onDateChange={handleDateChange}
         />
-        <CreateButton onClick={handleSaveHack}>제작하기</CreateButton>
+        <CreateButton 
+          disabled={isButtonDisabled}
+          onClick={handleSaveHack}>제작하기</CreateButton>
       </ContentWrapper>
     </>
   );
@@ -162,4 +185,10 @@ const CreateButton = styled.button`
   align-items: center;
   justify-content: center;
   position: relative;
+
+  &:disabled {
+    background-color: #0a27a6; 
+    opacity: 0.5; 
+    cursor: not-allowed; 
+  }
 `;
