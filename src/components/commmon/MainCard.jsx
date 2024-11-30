@@ -2,18 +2,32 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { Navigate, useNavigate } from "react-router-dom";
-
+import { getCurrentUser, setCurrentUser } from "../../components/features/currentUser";
 // 템플릿 카드 1개
 //templateName, description, templateThumnail을 props로!
 const TemplateCard = () => {
   const navigate = useNavigate();
+  const currentUser = getCurrentUser();
+
   const templateName = ["템플릿", "해커톤", "채용"];
   const description = ["나만의 포토폴리오 만들기", "함께 경험 쌓는 프로젝트", "나에게 맞는 채용 정보"];
-  const pages = ["/PortfolioPage","/HackathonPage", "/MyPage"];
+  const pages = ["/PortfolioPage","/HackathonPage", "/RecruiterPage"];
+  // const handleButtonClick = (index) => {
+  //   navigate(pages[index]); // 해당 인덱스에 맞는 페이지로 이동
+    
+  // };
   const handleButtonClick = (index) => {
-    navigate(pages[index]); // 해당 인덱스에 맞는 페이지로 이동
+    if (pages[index] === "/RecruiterPage") {
+      // recruiter 조건 확인
+      if (!currentUser?.recruiter) {
+        alert("기업회원으로 가입한 경우에만 사용할 수 있습니다");
+        return;
+      }
+      navigate(pages[index]); // recruiter가 true인 경우에만 이동
+    } else {
+      navigate(pages[index]); // 다른 페이지는 바로 이동
+    }
   };
-
   return (
     <CardContainer>
       {templateName.map((name, index) => (
