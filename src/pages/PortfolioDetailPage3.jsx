@@ -58,12 +58,14 @@ const PortfolioDetailPage3 = () => {
 
   useEffect(() => {
     initializeData();
+    console.log("초기화된 oriProjects:", oriProjects); // 디버깅용 로그
     //project ID 사용해서 포트폴리오 데이터 가져오기
     const portfolio = oriProjects.get(Number(portfolioId));
     if (portfolio) {
       setPortfolioData(portfolio);
       setIsLiked(isIncludedLikes(portfolio.projectId, currentUser.id)); //초기상태
     }
+    console.log(portfolio);
 
     // oriUsers에서 현재 유저 정보 동기화
     const userId = currentUser?.id;
@@ -78,10 +80,9 @@ const PortfolioDetailPage3 = () => {
     const filteredComments = Array.from(oriComments.values()).filter(
       (comment) => comment.portfolioId === Number(portfolioId)
     );
+    console.log("초기화된 comments:", filteredComments); // 디버깅용 로그
     setComments(filteredComments);
-
-    console.log(portfolio);
-  }, [oriProjects, oriUsers]);
+  }, [oriProjects, oriUsers, oriComments]);
 
   const scrollLeft = () => {
     if (mediaRef.current) {
@@ -128,9 +129,25 @@ const PortfolioDetailPage3 = () => {
     }
   }, [currentUser.email, portfolioData]);
 
-  const addComment = (newCommentObj) => {
-    setComments((prevComments) => [newCommentObj, ...prevComments]);
-    saveComment(Number(portfolioId), newCommentObj.userId, newCommentObj.text);
+  // const addComment = (newCommentObj) => {
+  //   setComments((prevComments) => [newCommentObj, ...prevComments]);
+  //   saveComment(Number(portfolioId), newCommentObj.userId, newCommentObj.text);
+  // };
+
+  const addComment = async (text) => {
+    try {
+      // saveComment에서 댓글 객체 생성 및 파일 저장
+      const newComment = await saveComment(
+        Number(portfolioId),
+        currentUser.id,
+        text
+      );
+
+      // 상태 업데이트
+      setComments((prevComments) => [newComment, ...prevComments]);
+    } catch (error) {
+      console.error("댓글 저장 중 오류 발생:", error);
+    }
   };
 
   //기업 연락

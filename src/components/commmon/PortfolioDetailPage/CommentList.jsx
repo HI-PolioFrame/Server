@@ -19,6 +19,8 @@ const CommentList = ({ comments, setComments, portfolioId }) => {
   //   }
   // };
 
+  console.log("comments 데이터 확인:", comments); // 디버깅용 로그
+
   const handleDelete = async (index) => {
     const currentUser = getCurrentUser();
     const commentToDelete = comments[index];

@@ -76,13 +76,12 @@ const PortfolioDetailPage2 = () => {
     setComments(filteredComments);
 
     console.log(portfolio);
-  }, [oriProjects, oriUsers]);
+  }, [oriProjects, oriUsers, oriComments]);
 
   useEffect(() => {
     console.log("portfolioData:", portfolioData);
     console.log("currentUser.email:", currentUser.email);
     console.log("portfolioId: ", Number(portfolioId));
-
 
     if (portfolioData && portfolioData.ownerEmail === currentUser.email) {
       console.log("작성자 일치");
@@ -93,21 +92,37 @@ const PortfolioDetailPage2 = () => {
     }
   }, [currentUser.email, portfolioData]);
 
-  const addComment = (newCommentObj) => {
-    // const newComment = {
-    //   commentId: Date.now(),
-    //   portfolioId: Number(portfolioId),
-    //   userId: currentUser.id,
-    //   text: newCommentObj.text,
-    //   date: new Date().toISOString(),
-    // };
+  // const addComment = (newCommentObj) => {
+  //   // const newComment = {
+  //   //   commentId: Date.now(),
+  //   //   portfolioId: Number(portfolioId),
+  //   //   userId: currentUser.id,
+  //   //   text: newCommentObj.text,
+  //   //   date: new Date().toISOString(),
+  //   // };
 
-    // 클라이언트 측 상태 업데이트
-    //oriComments.set(newComment.commentId, newComment);
-    setComments((prevComments) => [newCommentObj, ...prevComments]);
+  //   // 클라이언트 측 상태 업데이트
+  //   //oriComments.set(newComment.commentId, newComment);
+  //   setComments((prevComments) => [newCommentObj, ...prevComments]);
 
-    // 파일에 댓글 저장
-    saveComment(Number(portfolioId), newCommentObj.userId, newCommentObj.text);
+  //   // 파일에 댓글 저장
+  //   saveComment(Number(portfolioId), newCommentObj.userId, newCommentObj.text);
+  // };
+
+  const addComment = async (text) => {
+    try {
+      // saveComment에서 댓글 객체 생성 및 파일 저장
+      const newComment = await saveComment(
+        Number(portfolioId),
+        currentUser.id,
+        text
+      );
+
+      // 상태 업데이트
+      setComments((prevComments) => [newComment, ...prevComments]);
+    } catch (error) {
+      console.error("댓글 저장 중 오류 발생:", error);
+    }
   };
 
   //기업 연락

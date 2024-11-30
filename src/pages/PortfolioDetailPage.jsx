@@ -68,10 +68,11 @@ const PortfolioDetailPage = () => {
     const filteredComments = Array.from(oriComments.values()).filter(
       (comment) => comment.portfolioId === Number(portfolioId)
     );
+    console.log("초기화된 comments:", filteredComments); // 디버깅용 로그
     setComments(filteredComments);
 
     console.log(portfolio);
-  }, [oriProjects, oriUsers]);
+  }, [oriProjects, oriUsers, oriComments]);
 
   useEffect(() => {
     console.log("portfolioData:", portfolioData);
@@ -86,35 +87,36 @@ const PortfolioDetailPage = () => {
     }
   }, [currentUser.email, portfolioData]);
 
-  // const addComment = async (text) => {
-  //   try {
-  //     // saveComment에서 댓글 객체 생성 및 파일 저장
-  //     const newComment = await saveComment(
-  //       Number(portfolioId),
-  //       currentUser.id,
-  //       text
-  //     );
+  const addComment = async (text) => {
+    try {
+      // saveComment에서 댓글 객체 생성 및 파일 저장
+      const newComment = await saveComment(
+        Number(portfolioId),
+        currentUser.id,
+        text
+      );
+      console.log("추가된 댓글:", newComment); // 디버깅용 로그
 
-  //     // 상태 업데이트
-  //     setComments((prevComments) => [newComment, ...prevComments]);
-  //   } catch (error) {
-  //     console.error("댓글 저장 중 오류 발생:", error);
-  //   }
-  // };
-
-  const addComment = (newCommentObj) => {
-    // 클라이언트 측 상태 업데이트
-    //oriComments.set(newComment.commentId, newComment);
-    setComments((prevComments) => [newCommentObj, ...prevComments]);
-    // console.log(
-    //   newCommentObj.portfolioId,
-    //   newCommentObj.userId,
-    //   newCommentObj.text
-    // );
-
-    // 파일에 댓글 저장
-    saveComment(Number(portfolioId), newCommentObj.userId, newCommentObj.text);
+      // 상태 업데이트
+      setComments((prevComments) => [newComment, ...prevComments]);
+    } catch (error) {
+      console.error("댓글 저장 중 오류 발생:", error);
+    }
   };
+
+  // const addComment = (newCommentObj) => {
+  //   // 클라이언트 측 상태 업데이트
+  //   //oriComments.set(newComment.commentId, newComment);
+  //   setComments((prevComments) => [newCommentObj, ...prevComments]);
+  //   // console.log(
+  //   //   newCommentObj.portfolioId,
+  //   //   newCommentObj.userId,
+  //   //   newCommentObj.text
+  //   // );
+
+  //   // 파일에 댓글 저장
+  //   saveComment(Number(portfolioId), newCommentObj.userId, newCommentObj.text);
+  // };
 
   const handleContactClick = () => {
     if (currentUser && currentUser.recruiter) {
