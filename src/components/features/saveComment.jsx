@@ -1,4 +1,4 @@
-import { oriComments } from "../domain/startProgram.js";
+import { oriComments, oriProjects } from "../domain/startProgram.js";
 import Comment from "../domain/Comment.js";
 
 export const removeFromFileEnd = async (filePath, numCharsToRemove) => {
@@ -34,6 +34,20 @@ export const appendStringToFile = async (filePath, string) => {
   }
 };
 
+export const patchComments = async (filePath, projectId, commentId) => {
+  try {
+    await fetch("http://localhost:3000/patch-comments", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ filePath, projectId, commentId }), 
+    });
+  } catch (error) {
+    console.error("파일에 문자열을 추가하는 중 오류가 발생했습니다.", error);
+  }
+}
+
 export const saveComment = async (portfolioId, userId, text) => {
   if (!text || !userId) {
     console.log("필수 정보가 누락됨");
@@ -60,20 +74,60 @@ export const saveComment = async (portfolioId, userId, text) => {
   {
     commentId: ${commentId},
     portfolioId: ${portfolioId},
-    userId: ${userId},
+    userId: "${userId}",
     text: "${text}",
     date: "${newComment.date}"
   }`;
 
   // 파일 경로 (데이터를 저장할 파일)
   let filePath = "src/components/commmon/dummydata/commentInfo.jsx";
+  let projectFilePath = "src/components/commmon/dummydata/projectInfo.jsx";
 
   // 파일의 끝에서 '];'를 제거하고 새 데이터를 추가
-  removeFromFileEnd(filePath, 3);
-  appendStringToFile(filePath, `,${string}\n];`);
+  await removeFromFileEnd(filePath, 3);
+  await appendStringToFile(filePath, `,${string}\n];`);
+
+  // 프로젝트의 comments에 commentId 추가
+  patchComments(projectFilePath, portfolioId, commentId);
 
   console.log('FileIO를 통해 댓글 달기 완료');
 
 };
+
+export const removeComment = async (commentId) => {
+  const commentIdField = "commentId";
+  const projectIdField = "projectId";
+  const field = "comments";
+
+  let comment = oriComments.get(commentId);
+  const projectId = comment.portfolioId;
+
+  let filePath = "src/components/commmon/dummydata/commentInfo.jsx";
+  let projectFilePath = "src/components/commmon/dummydata/projectInfo.jsx";
+
+  try {
+
+    await Promise.all([
+      fetch("http://localhost:3000/delete-object", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ filePath, idField: String(commentIdField), id: Number(commentId) }), 
+      }),
+  
+      fetch("http://localhost:3000/remove-comments", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ filePath: projectFilePath, projectId: Number(projectId), commentId: Number(commentId) }), 
+      })
+    ]);
+    
+  } catch (error) {
+    console.error("파일에서 댓글을 삭제하는 중 오류가 발생했습니다.", error);
+  }
+}
 
 export default saveComment;

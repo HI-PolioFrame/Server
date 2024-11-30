@@ -14,7 +14,7 @@ export const hackathonInfo = [
         logo: "",
         ownerId: "happytree12", 
         ownerEmail: "tylove@naver.com",
-        participant: []
+        participant: ["admin1","happytree12"]
     },
     {
         hackId: 2,
@@ -35,4 +35,19 @@ export const hackathonInfo = [
     },
 
 
+,    {
+        hackId: 3,
+        hackName: "ㅇㅎㅎ",
+        startDate: "2024-11-28",
+        endDate: "2024-11-29",
+        link: "dfgrg",
+        memNumber: 2,
+        description: "fag",
+        video: "",
+        pictures: "",
+        coverImage: "",
+        logo: "",
+        ownerId: "happytree12",
+        ownerEmail: "tylove@naver.com",
+    }
 ];

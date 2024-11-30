@@ -105,7 +105,7 @@ const PortfolioDetailPage2 = () => {
 
     // 파일에 댓글 저장
     saveComment(
-      newCommentObj.portfolioId,
+      Number(portfolioId),
       newCommentObj.userId,
       newCommentObj.text
     );

@@ -40,7 +40,7 @@ const LoginPage = () => {
     setEyeVisible(!eyeVisible);
   };
 
-  // // API연결 X
+  // // 현혜징 X
   const handleLogin = () => {
     const trimmedEmail = email.trim();
     const trimmedId = Id.trim();
@@ -49,18 +49,6 @@ const LoginPage = () => {
     console.log("입력된 이메일 및 아이디 :", trimmedEmail, trimmedId);
     console.log("입력된 비밀번호 : ", trimmedPassword);
     console.log("더미 데이터:", userInfo);
-
-    // const user = userInfo.find(
-    //   (user) =>
-    //     ((user.email &&
-    //       user.email.toLowerCase() === trimmedEmail.toLowerCase()) ||
-    //       (user.id && user.id.toString() === trimmedId)) &&
-    //       (hashFunction(trimmedPassword).then(hash => {
-    //         console.log(`유저에 저장된 password: ${user.password}`);
-    //         console.log(`입력된 값에 따른 해시: ${hash}`);
-    //         return user.password === hash;
-    //       }))
-    // );
 
     const promises = userInfo.map(async (value) => {
       const hashPwd = await hashFunction(trimmedPassword);
@@ -89,66 +77,58 @@ const LoginPage = () => {
       });
   };
 
-  // if (user) {
-  //   // 로그인 성공 시 accessToken 저장
-  //   //localStorage.setItem("accessToken", "yourAccessTokenHere"); // 실제 accessToken 사용
-  //   setCurrentUser(user); //현재 사용자 정보 저장
-
-  //   navigate("/");
-  // } else {
-  //   alert('아이디 혹은 이메일과 비밀번호를 정확하게 입력하세요.');
-  //   console.log("로그인 실패 - 입력값이 더미 데이터와 일치하지 않음");
-  // }
-
-const handleKeyDown = (e) => {
-  if (e.key === "Enter") {
-    handleLogin();
-  }
-};
-
-return (
-  <LoginWrapper>
-    <MainText onClick={() => navigate("/")}>FolioFrame</MainText>
-    <JoinWrapper>
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleLogin();
+    }
+  };
+  
+  return (
+    <LoginWrapper>
+      <MainText onClick={() => navigate("/")}>FolioFrame</MainText>
+      <JoinWrapper>
       <IDinput
         placeholder="이메일 주소 또는 아이디"
-        value={Id}
+        value={emailOrId}
         onChange={(e) => {
-          if (e.target.value.includes("@")) {
-            setEmail(e.target.value);
-          } else {
-            setId(e.target.value);
-          }
+          const inputValue = e.target.value.trim();
+          setemailOrId(inputValue);
+            if (inputValue.includes("@")) {
+              setEmail(inputValue);
+              setId(""); // ID는 초기화
+            } else {
+              setId(inputValue);
+              setEmail(""); // 이메일 초기화
+            }
         }}
-        //  value={emailOrId}
-        //  onChange={(e) => setemailOrId(e.target.value)} // 이메일 또는 아이디 입력
         onKeyDown={handleKeyDown}
       />
-      <PassWrapper>
-        <PASSinput
-          type={eyeVisible ? "text" : "password"}
-          placeholder="비밀번호"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          onKeyDown={handleKeyDown}
-        />
-        <EyeIcon
-          src={eyeVisible ? Eyeoff : Eye}
-          alt="eye"
-          onClick={toggleEyeVisible}
-        />
-      </PassWrapper>
-    </JoinWrapper>
-    <LoginButton onClick={handleLogin}>로그인</LoginButton>
-    <MemberWrapper>
-      <Text>회원이 아니신가요? |</Text>
-      <JoinButton onClick={onClickImg}>회원가입</JoinButton>
-    </MemberWrapper>
-  </LoginWrapper>
-);
-};
-
-export default LoginPage;
+        <PassWrapper>
+          <PASSinput
+            type={eyeVisible ? "text" : "password"}
+            placeholder="비밀번호"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            onKeyDown={handleKeyDown}
+          />
+          <EyeIcon
+            src={eyeVisible ? Eyeoff : Eye}
+            alt="eye"
+            onClick={toggleEyeVisible}
+          />
+        </PassWrapper>
+      </JoinWrapper>
+      <LoginButton onClick={handleLogin}>로그인</LoginButton>
+      <MemberWrapper>
+        <Text>회원이 아니신가요? |</Text>
+        <JoinButton onClick={onClickImg}>회원가입</JoinButton>
+      </MemberWrapper>
+    </LoginWrapper>
+  );
+  };
+  
+  export default LoginPage;
+  
 //css Wrapper
 const LoginWrapper = styled.div`
   display: flex;

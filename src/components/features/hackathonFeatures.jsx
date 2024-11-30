@@ -126,6 +126,8 @@ export const updateParticipant = async (hackId, userId) => {
         console.error(`Hackathon with id ${hackId} not found.`);
         return;
     }
+
+    // hackathon이 존재하면 memNumber를 증가시키는 로직
     const newMemNumber = hackathon["memNumber"] + 1;
 
     if (hackathon["maxMemNumber"] < newMemNumber) {
@@ -162,8 +164,13 @@ export const updateParticipant = async (hackId, userId) => {
     }
 };
 
+
+
+
 // export const updateParticipant = async (hackId, userId) => {
 //     const hackathon = oriHackathons.get(hackId);
+//         console.log(hackId);
+
 //     const newMemNumber = hackathon["memNumber"] + 1;
 
 //     try {
