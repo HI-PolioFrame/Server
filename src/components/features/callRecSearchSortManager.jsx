@@ -8,11 +8,13 @@ import { getCurrentUser } from "./currentUser.js";
 class callRecSearchSortManager {
   constructor() {
     const currentUser = getCurrentUser();
-    console.log("Current User Object:", currentUser);
+    //console.log("Current User Object:", currentUser);
     this.userId = currentUser?.id || null;
+    //console.log("CurrentUser Id: ", this.userId);
     // this.contacts = this.userId.contacts;
     this.contacts = currentUser?.contacts || null;
-    console.log("CurrentUser contacts: ", this.contacts);
+    //console.log("CurrentUser contacts: ", this.contacts);
+
     this.currentPortfolios = new LinkedList();
 
     this.state = {
@@ -118,7 +120,6 @@ class callRecSearchSortManager {
             }
           });
         }
-
         result.reverse();
       }
       return result;
@@ -136,9 +137,13 @@ class callRecSearchSortManager {
       curPortfolios = this.doSearch();
     } else {
       curPortfolios = new LinkedList();
-      oriProjects.forEach((pofol, key) => {
-        curPortfolios.append(pofol);
-      });
+      for (const contact of this.contacts) {
+        oriProjects.forEach((pofol, key) => {
+          if (contact === pofol.projectId) {
+            curPortfolios.append(pofol);
+          }
+        });
+      }
       curPortfolios.reverse();
     }
 
