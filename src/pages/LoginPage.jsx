@@ -40,6 +40,7 @@ const LoginPage = () => {
     setEyeVisible(!eyeVisible);
   };
 
+  // // 현혜징 X
   const handleLogin = () => {
     const trimmedEmail = email.trim();
     const trimmedId = Id.trim();
@@ -48,18 +49,6 @@ const LoginPage = () => {
     console.log("입력된 이메일 및 아이디 :", trimmedEmail, trimmedId);
     console.log("입력된 비밀번호 : ", trimmedPassword);
     console.log("더미 데이터:", userInfo);
-
-    // const user = userInfo.find(
-    //   (user) =>
-    //     ((user.email &&
-    //       user.email.toLowerCase() === trimmedEmail.toLowerCase()) ||
-    //       (user.id && user.id.toString() === trimmedId)) &&
-    //       (hashFunction(trimmedPassword).then(hash => {
-    //         console.log(`유저에 저장된 password: ${user.password}`);
-    //         console.log(`입력된 값에 따른 해시: ${hash}`);
-    //         return user.password === hash;
-    //       }))
-    // );
 
     const promises = userInfo.map(async (value) => {
       const hashPwd = await hashFunction(trimmedPassword);
@@ -93,7 +82,7 @@ const LoginPage = () => {
       handleLogin();
     }
   };
-
+  
   return (
     <LoginWrapper>
       <MainText onClick={() => navigate("/")}>FolioFrame</MainText>
@@ -103,17 +92,14 @@ const LoginPage = () => {
         value={emailOrId}
         onChange={(e) => {
           const inputValue = e.target.value.trim();
-
-          // 이메일 형식인지 확인
-          if (inputValue.includes("@")) {
-            setEmail(inputValue);
-            setId(""); 
-          } else {
-            setId(inputValue);
-            setEmail(""); 
-          }
-
-          setemailOrId(inputValue); 
+          setemailOrId(inputValue);
+            if (inputValue.includes("@")) {
+              setEmail(inputValue);
+              setId(""); // ID는 초기화
+            } else {
+              setId(inputValue);
+              setEmail(""); // 이메일 초기화
+            }
         }}
         onKeyDown={handleKeyDown}
       />
@@ -139,9 +125,10 @@ const LoginPage = () => {
       </MemberWrapper>
     </LoginWrapper>
   );
-};
-
-export default LoginPage;
+  };
+  
+  export default LoginPage;
+  
 //css Wrapper
 const LoginWrapper = styled.div`
   display: flex;
