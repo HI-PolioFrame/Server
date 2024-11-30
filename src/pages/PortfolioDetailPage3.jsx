@@ -130,11 +130,7 @@ const PortfolioDetailPage3 = () => {
 
   const addComment = (newCommentObj) => {
     setComments((prevComments) => [newCommentObj, ...prevComments]);
-    saveComment(
-      newCommentObj.portfolioId,
-      newCommentObj.userId,
-      newCommentObj.text
-    );
+    saveComment(Number(portfolioId), newCommentObj.userId, newCommentObj.text);
   };
 
   //기업 연락

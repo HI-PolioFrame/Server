@@ -86,22 +86,34 @@ const PortfolioDetailPage = () => {
     }
   }, [currentUser.email, portfolioData]);
 
+  // const addComment = async (text) => {
+  //   try {
+  //     // saveComment에서 댓글 객체 생성 및 파일 저장
+  //     const newComment = await saveComment(
+  //       Number(portfolioId),
+  //       currentUser.id,
+  //       text
+  //     );
+
+  //     // 상태 업데이트
+  //     setComments((prevComments) => [newComment, ...prevComments]);
+  //   } catch (error) {
+  //     console.error("댓글 저장 중 오류 발생:", error);
+  //   }
+  // };
+
   const addComment = (newCommentObj) => {
     // 클라이언트 측 상태 업데이트
     //oriComments.set(newComment.commentId, newComment);
     setComments((prevComments) => [newCommentObj, ...prevComments]);
-    console.log(
-      newCommentObj.portfolioId,
-      newCommentObj.userId,
-      newCommentObj.text
-    );
+    // console.log(
+    //   newCommentObj.portfolioId,
+    //   newCommentObj.userId,
+    //   newCommentObj.text
+    // );
 
     // 파일에 댓글 저장
-    saveComment(
-      newCommentObj.portfolioId,
-      newCommentObj.userId,
-      newCommentObj.text
-    );
+    saveComment(Number(portfolioId), newCommentObj.userId, newCommentObj.text);
   };
 
   const handleContactClick = () => {

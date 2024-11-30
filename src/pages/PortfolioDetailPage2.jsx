@@ -104,11 +104,7 @@ const PortfolioDetailPage2 = () => {
     setComments((prevComments) => [newCommentObj, ...prevComments]);
 
     // 파일에 댓글 저장
-    saveComment(
-      Number(portfolioId),
-      newCommentObj.userId,
-      newCommentObj.text
-    );
+    saveComment(Number(portfolioId), newCommentObj.userId, newCommentObj.text);
   };
 
   //기업 연락
@@ -321,11 +317,12 @@ const PortfolioDetailPage2 = () => {
       <CommentsSection>
         <CommentsTitle>댓글</CommentsTitle>
         <WritingBox addComment={addComment} />
-        <CommentList
+        {/* <CommentList
           comments={comments}
           setComments={setComments}
           portfolioId={portfolioId}
-        />
+        /> */}
+        <CommentList comments={comments} setComments={setComments} />
       </CommentsSection>
     </>
   );
