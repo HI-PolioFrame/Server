@@ -13,14 +13,9 @@ import Comment from "../components/domain/Comment";
 import saveComment from "../components/features/saveComment";
 import { deleteHackathon } from "../components/features/hackathonFeatures";
 
-import WritingBox from "../components/commmon/PortfolioDetailPage/WritingBox";
-import CommentList from "../components/commmon/PortfolioDetailPage/CommentList";
 
 //logo 이미지
 import logo from "../assets/icons/Logo.png";
-//heart 이미지
-import heart_none from "../assets/images/PortfolioDetailPage3/heart-none.svg";
-import heart_fill from "../assets/images/PortfolioDetailPage3/heart-fill.svg";
 
 import Calendar from "../assets/icons/Calendar.png";
 import  Link  from "../assets/icons/Link.png";
@@ -48,6 +43,7 @@ const HackathonDetailPage = () => {
     const Hackathon = oriHackathons.get(Number(hackId)); // hackId가 숫자로 저장되어 있다면 Number로 변환
     if (Hackathon) {
       setHackathonData(Hackathon);
+      console.log(Hackathon);
     }
   }, [hackId]);
 
@@ -146,7 +142,7 @@ const HackathonDetailPage = () => {
           <Mem>모집인원</Mem>
           <MemTitle>{HackathonData.memNumber || "없습니다."}명</MemTitle>
           <Mem>모집파트</Mem>
-          <MemTitle>{HackathonData.memNumber || "없습니다."}</MemTitle>
+          <MemTitle>{HackathonData.part || "없습니다."}</MemTitle>
         </RowWrapper>
         <RowWrapper>
         <LinkWrapper>

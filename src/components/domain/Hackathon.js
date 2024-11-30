@@ -32,6 +32,7 @@ class Hackathon {
         pictures = null,
         coverImage = null,
         logo = null,
+        part,
         ownerId, 
         ownerEmail,
         participant = []
@@ -48,6 +49,7 @@ class Hackathon {
         this.pictures = pictures;
         this.coverImage = coverImage;
         this.logo = logo;
+        this.part = part;
         this.ownerId = ownerId; 
         this.ownerEmail = ownerEmail;
         this.participant = Array.isArray(participant) ? participant : [];

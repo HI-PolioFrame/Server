@@ -109,7 +109,11 @@ const ModifyHackathonInput = ({ onInputChange, formData, onDateChange }) => {
           <InputWrapper>
               <MainText>모집 파트</MainText>
               <ExText>모집할 파트를 입력해주세요.</ExText>
-              <VitalInput type="text"></VitalInput>
+              <VitalInput  
+                type="text"
+                name="part" 
+                value={HackathonData.part}
+                onChange={handleInputChange}></VitalInput>
           </InputWrapper>
 
         <InputWrapper>
