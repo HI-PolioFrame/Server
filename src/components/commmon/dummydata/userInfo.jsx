@@ -61,7 +61,8 @@ export const userInfo = [
       6,
       2,
       5,
-      8
+      8,
+      3
     ]
   },
   {
