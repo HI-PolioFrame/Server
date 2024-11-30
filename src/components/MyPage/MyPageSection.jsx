@@ -1,53 +1,35 @@
-import SelectBox from "../commmon/SelectBox";
+import MyPageSelectBox from "../MyPage/MyPageSelectBox";
 import React from "react";
 import styled from "styled-components";
-import SearchBarMini from "./SearchBarMini";
+import MyPageSearchBar from "./MyPageSearchBar";
 
 import StyledButton from "../commmon/StyledButton";
 
 import { Navigate, useNavigate } from "react-router-dom";
 import { oriProjects, searchSortManager } from "../domain/startProgram";
 
-const MyPageSection = ({ title, data = [], renderItem, button, buttonKey }) => {
+const MyPageSection = ({
+  title,
+  data = [],
+  renderItem,
+  button,
+  buttonKey,
+  onSearch,
+  onSort,
+  userId,
+}) => {
   const navigate = useNavigate();
-
-  // LinkedList를 배열로 변환하는 유틸리티 함수
-  const linkedListToArray = (linkedList) => {
-    const array = [];
-    let currentNode = linkedList.head; // LinkedList의 시작점
-    while (currentNode) {
-      array.push(currentNode.value);
-      currentNode = currentNode.next;
-    }
-    return array;
-  };
-
-  // 검색어로 검색 시 호출되는 함수
-  const handleSearchApply = (searchTerm) => {
-    const searchedLinkedList = searchSortManager.search(searchTerm);
-    setmyPortfolioList(linkedListToArray(searchedLinkedList)); // 배열로 변환하여 상태 업데이트
-  };
-
-  // 정렬/필터 적용 시 호출되는 함수
-  const handleSortApply = (category, sortOption, filterOption) => {
-    const sortedLinkedList = searchSortManager.sort(
-      category,
-      sortOption,
-      filterOption
-    );
-    setmyPortfolioList(linkedListToArray(sortedLinkedList));
-  };
 
   return (
     <>
       <MyContainer>
         <MyTitle>{title}</MyTitle>
         <MyProtFolioMenuBarWrapper>
-          <SelectBox onSort={handleSortApply} />
-          <SearchBarMini
+          <MyPageSelectBox onSort={onSort} />
+          <MyPageSearchBar
             onChange={(e) => console.log(e.target.value)}
-            onClick={() => onSearchClick}
-            onSearch={handleSearchApply}
+            onSearch={onSearch}
+            userId={userId}
           />
         </MyProtFolioMenuBarWrapper>
 
