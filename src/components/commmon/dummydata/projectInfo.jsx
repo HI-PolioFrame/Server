@@ -143,9 +143,11 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 16,
+    hits: 18,
     likes: [],
-    contacts: [],
+    contacts: [
+      "admin1"
+    ],
     comments: []
   },
   {
@@ -164,7 +166,7 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 11,
+    hits: 12,
     likes: [],
     contacts: [
       "admin1"
