@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { dataList } from "../features/dataList"; // dataList를 import 할 경로 지정
+import { userProjectDataList } from "../features/dataList"; // dataList를 import 할 경로 지정
 
 import searchImg from "../../assets/icons/Header/search.png";
 import { ImCancelCircle } from "react-icons/im";
@@ -15,7 +15,7 @@ import { ImCancelCircle } from "react-icons/im";
 //   "마라탕후루",
 // ];
 
-const SearchBarMini = ({ onSearch }) => {
+const MyPageSearchBar = ({ userId, onSearch }) => {
   const [inputValue, setInputValue] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [nowIndex, setNowIndex] = useState(-1);
@@ -26,7 +26,7 @@ const SearchBarMini = ({ onSearch }) => {
 
     if (newValue.trim()) {
       // dataList 함수로부터 자동완성 결과 가져오기
-      const results = Array.from(dataList(newValue) || []);
+      const results = Array.from(userProjectDataList(newValue, userId) || []);
       setSuggestions(results);
     } else {
       setSuggestions([]);
@@ -114,7 +114,7 @@ const SearchBarMini = ({ onSearch }) => {
   );
 };
 
-export default SearchBarMini;
+export default MyPageSearchBar;
 
 const SearchBarContainer = styled.div`
   margin-top: 0.8vh;

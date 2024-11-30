@@ -10,7 +10,7 @@ import Eye from "../assets/icons/Login/Eye.png";
 import Eyeoff from "../assets/icons/Login/Eyeoff.png";
 
 import { userInfo } from "../components/commmon/dummydata/userInfo.jsx";
-import { loginSession } from "../components/features/login.jsx";
+import { hashFunction } from "../components/features/hashFunction.jsx";
 
 const LoginPage = () => {
   const [eyeVisible, setEyeVisible] = useState(false);
@@ -38,9 +38,9 @@ const LoginPage = () => {
   // 비밀번호 눈
   const toggleEyeVisible = () => {
     setEyeVisible(!eyeVisible);
-    ㅇ;
   };
 
+  // // 현혜징 X
   const handleLogin = () => {
     const trimmedEmail = email.trim();
     const trimmedId = Id.trim();
@@ -50,24 +50,31 @@ const LoginPage = () => {
     console.log("입력된 비밀번호 : ", trimmedPassword);
     console.log("더미 데이터:", userInfo);
 
-    const user = userInfo.find(
-      (user) =>
-        ((user.email &&
-          user.email.toLowerCase() === trimmedEmail.toLowerCase()) ||
-          (user.id && user.id.toString() === trimmedId)) &&
-        user.password.toString() === trimmedPassword
-    );
+    const promises = userInfo.map(async (value) => {
+      const hashPwd = await hashFunction(trimmedPassword);
+      if ((value.email && value.email.toLowerCase() === trimmedEmail.toLowerCase()) ||
+        (value.id && value.id.toString() === trimmedId)) {
+        return value.password === hashPwd ? value : null;
+      }
+      return null;
+    });
 
-    if (user) {
-      // 로그인 성공 시 accessToken 저장
-      //localStorage.setItem("accessToken", "yourAccessTokenHere"); // 실제 accessToken 사용
-      setCurrentUser(user); //현재 사용자 정보 저장
-
-      navigate("/");
-    } else {
-      alert('아이디 혹은 이메일과 비밀번호를 정확하게 입력하세요.');
-      console.log("로그인 실패 - 입력값이 더미 데이터와 일치하지 않음");
-    }
+    Promise.all(promises)
+      .then((results) => {
+        const user = results.find((result) => result !== null);
+        if (user) {
+          console.log("로그인 성공!");
+          // 로그인한 유저 처리
+          setCurrentUser(user); //현재 사용자 정보 저장
+          navigate("/");
+        } else {
+          alert('아이디 혹은 이메일과 비밀번호를 정확하게 입력하세요.');
+          console.log("비밀번호가 일치하지 않거나, 유저 정보가 없습니다.");
+        }
+      })
+      .catch((error) => {
+        console.error("로그인 오류:", error);
+      });
   };
 
   const handleKeyDown = (e) => {
@@ -75,7 +82,7 @@ const LoginPage = () => {
       handleLogin();
     }
   };
-
+  
   return (
     <LoginWrapper>
       <MainText onClick={() => navigate("/")}>FolioFrame</MainText>
@@ -85,17 +92,14 @@ const LoginPage = () => {
         value={emailOrId}
         onChange={(e) => {
           const inputValue = e.target.value.trim();
-
-          // 이메일 형식인지 확인
-          if (inputValue.includes("@")) {
-            setEmail(inputValue);
-            setId(""); 
-          } else {
-            setId(inputValue);
-            setEmail(""); 
-          }
-
-          setemailOrId(inputValue); 
+          setemailOrId(inputValue);
+            if (inputValue.includes("@")) {
+              setEmail(inputValue);
+              setId(""); // ID는 초기화
+            } else {
+              setId(inputValue);
+              setEmail(""); // 이메일 초기화
+            }
         }}
         onKeyDown={handleKeyDown}
       />
@@ -121,9 +125,10 @@ const LoginPage = () => {
       </MemberWrapper>
     </LoginWrapper>
   );
-};
-
-export default LoginPage;
+  };
+  
+  export default LoginPage;
+  
 //css Wrapper
 const LoginWrapper = styled.div`
   display: flex;

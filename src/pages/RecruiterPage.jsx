@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import SelectBox from "../components/commmon/SelectBox";
-import SearchBarMini from "../components/MyPage/SearchBarMini";
 import TemplateCard from "../components/commmon/TemplateCard";
 import RecruiterSection from "../components/RecruiterPage/RecruiterSection";
 
-import StyledButton from "../components/commmon/StyledButton";
-import { dummydata } from "../components/commmon/dummydata/dummydata"; // dummydata 파일을 import합니다.
-import { Navigate, useNavigate } from "react-router-dom";
-import { oriUsers, oriProjects } from "../components/domain/startProgram";
+import {
+  initializeData,
+  oriUsers,
+  oriProjects,
+  recSearchSortManager,
+} from "../components/domain/startProgram";
 import {
   getCurrentUser,
   setCurrentUser,
@@ -20,15 +20,29 @@ function RecruiterPage() {
   const { userId } = useParams();
   const [currentUser, setLocalCurrentUser] = useState(getCurrentUser()); // 초기값 가져오기
 
+  //LinkedList를 배열로 바꾸는 함수
+  const linkedListToArray = (linkedList) => {
+    const array = [];
+    let currentNode = linkedList.head;
+    while (currentNode) {
+      array.push(currentNode.value);
+      currentNode = currentNode.next;
+    }
+    return array;
+  };
+
   useEffect(() => {
     //console.log("Recruiter userId:", userId);
+    initializeData();
 
     if (userId) {
-      const updatedUser = oriUsers.get(userId);
+      const updatedUser = getCurrentUser();
       if (updatedUser) {
         setLocalCurrentUser(updatedUser); // 로컬 상태 업데이트
         setCurrentUser(updatedUser); // localStorage에 반영
+        recSearchSortManager.updateContacts(updatedUser.contacts); // 매니저에 업데이트된 contacts 전달
       }
+      console.log("CurrentUser: ", updatedUser);
 
       const userPortfolios = Array.from(oriProjects.values()).filter(
         (project) =>
@@ -39,8 +53,25 @@ function RecruiterPage() {
       );
       console.log("User Portfolios:", userPortfolios);
       setMyPortfolioList(userPortfolios);
+
+      const initialList = recSearchSortManager.sort(null, null, []);
+      setMyPortfolioList(linkedListToArray(initialList));
     }
   }, [oriProjects]);
+
+  const handleSearchApply = (searchTerm) => {
+    const searchedPortfolios = recSearchSortManager.search(searchTerm);
+    setMyPortfolioList(linkedListToArray(searchedPortfolios));
+  };
+
+  const handleSortApply = (category, sortOption, filterOption) => {
+    const sortedPortfolios = recSearchSortManager.sort(
+      category,
+      sortOption,
+      filterOption
+    );
+    setMyPortfolioList(linkedListToArray(sortedPortfolios));
+  };
 
   // 템플릿카드 렌더링
   const renderTemplateCard = (item) => (
@@ -57,7 +88,10 @@ function RecruiterPage() {
         title={"내가 연락한 포트폴리오"}
         data={myPortfolioList}
         renderItem={renderTemplateCard}
-        button={false}
+        button={true}
+        onSearch={handleSearchApply}
+        onSort={handleSortApply}
+        userId={userId}
       />
 
       <RecruiterSection title={"내가 찜한 포트폴리오"} button={false} />

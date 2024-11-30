@@ -1,5 +1,8 @@
 import { oriUsers } from "../domain/startProgram";
 import { User } from "../domain/User";
+import { hashFunction } from "./hashFunction";
+
+// 사실 이 해시함수는 프론트에서 돌려서 서버에 원본 패스워드가 아예 전달되지 않도록 하는 게 좋다.
 
 // 파일에서 데이터를 가져오는 함수 (서버 API 호출)
 export const fetchFileData = async (filePath) => {
@@ -90,17 +93,11 @@ export const idSignUpDeveloper = async (name, birthday, id, password, rePassword
         return;
     }
 
-    //console.log(`페이지 아이디는 ${pageId}`);
-
     await truncateFile(filePath);  // 기존 페이지 ID 파일을 비우기
-
-    //console.log('truncateFile에서 오류 발생하지 않음');
-
     await appendStringToFile(filePath, String(pageId + 1));  // 새로운 페이지 ID 추가
 
-    //console.log('appendStringToFile에서 오류 발생하지 않음');
-
-    const user = new User(id, pageId, password, name, phoneNumber, birthday);
+    const hashPwd = await hashFunction(password);
+    const user = new User(id, pageId, hashPwd, name, phoneNumber, birthday);
     oriUsers.set(id, user);
 
     // userInfo.jsx에 해당 유저를 추가한다.
@@ -109,7 +106,7 @@ export const idSignUpDeveloper = async (name, birthday, id, password, rePassword
   {
     id: "${id}",
     pageId: ${pageId},
-    password: "${password}",
+    password: "${hashPwd}",
     name: "${name}",
     phoneNumber: "${phoneNumber}",
     birthday: "${birthday[0]}-${birthday[1]}-${birthday[2]}",
@@ -143,26 +140,27 @@ export const emailSignUpDeveloper = async (name, birthday, email, password, rePa
     let randomId = getRandomId();
     while (isIdExists(randomId)) randomId = getRandomId();
 
-    const user = new User(randomId, pageId, password, name, phoneNumber, birthday, email);
+    const hashPwd = await hashFunction(password);
+    const user = new User(randomId, pageId, hashPwd, name, phoneNumber, birthday, email);
     oriUsers.set(randomId, user);
 
     // userInfo.jsx에 해당 유저를 추가한다.
     const userInfoPath = 'src/components/commmon/dummydata/userInfo.jsx';
     const userInfoString = `
-        {
-            id: "${randomId}",
-            pageId: ${pageId},
-            password: "${password}",
-            name: "${name}",
-            phoneNumber: "${phoneNumber}",
-            birthday: "${birthday[0]}-${birthday[1]}-${birthday[2]}",
-            recruiter: false,
-            email: "${email}",
-            nickname: "",
-            link: "",
-            career: "없음",
-            education: ""
-        }`;
+  {
+    id: "${randomId}",
+    pageId: ${pageId},
+    password: "${hashPwd}",
+    name: "${name}",
+    phoneNumber: "${phoneNumber}",
+    birthday: "${birthday[0]}-${birthday[1]}-${birthday[2]}",
+    recruiter: false,
+    email: "${email}",
+    nickname: "",
+    link: "",
+    career: "없음",
+    education: ""
+  }`;
     await removeFromFileEnd(userInfoPath, 3);  // 기존 유저 정보를 파일 끝에서 제거
     await appendStringToFile(userInfoPath, `,${userInfoString}\n];`);  // 새 유저 정보 추가
 };
@@ -176,8 +174,8 @@ export const setId = (id) => {
         return idCheck;
     }
 
-    for (const [key, user] of oriUsers){
-        if (key === id){
+    for (const [key, user] of oriUsers) {
+        if (key === id) {
             alert('이미 사용 중인 아이디입니다.');
             return idCheck;
         }
@@ -187,41 +185,6 @@ export const setId = (id) => {
     return idCheck;
 };
 
-//현혜찡 코드
-// export const setPhoneNumber = (phoneNumber) => {
-//     // 입력된 번호가 정규식에 맞는지 확인
-//     const phonePattern = /^010-\d{4}-\d{4}$/;
-//     if (!phonePattern.test(phoneNumber.trim())) {
-//         alert('올바른 전화번호를 입력하세요.');
-//         return false;
-//     }
-
-//     // oriUsers 배열에서 중복 확인
-//     for (const user of oriUsers) {
-//         if (user.phoneNumber === phoneNumber) {
-//             alert('이미 계정이 존재합니다.');
-//             return false;
-//         }
-//     }
-
-//     // 유효성 검증 성공
-//     return true;
-// };
-
-
-// 현혜찡 코드
-// export const setEmail = (email) => {
-//     // 유저 DB에 이미 해당 이메일이 존재하면 true 반환, 없으면 false
-//     oriUsers.forEach((value, key) => {
-//         if (value.email === email) {
-//             alert('이미 계정이 존재합니다.');
-//             return false;
-//         }
-//     });
-
-//     // 임의처리한다.
-//     emailCheck = true;
-// } 
 export const setEmail = (email) => {
     // 이메일 형식 확인
     emailCheck = false;
@@ -246,7 +209,7 @@ export const setPhoneNumber = (phoneNumber) => {
     console.log("oriUsers 데이터:", oriUsers);
 
     // 1. 전화번호 형식 검증
-     const phonePattern = /^010-\d{4}-\d{4}$/; // 전화번호 형식: 010-xxxx-xxxx
+    const phonePattern = /^010-\d{4}-\d{4}$/; // 전화번호 형식: 010-xxxx-xxxx
     if (!phonePattern.test(phoneNumber.trim())) {
         alert('올바른 전화번호를 입력하세요. 형식: 010-xxxx-xxxx');
         return false;
