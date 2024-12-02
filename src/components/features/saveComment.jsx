@@ -41,12 +41,12 @@ export const patchComments = async (filePath, projectId, commentId) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ filePath, projectId, commentId }), 
+      body: JSON.stringify({ filePath, projectId, commentId }),
     });
   } catch (error) {
     console.error("파일에 문자열을 추가하는 중 오류가 발생했습니다.", error);
   }
-}
+};
 
 export const saveComment = async (portfolioId, userId, text) => {
   if (!text || !userId) {
@@ -69,7 +69,7 @@ export const saveComment = async (portfolioId, userId, text) => {
     portfolioId,
     userId,
     text,
-    new Date().toString()
+    new Date().toISOString().split("T")[0]
   );
   oriComments.set(commentId, newComment);
   console.log(newComment);
@@ -95,8 +95,7 @@ export const saveComment = async (portfolioId, userId, text) => {
   // 프로젝트의 comments에 commentId 추가
   patchComments(projectFilePath, portfolioId, commentId);
 
-  console.log('FileIO를 통해 댓글 달기 완료');
-
+  console.log("FileIO를 통해 댓글 달기 완료");
 };
 
 export const removeComment = async (commentId) => {
@@ -109,28 +108,37 @@ export const removeComment = async (commentId) => {
   let projectFilePath = "src/components/commmon/dummydata/projectInfo.jsx";
 
   try {
-
     await Promise.all([
       fetch("http://localhost:3000/delete-object", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ filePath, idField: String(commentIdField), id: Number(commentId) }), 
+        body: JSON.stringify({
+          filePath,
+          idField: String(commentIdField),
+          id: Number(commentId),
+        }),
       }),
-  
+
       fetch("http://localhost:3000/remove-comments", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ filePath: projectFilePath, projectId: Number(projectId), commentId: Number(commentId) }), 
-      })
+        body: JSON.stringify({
+          filePath: projectFilePath,
+          projectId: Number(projectId),
+          commentId: Number(commentId),
+        }),
+      }),
     ]);
-    
+
+    // 로컬 `oriComments`에서 삭제
+    oriComments.delete(commentId);
   } catch (error) {
     console.error("파일에서 댓글을 삭제하는 중 오류가 발생했습니다.", error);
   }
-}
+};
 
 export default saveComment;
