@@ -69,7 +69,7 @@ export const saveComment = async (portfolioId, userId, text) => {
     portfolioId,
     userId,
     text,
-    new Date().toString()
+    new Date().toISOString().split("T")[0]
   );
   oriComments.set(commentId, newComment);
   console.log(newComment);

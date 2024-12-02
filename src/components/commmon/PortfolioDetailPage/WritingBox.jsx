@@ -92,7 +92,23 @@ const WritingBox = ({ addComment }) => {
     setLengthCount(e.target.value.length);
   };
 
-  const handleSubmit = async () => {
+  // const handleSubmit = async () => {
+  //   if (!markdown.trim()) {
+  //     setErrorMessage("댓글 내용을 입력해주세요.");
+  //     return;
+  //   }
+
+  //   try {
+  //     // 댓글 추가
+  //     await addComment(markdown);
+  //     setMarkdown(""); // 입력 초기화
+  //     setErrorMessage(""); // 에러 메시지 초기화
+  //   } catch (error) {
+  //     setErrorMessage("댓글 저장 중 문제가 발생했습니다. 다시 시도해주세요.");
+  //   }
+  // };
+
+  const handleSubmit = () => {
     if (!markdown.trim()) {
       setErrorMessage("댓글 내용을 입력해주세요.");
       return;
@@ -100,7 +116,7 @@ const WritingBox = ({ addComment }) => {
 
     try {
       // 댓글 추가
-      await addComment(markdown);
+      addComment(markdown);
       setMarkdown(""); // 입력 초기화
       setErrorMessage(""); // 에러 메시지 초기화
     } catch (error) {

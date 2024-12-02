@@ -87,14 +87,26 @@ const PortfolioDetailPage = () => {
     }
   }, [currentUser.email, portfolioData]);
 
-  const addComment = async (text) => {
+  // const addComment = async (text) => {
+  //   try {
+  //     // saveComment에서 댓글 객체 생성 및 파일 저장
+  //     const newComment = await saveComment(
+  //       Number(portfolioId),
+  //       currentUser.id,
+  //       text
+  //     );
+  //     console.log("추가된 댓글:", newComment); // 디버깅용 로그
+
+  //     // 상태 업데이트
+  //     setComments((prevComments) => [newComment, ...prevComments]);
+  //   } catch (error) {
+  //     console.error("댓글 저장 중 오류 발생:", error);
+  //   }
+  // };
+  const addComment = (text) => {
     try {
       // saveComment에서 댓글 객체 생성 및 파일 저장
-      const newComment = await saveComment(
-        Number(portfolioId),
-        currentUser.id,
-        text
-      );
+      const newComment = saveComment(Number(portfolioId), currentUser.id, text);
       console.log("추가된 댓글:", newComment); // 디버깅용 로그
 
       // 상태 업데이트
