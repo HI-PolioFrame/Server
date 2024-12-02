@@ -2,16 +2,42 @@ import React from "react";
 import styled from "styled-components";
 import { getCurrentUser } from "../../features/currentUser";
 import { oriComments } from "../../domain/startProgram";
+//댓글 삭제
+import { removeComment } from "../../features/saveComment";
 
 const CommentList = ({ comments, setComments, portfolioId }) => {
-  const handleDelete = (index) => {
+  // const handleDelete = (index) => {
+  //   const currentUser = getCurrentUser();
+  //   const commentToDelete = comments[index];
+
+  //   if (currentUser && commentToDelete.userId === currentUser.id) {
+  //     oriComments.delete(commentToDelete.commentId); //oriComments에서 삭제
+
+  //     setComments((prevComments) => prevComments.filter((_, i) => i !== index));
+  //   } else {
+  //     alert("본인이 작성한 댓글만 삭제할 수 있습니다.");
+  //   }
+  // };
+
+  console.log("comments 데이터 확인:", comments); // 디버깅용 로그
+
+  const handleDelete = async (index) => {
     const currentUser = getCurrentUser();
     const commentToDelete = comments[index];
 
     if (currentUser && commentToDelete.userId === currentUser.id) {
-      oriComments.delete(commentToDelete.commentId); //oriComments에서 삭제
+      try {
+        // 서버와 파일에서 댓글 삭제
+        await removeComment(commentToDelete.commentId);
 
-      setComments((prevComments) => prevComments.filter((_, i) => i !== index));
+        // 로컬 상태에서 삭제
+        setComments((prevComments) =>
+          prevComments.filter((_, i) => i !== index)
+        );
+      } catch (error) {
+        console.error("댓글 삭제 중 오류 발생:", error);
+        alert("댓글 삭제에 실패했습니다.");
+      }
     } else {
       alert("본인이 작성한 댓글만 삭제할 수 있습니다.");
     }

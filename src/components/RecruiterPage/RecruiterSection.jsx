@@ -20,17 +20,6 @@ const RecruiterSection = ({
 }) => {
   const navigate = useNavigate();
 
-  // LinkedList를 배열로 변환하는 유틸리티 함수
-  const linkedListToArray = (linkedList) => {
-    const array = [];
-    let currentNode = linkedList.head; // LinkedList의 시작점
-    while (currentNode) {
-      array.push(currentNode.value);
-      currentNode = currentNode.next;
-    }
-    return array;
-  };
-
   return (
     <>
       <MyContainer>
@@ -39,7 +28,6 @@ const RecruiterSection = ({
           <SelectBox onSort={onSort} />
           <RecruiterPageSearchBar
             onChange={(e) => console.log(e.target.value)}
-            onClick={() => onSearchClick}
             onSearch={onSearch}
             userId={userId}
           />

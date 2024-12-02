@@ -31,7 +31,7 @@ import logo from "../assets/icons/Logo.png";
 import heart_none from "../assets/images/PortfolioDetailPage3/heart-none.svg";
 import heart_fill from "../assets/images/PortfolioDetailPage3/heart-fill.svg";
 
-import {deleteProject} from "../components/features/projectFeatures";
+import { deleteProject } from "../components/features/projectFeatures";
 
 const PortfolioDetailPage = () => {
   const { portfolioId } = useParams();
@@ -68,10 +68,11 @@ const PortfolioDetailPage = () => {
     const filteredComments = Array.from(oriComments.values()).filter(
       (comment) => comment.portfolioId === Number(portfolioId)
     );
+    console.log("초기화된 comments:", filteredComments); // 디버깅용 로그
     setComments(filteredComments);
 
     console.log(portfolio);
-  }, [oriProjects, oriUsers]);
+  }, [oriProjects, oriUsers, oriComments]);
 
   useEffect(() => {
     console.log("portfolioData:", portfolioData);
@@ -86,23 +87,48 @@ const PortfolioDetailPage = () => {
     }
   }, [currentUser.email, portfolioData]);
 
-  const addComment = (newCommentObj) => {
-    // 클라이언트 측 상태 업데이트
-    //oriComments.set(newComment.commentId, newComment);
-    setComments((prevComments) => [newCommentObj, ...prevComments]);
-    console.log(
-      newCommentObj.portfolioId,
-      newCommentObj.userId,
-      newCommentObj.text
-    );
+  // const addComment = async (text) => {
+  //   try {
+  //     // saveComment에서 댓글 객체 생성 및 파일 저장
+  //     const newComment = await saveComment(
+  //       Number(portfolioId),
+  //       currentUser.id,
+  //       text
+  //     );
+  //     console.log("추가된 댓글:", newComment); // 디버깅용 로그
 
-    // 파일에 댓글 저장
-    saveComment(
-      newCommentObj.portfolioId,
-      newCommentObj.userId,
-      newCommentObj.text
-    );
+  //     // 상태 업데이트
+  //     setComments((prevComments) => [newComment, ...prevComments]);
+  //   } catch (error) {
+  //     console.error("댓글 저장 중 오류 발생:", error);
+  //   }
+  // };
+  const addComment = (text) => {
+    try {
+      // saveComment에서 댓글 객체 생성 및 파일 저장
+      const newComment = saveComment(Number(portfolioId), currentUser.id, text);
+      console.log("추가된 댓글:", newComment); // 디버깅용 로그
+
+      // 상태 업데이트
+      setComments((prevComments) => [newComment, ...prevComments]);
+    } catch (error) {
+      console.error("댓글 저장 중 오류 발생:", error);
+    }
   };
+
+  // const addComment = (newCommentObj) => {
+  //   // 클라이언트 측 상태 업데이트
+  //   //oriComments.set(newComment.commentId, newComment);
+  //   setComments((prevComments) => [newCommentObj, ...prevComments]);
+  //   // console.log(
+  //   //   newCommentObj.portfolioId,
+  //   //   newCommentObj.userId,
+  //   //   newCommentObj.text
+  //   // );
+
+  //   // 파일에 댓글 저장
+  //   saveComment(Number(portfolioId), newCommentObj.userId, newCommentObj.text);
+  // };
 
   const handleContactClick = () => {
     if (currentUser && currentUser.recruiter) {
@@ -120,12 +146,25 @@ const PortfolioDetailPage = () => {
 
   //좋아요 클릭
   const handleLikeClick = () => {
+    if (!portfolioData) return;
+
     if (isLiked) {
-      console.log("좋아요 취소.. 아직 기능 미완");
+      // 좋아요 취소
+      portfolioData.likes = portfolioData.likes.filter(
+        (id) => id !== currentUser.id
+      );
+      setIsLiked(false);
     } else {
-      patchLikes(portfolioData.projectId, currentUser.id);
+      // 좋아요 추가
+      portfolioData.likes.push(currentUser.id);
       setIsLiked(true);
     }
+
+    // 서버 업데이트 호출
+    patchLikes(portfolioData.projectId, currentUser.id);
+
+    // 좋아요 카운트 업데이트
+    setPortfolioData({ ...portfolioData });
   };
 
   const renderDeveloperInfo = () => {
@@ -290,24 +329,27 @@ const PortfolioDetailPage = () => {
           </ImagesField>
         </OtherInfoSection>
       </ContentSection>
-       {/* 수정 버튼 작성자와 포폴의 아이디가 동일할 경우에만 보이게한다. */}
-        {isOwner && (
-          <ButtonWrapper2>
-            <SubmitButton
-              onClick={() => {
-                navigate(`/ModifyPortfolioPage/${portfolioId}`);
-              }}
-            >
-              수정
-            </SubmitButton>
-            <SubmitButton
-              onClick={async () => {
+      {/* 수정 버튼 작성자와 포폴의 아이디가 동일할 경우에만 보이게한다. */}
+      {isOwner && (
+        <ButtonWrapper2>
+          <SubmitButton
+            onClick={() => {
+              navigate(`/ModifyPortfolioPage/${portfolioId}`);
+            }}
+          >
+            수정
+          </SubmitButton>
+          <SubmitButton
+            onClick={async () => {
               await deleteProject(portfolioId);
               navigate("/Mypage");
-          }}>삭제</SubmitButton>
-          </ButtonWrapper2>
-        )}
-        
+            }}
+          >
+            삭제
+          </SubmitButton>
+        </ButtonWrapper2>
+      )}
+
       <CommentsSection>
         <CommentsTitle>댓글</CommentsTitle>
         <WritingBox addComment={addComment} />
@@ -560,7 +602,6 @@ const ModalContainer = styled.div`
   font-weight: bold;
   padding: 1vw;
   width: 25vw;
-  height: 15vh;
 
   border-radius: 0.3125em;
 
