@@ -24,7 +24,7 @@ import { SiThangs } from "react-icons/si";
 import {updateParticipant} from "../components/features/hackathonFeatures";
 
 const HackathonDetailPage = () => {
-  const { hackId } = useParams(); // URL에서 hackId를 추출
+  const hackId = Number(useParams().hackId); // URL에서 hackId를 숫자로 변환
   const [HackathonData, setHackathonData] = useState(null);
   const [comments, setComments] = useState([]);
   const [isOwner, setIsOwner] = useState(false);
@@ -38,9 +38,11 @@ const HackathonDetailPage = () => {
   const userId = currentUser.id;
   console.log(userId);
   console.log(hackId);
+
   useEffect(() => {
     // hackId를 사용하여 해당 해커톤 데이터를 가져오기
     const Hackathon = oriHackathons.get(Number(hackId)); // hackId가 숫자로 저장되어 있다면 Number로 변환
+    console.log(typeof hackId);
     if (Hackathon) {
       setHackathonData(Hackathon);
       console.log(Hackathon);
@@ -102,24 +104,6 @@ const HackathonDetailPage = () => {
     }));
   };
 
-
-  const addComment = (newCommentObj) => {
-    // 클라이언트 측 상태 업데이트
-    //oriComments.set(newComment.commentId, newComment);
-    setComments((prevComments) => [newCommentObj, ...prevComments]);
-    console.log(
-      newCommentObj.portfolioId,
-      newCommentObj.userId,
-      newCommentObj.text
-    );
-
-    // 파일에 댓글 저장
-    saveComment(
-      newCommentObj.portfolioId,
-      newCommentObj.userId,
-      newCommentObj.text
-    );
-  };
 
   const handlePopupToggle = () => {
     setIsPopupOpen((prev) => !prev);
@@ -247,7 +231,8 @@ const HackathonDetailPage = () => {
                 ? handlePopupToggle
                 : async () => {
                     if (HackathonData.memNumber !== HackathonData.maxMemNumber) {
-                      await updateParticipant(hackId, userId);
+                      await updateParticipant(Number(hackId), userId);
+                      console.log(typeof hackId);
                     }
                   }
             }

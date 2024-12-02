@@ -4,7 +4,7 @@ import { appendStringToFile, removeFromFileEnd } from "./signUpDeveloper";
 
 // const filePath = "/src/components/commmon/dummydata/hackathonInfo.jsx";
 
-export const saveHackathon = async (hackName, startDate, endDate, link, memNumber, description, video=null, pictures=null, coverImage=null, logo=null, part, ownerId,ownerEmail ) => {
+export const saveHackathon = async (hackName, startDate, endDate, link, memNumber, description, video=null, pictures=null, coverImage=null, logo=null, part, ownerId,ownerEmail, participant=[] ) => {
 
     if (!hackName || !startDate || !endDate || !link || !memNumber || !description || !part) {
         console.log(hackName,startDate,endDate,link,memNumber,description);
@@ -17,7 +17,7 @@ export const saveHackathon = async (hackName, startDate, endDate, link, memNumbe
     let hackIds = Array.from(oriHackathons.keys());
     const hackId = hackIds.length > 0 ? hackIds[hackIds.length - 1] + 1 : 1;
     
-    let hackathon = new Hackathon(hackId, hackName, startDate, endDate, link, memNumber, description, video, pictures, coverImage, logo,part, ownerId,ownerEmail);
+    let hackathon = new Hackathon(hackId, hackName, startDate, endDate, link, memNumber, description, video, pictures, coverImage, logo,part, ownerId,ownerEmail, participant);
     oriHackathons.set(hackId, hackathon);
 
     const string = `    {
@@ -35,6 +35,7 @@ export const saveHackathon = async (hackName, startDate, endDate, link, memNumbe
         part: "${part || ""}",
         ownerId: "${ownerId}",
         ownerEmail: "${ownerEmail}",
+        participant: ${JSON.stringify(participant)},
     }`;
 
         await removeFromFileEnd(filePath, 2);
@@ -120,6 +121,8 @@ export const deleteHackathon = async (hackId) => {
 
 // 해커톤 지원
 export const updateParticipant = async (hackId, userId) => {
+    console.log(typeof hackId);
+
     const hackathon = oriHackathons.get(Number(hackId));
 
     // hackathon이 undefined인 경우 처리
