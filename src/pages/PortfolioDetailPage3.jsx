@@ -162,12 +162,25 @@ const PortfolioDetailPage3 = () => {
 
   //좋아요 클릭
   const handleLikeClick = () => {
+    if (!portfolioData) return;
+
     if (isLiked) {
-      console.log("좋아요 취소.. 아직 기능 미완");
+      // 좋아요 취소
+      portfolioData.likes = portfolioData.likes.filter(
+        (id) => id !== currentUser.id
+      );
+      setIsLiked(false);
     } else {
-      patchLikes(portfolioData.projectId, currentUser.id);
+      // 좋아요 추가
+      portfolioData.likes.push(currentUser.id);
       setIsLiked(true);
     }
+
+    // 서버 업데이트 호출
+    patchLikes(portfolioData.projectId, currentUser.id);
+
+    // 좋아요 카운트 업데이트
+    setPortfolioData({ ...portfolioData });
   };
 
   const renderDeveloperInfo = () => {
