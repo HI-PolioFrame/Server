@@ -131,7 +131,6 @@ export const initializeData = () => {
       data.startDate,
       data.endDate,
       data.link,
-      data.memNumber,
       data.maxMemNumber,
       data.description,
       data.video,

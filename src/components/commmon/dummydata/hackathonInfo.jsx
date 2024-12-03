@@ -36,7 +36,9 @@ export const hackathonInfo = [
     logo: "",
     ownerId: "backendDevel1!",
     ownerEmail: "sylove@naver.com",
-    participant: [],
+    participant: [
+      "happytree12"
+    ],
     part: "프론트"
   },
   {
@@ -45,7 +47,8 @@ export const hackathonInfo = [
     startDate: "2024-12-22",
     endDate: "2024-12-25",
     link: "ddd",
-    memNumber: 7,
+    memNumber: 2,
+    maxMemNumber: 20,
     description: "ㄴ",
     video: "",
     pictures: "",
@@ -65,7 +68,8 @@ export const hackathonInfo = [
     startDate: "2024-12-22",
     endDate: "2024-12-25",
     link: "ddd",
-    memNumber: 8,
+    memNumber: 0,
+    maxMemNumber: 20,
     description: "ㄴ",
     video: "",
     pictures: "",
@@ -74,6 +78,28 @@ export const hackathonInfo = [
     part: "fdbv c",
     ownerId: "5",
     ownerEmail: "example@example.com",
-    participant: []
+    participant: [
+      "happytree12"
+    ]
+  },
+  {
+    hackId: 8,
+    hackName: "dd",
+    startDate: "2024-12-09",
+    endDate: "2024-12-12",
+    link: "dd",
+    maxMemNumber: 2,
+    description: "dd",
+    video: "",
+    pictures: "",
+    coverImage: "",
+    logo: "",
+    part: "dd",
+    ownerId: "5",
+    ownerEmail: "example@example.com",
+    participant: [
+      "dd",
+      "dd"
+    ]
   }
 ];

@@ -113,11 +113,15 @@ const signUpDeveloperPage = () => {
     setPassword(e.target.value);
   };
 
-  const handleSignUp = () => {
-    idSignUpDeveloper(name, birthday, idInput, password, repassword, phone);
-    navigate("/LoginPage");
+  const handleSignUp = async () => {
+    try {
+        await idSignUpDeveloper(name, birthday, idInput, password, repassword, phone); 
+        navigate("/LoginPage");  
+    } catch (error) {
+       console.error("회원가입 중 오류 발생:", error);  
+    }
   };
-
+  
   return (
     <LoginWrapper>
       <MainText onClick={() => navigate("/")}>FolioFrame</MainText>
@@ -209,7 +213,7 @@ const signUpDeveloperPage = () => {
       <LoginButton onClick={handleSignUp}>시작하기</LoginButton>
       <MemberWrapper>
         <Text>이미 회원이신가요? |</Text>
-        <JoinButton onClick={() => navigate("/LoginPage")}>로그인</JoinButton>
+        <JoinButton>로그인</JoinButton>
       </MemberWrapper>
       {/* 이메일로 회원가입 이동 버튼 */}
       <JoinButton onClick={() => navigate("/SignUpDeveloperEmailPage")}>

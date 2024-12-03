@@ -11,7 +11,7 @@ import { getCurrentUser } from "../components/features/currentUser";
 import { patchContacts } from "../components/features/recruiterFeatures";
 import Comment from "../components/domain/Comment";
 import saveComment from "../components/features/saveComment";
-import { deleteHackathon } from "../components/features/hackathonFeatures";
+import { deleteHackathon, isIncludedParticipant } from "../components/features/hackathonFeatures";
 
 
 //logo 이미지
@@ -29,13 +29,16 @@ const HackathonDetailPage = () => {
   const [comments, setComments] = useState([]);
   const [isOwner, setIsOwner] = useState(false);
   const [isFull, setIsFull] = useState(false);
-
+  const [isUserParticipant, setIsUserParticipant] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false); // 팝업 상태 추가
 
   const navigate = useNavigate();
   const currentUser = getCurrentUser();
 
   const userId = currentUser.id;
+
+
+
   console.log(userId);
   console.log(hackId);
 
@@ -48,8 +51,6 @@ const HackathonDetailPage = () => {
       console.log(Hackathon);
     }
   }, [hackId]);
-
-
   useEffect(() => {
     if (HackathonData && currentUser) {
       
@@ -61,6 +62,34 @@ const HackathonDetailPage = () => {
       }
     }
   }, [HackathonData?.ownerEmail, HackathonData?.ownerId, currentUser?.email, currentUser?.id]);
+
+
+  useEffect(() => {
+    if (HackathonData && userId) {
+      const isParticipant = isIncludedParticipant(Number(hackId), userId);
+      setIsUserParticipant(isParticipant);
+    }
+  }, [HackathonData, userId]); 
+  const handleParticipation = async () => {
+    if (HackathonData.memNumber !== HackathonData.maxMemNumber && !isUserParticipant) {
+      try {
+        await updateParticipant(Number(hackId), userId);
+  
+        // 상태 업데이트
+        setHackathonData(prev => ({
+          ...prev,
+          participant: [...prev.participant, userId],
+        }));
+  
+        setIsUserParticipant(true); // 참여 상태 업데이트
+      } catch (error) {
+        console.error("참여 업데이트 중 오류 발생:", error);
+      }
+    }
+  };
+  
+
+ 
   
   // console.log(hackId);
   
@@ -128,7 +157,7 @@ const HackathonDetailPage = () => {
           <Mem>모집파트</Mem>
           <MemTitle>{HackathonData.part || "없습니다."}</MemTitle>
           <Mem2>현재 참여중인 인원</Mem2>
-          <MemTitle>{HackathonData.memNumber || "없습니다."}</MemTitle>
+          <MemTitle>{HackathonData.participant.length || "없습니다."}</MemTitle>
         </RowWrapper>
         <RowWrapper>
         <LinkWrapper>
@@ -227,22 +256,17 @@ const HackathonDetailPage = () => {
           </TimeWrapper>
         </RowWrapper>
         <StartButton
-          // 지원하기 클릭하면 지원완료 창 나오게
-            isFull={HackathonData.memNumber === HackathonData.maxMemNumber}
-            onClick={
-              isOwner
-                ? handlePopupToggle
-                : async () => {
-                    if (HackathonData.memNumber !== HackathonData.maxMemNumber) {
-                      await updateParticipant(Number(hackId), userId);
-                      console.log(typeof hackId);
-                    }
-                  }
-            }
-            disabled={HackathonData.memNumber === HackathonData.maxMemNumber}
-          >
-            {isOwner ? "지원현황" : "지원하기"}
+          isFull={HackathonData.participant.length === HackathonData.maxMemNumber}
+          onClick={isOwner ? handlePopupToggle : handleParticipation}
+          disabled={HackathonData.participant.length === HackathonData.maxMemNumber || isUserParticipant}
+        >
+          {isOwner
+            ? "지원현황"
+            : isUserParticipant
+            ? "지원완료"
+            : "지원하기"}
         </StartButton>
+
       </ContentSection1>
 
     </MainWrapper>

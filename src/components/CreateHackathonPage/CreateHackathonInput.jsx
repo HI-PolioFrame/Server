@@ -85,8 +85,8 @@ const CreateHackathonInput = ({ onInputChange, formData, onDateChange }) => {
               <ExText>모집인원을 입력해주세요.</ExText>
               <VitalInput 
                 type="text"
-                name="memNumber" 
-                value={formData.memNumber}
+                name="maxMemNumber" 
+                value={formData.maxMemNumber}
                 onChange={onInputChange}
               ></VitalInput>
           </InputWrapper>

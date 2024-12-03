@@ -1,10 +1,12 @@
 import styled from 'styled-components';
 import {React , useState}  from "react";
 
-const FormComponent = ({ onAgree, onDisagree, checkStates, setCheckStates }) => {
+const FormComponent = ({ onAgree, onDisagree, checkStates, setCheckStates, agree }) => {
   const allChecked = Object.values(checkStates).every((isChecked) => isChecked);
   const [isPopupOpen, setIsPopupOpen] = useState(true);
 
+  // const agree = false;
+  const disagree = false;
   const handleCheckboxChange = (key) => {
       setCheckStates((prev) => ({ ...prev, [key]: !prev[key] }));
   };
@@ -13,8 +15,9 @@ const FormComponent = ({ onAgree, onDisagree, checkStates, setCheckStates }) => 
       e.preventDefault(); 
       if (allChecked) {
           console.log('동의 버튼 클릭!');
+          agree = true;
           setIsPopupOpen(false); 
-          onAgree(); 
+          onAgree(true); 
       }
   };
 
@@ -22,7 +25,7 @@ const FormComponent = ({ onAgree, onDisagree, checkStates, setCheckStates }) => 
       e.preventDefault();
       console.log('비동의 버튼 클릭!');
       setIsPopupOpen(false); 
-      onDisagree();
+      onDisagree(false);
   };
 
   return (

@@ -4,10 +4,10 @@ import { appendStringToFile, removeFromFileEnd } from "./signUpDeveloper";
 
 // const filePath = "/src/components/commmon/dummydata/hackathonInfo.jsx";
 
-export const saveHackathon = async (hackName, startDate, endDate, link, memNumber, description, video=null, pictures=null, coverImage=null, logo=null, part, ownerId,ownerEmail, participant=[] ) => {
+export const saveHackathon = async (hackName, startDate, endDate, link, maxMemNumber, description, video=null, pictures=null, coverImage=null, logo=null, part, ownerId,ownerEmail, participant=[] ) => {
 
-    if (!hackName || !startDate || !endDate || !link || !memNumber || !description || !part) {
-        console.log(hackName,startDate,endDate,link,memNumber,description);
+    if (!hackName || !startDate || !endDate || !link || !maxMemNumber || !description || !part) {
+        console.log(hackName,startDate,endDate,link,maxMemNumber,description);
         console.log("필수 정보가 누락됨");
         return;
     }
@@ -17,7 +17,7 @@ export const saveHackathon = async (hackName, startDate, endDate, link, memNumbe
     let hackIds = Array.from(oriHackathons.keys());
     const hackId = hackIds.length > 0 ? hackIds[hackIds.length - 1] + 1 : 1;
     
-    let hackathon = new Hackathon(hackId, hackName, startDate, endDate, link, memNumber, description, video, pictures, coverImage, logo,part, ownerId,ownerEmail, participant);
+    let hackathon = new Hackathon(hackId, hackName, startDate, endDate, link, maxMemNumber, description, video, pictures, coverImage, logo,part, ownerId,ownerEmail, participant);
     oriHackathons.set(hackId, hackathon);
 
     const string = `    {
@@ -26,7 +26,7 @@ export const saveHackathon = async (hackName, startDate, endDate, link, memNumbe
         startDate: "${startDate}",
         endDate: "${endDate}",
         link: "${link}",
-        memNumber: ${memNumber},
+        maxMemNumber: ${maxMemNumber},
         description: "${description}",
         video: "${video || ""}",
         pictures: "${pictures || ""}",
@@ -59,8 +59,8 @@ export const updateHackathon = async (hackId, field, newValue) => {
     }
 
     try {
-        // memNumber는 숫자형이어야 하므로 이를 숫자형으로 변환
-        if (field === "memNumber") {
+        // maxMemNumber는 숫자형이어야 하므로 이를 숫자형으로 변환
+        if (field === "maxMemNumber") {
             newValue = Number(newValue); // 숫자로 변환
         }
 
@@ -131,8 +131,13 @@ export const updateParticipant = async (hackId, userId) => {
         return;
     }
 
-    // hackathon이 존재하면 memNumber를 증가시키는 로직
-    const newMemNumber = hackathon["memNumber"] + 1;
+    if (hackathon["participant"].includes(userId)) {
+        console.log("이미 참여하는 해커톤에 지원할 수 없음");
+        alert("이미 참여하는 해커톤에 지원할 수 없습니다."); 
+        return;
+    }
+
+    const newMemNumber = hackathon["participant"].length + 1;
 
     if (hackathon["maxMemNumber"] < newMemNumber) {
         alert("모집 인원을 초과하여 지원할 수 없습니다.");
@@ -158,8 +163,7 @@ export const updateParticipant = async (hackId, userId) => {
 
         // Map 객체도 업데이트
         hackathon["participant"] = hackathon["participant"] || []; // participant가 없으면 빈 배열로 초기화
-        hackathon["participant"].push(userId); // userId 추가
-        hackathon["memNumber"] = newMemNumber;
+        hackathon["participant"].push(userId); 
         oriHackathons.set(hackId, hackathon);
 
         console.log(`${hackathon["participant"]} 필드가 성공적으로 업데이트되었습니다.`);
@@ -168,43 +172,22 @@ export const updateParticipant = async (hackId, userId) => {
     }
 };
 
-
-
-
-// export const updateParticipant = async (hackId, userId) => {
+// export const isIncludedParticipant = (hackId, userId) => {
 //     const hackathon = oriHackathons.get(hackId);
-//         console.log(hackId);
+//     console.log(userId);
+//     if (!hackathon) return;
 
-//     const newMemNumber = hackathon["memNumber"] + 1;
-
-//     try {
-
-//         const filePath = "src/components/commmon/dummydata/hackathonInfo.jsx";
-        
-//         // 필드를 업데이트하는 API 호출
-//         await fetch('http://localhost:3000/patch-participant', {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//             },
-//             body: JSON.stringify({
-//                 filePath,
-//                 hackId,
-//                 userId,
-//                 newMemNumber
-//             }),
-//         });
-
-//         // Map 객체도 업데이트
-//         if (hackathon) {
-//             hackathon["participant"] = hackathon["participant"].push(userId);
-//             hackathon["memNumber"] = newMemNumber;
-//             oriHackathons.set(hackId, hackathon);
-//         }
-
-//         console.log(`${hackathon["participant"]} 필드가 성공적으로 업데이트되었습니다.`);
-//     } catch (error) {
-//         console.error('필드 업데이트 중 오류가 발생했습니다:', error);
-//     }
-
+//     return hackathon.participant.includes(userId) ? true : false;
 // }
+export const isIncludedParticipant = (hackId, userId) => {
+    const hackathon = oriHackathons.get(hackId);
+    if (!hackathon) return false;
+    if(hackathon.participant.includes(userId)){
+        return true;
+    }
+    else{
+        return false;
+    }
+    // return hackathon.participant.includes(userId);
+  };
+  

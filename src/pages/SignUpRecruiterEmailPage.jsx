@@ -12,12 +12,14 @@ import {changedEmail} from "../components/features/signUpRecruiter.jsx";
 import {setPhoneNumber} from "../components/features/signUpRecruiter.jsx";
 import {changedPhoneNumber} from "../components/features/signUpRecruiter.jsx";
 import {isPassword} from "../components/features/signUpRecruiter.jsx";
-import { PasswordValidation } from "../components/features/signUpRecruiter.jsx";
+import { PasswordValidation, emailSignUpRecruiter, setCompany } from "../components/features/signUpRecruiter.jsx";
 
 const SignUpRecruiterEmailPage= () => {
     const navigate = useNavigate();
     const [name, setName] = useState('');
-    const [birthday, setBirthday] = useState('');    
+    const [birthday, setBirthday] = useState(''); 
+    const [agree, setAgree] = useState(false); // agree 상태 관리
+   
     //이메일 중복 확인
     const [emailInput, setemailInput] = useState('');
     const [emailCheck, setemailCheck] = useState(false);
@@ -32,9 +34,6 @@ const SignUpRecruiterEmailPage= () => {
     const [isPasswordValid, setIsPasswordValid] = useState(false); 
     const [isRePasswordEnabled, setIsRePasswordEnabled] = useState(false); 
 
-    //회사인증
-    const [company, setCompany] = useState('');
-    const [companyChecked, setcompanyChecked] = useState(false);
     
     //비번 눈 아이콘
     const toggleEyeVisible = () => {
@@ -53,11 +52,24 @@ const SignUpRecruiterEmailPage= () => {
         violation: false,
     });
     //팝업 창
-    const handleCheckBoxClick = () => {
-        setIsModalOpen(true); // 체크박스 클릭 시 팝업 열기
+    const handleCheckBoxClick = (value) => {
+        setIsModalOpen(true);
+        setAgree(value); 
     };
-    const closeModal = () => {
-        setIsModalOpen(false); // 팝업 닫기
+    const closeModal = (value) => {
+        setIsModalOpen(false);
+        setAgree(false);
+
+    };
+    const handleAgree = (value) => {
+        setAgree(value);
+        setIsModalOpen(false); 
+      };
+    
+    const handleDisagree = () => {
+        setAgree(false);
+        setIsModalOpen(false); 
+ 
     };
 
     
@@ -136,15 +148,31 @@ const SignUpRecruiterEmailPage= () => {
     };
 
     // 회사인증 부분
-    const handleCompanyChange = (e) => {
-        setCompany(e.target.value);
-        setcompanyChecked(false); 
-    };
-    const handleCompanyCheck = () => {
-        const isValid = setCompany(company);
-        setcompanyChecked(isValid);
-    };
+    const [Comemail, setComEmail] = useState(''); 
+    const [isCompanyChecked, setCompanyChecked] = useState(false);  
+
+    const handleEmailChange = (event) => {
+        setComEmail(event.target.value);
+        setCompanyChecked(false); 
+    }
     
+    const handleCompanyCheck = (email) => {
+        setCompany(email);
+        setCompanyChecked(!isCompanyChecked); 
+    }
+    
+    
+    //시작하기
+    const handleSignUp = async () => {
+        try {
+            await emailSignUpRecruiter(name, birthday, emailInput, password, repassword, phone); 
+            navigate("/LoginPage");  
+        } catch (error) {
+            console.error("회원가입 중 오류 발생:", error);  
+            
+        }
+    };
+
     return (
         <LoginWrapper>
             <MainText onClick={() => navigate("/")}>FolioFrame</MainText>
@@ -233,20 +261,37 @@ const SignUpRecruiterEmailPage= () => {
                         </PhonecheckWrapper>
                 </RowWrapper>
 
-                {/* 회사인증 */}
-                <RowWrapper>
-                    <CertificInput placeholder="회사인증" type="email" onChange={handleCompanyChange}></CertificInput>
+  {/* 회사인증 */}
+  <RowWrapper>
+                    <CertificInput 
+                        placeholder="회사인증" 
+                        type="Comemail" 
+                        value={Comemail} 
+                        onChange={handleEmailChange} 
+                    />
                 </RowWrapper>
-                    <CheckBoxWrapper>
-                            <CompanyCheckInput type="checkbox" id="company" onClick={handleCompanyCheck} />
-                            <label htmlFor="company">회사인증</label>
-
-                            <CheckBoxInput type="checkbox" id="Join" onClick={handleCheckBoxClick} />
-                            <label htmlFor="Join">가입 기본약관</label>
-                    </CheckBoxWrapper>
+            <CheckBoxWrapper>
+                    <CompanyCheckInput 
+                       type="checkbox" 
+                       id="company" 
+                       checked={isCompanyChecked} 
+                       onChange={() => handleCompanyCheck(Comemail)} 
+                       disabled={!Comemail}  
+                    />
+                    <label htmlFor="company">회사인증</label>
+                    <CheckBoxInput 
+                        // type="checkbox" 
+                        // id="Join" 
+                        onClick={handleCheckBoxClick}
+                        type="checkbox"
+                        id="Join"
+                        checked={agree} 
+                    />
+                    <label htmlFor="Join">가입 기본약관</label>
+                </CheckBoxWrapper>
             </JoinWrapper>
 
-            <LoginButton>시작하기</LoginButton>
+            <LoginButton onClick={handleSignUp} >시작하기</LoginButton>
             <MemberWrapper>
                 <Text>이미 회원이신가요? |</Text>
                 <JoinButton onClick={() => navigate("../LoginPage")}>로그인</JoinButton>
@@ -258,10 +303,11 @@ const SignUpRecruiterEmailPage= () => {
                 <ModalOverlay>
                     <ModalContent>
                        <Consent 
-                            onAgree={closeModal} 
-                            onDisagree={closeModal} 
-                            checkStates={checkStates} 
-                            setCheckStates={setCheckStates} 
+                         checkStates={checkStates}
+                         setCheckStates={setCheckStates}
+                         agree={agree} 
+                         onAgree={handleAgree} 
+                         onDisagree={handleDisagree}
                         />
                     </ModalContent>
                 </ModalOverlay>
