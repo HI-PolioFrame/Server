@@ -5,7 +5,6 @@ export const hackathonInfo = [
     startDate: "2024-12-1",
     endDate: "2024-12-31",
     link: "",
-    memNumber: 4,
     maxMemNumber: 4,
     description: "오늘의 날씨를 알려주자!!!! ",
     video: "",
@@ -27,7 +26,6 @@ export const hackathonInfo = [
     startDate: "2024-11-1",
     endDate: "2024-12-31",
     link: "",
-    memNumber: 20,
     maxMemNumber: 20,
     description: "설명입니다",
     video: "",
@@ -45,7 +43,7 @@ export const hackathonInfo = [
     startDate: "2024-12-22",
     endDate: "2024-12-25",
     link: "ddd",
-    memNumber: 7,
+    maxMemNumber: 7,
     description: "ㄴ",
     video: "",
     pictures: "",
@@ -57,25 +55,6 @@ export const hackathonInfo = [
     participant: [
       "happytree12",
       "backendDevel1!"
-    ]
-  },
-  {
-    hackId: 7,
-    hackName: "sfiovb",
-    startDate: "2024-12-22",
-    endDate: "2024-12-25",
-    link: "ddd",
-    memNumber: 8,
-    description: "ㄴ",
-    video: "",
-    pictures: "",
-    coverImage: "",
-    logo: "",
-    part: "fdbv c",
-    ownerId: "5",
-    ownerEmail: "example@example.com",
-    participant: [
-      "happytree12"
     ]
   }
 ];

@@ -15,7 +15,7 @@ export const projectInfo = [
     share: false,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 32,
+    hits: 38,
     likes: [
       "happytree12"
     ],

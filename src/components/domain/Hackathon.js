@@ -5,7 +5,6 @@ class Hackathon {
         startDate,
         endDate,
         link,
-        memNumber = 0,
         maxMemNumber,
         description,
         video = null,
@@ -22,7 +21,6 @@ class Hackathon {
         this.startDate = startDate;
         this.endDate = endDate;
         this.link = link;
-        this.memNumber = memNumber;
         this.maxMemNumber = maxMemNumber;
         this.description = description;
         this.video = video;

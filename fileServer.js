@@ -431,16 +431,8 @@ app.post('/patch-participant', async (req, res) => {
             hackathon.participant = hackathon.participant.filter((element => element != userId));
         }
 
-        // hits 업데이트
-        const updatedHackathon = hackathonInfo.map(hackathon => {
-            if (hackathon.hackId === hackId) {
-                return { ...hackathon, memNumber: newMemNumber };
-            }
-            return hackathon;
-        });
-
         const updatedContent = 'export const hackathonInfo = ' + 
-            JSON.stringify(updatedHackathon, null, 2)
+            JSON.stringify(hackathonInfo, null, 2)
                 .replace(/"([^"]+)":/g, '$1:')
                 .replace(/}]/g, '}\n]') + 
             ';\n';
