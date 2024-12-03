@@ -105,7 +105,7 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Python",
     category: "백엔드",
-    hits: 7,
+    hits: 8,
     likes: [],
     contacts: [
       "admin4"
@@ -128,7 +128,7 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 14,
+    hits: 15,
     likes: [],
     contacts: [
       "admin4"
@@ -174,7 +174,7 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 17,
+    hits: 18,
     likes: [
       7
     ],
@@ -202,7 +202,7 @@ export const projectInfo = [
     logo: "",
     share: false,
     ownerId: "happytree12",
-    ownerEmail: "tylove@naver.com",
+    ownerEmail: "tylove@naver.com"
     hits: 1,
     likes: [
       "backendDevel1!"
