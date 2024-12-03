@@ -44,7 +44,26 @@ export const hackathonInfo = [
     startDate: "2024-12-22",
     endDate: "2024-12-25",
     link: "ddd",
-    memNumber: 4,
+    memNumber: 6,
+    description: "ㄴ",
+    video: "",
+    pictures: "",
+    coverImage: "",
+    logo: "",
+    part: "fdbv c",
+    ownerId: "5",
+    ownerEmail: "example@example.com",
+    participant: [
+      "happytree12"
+    ]
+  },
+  {
+    hackId: 7,
+    hackName: "sfiovb",
+    startDate: "2024-12-22",
+    endDate: "2024-12-25",
+    link: "ddd",
+    memNumber: 7,
     description: "ㄴ",
     video: "",
     pictures: "",
