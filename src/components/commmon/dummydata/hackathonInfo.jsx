@@ -44,7 +44,7 @@ export const hackathonInfo = [
     startDate: "2024-12-22",
     endDate: "2024-12-25",
     link: "ddd",
-    memNumber: 6,
+    memNumber: 19,
     description: "ㄴ",
     video: "",
     pictures: "",
@@ -63,7 +63,7 @@ export const hackathonInfo = [
     startDate: "2024-12-22",
     endDate: "2024-12-25",
     link: "ddd",
-    memNumber: 7,
+    memNumber: 4,
     description: "ㄴ",
     video: "",
     pictures: "",
@@ -72,8 +72,6 @@ export const hackathonInfo = [
     part: "fdbv c",
     ownerId: "5",
     ownerEmail: "example@example.com",
-    participant: [
-      "happytree12"
-    ]
+    participant: []
   }
 ];

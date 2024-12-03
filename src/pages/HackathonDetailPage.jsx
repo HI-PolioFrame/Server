@@ -127,6 +127,8 @@ const HackathonDetailPage = () => {
           <MemTitle>{HackathonData.memNumber || "없습니다."}명</MemTitle>
           <Mem>모집파트</Mem>
           <MemTitle>{HackathonData.part || "없습니다."}</MemTitle>
+          <Mem2>현재 참여중인 인원</Mem2>
+          <MemTitle>{HackathonData.memNumber || "없습니다."}</MemTitle>
         </RowWrapper>
         <RowWrapper>
         <LinkWrapper>
@@ -225,6 +227,7 @@ const HackathonDetailPage = () => {
           </TimeWrapper>
         </RowWrapper>
         <StartButton
+          // 지원하기 클릭하면 지원완료 창 나오게
             isFull={HackathonData.memNumber === HackathonData.maxMemNumber}
             onClick={
               isOwner
@@ -382,6 +385,22 @@ const Line = styled.hr`
 `;
 const Mem = styled.p`
   width : 4em;
+  height : 1.5em;
+  color : #fff;
+  font-weight: bold;
+  font-family: "OTF R";
+  font-size : 1em;
+
+  border : 1px solid #ccc;
+  border-radius : 0.2em;
+  background-color : #0a27a6;
+ 
+  display: flex;
+  align-items: center; 
+  justify-content: center;
+`;
+const Mem2 = styled.p`
+  width : 8em;
   height : 1.5em;
   color : #fff;
   font-weight: bold;

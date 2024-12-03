@@ -25,16 +25,7 @@ const MainPage = () => {
           <Maintext>FolioFrame</Maintext>
         </VideoWrapper1>
 
-        <SearchContainer>
-          <SearchInput type="text" placeholder="검색어를 입력해주세요" />
-          <SearchIconWrapper>
-            <SearchIcon
-              // onClick={handleSearchClick}
-              src={searchImg}
-              alt="search"
-            />
-          </SearchIconWrapper>
-        </SearchContainer>
+
 
         {/* 템플릿, 해커톤, 채용 */}
         <CardWrapper>
