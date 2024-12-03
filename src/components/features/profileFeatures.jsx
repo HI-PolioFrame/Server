@@ -6,6 +6,8 @@ import {
   isPassword,
 } from "./signUpDeveloper";
 
+import { PasswordValidation } from "./signUpDeveloper.jsx";
+
 export const updateName = async (userId, newValue) => {
   const idField = "id";
   const field = "name";
@@ -196,9 +198,13 @@ export const updateEmail = async (userId, newValue) => {
 };
 
 export const updatePassword = async (userId, newValue) => {
-  const idField = "id";
-  const field = "password";
-  const user = oriUsers.get(userId);
+
+  const passPattern = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*\W).{12,20}$/;
+    const passMatcher = newValue.match(passPattern);
+    if (!passMatcher) {
+        alert('비밀번호는 영문+특수문자+숫자로 12자 이상, 20자 이하로 입력하세요.');
+        return;
+    }
 
   // 같은 값으로 업데이트하려는 경우 방지
   if (user[field] == newValue) {
@@ -210,6 +216,10 @@ export const updatePassword = async (userId, newValue) => {
     console.log("입력된 값이 없음");
     return;
   }
+
+  const idField = "id";
+  const field = "password";
+  const user = oriUsers.get(userId);
 
   // if (!isPassword(newValue, rePassword)) return;
 
@@ -244,6 +254,13 @@ export const updatePassword = async (userId, newValue) => {
 };
 
 export const updatePhoneNumber = async (userId, newValue) => {
+
+  const phonePattern = /^010-\d{4}-\d{4}$/; // 전화번호 형식: 010-xxxx-xxxx
+  if (!phonePattern.test(newValue.trim())) {
+      alert('올바른 전화번호를 입력하세요. 형식: 010-xxxx-xxxx');
+      return;
+  }
+
   const idField = "id";
   const field = "phoneNumber";
   const user = oriUsers.get(userId);

@@ -37,7 +37,7 @@ export const userInfo = [
     pageId: 3,
     password: "5b8069e24fe855f37748c48a92c60820ef05844c5e2766c59b08b574d9f20a13",
     name: "조수연",
-    phoneNumber: "010-6203-5",
+    phoneNumber: "010-6203-5717",
     birthday: "1990-01-01",
     recruiter: false,
     email: "sylove@naver.com",
