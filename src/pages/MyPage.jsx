@@ -59,7 +59,7 @@ function MyPage() {
       const initialList = myProjectsSearchSortManager.sort(null, null, []);
       setmyPortfolioList(linkedListToArray(initialList));
 
-      hackathonSearchSortManeger.updateUserData(currentUser.id);
+      // hackathonSearchSortManeger.updateUserData(currentUser.id);
 
       console.log("User Portfolios:", userPortfolios);
     }
@@ -124,7 +124,7 @@ function MyPage() {
             renderItem={renderHackTemplateCard}
             button={true}
             buttonKey={"해커톤"}
-            onSearch={handleMyHackathonSearchApply}
+            // onSearch={handleMyHackathonSearchApply}
           />
         </>
       )}
