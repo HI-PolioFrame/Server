@@ -84,5 +84,7 @@ const Text = styled.div`
     font-size: 0.9em;
     font-weight: 600;
     cursor: pointer;
-    padding: 2px; 0;
+    padding: 3px; 0;
+    font-family: "OTF R";
+
 `;

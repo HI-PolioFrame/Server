@@ -21,7 +21,7 @@ export const userInfo = [
     name: "김태연",
     phoneNumber: "010-1234-5678",
     birthday: "1990-01-01",
-    recruiter: true,
+    recruiter: false,
     email: "tylove@naver.com",
     nickname: "탱구리",
     link: "",
