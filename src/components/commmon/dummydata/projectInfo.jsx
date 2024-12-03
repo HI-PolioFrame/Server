@@ -15,7 +15,7 @@ export const projectInfo = [
     share: false,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 30,
+    hits: 31,
     likes: [
       "happytree12"
     ],
@@ -38,7 +38,7 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 19,
+    hits: 20,
     likes: [],
     contacts: [
       "admin4"
@@ -151,7 +151,7 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 21,
+    hits: 22,
     likes: [],
     contacts: [
       "admin1"
@@ -185,24 +185,27 @@ export const projectInfo = [
     comments: []
   },
   {
-      projectId: 10,
-      projectTitle: "d", 
-      projectOwnerName: "김태연",
-      description: "d",
-      startDate: "2024-12-23", 
-      endDate: "2024-12-26", 
-      category: "f", 
-      usedLanguage: "d", 
-      projectLink: "d",
-      solving: "d", 
-      challenge: "d",
-      video: " ",
-      coverImage: "", 
-      images: "", 
-      logo: "", 
-      share: false,
-
-      ownerId: "happytree12",
-      ownerEmail: "tylove@naver.com"
+    projectId: 10,
+    projectTitle: "d",
+    projectOwnerName: "김태연",
+    description: "d",
+    startDate: "2024-12-23",
+    endDate: "2024-12-26",
+    category: "f",
+    usedLanguage: "d",
+    projectLink: "d",
+    solving: "d",
+    challenge: "d",
+    video: " ",
+    coverImage: "",
+    images: "",
+    logo: "",
+    share: false,
+    ownerId: "happytree12",
+    ownerEmail: "tylove@naver.com",
+    hits: 1,
+    likes: [
+      "backendDevel1!"
+    ]
   }
 ];
