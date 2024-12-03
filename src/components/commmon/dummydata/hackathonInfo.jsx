@@ -5,7 +5,7 @@ export const hackathonInfo = [
     startDate: "2024-12-1",
     endDate: "2024-12-31",
     link: "",
-    memNumber: 3,
+    memNumber: 4,
     maxMemNumber: 4,
     description: "오늘의 날씨를 알려주자!!!! ",
     video: "",
@@ -16,7 +16,8 @@ export const hackathonInfo = [
     ownerEmail: "tylove@naver.com",
     participant: [
       "admin1",
-      "happytree12"
+      "happytree12",
+      "backendDevel1!"
     ],
     part: "프론트"
   },
@@ -44,7 +45,7 @@ export const hackathonInfo = [
     startDate: "2024-12-22",
     endDate: "2024-12-25",
     link: "ddd",
-    memNumber: 6,
+    memNumber: 7,
     description: "ㄴ",
     video: "",
     pictures: "",
@@ -54,7 +55,8 @@ export const hackathonInfo = [
     ownerId: "5",
     ownerEmail: "example@example.com",
     participant: [
-      "happytree12"
+      "happytree12",
+      "backendDevel1!"
     ]
   },
   {
@@ -63,7 +65,7 @@ export const hackathonInfo = [
     startDate: "2024-12-22",
     endDate: "2024-12-25",
     link: "ddd",
-    memNumber: 7,
+    memNumber: 8,
     description: "ㄴ",
     video: "",
     pictures: "",
