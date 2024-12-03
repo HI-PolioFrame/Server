@@ -22,7 +22,8 @@ const CreateHackathonPage = () => {
     logo: null,
     part: "",
     ownerId: "",
-    ownerEmail: ""
+    ownerEmail: "",
+    participant: []
   });
 
   const [currentUser, setCurrentUser] = useState(null);
@@ -79,7 +80,9 @@ const CreateHackathonPage = () => {
       formData.logo,
       formData.part,
       formData.ownerId,
-      formData.ownerEmail
+      formData.ownerEmail,
+      formData.participant
+      
     );
     console.log(formData.startDate, formData.endDate);
     navigate("/MyPage"); 
