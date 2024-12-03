@@ -12,7 +12,10 @@ export const userInfo = [
     link: "",
     career: "있음",
     education: "학사",
-    contacts: []
+    contacts: [
+      2,
+      7
+    ]
   },
   {
     id: "happytree12",
@@ -34,11 +37,11 @@ export const userInfo = [
     pageId: 3,
     password: "5b8069e24fe855f37748c48a92c60820ef05844c5e2766c59b08b574d9f20a13",
     name: "조수연",
-    phoneNumber: "010-1234-5678",
+    phoneNumber: "010-6203-5",
     birthday: "1990-01-01",
     recruiter: false,
     email: "sylove@naver.com",
-    nickname: "이쁜이",
+    nickname: "이쁜",
     link: "",
     career: "없음",
     education: "석사",
@@ -271,6 +274,20 @@ export const userInfo = [
     recruiter: false,
     email: "okay@naver.com",
     nickname: "",
+    link: "",
+    career: "없음",
+    education: ""
+  },
+  {
+    id: "suyeonnie",
+    pageId: 21,
+    password: "close",
+    name: "테스트",
+    phoneNumber: "010-9876-5432",
+    birthday: "undefined-undefined-undefined",
+    recruiter: false,
+    email: "",
+    nickname: "dmd",
     link: "",
     career: "없음",
     education: ""

@@ -15,10 +15,12 @@ export const projectInfo = [
     share: false,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 26,
+    hits: 34,
     likes: [],
     contacts: [],
-    comments: []
+    comments: [
+      8
+    ]
   },
   {
     projectId: 2,
@@ -36,10 +38,11 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 14,
+    hits: 15,
     likes: [],
     contacts: [
-      "admin4"
+      "admin4",
+      "admin1"
     ],
     comments: []
   },
@@ -59,7 +62,7 @@ export const projectInfo = [
     share: true,
     usedLanguage: "JavaScript",
     category: "프론트엔드",
-    hits: 17,
+    hits: 18,
     likes: [],
     contacts: [
       "admin4"
@@ -82,7 +85,7 @@ export const projectInfo = [
     share: true,
     usedLanguage: "JavaScript",
     category: "프론트엔드",
-    hits: 6,
+    hits: 10,
     likes: [],
     contacts: [],
     comments: []
@@ -126,7 +129,7 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 3,
+    hits: 4,
     likes: [],
     contacts: [
       "admin4"
@@ -149,8 +152,10 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 18,
-    likes: [],
+    hits: 25,
+    likes: [
+      "admin1"
+    ],
     contacts: [
       "admin1"
     ],
@@ -172,14 +177,19 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 16,
+    hits: 26,
     likes: [
-      7
+      7,
+      "backendDevel1!"
     ],
     contacts: [
       "admin1",
       "admin4"
     ],
-    comments: []
+    comments: [
+      6,
+      7,
+      9
+    ]
   }
 ];
