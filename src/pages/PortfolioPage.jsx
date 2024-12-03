@@ -36,23 +36,17 @@ const PortfolioPage = () => {
   };
 
   useEffect(() => {
-    initializeData(); // 데이터를 초기화
-    
-    // Map에서 share가 true인 포트폴리오만 필터링하여 상태에 설정
+    initializeData(); 
     const sharedPortfolios = Array.from(oriProjects.values()).filter(
       (portfolio) => portfolio.share === true
     );
-    
-    // 초기 리스트는 필터링된 포트폴리오 리스트로 설정
+    console.log(sharedPortfolios)
     setsharedPortfolioList(sharedPortfolios);
   
-    // 검색이나 정렬에 대한 초기 처리도 추가
     const initialList = searchSortManager.sort(null, null, sharedPortfolios);
     setsharedPortfolioList(linkedListToArray(initialList));
   
-    console.log(sharedPortfolioList);
-  }, []); // 빈 배열로 의존성 설정, 첫 로드 시 한 번만 실행
-  
+  }, []);
   
 
   const handleSortApply = (category, sortOption, filterOption) => {
@@ -75,25 +69,26 @@ const PortfolioPage = () => {
 
   return (
     <TemplatePageContainer className="TemplatePageContainer">
-      {/* 각 페이지별 상단 -> 나중에 쉽게 모든 페이지에 적용할 수 있는 방법으로 수정 */}
       <PageHeader pageTitle="Portfolio" onSearch={handleSearchApply} />
 
       <SelectBoxWrapper>
         <SelectBox onSort={handleSortApply} />
       </SelectBoxWrapper>
       <Line></Line>
-
       <TemplateGridWrapper>
         <TemplateGrid>
-          {sharedPortfolioList.map((portfolio) => (
-            <TemplateCard
-              key={portfolio.projectId}
-              portfolioId={portfolio.projectId}
-              templateButton={"보기"}
-            />
-          ))}
+          {sharedPortfolioList
+            .filter((portfolio) => portfolio.share === true) 
+            .map((portfolio) => (
+              <TemplateCard
+                key={portfolio.projectId}
+                portfolioId={portfolio.projectId}
+                templateButton={"보기"}
+              />
+            ))}
         </TemplateGrid>
       </TemplateGridWrapper>
+
       <ButtonWrapper>
         {/* 포트폴리오 제작 페이지로 넘어갈 수 있는 버튼 추가 */}
         {accessToken && currentUser?.recruiter === false && (
