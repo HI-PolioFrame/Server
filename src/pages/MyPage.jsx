@@ -10,6 +10,7 @@ import {
   oriProjects,
   oriHackathons,
   myProjectsSearchSortManager,
+  hackathonSearchSortManeger,
 } from "../components/domain/startProgram";
 import {
   getCurrentUser,
@@ -55,20 +56,26 @@ function MyPage() {
       setmyHackathonList(userHackathons);
 
       myProjectsSearchSortManager.updateUserData(currentUser.id);
-
       const initialList = myProjectsSearchSortManager.sort(null, null, []);
       setmyPortfolioList(linkedListToArray(initialList));
 
+      hackathonSearchSortManeger.updateUserData(currentUser.id);
+
       console.log("User Portfolios:", userPortfolios);
     }
-  }, [oriProjects]);
+  }, [oriProjects, oriHackathons]);
 
-  const handleSearchApply = (searchTerm) => {
+  const handleMyProjectSearchApply = (searchTerm) => {
     const searchedPortfolios = myProjectsSearchSortManager.search(searchTerm);
     setmyPortfolioList(linkedListToArray(searchedPortfolios));
   };
 
-  const handleSortApply = (category, sortOption, filterOption) => {
+  const handleMyHackathonSearchApply = (searchTerm) => {
+    const searchedHackathons = hackathonSearchSortManeger.search(searchTerm);
+    setmyHackathonList(linkedListToArray(searchedHackathons));
+  };
+
+  const handleMyProjectSortApply = (category, sortOption, filterOption) => {
     const sortedPortfolios = myProjectsSearchSortManager.sort(
       category,
       sortOption,
@@ -105,8 +112,8 @@ function MyPage() {
             renderItem={renderTemplateCard}
             button={true}
             buttonKey={"프로젝트"}
-            onSearch={handleSearchApply}
-            onSort={handleSortApply}
+            onSearch={handleMyProjectSearchApply}
+            onSort={handleMyProjectSortApply}
             userId={currentUser?.id}
           />
 
@@ -117,6 +124,7 @@ function MyPage() {
             renderItem={renderHackTemplateCard}
             button={true}
             buttonKey={"해커톤"}
+            onSearch={handleMyHackathonSearchApply}
           />
         </>
       )}
