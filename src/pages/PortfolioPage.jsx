@@ -35,19 +35,25 @@ const PortfolioPage = () => {
     return array;
   };
 
-  // 페이지 최초 로드 시 oriProjects를 순회하여 상태에 설정
   useEffect(() => {
     initializeData(); // 데이터를 초기화
+    
+    // Map에서 share가 true인 포트폴리오만 필터링하여 상태에 설정
     const sharedPortfolios = Array.from(oriProjects.values()).filter(
       (portfolio) => portfolio.share === true
-    ); // Map을 배열로 변환
-    setsharedPortfolioList(sharedPortfolios); // 초기 포트폴리오 목록을 상태로 설정
-
-    const initialList = searchSortManager.sort(null, null, []);
+    );
+    
+    // 초기 리스트는 필터링된 포트폴리오 리스트로 설정
+    setsharedPortfolioList(sharedPortfolios);
+  
+    // 검색이나 정렬에 대한 초기 처리도 추가
+    const initialList = searchSortManager.sort(null, null, sharedPortfolios);
     setsharedPortfolioList(linkedListToArray(initialList));
-
+  
     console.log(sharedPortfolioList);
-  }, []);
+  }, []); // 빈 배열로 의존성 설정, 첫 로드 시 한 번만 실행
+  
+  
 
   const handleSortApply = (category, sortOption, filterOption) => {
     const sortedLinkedList = searchSortManager.sort(

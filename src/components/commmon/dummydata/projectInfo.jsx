@@ -15,12 +15,12 @@ export const projectInfo = [
     share: false,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 34,
-    likes: [],
+    hits: 31,
+    likes: [
+      "happytree12"
+    ],
     contacts: [],
-    comments: [
-      8
-    ]
+    comments: []
   },
   {
     projectId: 2,
@@ -38,11 +38,10 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 15,
+    hits: 20,
     likes: [],
     contacts: [
-      "admin4",
-      "admin1"
+      "admin4"
     ],
     comments: []
   },
@@ -62,7 +61,7 @@ export const projectInfo = [
     share: true,
     usedLanguage: "JavaScript",
     category: "프론트엔드",
-    hits: 18,
+    hits: 17,
     likes: [],
     contacts: [
       "admin4"
@@ -85,7 +84,7 @@ export const projectInfo = [
     share: true,
     usedLanguage: "JavaScript",
     category: "프론트엔드",
-    hits: 10,
+    hits: 8,
     likes: [],
     contacts: [],
     comments: []
@@ -106,7 +105,7 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Python",
     category: "백엔드",
-    hits: 4,
+    hits: 7,
     likes: [],
     contacts: [
       "admin4"
@@ -129,7 +128,7 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 4,
+    hits: 14,
     likes: [],
     contacts: [
       "admin4"
@@ -152,10 +151,8 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 25,
-    likes: [
-      "admin1"
-    ],
+    hits: 22,
+    likes: [],
     contacts: [
       "admin1"
     ],
@@ -177,19 +174,38 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 26,
+    hits: 17,
     likes: [
-      7,
-      "backendDevel1!"
+      7
     ],
     contacts: [
       "admin1",
       "admin4"
     ],
-    comments: [
-      6,
-      7,
-      9
+    comments: []
+  },
+  {
+    projectId: 10,
+    projectTitle: "d",
+    projectOwnerName: "김태연",
+    description: "d",
+    startDate: "2024-12-23",
+    endDate: "2024-12-26",
+    category: "f",
+    usedLanguage: "d",
+    projectLink: "d",
+    solving: "d",
+    challenge: "d",
+    video: " ",
+    coverImage: "",
+    images: "",
+    logo: "",
+    share: false,
+    ownerId: "happytree12",
+    ownerEmail: "tylove@naver.com",
+    hits: 1,
+    likes: [
+      "backendDevel1!"
     ]
   }
 ];

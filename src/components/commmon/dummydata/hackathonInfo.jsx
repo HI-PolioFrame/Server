@@ -40,51 +40,42 @@ export const hackathonInfo = [
     part: "프론트"
   },
   {
-    hackId: 3,
-    hackName: "ㅇㅎㅎ",
-    startDate: "2024-11-28",
-    endDate: "2024-11-29",
-    link: "dfgrg",
-    memNumber: 2,
-    description: "fag",
+    hackId: 6,
+    hackName: "ㅇㅇ",
+    startDate: "2024-12-22",
+    endDate: "2024-12-25",
+    link: "ddd",
+    memNumber: 7,
+    description: "ㄴ",
     video: "",
     pictures: "",
     coverImage: "",
     logo: "",
-    ownerId: "happytree12",
-    ownerEmail: "tylove@naver.com",
-    part: "프론트"
+    part: "fdbv c",
+    ownerId: "5",
+    ownerEmail: "example@example.com",
+    participant: [
+      "happytree12",
+      "backendDevel1!"
+    ]
   },
   {
-    hackId: 4,
-    hackName: "DDD",
-    startDate: "2024-11-13",
-    endDate: "2024-11-26",
-    link: "DGF",
-    memNumber: 2,
-    description: "DD",
+    hackId: 7,
+    hackName: "sfiovb",
+    startDate: "2024-12-22",
+    endDate: "2024-12-25",
+    link: "ddd",
+    memNumber: 8,
+    description: "ㄴ",
     video: "",
     pictures: "",
     coverImage: "",
     logo: "",
-    part: "백인데요",
-    ownerId: "happytree12",
-    ownerEmail: "tylove@naver.com"
+    part: "fdbv c",
+    ownerId: "5",
+    ownerEmail: "example@example.com",
+    participant: [
+      "happytree12"
+    ]
   }
-,    {
-        hackId: 5,
-        hackName: "ㅇㅇ",
-        startDate: "2024-12-02",
-        endDate: "2024-12-02",
-        link: "link",
-        memNumber: 5,
-        description: "tjfaud",
-        video: "",
-        pictures: "",
-        coverImage: "",
-        logo: "",
-        part: "backend",
-        ownerId: "backendDevel1!",
-        ownerEmail: "sylove@naver.com",
-    }
 ];
