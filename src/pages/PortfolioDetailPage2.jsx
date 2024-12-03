@@ -58,6 +58,14 @@ const PortfolioDetailPage2 = () => {
     if (portfolio) {
       setPortfolioData(portfolio);
       setIsLiked(isIncludedLikes(portfolio.projectId, currentUser.id)); //초기상태
+
+      // 현재 유저가 recruiter이고 연락을 이미 클릭한 경우
+      if (
+        currentUser.recruiter &&
+        portfolio.contacts.includes(currentUser.id)
+      ) {
+        setShowContactInfo(true); // 개발자 정보 표시
+      }
     }
 
     // oriUsers에서 현재 유저 정보 동기화
@@ -159,30 +167,24 @@ const PortfolioDetailPage2 = () => {
   };
 
   const renderDeveloperInfo = () => {
-    if (currentUser.recruiter) {
-      if (showContactInfo) {
-        return (
-          <>
-            <Bar>{portfolioData.ownerName} </Bar>
-            <Bar>
-              {portfolioData.ownerEmail
-                ? portfolioData.ownerEmail
-                : "이메일 없음."}{" "}
-            </Bar>
-          </>
-        );
-      } else {
-        return (
-          <ButtonWrapper>
-            <Button onClick={handleContactClick}>연락</Button>
-          </ButtonWrapper>
-        );
-      }
+    if (currentUser.recruiter && showContactInfo) {
+      return (
+        <>
+          <DevInfo>{portfolioData.ownerName}</DevInfo>
+          <DevInfo>{portfolioData.ownerEmail || "이메일 없음"}</DevInfo>
+        </>
+      );
+    } else if (currentUser.recruiter) {
+      return (
+        <ButtonWrapper>
+          <Button onClick={handleContactClick}>연락</Button>
+        </ButtonWrapper>
+      );
     } else {
       return (
         <>
-          <Bar>{portfolioData.ownerNickname || "익명"}</Bar>
-          <Bar>example@example.com</Bar>
+          <DevInfo>{portfolioData.ownerNickname || "익명"}</DevInfo>
+          <DevInfo>example@example.com</DevInfo>
         </>
       );
     }

@@ -64,6 +64,14 @@ const PortfolioDetailPage3 = () => {
     if (portfolio) {
       setPortfolioData(portfolio);
       setIsLiked(isIncludedLikes(portfolio.projectId, currentUser.id)); //초기상태
+
+      // 현재 유저가 recruiter이고 연락을 이미 클릭한 경우
+      if (
+        currentUser.recruiter &&
+        portfolio.contacts.includes(currentUser.id)
+      ) {
+        setShowContactInfo(true); // 개발자 정보 표시
+      }
     }
     console.log(portfolio);
 
@@ -184,21 +192,19 @@ const PortfolioDetailPage3 = () => {
   };
 
   const renderDeveloperInfo = () => {
-    if (currentUser.recruiter) {
-      if (showContactInfo) {
-        return (
-          <>
-            <Info>{portfolioData.ownerName || "이름 없음.."}</Info>
-            <Info>{portfolioData.ownerEmail || "이메일 없음.."}</Info>
-          </>
-        );
-      } else {
-        return (
-          <ButtonWrapper>
-            <Button onClick={handleContactClick}>연락</Button>
-          </ButtonWrapper>
-        );
-      }
+    if (currentUser.recruiter && showContactInfo) {
+      return (
+        <>
+          <Info>{portfolioData.ownerName || "이름 없음.."}</Info>
+          <Info>{portfolioData.ownerEmail || "이메일 없음.."}</Info>
+        </>
+      );
+    } else if (currentUser.recruiter) {
+      return (
+        <ButtonWrapper>
+          <Button onClick={handleContactClick}>연락</Button>
+        </ButtonWrapper>
+      );
     } else {
       return (
         <>
