@@ -1,4 +1,6 @@
 import React from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm"; // GitHub 스타일의 마크다운 지원
 import styled from "styled-components";
 import { getCurrentUser } from "../../features/currentUser";
 import { oriComments } from "../../domain/startProgram";
@@ -56,7 +58,11 @@ const CommentList = ({ comments, setComments, portfolioId }) => {
               </DeleteButton>
             )}
           </CommentHeader>
-          <CommentText>{comment.text}</CommentText>
+          <CommentText>
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              {comment.text}
+            </ReactMarkdown>
+          </CommentText>
         </Comment>
       ))}
     </CommentListWrapper>
