@@ -24,6 +24,7 @@ import PortfolioDetailPage3 from "./pages/PortfolioDetailPage3";
 import RecruiterPage from "./pages/RecruiterPage";
 import CreateHackathonPage from "./pages/CreateHackathonPage";
 import MyProjectsPage from "./pages/MyProjectsPage";
+import CreatePortfoliosPage from "./pages/CreatePortfoliosPage";
 
 import { initializeData } from "./components/domain/startProgram";
 
@@ -130,7 +131,14 @@ function App() {
           {/* 채용자 페이지*/}
           <Route path="/RecruiterPage/:userId" element={<RecruiterPage />} />
           {/* 프로젝트 병합 페이지*/}
-          <Route path="/MyProjectsPage" element={<MyProjectsPage />} />
+          <Route
+            path="/MyProjectsPage/:portfolioId"
+            element={<MyProjectsPage />}
+          />
+          <Route
+            path="/CreatePortfoliosPage"
+            element={<CreatePortfoliosPage />}
+          />
         </Route>
       </Route>
     </Routes>

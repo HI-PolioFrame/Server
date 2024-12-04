@@ -4,11 +4,13 @@ import DashBoard from "../components/MyPage/DashBoard";
 import MyPageSection from "../components/MyPage/MyPageSection";
 import TemplateCard from "../components/commmon/TemplateCard";
 import HackTemplateCard from "../components/commmon/HackTemplateCard";
+import PortfolioTemplateCard from "../components/commmon/PortfolioTemplateCard";
 
 import {
   initializeData,
   oriProjects,
   oriHackathons,
+  oriPortfolios,
   myProjectsSearchSortManager,
   hackathonSearchSortManeger,
 } from "../components/domain/startProgram";
@@ -20,6 +22,7 @@ import {
 function MyPage() {
   const [myPortfolioList, setmyPortfolioList] = useState([]); // 상태로 관리되는 포트폴리오 리스트
   const [myHackathonList, setmyHackathonList] = useState([]);
+  const [myPortfoliosList, setMyPortfoliosList] = useState([]);
   const [currentUser, setLocalCurrentUser] = useState(getCurrentUser()); // 초기값 가져오기
 
   //LinkedList를 배열로 바꾸는 함수
@@ -39,13 +42,13 @@ function MyPage() {
       console.log("Current User:", currentUser);
 
       // console.log(oriProjects);
-      const userPortfolios = Array.from(oriProjects.values()).filter(
-        (portfolio) =>
-          portfolio.ownerId === currentUser.id ||
-          portfolio.ownerEmail === currentUser.email
+      const userProjects = Array.from(oriProjects.values()).filter(
+        (project) =>
+          project.ownerId === currentUser.id ||
+          project.ownerEmail === currentUser.email
       );
 
-      setmyPortfolioList(userPortfolios);
+      setmyPortfolioList(userProjects);
 
       const userHackathons = Array.from(oriHackathons.values()).filter(
         (hackathon) =>
@@ -55,6 +58,13 @@ function MyPage() {
       console.log("User Hackathons:", userHackathons);
       setmyHackathonList(userHackathons);
 
+      const userPortfolios = Array.from(oriPortfolios.values()).filter(
+        (portfolio) =>
+          portfolio.ownerId === currentUser.id ||
+          portfolio.ownerEmail === currentUser.email
+      );
+      setMyPortfoliosList(userPortfolios);
+
       myProjectsSearchSortManager.updateUserData(currentUser.id);
       const initialList = myProjectsSearchSortManager.sort(null, null, []);
       setmyPortfolioList(linkedListToArray(initialList));
@@ -63,7 +73,7 @@ function MyPage() {
 
       console.log("User Portfolios:", userPortfolios);
     }
-  }, [oriProjects, oriHackathons]);
+  }, [currentUser]);
 
   const handleMyProjectSearchApply = (searchTerm) => {
     const searchedPortfolios = myProjectsSearchSortManager.search(searchTerm);
@@ -99,6 +109,13 @@ function MyPage() {
       templateButton={"보기"}
     />
   );
+  const renderPortTemplateCard = (item) => (
+    <PortfolioTemplateCard
+      key={item.portfolioId}
+      portfolioId={item.portfolioId}
+      templateButton={"보기"}
+    />
+  );
   return (
     <MyPageContainer className="MyPageContainer">
       <DashBoardContainer>
@@ -117,7 +134,16 @@ function MyPage() {
             userId={currentUser?.id}
           />
 
-          <MyPageSection title={"내가 만든 포트폴리오"} button={true} />
+          <MyPageSection
+            title={"내가 만든 포트폴리오"}
+            data={myPortfoliosList}
+            renderItem={renderPortTemplateCard}
+            button={true}
+            buttonKey={"포트폴리오"}
+            //onSearch={handleMyProjectSearchApply}
+            //onSort={handleMyProjectSortApply}
+            //userId={currentUser?.id}
+          />
           <MyPageSection
             title={"내가 만든 해커톤"}
             data={myHackathonList}

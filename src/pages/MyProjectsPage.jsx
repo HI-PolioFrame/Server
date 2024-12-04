@@ -1,46 +1,58 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { oriProjects } from "../components/domain/startProgram";
+import { useParams } from "react-router-dom";
+import { oriPortfolios, oriProjects } from "../components/domain/startProgram";
 import { getCurrentUser } from "../components/features/currentUser";
 import TemplateCard from "../components/commmon/TemplateCard";
 
 const MyProjectsPage = () => {
-  const [myProjects, setMyProjects] = useState([]);
+  const { portfolioId } = useParams();
+  const [userProjects, setUserProjects] = useState([]);
+  const [userPortfolios, setUserPortfolios] = useState([]);
   const currentUser = getCurrentUser();
 
   useEffect(() => {
-    if (currentUser) {
-      // 현재 사용자의 ID와 일치하는 프로젝트 필터링
-      const userProjects = Array.from(oriProjects.values()).filter(
-        (project) => project.ownerId === currentUser.id
+    // 현재 포트폴리오와 사용자 정보를 기반으로 데이터 필터링
+    const portfolio = oriPortfolios.get(Number(portfolioId));
+    setUserPortfolios(portfolio);
+    if (portfolio) {
+      // projects 배열에서 projectId를 추출
+      const portfolioProjectIds = portfolio.projects;
+
+      // projectId가 portfolio.projects에 포함된 프로젝트 필터링
+      const filteredProjects = Array.from(oriProjects.values()).filter(
+        (project) => portfolioProjectIds.includes(project.projectId)
       );
-      setMyProjects(userProjects);
+
+      setUserProjects(filteredProjects); // 필터링된 프로젝트 업데이트
     }
-  }, [currentUser]);
+  }, [portfolioId]);
 
   return (
     <PageContainer>
-      <Title>내 프로젝트</Title>
-      {/* <CardGrid>
-        {myProjects.map((project) => (
-          <TemplateCard
-            key={project.projectId}
-            portfolioId={project.projectId}
-            templateButton="자세히 보기"
-          />
-        ))}
-      </CardGrid> */}
-      <TemplateGridWrapper>
-        <TemplateGrid>
-          {myProjects.map((project) => (
-            <TemplateCard
-              key={project.projectId}
-              portfolioId={project.projectId}
-              templateButton="자세히 보기"
-            />
-          ))}
-        </TemplateGrid>
-      </TemplateGridWrapper>
+      <Title>{userPortfolios.portfolioName}</Title>
+
+      <DescriptionSection>
+        <Section>
+          <Field>사용한 스택</Field>
+          <Text>{userPortfolios.usedLanguage || "해결한 문제 없음"}</Text>
+        </Section>
+      </DescriptionSection>
+
+      <Section>
+        <Field>프로젝트</Field>
+        <TemplateGridWrapper>
+          <TemplateGrid>
+            {userProjects.map((project) => (
+              <TemplateCard
+                key={project.projectId}
+                portfolioId={project.projectId}
+                templateButton="자세히 보기"
+              />
+            ))}
+          </TemplateGrid>
+        </TemplateGridWrapper>
+      </Section>
     </PageContainer>
   );
 };
@@ -75,6 +87,37 @@ const Title = styled.h1`
   //   letter-spacing: -0.025em;
   //   color: #000000;
 `;
+
+const DescriptionSection = styled.div`
+  margin-bottom: 20px;
+`;
+
+const Section = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 2vw 1vw;
+
+  font-family: "OTF R";
+`;
+
+const Field = styled.div`
+  font-size: 2vw;
+  font-weight: bold;
+`;
+
+const Text = styled.div`
+  border-radius: 0.3125em;
+  box-shadow: 0 0.5em 1em rgba(0, 0, 0, 0.1);
+
+  background-color: white;
+
+  padding: 1vw;
+  margin-top: 2vw;
+
+  min-width: 80%;
+`;
+
+const TemplateSection = styled.div``;
 
 const TemplateGridWrapper = styled.div`
   display: flex;

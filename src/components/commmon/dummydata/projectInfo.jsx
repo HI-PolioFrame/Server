@@ -167,5 +167,5 @@ export const projectInfo = [
     likes: [7],
     contacts: ["admin1", "admin4"],
     comments: [],
-  },
+  }
 ];
