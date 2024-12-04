@@ -226,27 +226,9 @@ return (
             <MainText>참여기간</MainText>
             <ExText>이 프로젝트에 참여한 기간을 선택해주세요. </ExText>
             <CalendarInput
-                // name="dateRange" 
-                // value={{
-                //   startDate: portfolioData.startDate ? new Date(formData.startDate) : null,
-                //   endDate: portfolioData.endDate ? new Date(formData.endDate) : null,
-
-                //   // startDate: portfolioData.startDate ? new Date(portfolioData.startDate) : null,
-                //   // endDate: portfolioData.endDate ? new Date(portfolioData.endDate) : null
-                // }}
-                // // onDateChange={handleDateChange}
-                startDate={formData.startDate}
-                endDate={formData.endDate}
-                onDateChange={onDateChange}
-
-                // onDateChange={({ startDate, endDate }) => {
-                //   console.log("Start Date:", startDate);
-                //   console.log("End Date:", endDate);
-                //   handleDateChange("startDate", startDate);
-                //   handleDateChange("endDate", endDate);
-                // }}
-
-               
+              startDate={portfolioData.startDate}
+              endDate={portfolioData.endDate}
+              onDateChange={onDateChange}
              />
              
           </InputWrapper>

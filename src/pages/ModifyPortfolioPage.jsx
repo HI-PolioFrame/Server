@@ -63,37 +63,17 @@ const ModifyPortfolioPage = () => {
     }));
   };
   const handleDateChange = (name, date) => {
-    // date가 배열일 경우 (예: [startDate, endDate])
-    if (Array.isArray(date)) {
-      const [start, end] = date;
-      setFormData((prevData) => ({
-        ...prevData,
-        startDate: start ? new Date(start).toISOString().split('T')[0] : null, // YYYY-MM-DD 형식으로 저장
-        endDate: end ? new Date(end).toISOString().split('T')[0] : null,     // YYYY-MM-DD 형식으로 저장
-      }));
-    } else {
-      // 단일 날짜일 경우
-      setFormData((prevData) => ({
-        ...prevData,
-        [name]: date, // startDate 또는 endDate 업데이트
-      }));
-    }
+    // 날짜 객체를 복사하고 하루를 더함
+    const newDate = new Date(date);
+    newDate.setDate(newDate.getDate() + 1); // 날짜 +1
+    const formattedDate = newDate ? newDate.toISOString().split('T')[0] : ""; 
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: formattedDate,
+    }));
   };
   
-  // const handleDateChange = (name, date) => {
-  //   const formattedDate = new Date(date).toISOString().split('T')[0];
 
-  //   setFormData((prevData) => ({
-  //     ...prevData,
-  //     [name]: formattedDate, // startDate와 endDate를 "YYYY-MM-DD" 형식으로 저장
-  //   }));
-  // };
-  // const handleDateChange = (name, date) => {
-  //   setFormData((prevData) => ({
-  //     ...prevData,
-  //     [name]: date, // startDate 또는 endDate 업데이트
-  //   }));
-  // };
   const handleSaveProject = () => {
     saveProject(
       currentUser.name, // 사용자 이름

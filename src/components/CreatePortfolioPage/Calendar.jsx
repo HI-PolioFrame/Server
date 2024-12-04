@@ -5,7 +5,7 @@ import PrevMonth from "../../assets/icons/Calendar/arrow_left.png";
 import NextMonth from "../../assets/icons/Calendar/arrow_right.png";
 import { Color } from "../CreatePortfolioPage/Color.jsx";
 
-const StudyManageWeekCalendar = ({ onStartDateChange, onEndDateChange }) => {
+const CreatePortfolioCalendar = ({ onStartDateChange, onEndDateChange }) => {
     const [date, setDate] = useState(new Date());
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
@@ -137,7 +137,7 @@ const StudyManageWeekCalendar = ({ onStartDateChange, onEndDateChange }) => {
     );
 };
 
-export default StudyManageWeekCalendar;
+export default CreatePortfolioCalendar;
 /* CSS */
 const CalendarWrapper = styled.div`
   width: 50%;

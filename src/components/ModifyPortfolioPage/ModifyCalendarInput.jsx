@@ -2,34 +2,14 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Calendar from "./Calendar.jsx";
 // import { useDispatch } from 'react-redux';
-import { useParams } from "react-router-dom";
-import {
-  oriProjects,
-  oriComments,
-  initializeData,
-} from "../../components/domain/startProgram.js";
 
-const CalendarInput = ({ startDate, endDate, onDateChange }) => {
+const ModifyCalendarInput = ({ startDate, endDate, onDateChange }) => {
   // state 관리
   const [recruitmentStartDate, setRecruitmentStartDate] = useState(null);
   const [recruitmentEndDate, setRecruitmentEndDate] = useState(null);
   // Button 활성화 상태 관리
   const [isRecruitmentActive, setIsRecruitmentActive] = useState(true);
   const [isStudyPeriodActive, setIsStudyPeriodActive] = useState(false);
-  
-  const { portfolioId } = useParams();
-  const [portfolioData, setPortfolioData] = useState(null);
-  
-
-  useEffect(() => {
-    const portfolio = oriProjects.get(Number(portfolioId));
-    if (portfolio) {
-      setPortfolioData(portfolio);
-    }
-  }, [portfolioId]);
-
-  console.log(portfolioData);
- 
 
   // Redux 관리
   // const dispatch = useDispatch();
@@ -44,19 +24,15 @@ const CalendarInput = ({ startDate, endDate, onDateChange }) => {
 
   // 모집 날짜 불러오기
   const handleRecruitStartDateChange = (date) => {
-    
-
     if (isRecruitmentActive) {
       setRecruitmentStartDate(date);
     } else if (isStudyPeriodActive) {
       setStudyPeriodStartDate(date);
     }
     const formattedDate = formatDate(date);
-    console.log("Start Date before onDateChange:", formatDate(date)); // 값 확인
     console.log("Start Date:", formattedDate);
 
     onDateChange("startDate", date);
-
     // dispatch(setRecruitStartDay(formattedDate));
   };
 
@@ -88,17 +64,13 @@ const CalendarInput = ({ startDate, endDate, onDateChange }) => {
         <PeriodWrapper2>
           <Text>시작</Text>
           <Period>
-            {recruitmentStartDate ? formatDate(new Date(recruitmentStartDate)) : "--"}
-
-            {/* {startDate ? formatDate(new Date(startDate)) : "--"} */}
-            {/* {portfolioData.startDate ? portfolioData.startDate : "--"} */}
+            {recruitmentStartDate ? formatDate(recruitmentStartDate) : "--"}
           </Period>
         </PeriodWrapper2>
         <PeriodWrapper2>
           <Text>끝</Text>
           <Period>
-            {recruitmentEndDate ? formatDate(new Date(recruitmentEndDate)) : "--"}
-          {/* {portfolioData.endDate? portfolioData.endDate : "--"} */}
+            {recruitmentEndDate ? formatDate(recruitmentEndDate) : "--"}
           </Period>
         </PeriodWrapper2>
       </PeriodWrapper1>
@@ -106,7 +78,7 @@ const CalendarInput = ({ startDate, endDate, onDateChange }) => {
   );
 };
 
-export default CalendarInput;
+export default ModifyCalendarInput;
 
 const ComponentWrapper = styled.div`
   width: 100%;
