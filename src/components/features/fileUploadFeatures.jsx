@@ -24,7 +24,12 @@ export const handleImageUpload = async (projectId, field) => {
       });
 
       const result = await response.json();
-      console.log(result);
+      console.log("result: ", result);
+
+      let project = oriProjects.get(projectId);
+      project.field = result.uploadedPath;
+      oriProjects.set(projectId, project);
+      
     } catch (error) {
       console.error('이미지 업로드 실패', error);
     }
