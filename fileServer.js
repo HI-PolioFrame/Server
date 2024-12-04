@@ -5,6 +5,7 @@ import { createServer } from 'vite';
 import cors from 'cors';
 import { fileURLToPath } from 'url';
 import multer from 'multer';
+import bodyParsers from 'body-parser';
 
 // __dirname 설정 (ES 모듈 호환)
 const __filename = fileURLToPath(import.meta.url);
@@ -14,6 +15,7 @@ const port = 3000;
 
 app.use(cors());
 app.use(express.json());
+app.use(bodyParsers.urlencoded({ extended: true })); // URL-encoded 요청 처리
 
 // 파일 읽기
 app.post('/read-number', (req, res) => {
@@ -543,6 +545,8 @@ const upload = multer({
 
 app.post('/update-project-photo', upload.single('photo'), async (req, res) => {
   var { filePath, projectId, field } = req.body;
+  console.log("filePath: ", filePath);
+  console.log("projectId:", projectId, typeof(projectId));
   const absolutePath = path.resolve(__dirname, filePath);
 
   projectId = Number(projectId);
@@ -594,6 +598,19 @@ app.post('/update-project-photo', upload.single('photo'), async (req, res) => {
     res.status(404).json({ success: false, message: '프로젝트를 찾을 수 없습니다.' });
   }
 });
+
+app.post('/add-project-photo', upload.single('photo'), async (req, res) => {
+    if (!req.file) {
+      return res.status(400).json({ 
+        success: false, 
+        message: '파일이 업로드되지 않았습니다.' 
+      });
+    }
+
+    const photoPath = req.file.path;
+    res.json({ success: true, message: '이미지 업로드 완료', uploadedPath: photoPath });
+    
+  });
 
 // Vite 개발 서버 시작
 async function startVite() {
