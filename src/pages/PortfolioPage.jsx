@@ -36,18 +36,16 @@ const PortfolioPage = () => {
   };
 
   useEffect(() => {
-    initializeData(); 
+    initializeData();
     const sharedPortfolios = Array.from(oriProjects.values()).filter(
       (portfolio) => portfolio.share === true
     );
-    console.log(sharedPortfolios)
+    console.log(sharedPortfolios);
     setsharedPortfolioList(sharedPortfolios);
-  
+
     const initialList = searchSortManager.sort(null, null, sharedPortfolios);
     setsharedPortfolioList(linkedListToArray(initialList));
-  
   }, []);
-  
 
   const handleSortApply = (category, sortOption, filterOption) => {
     const sortedLinkedList = searchSortManager.sort(
@@ -85,17 +83,23 @@ const PortfolioPage = () => {
       </SelectBoxWrapper>
       <Line></Line>
       <TemplateGridWrapper>
-        <TemplateGrid>
-          {sharedPortfolioList
-            .filter((portfolio) => portfolio.share === true) 
-            .map((portfolio) => (
-              <TemplateCard
-                key={portfolio.projectId}
-                portfolioId={portfolio.projectId}
-                templateButton={"보기"}
-              />
-            ))}
-        </TemplateGrid>
+        {sharedPortfolioList.length === 0 ? (
+          <EmptyGridItem>
+            <Text>검색 결과가 없습니다.</Text>
+          </EmptyGridItem>
+        ) : (
+          <TemplateGrid>
+            {sharedPortfolioList
+              .filter((portfolio) => portfolio.share === true)
+              .map((portfolio) => (
+                <TemplateCard
+                  key={portfolio.projectId}
+                  portfolioId={portfolio.projectId}
+                  templateButton={"보기"}
+                />
+              ))}
+          </TemplateGrid>
+        )}
       </TemplateGridWrapper>
 
       <ButtonWrapper>
@@ -167,4 +171,20 @@ const StartButton = styled.button`
   align-items: center;
   justify-content: center;
   position: relative;
+`;
+
+const EmptyGridItem = styled.div`
+  grid-column: 1 / -1; /* 그리드 전체 열을 차지 */
+  display: grid; /* Flex 대신 Grid 사용 */
+  place-content: center; /* Grid로 중앙 정렬 */
+
+  margin-top: 5vh;
+`;
+
+const Text = styled.div`
+  font-size: 1.5vw;
+  font-family: "OTF R";
+  align-items: center;
+  width: 100%;
+  height: 100%;
 `;
