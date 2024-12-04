@@ -555,9 +555,6 @@ app.post('/update-project-photo', upload.single('photo'), async (req, res) => {
   }
   
   const photoPath = req.file.path;
-  console.log(photoPath);
-  console.log("projectId: ", projectId);
-  console.log(typeof(projectId));
 
   /// 파일 읽기
   const data = await fs.readFile(filePath, 'utf8');
@@ -592,7 +589,7 @@ app.post('/update-project-photo', upload.single('photo'), async (req, res) => {
     await fs.writeFile(absolutePath, updatedContent, 'utf8');
 
     
-    res.json({ success: true, message: '이미지 업로드 완료' });
+    res.json({ success: true, message: '이미지 업로드 완료', uploadedPath: photoPath });
   } else {
     res.status(404).json({ success: false, message: '프로젝트를 찾을 수 없습니다.' });
   }
