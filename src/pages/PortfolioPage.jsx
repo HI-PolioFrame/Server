@@ -65,6 +65,15 @@ const PortfolioPage = () => {
   );
   const currentUser = getCurrentUser();
 
+  const handleCreatePortfolioClick = () => {
+    console.log(currentUser);
+    if (!currentUser?.email) {
+      alert("이메일을 등록해 주세요.");
+    } else {
+      navigate("/CreatePortfolioPage");
+    }
+  };
+  
   return (
     <TemplatePageContainer className="TemplatePageContainer">
       <PageHeader pageTitle="Portfolio" onSearch={handleSearchApply} />
@@ -96,7 +105,7 @@ const PortfolioPage = () => {
       <ButtonWrapper>
         {/* 포트폴리오 제작 페이지로 넘어갈 수 있는 버튼 추가 */}
         {accessToken && currentUser?.recruiter === false && (
-          <StartButton onClick={() => navigate("/CreatePortfolioPage")}>
+          <StartButton onClick={handleCreatePortfolioClick}>
             포트폴리오 제작하기
           </StartButton>
         )}

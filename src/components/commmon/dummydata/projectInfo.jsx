@@ -15,7 +15,7 @@ export const projectInfo = [
     share: false,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 32,
+    hits: 42,
     likes: [
       "happytree12"
     ],
@@ -38,7 +38,7 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 20,
+    hits: 52,
     likes: [],
     contacts: [
       "admin4"
@@ -105,13 +105,12 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Python",
     category: "백엔드",
-    hits: 8,
+    hits: 9,
     likes: [],
     contacts: [
       "admin4"
     ],
-    comments: [],
-    coverImage: "uploads\\1733293823598.png"
+    comments: []
   },
   {
     projectId: 6,
@@ -129,7 +128,7 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 15,
+    hits: 50,
     likes: [],
     contacts: [
       "admin4"
@@ -152,7 +151,7 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 22,
+    hits: 52,
     likes: [],
     contacts: [
       "admin1"
@@ -175,7 +174,7 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 17,
+    hits: 36,
     likes: [
       7
     ],

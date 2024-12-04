@@ -1,6 +1,7 @@
 import { oriProjects } from "../domain/startProgram";
 
 export const handleImageUpload = async (projectId, field) => {
+  console.log("handleImageUpload started");
     // 파일 입력 엘리먼트 생성
     const input = document.createElement('input');
     input.type = 'file';

@@ -22,26 +22,28 @@ const Calendar = ({
 
     const handleDateClick = (day) => {
         const selectedDate = new Date(date.getFullYear(), date.getMonth(), day);
-
+    
         if (!startDate) {
-            setStartDate(selectedDate);
-            setEndDate(null);
-            onStartDateChange(selectedDate);
+          setStartDate(selectedDate);
+          setEndDate(null);
+          onStartDateChange(selectedDate); // 부모 컴포넌트에 startDate 전달
         } else if (!endDate) {
-            if (selectedDate < startDate) {
-                setStartDate(selectedDate);
-                setEndDate(null);
-                onStartDateChange(selectedDate);
-            } else {
-                setEndDate(selectedDate);
-                onEndDateChange(selectedDate);
-            }
-        } else {
+          if (selectedDate < startDate) {
             setStartDate(selectedDate);
             setEndDate(null);
-            onStartDateChange(selectedDate);
+            onStartDateChange(selectedDate); // 부모 컴포넌트에 startDate 전달
+          } else {
+            setEndDate(selectedDate);
+            onEndDateChange(selectedDate); // 부모 컴포넌트에 endDate 전달
+          }
+        } else {
+          setStartDate(selectedDate);
+          setEndDate(null);
+          onStartDateChange(selectedDate); // 부모 컴포넌트에 startDate 전달
         }
-    };
+      };
+
+      
     const monthName = date.toLocaleString('default', { month: 'long' });
     const year = date.getFullYear();
     const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
@@ -69,17 +71,21 @@ const Calendar = ({
     const isDateSelected = (day) => {
         const currentDate = new Date(date.getFullYear(), date.getMonth(), day);
     
-        // startDate와 endDate가 문자열일 경우 Date 객체로 변환
-        const parsedStartDate = new Date(startDate);
-        const parsedEndDate = new Date(endDate);
+        // startDate와 endDate가 null일 경우를 처리
+        const parsedStartDate = startDate ? new Date(startDate) : null;
+        const parsedEndDate = endDate ? new Date(endDate) : null;
     
-        return (
-            parsedStartDate &&
-            parsedEndDate &&
-            (currentDate.toDateString() === parsedStartDate.toDateString() ||
-                currentDate.toDateString() === parsedEndDate.toDateString())
-        );
+        // startDate와 endDate가 모두 존재할 때만 비교
+        if (parsedStartDate && parsedEndDate) {
+            return (
+                currentDate.toDateString() === parsedStartDate.toDateString() ||
+                currentDate.toDateString() === parsedEndDate.toDateString()
+            );
+        }
+    
+        return false;
     };
+    
     
       
     const isInSelectionRange = (day) => {

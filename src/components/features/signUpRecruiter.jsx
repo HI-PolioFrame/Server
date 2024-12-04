@@ -164,7 +164,8 @@ export const setEmail = (email) => {
             return false;
         }
     }
-    return true;
+    emailCheck = true;
+    return emailCheck;
 };
 
 export const setPhoneNumber = (phoneNumber) => {
@@ -186,6 +187,7 @@ export const setPhoneNumber = (phoneNumber) => {
     }
 
     // 중복되지 않으면 true 반환
+    phoneNumCheck = true;
     return true;
 };
 
@@ -201,10 +203,14 @@ export const isIdExists = (id) => {
 
 // 회사인증
 // 임의로 처리한다.
-export const setCompany = () => {
+// export const setCompany = () => {
+//     companyCheck = true;
+// }
+export const setCompany = (email) => {
+    // email 값을 받아 처리할 수 있도록 수정
+    console.log("회사 인증 이메일:", email);
     companyCheck = true;
-}
-
+};
 // 아이디나 이메일, 전화번호 중복 체크 후에 입력값이 변하면 다시 체크해야 하므로
 export const changedId = () => idCheck = false;  
 export const changedEmail = () => emailCheck = false;
