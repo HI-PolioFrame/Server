@@ -16,7 +16,7 @@ import { ImCancelCircle } from "react-icons/im";
 //   "마라탕후루",
 // ];
 
-const SearchBar = ({ onSearch }) => {
+const SearchBar = ({ onSearch, onCancelSearch }) => {
   const [inputValue, setInputValue] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [nowIndex, setNowIndex] = useState(-1);
@@ -49,6 +49,9 @@ const SearchBar = ({ onSearch }) => {
     setSuggestions([]);
     console.log("검색어 초기화");
     //search(inputValue);
+    if (onCancelSearch) {
+      onCancelSearch(); // 최신순 정렬 실행
+    }
   };
 
   //기존 코드

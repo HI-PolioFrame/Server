@@ -58,6 +58,8 @@ const MyPageSection = ({
                 navigate("/CreatePortfolioPage");
               } else if (buttonKey == "해커톤") {
                 navigate("/CreateHackathonPage");
+              } else {
+                navigate("/CreatePortfoliosPage");
               }
             }} //navigate 넣으면 된다요
           />
