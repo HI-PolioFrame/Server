@@ -49,6 +49,18 @@ const ModifyPortfolioInput = ({ onInputChange, formData, onDateChange  }) => {
     }));
     onInputChange(e); // 외부 상태 관리 함수 호출
   };
+  
+  // const handleInputDateChange = (dates) => {
+  //   const { startDate, endDate } = dates; // dates 객체에서 startDate와 endDate를 추출
+  //   setPortfolioData((prevData) => ({
+  //     ...prevData,
+  //     startDate: startDate,
+  //     endDate: endDate,
+  //   }));
+  //   onInputChange(dates); // 외부 상태 관리 함수 호출
+  // };
+  
+  
   console.log('portfolioData:', portfolioData);
   console.log('formData:', formData);
   
@@ -208,9 +220,12 @@ return (
             <MainText>참여기간</MainText>
             <ExText>이 프로젝트에 참여한 기간을 선택해주세요. </ExText>
             <CalendarInput
-              startDate={new Date(portfolioData.startDate)} 
-              endDate={new Date(portfolioData.endDate)}   
-              onDateChange={handleInputChange}
+              name="dateRange" 
+              value={{
+                startDate: new Date(portfolioData.startDate),
+                endDate: new Date(portfolioData.endDate)
+              }}
+              onDateChange={(dates) => handleInputChange({ target: { name: "dateRange", value: dates } })}
             />
           </InputWrapper>
           <CWrapper>

@@ -11,7 +11,7 @@ import { getCurrentUser } from "../components/features/currentUser";
 import { patchContacts } from "../components/features/recruiterFeatures";
 import Comment from "../components/domain/Comment";
 import saveComment from "../components/features/saveComment";
-import { deleteHackathon } from "../components/features/hackathonFeatures";
+import { deleteHackathon, isIncludedParticipant } from "../components/features/hackathonFeatures";
 
 
 //logo 이미지
@@ -29,13 +29,16 @@ const HackathonDetailPage = () => {
   const [comments, setComments] = useState([]);
   const [isOwner, setIsOwner] = useState(false);
   const [isFull, setIsFull] = useState(false);
-
+  const [isUserParticipant, setIsUserParticipant] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false); // 팝업 상태 추가
 
   const navigate = useNavigate();
   const currentUser = getCurrentUser();
 
   const userId = currentUser.id;
+
+
+
   console.log(userId);
   console.log(hackId);
 
@@ -48,8 +51,6 @@ const HackathonDetailPage = () => {
       console.log(Hackathon);
     }
   }, [hackId]);
-
-
   useEffect(() => {
     if (HackathonData && currentUser) {
       
@@ -61,6 +62,34 @@ const HackathonDetailPage = () => {
       }
     }
   }, [HackathonData?.ownerEmail, HackathonData?.ownerId, currentUser?.email, currentUser?.id]);
+
+
+  useEffect(() => {
+    if (HackathonData && userId) {
+      const isParticipant = isIncludedParticipant(Number(hackId), userId);
+      setIsUserParticipant(isParticipant);
+    }
+  }, [HackathonData, userId]); 
+  const handleParticipation = async () => {
+    if (HackathonData.memNumber !== HackathonData.maxMemNumber && !isUserParticipant) {
+      try {
+        await updateParticipant(Number(hackId), userId);
+  
+        // 상태 업데이트
+        setHackathonData(prev => ({
+          ...prev,
+          participant: [...prev.participant, userId],
+        }));
+  
+        setIsUserParticipant(true); // 참여 상태 업데이트
+      } catch (error) {
+        console.error("참여 업데이트 중 오류 발생:", error);
+      }
+    }
+  };
+  
+
+ 
   
   // console.log(hackId);
   
@@ -127,6 +156,8 @@ const HackathonDetailPage = () => {
           <MemTitle>{HackathonData.memNumber || "없습니다."}명</MemTitle>
           <Mem>모집파트</Mem>
           <MemTitle>{HackathonData.part || "없습니다."}</MemTitle>
+          <Mem2>현재 참여중인 인원</Mem2>
+          <MemTitle>{HackathonData.participant.length || "없습니다."}</MemTitle>
         </RowWrapper>
         <RowWrapper>
         <LinkWrapper>
@@ -225,21 +256,17 @@ const HackathonDetailPage = () => {
           </TimeWrapper>
         </RowWrapper>
         <StartButton
-            isFull={HackathonData.memNumber === HackathonData.maxMemNumber}
-            onClick={
-              isOwner
-                ? handlePopupToggle
-                : async () => {
-                    if (HackathonData.memNumber !== HackathonData.maxMemNumber) {
-                      await updateParticipant(Number(hackId), userId);
-                      console.log(typeof hackId);
-                    }
-                  }
-            }
-            disabled={HackathonData.memNumber === HackathonData.maxMemNumber}
-          >
-            {isOwner ? "지원현황" : "지원하기"}
+          isFull={HackathonData.participant.length === HackathonData.maxMemNumber}
+          onClick={isOwner ? handlePopupToggle : handleParticipation}
+          disabled={HackathonData.participant.length === HackathonData.maxMemNumber || isUserParticipant}
+        >
+          {isOwner
+            ? "지원현황"
+            : isUserParticipant
+            ? "지원완료"
+            : "지원하기"}
         </StartButton>
+
       </ContentSection1>
 
     </MainWrapper>
@@ -338,7 +365,8 @@ const MainWrapper = styled.div`
   align-items: flex-start;
   gap : 2em;
 `;
-
+const VideoWrapper = styled.div`
+`;
 const TimeWrapper = styled.div`
 `;
 const ImageWrapper = styled.div`
@@ -382,6 +410,22 @@ const Line = styled.hr`
 `;
 const Mem = styled.p`
   width : 4em;
+  height : 1.5em;
+  color : #fff;
+  font-weight: bold;
+  font-family: "OTF R";
+  font-size : 1em;
+
+  border : 1px solid #ccc;
+  border-radius : 0.2em;
+  background-color : #0a27a6;
+ 
+  display: flex;
+  align-items: center; 
+  justify-content: center;
+`;
+const Mem2 = styled.p`
+  width : 8em;
   height : 1.5em;
   color : #fff;
   font-weight: bold;
