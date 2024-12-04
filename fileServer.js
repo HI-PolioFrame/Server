@@ -4,6 +4,7 @@ import path from 'path';
 import { createServer } from 'vite';
 import cors from 'cors';
 import { fileURLToPath } from 'url';
+import multer from 'multer';
 
 // __dirname 설정 (ES 모듈 호환)
 const __filename = fileURLToPath(import.meta.url);
@@ -395,7 +396,7 @@ app.post('/remove-comments', async (req, res) => {
 
 app.post('/patch-participant', async (req, res) => {
     try {
-        const { filePath, hackId, userId, newMemNumber } = req.body;
+        const { filePath, hackId, userId } = req.body;
 
         // 파일 읽기
         const data = await fs.readFile(filePath, 'utf8');
@@ -513,6 +514,88 @@ app.post('/delete-object', (req, res) => {
             res.json({ success: true });
         });
     });
+});
+
+
+// Multer 스토리지 설정
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, 'uploads/') // 파일 저장 디렉토리 
+    },
+    filename: (req, file, cb) => {
+      cb(null, Date.now() + path.extname(file.originalname)) // 파일명 중복 방지
+    }
+  });
+  
+  // 파일 필터 추가
+  const fileFilter = (req, file, cb) => {
+    if (file.mimetype.startsWith('image/')) {
+      cb(null, true);
+    } else {
+      cb(new Error('Not an image file'), false);
+    }
+  };
+
+const upload = multer({ 
+  storage: storage,
+  fileFilter: fileFilter
+});
+
+app.post('/update-project-photo', upload.single('photo'), async (req, res) => {
+  var { filePath, projectId, field } = req.body;
+  const absolutePath = path.resolve(__dirname, filePath);
+
+  projectId = Number(projectId);
+
+  if (!req.file) {
+    return res.status(400).json({ 
+      success: false, 
+      message: '파일이 업로드되지 않았습니다.' 
+    });
+  }
+  
+  const photoPath = req.file.path;
+  console.log(photoPath);
+  console.log("projectId: ", projectId);
+  console.log(typeof(projectId));
+
+  /// 파일 읽기
+  const data = await fs.readFile(filePath, 'utf8');
+        
+  // JavaScript 객체 문자열을 실제 객체로 변환
+  let contentWithoutExport = data.replace('export const projectInfo = ', '');
+  contentWithoutExport = contentWithoutExport.replace(/;\s*$/, '');
+  
+  function convertToValidJSON(jsString) {
+      try {
+          return Function(`"use strict"; return (${jsString})`)();
+      } catch (error) {
+          console.error('JavaScript 객체 파싱 에러:', error);
+          throw error;
+      }
+  }
+  
+  const projectInfo = convertToValidJSON(contentWithoutExport);
+
+  // 특정 프로젝트 찾아 photo 필드 업데이트
+  const project = projectInfo.find(p => p.projectId === projectId);
+  console.log("project: ", project);
+    if (project) {
+        project[field] = photoPath;
+
+    const updatedContent = 'export const projectInfo = ' + 
+    JSON.stringify(projectInfo, null, 2)
+        .replace(/"([^"]+)":/g, '$1:')
+        .replace(/}]/g, '}\n]') + 
+    ';\n';
+
+    await fs.writeFile(absolutePath, updatedContent, 'utf8');
+
+    
+    res.json({ success: true, message: '이미지 업로드 완료' });
+  } else {
+    res.status(404).json({ success: false, message: '프로젝트를 찾을 수 없습니다.' });
+  }
 });
 
 // Vite 개발 서버 시작
