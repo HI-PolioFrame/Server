@@ -113,10 +113,15 @@ const SignUpDeveloperEmailPage = () => {
         setPassword(e.target.value);
     };
 
-    const handleSignUp = () => {
-        emailSignUpDeveloper(name, birthday, emailInput, password, repassword, phone);
-        navigate("/LoginPage");
-    };
+    const handleSignUp = async () => {
+        try {
+            await emailSignUpDeveloper(name, birthday, idInput, password, repassword, phone); 
+            navigate("/LoginPage");  
+        } catch (error) {
+           console.error("회원가입 중 오류 발생:", error);  
+        }
+      };
+
     return (
         <LoginWrapper>
             <MainText onClick={() => navigate("/")}>FolioFrame</MainText>

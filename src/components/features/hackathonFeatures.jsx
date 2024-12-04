@@ -133,6 +133,7 @@ export const updateParticipant = async (hackId, userId) => {
 
     if (hackathon["participant"].includes(userId)) {
         console.log("이미 참여하는 해커톤에 지원할 수 없음");
+        alert("이미 참여하는 해커톤에 지원할 수 없습니다."); 
         return;
     }
 
@@ -162,7 +163,7 @@ export const updateParticipant = async (hackId, userId) => {
 
         // Map 객체도 업데이트
         hackathon["participant"] = hackathon["participant"] || []; // participant가 없으면 빈 배열로 초기화
-        hackathon["participant"].push(userId); // userId 추가
+        hackathon["participant"].push(userId); 
         oriHackathons.set(hackId, hackathon);
 
         console.log(`${hackathon["participant"]} 필드가 성공적으로 업데이트되었습니다.`);
@@ -171,49 +172,22 @@ export const updateParticipant = async (hackId, userId) => {
     }
 };
 
+// export const isIncludedParticipant = (hackId, userId) => {
+//     const hackathon = oriHackathons.get(hackId);
+//     console.log(userId);
+//     if (!hackathon) return;
+
+//     return hackathon.participant.includes(userId) ? true : false;
+// }
 export const isIncludedParticipant = (hackId, userId) => {
     const hackathon = oriHackathons.get(hackId);
-
-    if (!hackathon) return;
-
-    return hackathon.participant.includes(userId) ? true : false;
-}
-
-
-// export const updateParticipant = async (hackId, userId) => {
-//     const hackathon = oriHackathons.get(hackId);
-//         console.log(hackId);
-
-//     const newMemNumber = hackathon["memNumber"] + 1;
-
-//     try {
-
-//         const filePath = "src/components/commmon/dummydata/hackathonInfo.jsx";
-        
-//         // 필드를 업데이트하는 API 호출
-//         await fetch('http://localhost:3000/patch-participant', {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//             },
-//             body: JSON.stringify({
-//                 filePath,
-//                 hackId,
-//                 userId,
-//                 newMemNumber
-//             }),
-//         });
-
-//         // Map 객체도 업데이트
-//         if (hackathon) {
-//             hackathon["participant"] = hackathon["participant"].push(userId);
-//             hackathon["memNumber"] = newMemNumber;
-//             oriHackathons.set(hackId, hackathon);
-//         }
-
-//         console.log(`${hackathon["participant"]} 필드가 성공적으로 업데이트되었습니다.`);
-//     } catch (error) {
-//         console.error('필드 업데이트 중 오류가 발생했습니다:', error);
-//     }
-
-// }
+    if (!hackathon) return false;
+    if(hackathon.participant.includes(userId)){
+        return true;
+    }
+    else{
+        return false;
+    }
+    // return hackathon.participant.includes(userId);
+  };
+  

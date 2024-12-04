@@ -12,8 +12,13 @@ import { setPhoneNumber } from "../components/features/signUpRecruiter.jsx";
 import { changedPhoneNumber } from "../components/features/signUpRecruiter.jsx";
 import { isPassword } from "../components/features/signUpRecruiter.jsx";
 import { PasswordValidation } from "../components/features/signUpRecruiter.jsx";
+import { setCompany, idSignUpRecruiter, changedCompany } from "../components/features/signUpRecruiter.jsx";
+
 const SignUpRecruiterPage = () => {
     const navigate = useNavigate();
+    const [name, setName] = useState("");
+    const [birthday, setBirthday] = useState("");
+    const [agree, setAgree] = useState(false); // agree 상태 관리
 
     //아이디 중복 확인
     const [idInput, setIdInput] = useState("");
@@ -44,14 +49,27 @@ const SignUpRecruiterPage = () => {
         portfolio: false,
         violation: false,
     });
+    
     //팝업 창 
-    const handleCheckBoxClick = () => {
+    const handleCheckBoxClick = (value) => {
         setIsModalOpen(true);
+        setAgree(value); 
     };
-    const closeModal = () => {
+    const closeModal = (value) => {
         setIsModalOpen(false);
-    };
+        setAgree(false);
 
+    };
+    const handleAgree = (value) => {
+        setAgree(value);
+        setIsModalOpen(false); 
+      };
+    
+    const handleDisagree = () => {
+        setAgree(false);
+        setIsModalOpen(false); 
+ 
+    };
     
 
     const autoHyphen = (value) => {
@@ -64,9 +82,9 @@ const SignUpRecruiterPage = () => {
 
     //아이디 중복 부분
     const handleIdInputChange = (e) => {
-    setIdInput(e.target.value);
-    setIdChecked(false);
-    changedId();
+        setIdInput(e.target.value);
+        setIdChecked(false);
+        changedId();
     };
 
     const handleIdCheck = () => {
@@ -85,8 +103,9 @@ const SignUpRecruiterPage = () => {
         setPhone(autoHyphen(value));
         setPhoneChecked(false);
         changedPhoneNumber();
-        };
-        const handlePhoneCheck = () => {
+    };
+    
+    const handlePhoneCheck = () => {
         console.log("입력된 전화번호:", phone);
         const isValid = setPhoneNumber(phone);
         // setPhoneChecked(isValid);
@@ -127,8 +146,33 @@ const SignUpRecruiterPage = () => {
     const handlePassinputChange = (e) => {
     setPassword(e.target.value);
     };
+    
+    //회사 인증
+    const [Comemail, setComEmail] = useState(''); 
+    const [isCompanyChecked, setCompanyChecked] = useState(false);  
 
-   
+    const handleEmailChange = (event) => {
+        setComEmail(event.target.value);
+        setCompanyChecked(false); 
+    }
+    
+    const handleCompanyCheck = (email) => {
+        setCompany(email);
+        setCompanyChecked(!isCompanyChecked); 
+    }
+    
+    
+    //시작하기
+    const handleSignUp = async () => {
+        try {
+            await idSignUpRecruiter(name, birthday, idInput, password, repassword, phone); 
+            navigate("/LoginPage");  
+        } catch (error) {
+            console.error("회원가입 중 오류 발생:", error);  
+        }
+    };
+    
+
     return (
         <LoginWrapper>
             <MainText onClick={() => navigate("/")}>FolioFrame</MainText>
@@ -182,12 +226,12 @@ const SignUpRecruiterPage = () => {
                             value={repassword}
                             onChange={(e) => setrePassword(e.target.value)}
                             // onBlur={passwordCheck}
-                            onBlur={() => {
-                                if (password && repassword) {
-                                    setIsPasswordConfirmed(false); 
-                                    passwordCheck();
-                                }
-                            }}
+                            // onBlur={() => {
+                            //     if (password && repassword) {
+                            //         setIsPasswordConfirmed(false); 
+                            //         passwordCheck();
+                            //     }
+                            // }}
                             onKeyDown={(e) => e.key === "Enter" && passwordCheck()}
                             disabled={!isRePasswordEnabled}
                         />
@@ -218,22 +262,40 @@ const SignUpRecruiterPage = () => {
                             />
                             <label htmlFor="Phonecheck">중복확인</label>
                         </PhonecheckWrapper>
+                
                 </RowWrapper>
 
                 {/* 회사인증 */}
                 <RowWrapper>
-                    <CertificInput placeholder="회사인증" type="email"></CertificInput>
+                    <CertificInput 
+                        placeholder="회사인증" 
+                        type="Comemail" 
+                        value={Comemail} 
+                        onChange={handleEmailChange} 
+                    />
                 </RowWrapper>
-                    <CheckBoxWrapper>
-                            <CompanyCheckInput type="checkbox" id="company" onClick={handleCheckBoxClick} />
-                            <label htmlFor="company">회사인증</label>
-
-                            <CheckBoxInput type="checkbox" id="Join" onClick={handleCheckBoxClick} />
-                            <label htmlFor="Join">가입 기본약관</label>
-                    </CheckBoxWrapper>
+            <CheckBoxWrapper>
+                    <CompanyCheckInput 
+                       type="checkbox" 
+                       id="company" 
+                       checked={isCompanyChecked} 
+                       onChange={() => handleCompanyCheck(Comemail)} 
+                       disabled={!Comemail}  
+                    />
+                    <label htmlFor="company">회사인증</label>
+                    <CheckBoxInput 
+                        // type="checkbox" 
+                        // id="Join" 
+                        onClick={handleCheckBoxClick}
+                        type="checkbox"
+                        id="Join"
+                        checked={agree} 
+                    />
+                    <label htmlFor="Join">가입 기본약관</label>
+                </CheckBoxWrapper>
             </JoinWrapper>
 
-            <LoginButton>시작하기</LoginButton>
+            <LoginButton onClick={handleSignUp} >시작하기</LoginButton>
             <MemberWrapper>
                 <Text>이미 회원이신가요? |</Text>
                 <JoinButton onClick={() => navigate("../LoginPage")}>로그인</JoinButton>
@@ -245,10 +307,11 @@ const SignUpRecruiterPage = () => {
                 <ModalOverlay>
                     <ModalContent>
                        <Consent 
-                            onAgree={closeModal} 
-                            onDisagree={closeModal} 
-                            checkStates={checkStates} 
-                            setCheckStates={setCheckStates} 
+                         checkStates={checkStates}
+                         setCheckStates={setCheckStates}
+                         agree={agree} 
+                         onAgree={handleAgree} 
+                         onDisagree={handleDisagree}
                         />
                     </ModalContent>
                 </ModalOverlay>

@@ -16,6 +16,20 @@ const CalendarInput = ({ startDate, endDate, onDateChange }) => {
   // Button 활성화 상태 관리
   const [isRecruitmentActive, setIsRecruitmentActive] = useState(true);
   const [isStudyPeriodActive, setIsStudyPeriodActive] = useState(false);
+  
+  const { portfolioId } = useParams();
+  const [portfolioData, setPortfolioData] = useState(null);
+  
+
+  useEffect(() => {
+    const portfolio = oriProjects.get(Number(portfolioId));
+    if (portfolio) {
+      setPortfolioData(portfolio);
+    }
+  }, [portfolioId]);
+
+console.log(portfolioData);
+ 
 
   // Redux 관리
   // const dispatch = useDispatch();
@@ -39,6 +53,8 @@ const CalendarInput = ({ startDate, endDate, onDateChange }) => {
     console.log("Start Date:", formattedDate);
 
     onDateChange("startDate", date);
+    console.log(onDateChange);
+
     // dispatch(setRecruitStartDay(formattedDate));
   };
 
@@ -52,6 +68,7 @@ const CalendarInput = ({ startDate, endDate, onDateChange }) => {
     console.log("End Date:", formattedDate);
 
     onDateChange("endDate", date);
+    console.log(onDateChange);
     // dispatch(setRecruitEndDay(formattedDate));
   };
 
@@ -70,6 +87,8 @@ const CalendarInput = ({ startDate, endDate, onDateChange }) => {
         <PeriodWrapper2>
           <Text>시작</Text>
           <Period>
+          {/* {portfolioData.startDate ? formatDate(new Date(portfolioData.startDate)) : "--"} */}
+
             {startDate ? formatDate(new Date(startDate)) : "--"}
             {/* {portfolioData.startDate ? portfolioData.startDate : "--"} */}
           </Period>
