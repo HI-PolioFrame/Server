@@ -33,7 +33,7 @@ export const userInfo = [
     contacts: []
   },
   {
-    id: "backendDevel1!",
+    id: "backenddevel1",
     pageId: 3,
     password: "5b8069e24fe855f37748c48a92c60820ef05844c5e2766c59b08b574d9f20a13",
     name: "조수연",

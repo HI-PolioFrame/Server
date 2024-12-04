@@ -365,7 +365,8 @@ const MainWrapper = styled.div`
   align-items: flex-start;
   gap : 2em;
 `;
-
+const VideoWrapper = styled.div`
+`;
 const TimeWrapper = styled.div`
 `;
 const ImageWrapper = styled.div`
