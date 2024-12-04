@@ -115,7 +115,7 @@ const Calendar = ({
                 isInRange={isInSelectionRange(day)}
                 isSelected={isDateSelected(day)}
                 isStart={
-                    startDate &&
+                    startDate && 
                     new Date(date.getFullYear(), date.getMonth(), day).toDateString() === startDate.toDateString()
                 }
                 isEnd={

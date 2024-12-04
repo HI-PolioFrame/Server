@@ -15,7 +15,7 @@ export const projectInfo = [
     share: false,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 42,
+    hits: 43,
     likes: [
       "happytree12"
     ],
@@ -78,7 +78,7 @@ export const projectInfo = [
     projectTitle: "탱의 포폴2",
     description: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
     startDate: "2024.10.01",
-    endDate: "2024.11.30",
+    endDate: "2024.10.10",
     solving: "이러이러한 곳에 사용할 수 있습니다.",
     challenge: "이러이러한 문제를 해결했습니다.",
     share: true,
@@ -128,7 +128,7 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 50,
+    hits: 51,
     likes: [],
     contacts: [
       "admin4"
@@ -174,7 +174,7 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 36,
+    hits: 37,
     likes: [
       7
     ],

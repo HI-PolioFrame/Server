@@ -28,7 +28,7 @@ const CalendarInput = ({ startDate, endDate, onDateChange }) => {
     }
   }, [portfolioId]);
 
-console.log(portfolioData);
+  console.log(portfolioData);
  
 
   // Redux 관리
@@ -44,16 +44,18 @@ console.log(portfolioData);
 
   // 모집 날짜 불러오기
   const handleRecruitStartDateChange = (date) => {
+    
+
     if (isRecruitmentActive) {
       setRecruitmentStartDate(date);
     } else if (isStudyPeriodActive) {
       setStudyPeriodStartDate(date);
     }
     const formattedDate = formatDate(date);
+    console.log("Start Date before onDateChange:", formatDate(date)); // 값 확인
     console.log("Start Date:", formattedDate);
 
     onDateChange("startDate", date);
-    console.log(onDateChange);
 
     // dispatch(setRecruitStartDay(formattedDate));
   };
@@ -68,7 +70,6 @@ console.log(portfolioData);
     console.log("End Date:", formattedDate);
 
     onDateChange("endDate", date);
-    console.log(onDateChange);
     // dispatch(setRecruitEndDay(formattedDate));
   };
 
@@ -87,17 +88,17 @@ console.log(portfolioData);
         <PeriodWrapper2>
           <Text>시작</Text>
           <Period>
-          {/* {portfolioData.startDate ? formatDate(new Date(portfolioData.startDate)) : "--"} */}
+            {recruitmentStartDate ? formatDate(new Date(recruitmentStartDate)) : "--"}
 
-            {startDate ? formatDate(new Date(startDate)) : "--"}
+            {/* {startDate ? formatDate(new Date(startDate)) : "--"} */}
             {/* {portfolioData.startDate ? portfolioData.startDate : "--"} */}
           </Period>
         </PeriodWrapper2>
         <PeriodWrapper2>
           <Text>끝</Text>
           <Period>
-            {endDate ? formatDate(new Date(endDate)) : "--"}
-            {/* {portfolioData.endDate? portfolioData.endDate : "--"} */}
+            {recruitmentEndDate ? formatDate(new Date(recruitmentEndDate)) : "--"}
+          {/* {portfolioData.endDate? portfolioData.endDate : "--"} */}
           </Period>
         </PeriodWrapper2>
       </PeriodWrapper1>

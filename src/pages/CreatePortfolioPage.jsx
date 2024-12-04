@@ -75,19 +75,16 @@ const CreatePortfolioPage = () => {
   };
 // YYYY-MM-DD 형식 -> 서버와 연결할 때 오류가 나옴! 수정함
   const handleDateChange = (name, date) => {
-    const formattedDate = date ? date.toISOString().split('T')[0] : ""; 
+      // 날짜 객체를 복사하고 하루를 더함
+    const newDate = new Date(date);
+    newDate.setDate(newDate.getDate() + 1); // 날짜 +1
+    const formattedDate = newDate ? newDate.toISOString().split('T')[0] : ""; 
     setFormData((prevData) => ({
       ...prevData,
       [name]: formattedDate,
     }));
   };
-  // const handleDateChange = (name, date) => {
-  //   setFormData((prevData) => ({
-  //     ...prevData,
-  //     [name]: date,
-  //   }));
-  // }; 
-
+  
   const handleSaveProject = () => {
     console.log("handleSaveProject 호출됨"); // 호출 확인 로그 추가
   

@@ -14,7 +14,7 @@ const port = 3000;
 
 app.use(cors());
 app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: true })); // URL-encoded 요청 처리
+// app.use(bodyParser.urlencoded({ extended: true })); // URL-encoded 요청 처리
 
 // 파일 읽기
 app.post('/read-number', (req, res) => {

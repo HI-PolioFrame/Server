@@ -62,14 +62,38 @@ const ModifyPortfolioPage = () => {
       [name]: value,
     }));
   };
-
   const handleDateChange = (name, date) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: date,
-    }));
+    // date가 배열일 경우 (예: [startDate, endDate])
+    if (Array.isArray(date)) {
+      const [start, end] = date;
+      setFormData((prevData) => ({
+        ...prevData,
+        startDate: start ? new Date(start).toISOString().split('T')[0] : null, // YYYY-MM-DD 형식으로 저장
+        endDate: end ? new Date(end).toISOString().split('T')[0] : null,     // YYYY-MM-DD 형식으로 저장
+      }));
+    } else {
+      // 단일 날짜일 경우
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: date, // startDate 또는 endDate 업데이트
+      }));
+    }
   };
+  
+  // const handleDateChange = (name, date) => {
+  //   const formattedDate = new Date(date).toISOString().split('T')[0];
 
+  //   setFormData((prevData) => ({
+  //     ...prevData,
+  //     [name]: formattedDate, // startDate와 endDate를 "YYYY-MM-DD" 형식으로 저장
+  //   }));
+  // };
+  // const handleDateChange = (name, date) => {
+  //   setFormData((prevData) => ({
+  //     ...prevData,
+  //     [name]: date, // startDate 또는 endDate 업데이트
+  //   }));
+  // };
   const handleSaveProject = () => {
     saveProject(
       currentUser.name, // 사용자 이름
@@ -97,6 +121,8 @@ const ModifyPortfolioPage = () => {
   
   //이미지, 비디오 업로드
   const handleSavePortfolio = () => {
+      console.log("FormData 확인:", formData); // 디버깅 로그
+
     Object.keys(formData).forEach((field) => {
       const newValue = formData[field];
       if (newValue !== undefined && newValue !== null) {

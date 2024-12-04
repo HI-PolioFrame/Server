@@ -48,18 +48,25 @@ const ModifyPortfolioInput = ({ onInputChange, formData, onDateChange  }) => {
       [name]: value,
     }));
     onInputChange(e); // 외부 상태 관리 함수 호출
-  };
+   };
   
-  // const handleInputDateChange = (dates) => {
-  //   const { startDate, endDate } = dates; // dates 객체에서 startDate와 endDate를 추출
+   // const handleDateChange = (dates) => {
+  //   const [start, end] = dates; // dates 배열에서 start와 end 추출
   //   setPortfolioData((prevData) => ({
   //     ...prevData,
-  //     startDate: startDate,
-  //     endDate: endDate,
+  //     startDate: start, // startDate 업데이트
+  //     endDate: end,     // endDate 업데이트
   //   }));
-  //   onInputChange(dates); // 외부 상태 관리 함수 호출
   // };
+  const handleDateChange = (field, date) => {
+    console.log(`${field}:`, date);  // 디버깅 로그 추가
+    setPortfolioData((prevData) => ({
+      ...prevData,
+      [field]: date ? date.toISOString() : null,  // 날짜가 null이 아닌 경우 ISO 문자열로 저장
+    }));
+  };
   
+ 
   
   console.log('portfolioData:', portfolioData);
   console.log('formData:', formData);
@@ -113,7 +120,6 @@ const ModifyPortfolioInput = ({ onInputChange, formData, onDateChange  }) => {
     }
     setIsOn((prevIsOn) => !prevIsOn);
 };
-
 
 if (!portfolioData) {
   return <Loading>로딩 중...</Loading>;
@@ -220,13 +226,29 @@ return (
             <MainText>참여기간</MainText>
             <ExText>이 프로젝트에 참여한 기간을 선택해주세요. </ExText>
             <CalendarInput
-              name="dateRange" 
-              value={{
-                startDate: new Date(portfolioData.startDate),
-                endDate: new Date(portfolioData.endDate)
-              }}
-              onDateChange={(dates) => handleInputChange({ target: { name: "dateRange", value: dates } })}
-            />
+                // name="dateRange" 
+                // value={{
+                //   startDate: portfolioData.startDate ? new Date(formData.startDate) : null,
+                //   endDate: portfolioData.endDate ? new Date(formData.endDate) : null,
+
+                //   // startDate: portfolioData.startDate ? new Date(portfolioData.startDate) : null,
+                //   // endDate: portfolioData.endDate ? new Date(portfolioData.endDate) : null
+                // }}
+                // // onDateChange={handleDateChange}
+                startDate={formData.startDate}
+                endDate={formData.endDate}
+                onDateChange={onDateChange}
+
+                // onDateChange={({ startDate, endDate }) => {
+                //   console.log("Start Date:", startDate);
+                //   console.log("End Date:", endDate);
+                //   handleDateChange("startDate", startDate);
+                //   handleDateChange("endDate", endDate);
+                // }}
+
+               
+             />
+             
           </InputWrapper>
           <CWrapper>
               <InputWrapper>
