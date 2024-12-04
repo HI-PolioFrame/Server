@@ -52,6 +52,11 @@ export const updateHackathon = async (hackId, field, newValue) => {
     const idField = "hackId";
     const hackathon = oriHackathons.get(hackId);
     
+    if (!hackathon) {
+        console.error(`Hackathon with hackId ${hackId} not found`);
+        return;
+    }
+    
     // 같은 값으로 업데이트하려는 경우 방지
     if (hackathon[field] == newValue) {
         console.log("기존과 같은 값이 입력됨");
@@ -82,16 +87,15 @@ export const updateHackathon = async (hackId, field, newValue) => {
         });
 
         // Map 객체도 업데이트
-        if (hackathon) {
-            hackathon[field] = newValue;
-            oriHackathons.set(hackId, hackathon);
-        }
+        hackathon[field] = newValue;
+        oriHackathons.set(hackId, hackathon);
 
         console.log(`${field} 필드가 성공적으로 업데이트되었습니다.`);
     } catch (error) {
         console.error('필드 업데이트 중 오류가 발생했습니다:', error);
     }
 };
+
 
 export const deleteHackathon = async (hackId) => {
     try {

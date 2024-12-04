@@ -101,5 +101,23 @@ export const hackathonInfo = [
       "dd",
       "dd"
     ]
+  },
+  {
+    hackId: 9,
+    hackName: "dd",
+    startDate: "2024-12-25",
+    endDate: "2024-12-27",
+    link: "dd",
+    maxMemNumber: 3,
+    description: "dasgag",
+    video: "",
+    pictures: "",
+    coverImage: "",
+    logo: "",
+    part: "dd",
+    ownerId: "happytree12",
+    ownerEmail: "tylove@naver.com",
+    participant: [],
   }
+
 ];

@@ -153,7 +153,7 @@ const HackathonDetailPage = () => {
         <Line></Line>
         <RowWrapper>
           <Mem>모집인원</Mem>
-          <MemTitle>{HackathonData.memNumber || "없습니다."}명</MemTitle>
+          <MemTitle>{HackathonData.maxMemNumber + "명" || "없습니다."}</MemTitle>
           <Mem>모집파트</Mem>
           <MemTitle>{HackathonData.part || "없습니다."}</MemTitle>
           <Mem2>현재 참여중인 인원</Mem2>

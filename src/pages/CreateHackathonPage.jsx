@@ -95,7 +95,7 @@ const CreateHackathonPage = () => {
         "startDate",
         "endDate",
         "link",
-        "memNumber",
+        "maxMemNumber",
         "description",
         "part",
       ];

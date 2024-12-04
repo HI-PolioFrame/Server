@@ -62,6 +62,7 @@ const ModifyPortfolioPage = () => {
       [name]: value,
     }));
   };
+  
   const handleDateChange = (name, date) => {
     // 날짜 객체를 복사하고 하루를 더함
     const newDate = new Date(date);

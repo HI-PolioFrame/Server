@@ -6,17 +6,29 @@ import { getCurrentUser } from "../components/features/currentUser";
 // import { saveHackathon } from "../components/features/hackathonFeatures";
 import { Navigate, useNavigate } from "react-router-dom";
 import { updateHackathon } from "../components/features/hackathonFeatures";
+import { useParams } from "react-router-dom";
 
 const ModifyHackathonPage = () => {
   const navigate = useNavigate();
+  const { hackId } = useParams();
+  useEffect(() => {
+    if (hackId) {
+      setFormData((prevData) => ({
+        ...prevData,
+        hackId: Number(hackId),
+      }));
+    }
+  }, [hackId]);
 
+  console.log(hackId);
+  
   const [formData, setFormData] = useState({
     hackId: "", 
     hackName: "",
     startDate: null,
     endDate: null,
     link: "",
-    memNumber: "",
+    maxMemNumber: "",
     description: "",
     video: null,
     pictures: null,
@@ -26,29 +38,29 @@ const ModifyHackathonPage = () => {
     ownerEmail: "",
   });
 
-  const [currentUser, setCurrentUser] = useState(null);
+  const currentUser = getCurrentUser();
 
-  // 무한루프 수정함! 
-  useEffect(() => {
-    const user = getCurrentUser();
-    if (user && !currentUser) {
-      setCurrentUser(user);
-    } else {
-      console.log("user 없음");
-    }
-  }, [currentUser]); 
-  
-  
   useEffect(() => {
     if (currentUser) {
+      // setCurrentUser(user);
+      console.log(currentUser);
+    } else {
+      console.log("currentUser 없음");
+    }
+  }, []);
+
+
+  useEffect(() => {
+    if (currentUser && (!formData.ownerId || !formData.ownerEmail)) {
       setFormData((prevData) => ({
         ...prevData,
         ownerId: currentUser.id,
         ownerEmail: currentUser.email,
       }));
     }
-  }, [currentUser]);
+  }, [currentUser, formData.ownerId, formData.ownerEmail]);  // Add formData properties to dependencies to avoid unnecessary updates
   
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -59,24 +71,45 @@ const ModifyHackathonPage = () => {
   };
 
   const handleDateChange = (name, date) => {
+    // 날짜 객체를 복사하고 하루를 더함
+    const newDate = new Date(date);
+    newDate.setDate(newDate.getDate() + 1); // 날짜 +1
+    const formattedDate = newDate ? newDate.toISOString().split('T')[0] : ""; 
     setFormData((prevData) => ({
       ...prevData,
-      [name]: date,
+      [name]: formattedDate,
     }));
   };
 
+  
   const handleSaveHack = () => {
-    Object.keys(formData).forEach((field) => {
-      if (field !== "hackId" && formData[field]) {
-        //숫자 오류
-        const valueToUpdate = field === "memNumber" ? Number(formData[field]) : formData[field];
-        updateHackathon(formData.hackId, field, valueToUpdate);
-      }
-    });
 
-    console.log(formData.startDate, formData.endDate);
-    navigate("/MyPage"); 
-};
+  Object.keys(formData).forEach((field) => {
+    const newValue = formData[field];
+    if (newValue !== undefined && newValue !== null) {
+      updateHackathon(formData.projectId, field, newValue);
+    } else {
+      console.log(`${field} 값이 비어 있습니다.`);
+    }
+  });
+  
+
+    navigate("/MyPage");
+  };
+
+
+//   const handleSaveHack = () => {
+//     Object.keys(formData).forEach((field) => {
+//       if (field !== "hackId" && formData[field]) {
+//         //숫자 오류
+//         const valueToUpdate = field === "memNumber" ? Number(formData[field]) : formData[field];
+//         updateHackathon(formData.hackId, field, valueToUpdate);
+//       }
+//     });
+
+//     console.log(formData.startDate, formData.endDate);
+//     navigate("/MyPage"); 
+// };
 
   // const handleSaveHack = () => {
   //   Object.keys(formData).forEach((field) => {

@@ -28,23 +28,22 @@ const ModifyHackathonInput = ({ onInputChange, formData, onDateChange }) => {
   }, [hackId]);
 
   // `HackathonData`가 변경될 때 `onInputChange` 호출하여 초기값 설정
-  useEffect(() => {
-    if (HackathonData) {
-      Object.entries(HackathonData).forEach(([key, value]) => {
-        onInputChange({ target: { name: key, value } });
-      });
-    }
-  }, [HackathonData, onInputChange]);
-
+  // useEffect(() => {
+  //   if (HackathonData) {
+  //     Object.entries(HackathonData).forEach(([key, value]) => {
+  //       onInputChange({ target: { name: key, value } });
+  //     });
+  //   }
+  // }, [HackathonData, onInputChange]);
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setHackathonData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
-    onInputChange(e); 
-  };
-
+    onInputChange(e); // 외부 상태 관리 함수 호출
+   };
 
   const handleCoverImageChange = (e) => {
     const file = e.target.files[0];
@@ -121,8 +120,8 @@ const ModifyHackathonInput = ({ onInputChange, formData, onDateChange }) => {
               <ExText>모집인원을 입력해주세요.</ExText>
               <VitalInput 
                 type="text"
-                name="memNumber" 
-                value={HackathonData.memNumber}
+                name="maxMemNumber" 
+                value={HackathonData.maxMemNumber}
                 onChange={handleInputChange}
               ></VitalInput>
           </InputWrapper>
@@ -134,9 +133,9 @@ const ModifyHackathonInput = ({ onInputChange, formData, onDateChange }) => {
               <MainText>참여기간</MainText>
               <ExText>이 프로젝트에 참여한 기간을 선택해주세요. </ExText>
               <CalendarInput
-                startDate={new Date(HackathonData.startDate)} 
-                endDate={new Date(HackathonData.endDate)}   
-                onDateChange={handleInputChange}
+               startDate={HackathonData.startDate}
+               endDate={HackathonData.endDate}
+               onDateChange={onDateChange}
               />
           </InputWrapper>
           {/* 공유 여부 */}
