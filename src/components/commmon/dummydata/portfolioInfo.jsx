@@ -18,14 +18,22 @@ export const portfolioInfo = [
     usedLanguage: "Phython",
     share: false,
   },
-
-  {
+{
     portfolioId: 3,
-    portfolioName: "헤헤",
+    portfolioName: "과연",
     ownerId: "admin1",
     ownerEmail: "nabinabi1110@naver.com",
-    projects: [2],
-    usedLanguage: "JavaScript, Phython",
-    share: false,
+    projects: [11,12],
+    usedLanguage: "쳇쳇",
+    share: false
+  },
+{
+    portfolioId: 4,
+    portfolioName: "과연연",
+    ownerId: "admin1",
+    ownerEmail: "nabinabi1110@naver.com",
+    projects: [9,12],
+    usedLanguage: "쳇쳇",
+    share: false
   },
 ];

@@ -1,34 +1,47 @@
 import { oriPortfolios } from "../domain/startProgram.js";
 import Portfolio from "../domain/Portfolio.js";
 
-export const removeFromFileEnd = async (filePath, numCharsToRemove) => {
-  try {
-    await fetch("http://localhost:3000/remove-from-file-end", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ filePath, numCharsToRemove }),
-    });
-  } catch (error) {
-    console.error(
-      "파일 끝에서 문자열을 제거하는 중 오류가 발생했습니다.",
-      error
-    );
-  }
-};
+// export const removeToAddObj = async (filePath) => {
+//   try {
+//     await fetch("http://localhost:3000/remove-to-add-obj", {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify({ filePath }),
+//     });
+//   } catch (error) {
+//     console.error(
+//       "파일 끝에서 문자열을 제거하는 중 오류가 발생했습니다.",
+//       error
+//     );
+//   }
+// };
 
-export const appendStringToFile = async (filePath, string) => {
+// export const appendObj = async (filePath, string) => {
+//   try {
+//     await fetch("http://localhost:3000/append-obj", {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify({ filePath, string }),
+//     });
+//   } catch (error) {
+//     console.error("파일에 문자열을 추가하는 중 오류가 발생했습니다.", error);
+//   }
+// };
+export const updateFile = async (filePath, operation, string = null) => {
   try {
-    await fetch("http://localhost:3000/append-string", {
+    await fetch("http://localhost:3000/update-file", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ filePath, string }),
+      body: JSON.stringify({ filePath, operation, string }),
     });
   } catch (error) {
-    console.error("파일에 문자열을 추가하는 중 오류가 발생했습니다.", error);
+    console.error(`파일 업데이트 중 오류 발생 (${operation}):`, error);
   }
 };
 
@@ -86,8 +99,26 @@ export const savePortfolio = async (
   let filePath = "src/components/commmon/dummydata/portfolioInfo.jsx";
 
   // 기존 파일에서 끝부분 제거 후 새로운 포트폴리오 추가
-  await removeFromFileEnd(filePath, 3);
-  await appendStringToFile(filePath, `,${string}\n];`);
+  // await removeFromFileEnd(filePath, 4);
+  // await appendStringToFile(filePath, `,${string}\n];`);
+  // try {
+  //   // `];` 제거
+  //   await removeToAddObj(filePath);
+
+  //   // 새 객체 추가
+  //   await appendObj(filePath, string);
+  // } catch (error) {
+  //   console.error("파일 업데이트 중 오류 발생:", error);
+  // }
+  try {
+    // `];` 제거
+    await updateFile(filePath, "remove");
+
+    // 새 객체 추가
+    await updateFile(filePath, "append", string);
+  } catch (error) {
+    console.error("파일 업데이트 중 오류 발생:", error);
+  }
 };
 
 export default savePortfolio;

@@ -1,36 +1,49 @@
 import { oriComments, oriProjects } from "../domain/startProgram.js";
 import Comment from "../domain/Comment.js";
 
-export const removeFromFileEnd = async (filePath, numCharsToRemove) => {
-  try {
-    await fetch("http://localhost:3000/remove-from-file-end", {
-      // 서버의 /remove-from-file-end API 호출
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ filePath, numCharsToRemove }), // filePath와 numCharsToRemove를 서버로 전달
-    });
-  } catch (error) {
-    console.error(
-      "파일 끝에서 문자열을 제거하는 중 오류가 발생했습니다.",
-      error
-    );
-  }
-};
+// export const removeFromFileEnd = async (filePath, numCharsToRemove) => {
+//   try {
+//     await fetch("http://localhost:3000/remove-from-file-end", {
+//       // 서버의 /remove-from-file-end API 호출
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify({ filePath, numCharsToRemove }), // filePath와 numCharsToRemove를 서버로 전달
+//     });
+//   } catch (error) {
+//     console.error(
+//       "파일 끝에서 문자열을 제거하는 중 오류가 발생했습니다.",
+//       error
+//     );
+//   }
+// };
 
-export const appendStringToFile = async (filePath, string) => {
+// export const appendStringToFile = async (filePath, string) => {
+//   try {
+//     await fetch("http://localhost:3000/append-string", {
+//       // 서버의 /append-string API 호출
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify({ filePath, string }), // filePath와 string을 서버로 전달
+//     });
+//   } catch (error) {
+//     console.error("파일에 문자열을 추가하는 중 오류가 발생했습니다.", error);
+//   }
+// };
+export const updateFile = async (filePath, operation, string = null) => {
   try {
-    await fetch("http://localhost:3000/append-string", {
-      // 서버의 /append-string API 호출
+    await fetch("http://localhost:3000/update-file", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ filePath, string }), // filePath와 string을 서버로 전달
+      body: JSON.stringify({ filePath, operation, string }),
     });
   } catch (error) {
-    console.error("파일에 문자열을 추가하는 중 오류가 발생했습니다.", error);
+    console.error(`파일 업데이트 중 오류 발생 (${operation}):`, error);
   }
 };
 
@@ -88,9 +101,18 @@ export const saveComment = async (portfolioId, userId, text) => {
   let filePath = "src/components/commmon/dummydata/commentInfo.jsx";
   let projectFilePath = "src/components/commmon/dummydata/projectInfo.jsx";
 
-  // 파일의 끝에서 '];'를 제거하고 새 데이터를 추가
-  await removeFromFileEnd(filePath, 3);
-  await appendStringToFile(filePath, `,${string}\n];`);
+  // // 파일의 끝에서 '];'를 제거하고 새 데이터를 추가
+  // await removeFromFileEnd(filePath, 3);
+  // await appendStringToFile(filePath, `,${string}\n];`);
+  try {
+    // `];` 제거
+    await updateFile(filePath, "remove");
+
+    // 새 객체 추가
+    await updateFile(filePath, "append", string);
+  } catch (error) {
+    console.error("파일 업데이트 중 오류 발생:", error);
+  }
 
   // 프로젝트의 comments에 commentId 추가
   patchComments(projectFilePath, portfolioId, commentId);

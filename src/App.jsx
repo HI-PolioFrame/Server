@@ -24,7 +24,7 @@ import PortfolioDetailPage3 from "./pages/PortfolioDetailPage3";
 import RecruiterPage from "./pages/RecruiterPage";
 import CreateHackathonPage from "./pages/CreateHackathonPage";
 import MyProjectsPage from "./pages/MyProjectsPage";
-import CreatePortfoliosPage from "./pages/CreatePortfoliosPage";
+import MergerCreatePortfolioPage from "./pages/MergerCreatePortfolioPage";
 
 import { initializeData } from "./components/domain/startProgram";
 
@@ -136,8 +136,8 @@ function App() {
             element={<MyProjectsPage />}
           />
           <Route
-            path="/CreatePortfoliosPage"
-            element={<CreatePortfoliosPage />}
+            path="/MergerCreatePortfolioPage"
+            element={<MergerCreatePortfolioPage />}
           />
         </Route>
       </Route>

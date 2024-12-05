@@ -1,31 +1,49 @@
 import { oriProjects } from "../domain/startProgram.js";
 import Project from "../domain/Project.js";
 
-export const removeFromFileEnd = async (filePath, numCharsToRemove) => {
-  try {
-      await fetch('http://localhost:3000/remove-from-file-end', {  // 서버의 /remove-from-file-end API 호출
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ filePath, numCharsToRemove }),  // filePath와 numCharsToRemove를 서버로 전달
-      });
-  } catch (error) {
-      console.error('파일 끝에서 문자열을 제거하는 중 오류가 발생했습니다.', error);
-  }
-};
+// export const removeFromFileEnd = async (filePath, numCharsToRemove) => {
+//   try {
+//     await fetch("http://localhost:3000/remove-from-file-end", {
+//       // 서버의 /remove-from-file-end API 호출
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify({ filePath, numCharsToRemove }), // filePath와 numCharsToRemove를 서버로 전달
+//     });
+//   } catch (error) {
+//     console.error(
+//       "파일 끝에서 문자열을 제거하는 중 오류가 발생했습니다.",
+//       error
+//     );
+//   }
+// };
 
-export const appendStringToFile = async (filePath, string) => {
+// export const appendStringToFile = async (filePath, string) => {
+//   try {
+//     await fetch("http://localhost:3000/append-string", {
+//       // 서버의 /append-string API 호출
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify({ filePath, string }), // filePath와 string을 서버로 전달
+//     });
+//   } catch (error) {
+//     console.error("파일에 문자열을 추가하는 중 오류가 발생했습니다.", error);
+//   }
+// };
+export const updateFile = async (filePath, operation, string = null) => {
   try {
-      await fetch('http://localhost:3000/append-string', {  // 서버의 /append-string API 호출
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ filePath, string }),  // filePath와 string을 서버로 전달
-      });
+    await fetch("http://localhost:3000/update-file", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ filePath, operation, string }),
+    });
   } catch (error) {
-      console.error('파일에 문자열을 추가하는 중 오류가 발생했습니다.', error);
+    console.error(`파일 업데이트 중 오류 발생 (${operation}):`, error);
   }
 };
 
@@ -120,25 +138,25 @@ export const saveProject = async (
   oriProjects.set(projectId, newProject);
   console.log(newProject);
 
-  // !!! 수정한 코드 문자열로 변환함!!! 
+  // !!! 수정한 코드 문자열로 변환함!!!
   const string = `
   {
       projectId: ${projectId},
       usedTemplate: ${projectTemplate},
       projectTitle: "${projectTitle}", 
       projectOwnerName: "${projectOwnerName}",
-      description: "${description || ''}",
+      description: "${description || ""}",
       startDate: "${startDate}", 
       endDate: "${endDate}", 
-      category: "${category || ''}", 
+      category: "${category || ""}", 
       usedLanguage: "${usedLanguage}", 
-      projectLink: "${projectLink || ''}",
+      projectLink: "${projectLink || ""}",
       solving: "${solving}", 
       challenge: "${challenge}",
-      video: "${video || ' '}",
-      coverImage: "${coverImage || ''}", 
+      video: "${video || " "}",
+      coverImage: "${coverImage || ""}", 
       images: ${JSON.stringify(images || [])}, 
-      logo: "${logo || ''}", 
+      logo: "${logo || ""}", 
       share: ${share},
 
       ownerId: "${projectOwnerId}",
@@ -147,8 +165,26 @@ export const saveProject = async (
 
   let filePath = "src/components/commmon/dummydata/projectInfo.jsx";
 
-  await removeFromFileEnd(filePath, 3);
-  await appendStringToFile(filePath, `,${string}\n];`);
+  // await removeFromFileEnd(filePath, 3);
+  // await appendStringToFile(filePath, `${string}\n];`);
+  // try {
+  //   // `];` 제거
+  //   await removeFromFileEnd(filePath);
+
+  //   // 새 객체 추가
+  //   await appendStringToFile(filePath, string);
+  // } catch (error) {
+  //   console.error("파일 업데이트 중 오류 발생:", error);
+  // }
+  try {
+    // `];` 제거
+    await updateFile(filePath, "remove");
+
+    // 새 객체 추가
+    await updateFile(filePath, "append", string);
+  } catch (error) {
+    console.error("파일 업데이트 중 오류 발생:", error);
+  }
 };
 
 export default saveProject;

@@ -1,7 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 
-const CreatePortfoliosInput = ({ formData, onInputChange, onToggleChange }) => {
+const MergerCreatePortfolioPageInput = ({
+  formData,
+  onInputChange,
+  onToggleChange,
+}) => {
   const handleToggle = () => {
     const newShareValue = !formData.share;
     onToggleChange({
@@ -50,7 +54,7 @@ const CreatePortfoliosInput = ({ formData, onInputChange, onToggleChange }) => {
   );
 };
 
-export default CreatePortfoliosInput;
+export default MergerCreatePortfolioPageInput;
 
 // Styled Components
 const FormContainer = styled.div`

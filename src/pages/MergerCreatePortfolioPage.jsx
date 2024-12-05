@@ -5,11 +5,11 @@ import { savePortfolio } from "../components/features/savePortfolio";
 import TemplateCard from "../components/commmon/TemplateCard";
 import { useNavigate } from "react-router-dom";
 import { getCurrentUser } from "../components/features/currentUser";
-import CreatePortfoliosInput from "../components/CreatePortfoliosPage/CreatePortfoliosInput";
+import MergerCreatePortfolioPageInput from "../components/MergerCreatePortfolioPage/MergerCreatePortfolioPageInput";
 
 import Logo from "../assets/icons/Logo.png";
 
-const CreatePortfoliosPage = () => {
+const MergerCreatePortfolioPage = () => {
   const navigate = useNavigate();
   const currentUser = getCurrentUser();
   const [selectedProjects, setSelectedProjects] = useState([]);
@@ -71,7 +71,7 @@ const CreatePortfoliosPage = () => {
       </HeaderWrapper>
 
       <ContentWrapper>
-        <CreatePortfoliosInput
+        <MergerCreatePortfolioPageInput
           formData={formData}
           onInputChange={handleInputChange}
           onToggleChange={handleInputChange}
@@ -110,7 +110,7 @@ const CreatePortfoliosPage = () => {
   );
 };
 
-export default CreatePortfoliosPage;
+export default MergerCreatePortfolioPage;
 
 // Styled Components
 const PageContainer = styled.div`
