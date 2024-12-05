@@ -59,7 +59,7 @@ const MyPageSection = ({
               } else if (buttonKey == "해커톤") {
                 navigate("/CreateHackathonPage");
               } else {
-                navigate("/CreatePortfoliosPage");
+                navigate("/MergerCreatePortfolioPage");
               }
             }} //navigate 넣으면 된다요
           />

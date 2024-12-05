@@ -16,9 +16,11 @@ export const projectInfo = [
     usedLanguage: "Java",
     category: "백엔드",
     hits: 42,
-    likes: ["happytree12"],
+    likes: [
+      "happytree12"
+    ],
     contacts: [],
-    comments: [],
+    comments: []
   },
   {
     projectId: 2,
@@ -38,8 +40,13 @@ export const projectInfo = [
     category: "백엔드",
     hits: 52,
     likes: [],
-    contacts: ["admin4"],
-    comments: [],
+    contacts: [
+      "admin4"
+    ],
+    comments: [
+      10,
+      11
+    ]
   },
   {
     projectId: 3,
@@ -59,8 +66,10 @@ export const projectInfo = [
     category: "프론트엔드",
     hits: 17,
     likes: [],
-    contacts: ["admin4"],
-    comments: [],
+    contacts: [
+      "admin4"
+    ],
+    comments: []
   },
   {
     projectId: 4,
@@ -81,7 +90,7 @@ export const projectInfo = [
     hits: 8,
     likes: [],
     contacts: [],
-    comments: [],
+    comments: []
   },
   {
     projectId: 5,
@@ -101,8 +110,10 @@ export const projectInfo = [
     category: "백엔드",
     hits: 9,
     likes: [],
-    contacts: ["admin4"],
-    comments: [],
+    contacts: [
+      "admin4"
+    ],
+    comments: []
   },
   {
     projectId: 6,
@@ -122,8 +133,10 @@ export const projectInfo = [
     category: "백엔드",
     hits: 50,
     likes: [],
-    contacts: ["admin4"],
-    comments: [],
+    contacts: [
+      "admin4"
+    ],
+    comments: []
   },
   {
     projectId: 7,
@@ -143,8 +156,10 @@ export const projectInfo = [
     category: "백엔드",
     hits: 52,
     likes: [],
-    contacts: ["admin1"],
-    comments: [],
+    contacts: [
+      "admin1"
+    ],
+    comments: []
   },
   {
     projectId: 8,
@@ -163,8 +178,13 @@ export const projectInfo = [
     usedLanguage: "Java",
     category: "백엔드",
     hits: 17,
-    likes: [7],
-    contacts: ["admin1", "admin4"],
-    comments: [],
-  },
+    likes: [
+      7
+    ],
+    contacts: [
+      "admin1",
+      "admin4"
+    ],
+    comments: []
+  }
 ];
