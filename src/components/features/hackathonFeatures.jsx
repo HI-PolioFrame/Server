@@ -190,7 +190,9 @@ export const updateParticipant = async (hackId, userId) => {
 export const isIncludedParticipant = (hackId, userId) => {
     const hackathon = oriHackathons.get(hackId);
     if (!hackathon) return false;
-    if(hackathon.participant.includes(userId)){
+    const value = hackathon.participant.includes(userId);
+    if(value){
+        console.log(value);
         return true;
     }
     else{
