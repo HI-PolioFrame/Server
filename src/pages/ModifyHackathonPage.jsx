@@ -36,6 +36,7 @@ const ModifyHackathonPage = () => {
     logo: null,
     ownerId: "",
     ownerEmail: "",
+    participant: [],
   });
 
   const currentUser = getCurrentUser();
@@ -58,7 +59,7 @@ const ModifyHackathonPage = () => {
         ownerEmail: currentUser.email,
       }));
     }
-  }, [currentUser, formData.ownerId, formData.ownerEmail]);  // Add formData properties to dependencies to avoid unnecessary updates
+  }, [currentUser, formData.ownerId, formData.ownerEmail]); 
   
 
 
@@ -87,7 +88,7 @@ const ModifyHackathonPage = () => {
   Object.keys(formData).forEach((field) => {
     const newValue = formData[field];
     if (newValue !== undefined && newValue !== null) {
-      updateHackathon(formData.projectId, field, newValue);
+      updateHackathon(formData.hackId, field, newValue);
     } else {
       console.log(`${field} 값이 비어 있습니다.`);
     }
@@ -97,30 +98,6 @@ const ModifyHackathonPage = () => {
     navigate("/MyPage");
   };
 
-
-//   const handleSaveHack = () => {
-//     Object.keys(formData).forEach((field) => {
-//       if (field !== "hackId" && formData[field]) {
-//         //숫자 오류
-//         const valueToUpdate = field === "memNumber" ? Number(formData[field]) : formData[field];
-//         updateHackathon(formData.hackId, field, valueToUpdate);
-//       }
-//     });
-
-//     console.log(formData.startDate, formData.endDate);
-//     navigate("/MyPage"); 
-// };
-
-  // const handleSaveHack = () => {
-  //   Object.keys(formData).forEach((field) => {
-  //     if (field !== "hackId" && formData[field]) {
-  //       updateHackathon(formData.hackId, field, formData[field]);
-  //     }
-  //   });
-
-  //   console.log(formData.startDate, formData.endDate);
-  //   navigate("/MyPage"); 
-  // };
 
 
   return (

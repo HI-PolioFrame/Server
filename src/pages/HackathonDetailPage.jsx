@@ -17,7 +17,9 @@ import { deleteHackathon, isIncludedParticipant } from "../components/features/h
 //logo 이미지
 import logo from "../assets/icons/Logo.png";
 
+import person from "../assets/icons/person.png";
 import Calendar from "../assets/icons/Calendar.png";
+
 import  Link  from "../assets/icons/Link.png";
 import { SiThangs } from "react-icons/si";
 
@@ -44,7 +46,7 @@ const HackathonDetailPage = () => {
 
   useEffect(() => {
     // hackId를 사용하여 해당 해커톤 데이터를 가져오기
-    const Hackathon = oriHackathons.get(Number(hackId)); // hackId가 숫자로 저장되어 있다면 Number로 변환
+    const Hackathon = oriHackathons.get(Number(hackId)); 
     console.log(typeof hackId);
     if (Hackathon) {
       setHackathonData(Hackathon);
@@ -156,8 +158,8 @@ const HackathonDetailPage = () => {
           <MemTitle>{HackathonData.maxMemNumber + "명" || "없습니다."}</MemTitle>
           <Mem>모집파트</Mem>
           <MemTitle>{HackathonData.part || "없습니다."}</MemTitle>
-          <Mem2>현재 참여중인 인원</Mem2>
-          <MemTitle>{HackathonData.participant.length || "없습니다."}</MemTitle>
+          {/* <Mem2>현재 참여중인 인원</Mem2>
+          <MemTitle>{HackathonData.participant.length || "없습니다."}</MemTitle> */}
         </RowWrapper>
         <RowWrapper>
         <LinkWrapper>
@@ -248,11 +250,17 @@ const HackathonDetailPage = () => {
               </TimeTitle>
             </RowWrapper>
             <RowWrapper>
+              <PersonImage src={person} alt="사람" />
+              <Mem2>현재 참여중인 인원 : </Mem2>
+              <MemTitle>{HackathonData.participant.length || "없습니다."}</MemTitle>
+            </RowWrapper>
+          
+            {/* <RowWrapper>
               <CalendarImage src={Calendar} alt="달력" />
               <TimeTitle>
                 활동기간 {HackathonData.startDate} - {HackathonData.endDate}
               </TimeTitle>
-            </RowWrapper>
+            </RowWrapper> */}
           </TimeWrapper>
         </RowWrapper>
         <StartButton
@@ -427,14 +435,14 @@ const Mem = styled.p`
 const Mem2 = styled.p`
   width : 8em;
   height : 1.5em;
-  color : #fff;
+  color : #000;
   font-weight: bold;
   font-family: "OTF R";
   font-size : 1em;
-
-  border : 1px solid #ccc;
-  border-radius : 0.2em;
-  background-color : #0a27a6;
+  margin-left : -0.1em;
+  // border : 1px solid #ccc;
+  // border-radius : 0.2em;
+  // background-color : #0a27a6;
  
   display: flex;
   align-items: center; 
@@ -466,8 +474,13 @@ const ChoiceInput = styled.input`
 //css image
 const CalendarImage = styled.img`
   width : 1.5em;
-  height : 1.5em;
+  height : 1.4em;
   margin-top:0.4em;
+`;
+const PersonImage = styled.img`
+  width : 1.5em;
+  height : 1.5em;
+  margin-top: 1em;
 `;
 const Logo = styled.h1`
   width: 6vw;
