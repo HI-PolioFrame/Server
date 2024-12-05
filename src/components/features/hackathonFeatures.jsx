@@ -50,7 +50,14 @@ export const saveHackathon = async (hackName, startDate, endDate, link, maxMemNu
 
 export const updateHackathon = async (hackId, field, newValue) => {
     const idField = "hackId";
-    const hackathon = oriHackathons.get(hackId);
+    let hackathon = oriHackathons.get(hackId);
+    console.log(hackId); // 잘 나옴
+    console.log(hackathon); // 변경값으로 잘 나옴
+
+    if (!hackathon) {
+        console.error(`Hackathon with hackId ${hackId} not found`);
+        return;
+    }
     
     // 같은 값으로 업데이트하려는 경우 방지
     if (hackathon[field] == newValue) {
@@ -75,23 +82,24 @@ export const updateHackathon = async (hackId, field, newValue) => {
             body: JSON.stringify({
                 filePath,
                 idField,
-                hackId,
+                id: Number(hackId),
                 field,
                 newValue
             }),
         });
 
         // Map 객체도 업데이트
-        if (hackathon) {
-            hackathon[field] = newValue;
-            oriHackathons.set(hackId, hackathon);
+        if(hackathon){
+        hackathon[field] = newValue;
+        oriHackathons.set(hackId, hackathon);
         }
-
+        
         console.log(`${field} 필드가 성공적으로 업데이트되었습니다.`);
     } catch (error) {
         console.error('필드 업데이트 중 오류가 발생했습니다:', error);
     }
 };
+
 
 export const deleteHackathon = async (hackId) => {
     try {
@@ -106,7 +114,7 @@ export const deleteHackathon = async (hackId) => {
             body: JSON.stringify({
                 filePath,
                 idField,
-                hackId
+                id: Number(hackId)
             }),
         });
 
@@ -182,7 +190,9 @@ export const updateParticipant = async (hackId, userId) => {
 export const isIncludedParticipant = (hackId, userId) => {
     const hackathon = oriHackathons.get(hackId);
     if (!hackathon) return false;
-    if(hackathon.participant.includes(userId)){
+    const value = hackathon.participant.includes(userId);
+    if(value){
+        console.log(value);
         return true;
     }
     else{

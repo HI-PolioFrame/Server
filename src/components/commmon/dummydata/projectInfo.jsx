@@ -15,7 +15,7 @@ export const projectInfo = [
     share: false,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 42,
+    hits: 64,
     likes: [
       "happytree12"
     ],
@@ -81,7 +81,7 @@ export const projectInfo = [
     projectTitle: "탱의 포폴2",
     description: "현재 제가 만든 모든 프로그램을 정리하였습니다.",
     startDate: "2024.10.01",
-    endDate: "2024.11.30",
+    endDate: "2024.10.10",
     solving: "이러이러한 곳에 사용할 수 있습니다.",
     challenge: "이러이러한 문제를 해결했습니다.",
     share: true,
@@ -131,7 +131,7 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 50,
+    hits: 54,
     likes: [],
     contacts: [
       "admin4"
@@ -154,7 +154,7 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 52,
+    hits: 76,
     likes: [],
     contacts: [
       "admin1"
@@ -186,5 +186,45 @@ export const projectInfo = [
       "admin4"
     ],
     comments: []
+  },
+  {
+    projectId: 9,
+    projectTitle: "dfas",
+    projectOwnerName: "김태연",
+    description: "a",
+    startDate: "2024-12-09",
+    endDate: "2024-12-20",
+    category: "df",
+    usedLanguage: "vaz",
+    projectLink: "vadg",
+    solving: "dsgsd",
+    challenge: "dfa",
+    video: " ",
+    coverImage: "",
+    images: [],
+    logo: "",
+    share: false,
+    ownerId: "happytree12",
+    ownerEmail: "tylove@naver.com"
+  },
+  {
+    projectId: 10,
+    projectTitle: "d",
+    projectOwnerName: "김태연",
+    description: "dd",
+    startDate: "2024-12-16",
+    endDate: "2024-12-20",
+    category: "d",
+    usedLanguage: "d",
+    projectLink: "d",
+    solving: "d",
+    challenge: "d",
+    video: " ",
+    coverImage: "",
+    images: "",
+    logo: "",
+    share: false,
+    ownerId: "happytree12",
+    ownerEmail: "tylove@naver.com"
   }
 ];

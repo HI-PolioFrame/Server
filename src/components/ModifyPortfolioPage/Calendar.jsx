@@ -1,49 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
 
-import PrevMonth from '../../assets/icons/Calendar/arrow_left.png';
-import NextMonth from '../../assets/icons/Calendar/arrow_right.png';
+import PrevMonth from "../../assets/icons/Calendar/arrow_left.png";
+import NextMonth from "../../assets/icons/Calendar/arrow_right.png";
 import { Color } from "../CreatePortfolioPage/Color.jsx";
 
-const Calendar = ({
-    startDate: initialStartDate,
-    endDate: initialEndDate,
-    onStartDateChange,
-    onEndDateChange,
-}) => {
+const ModifyPortfolioCalendar = ({ onStartDateChange, onEndDateChange }) => {
     const [date, setDate] = useState(new Date());
-    const [startDate, setStartDate] = useState(initialStartDate || null);
-    const [endDate, setEndDate] = useState(initialEndDate || null);
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
 
-    useEffect(() => {
-        setStartDate(initialStartDate);
-        setEndDate(initialEndDate);
-    }, [initialStartDate, initialEndDate]);
-
-    const handleDateClick = (day) => {
-        const selectedDate = new Date(date.getFullYear(), date.getMonth(), day);
-    
-        if (!startDate) {
-          setStartDate(selectedDate);
-          setEndDate(null);
-          onStartDateChange(selectedDate); // 부모 컴포넌트에 startDate 전달
-        } else if (!endDate) {
-          if (selectedDate < startDate) {
-            setStartDate(selectedDate);
-            setEndDate(null);
-            onStartDateChange(selectedDate); // 부모 컴포넌트에 startDate 전달
-          } else {
-            setEndDate(selectedDate);
-            onEndDateChange(selectedDate); // 부모 컴포넌트에 endDate 전달
-          }
-        } else {
-          setStartDate(selectedDate);
-          setEndDate(null);
-          onStartDateChange(selectedDate); // 부모 컴포넌트에 startDate 전달
-        }
-      };
-
-      
     const monthName = date.toLocaleString('default', { month: 'long' });
     const year = date.getFullYear();
     const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
@@ -59,39 +25,43 @@ const Calendar = ({
     const cells = [];
     const today = new Date();
 
-    // const isDateSelected = (day) => {
-    //     const currentDate = new Date(date.getFullYear(), date.getMonth(), day);
-    //     return (
-    //         startDate &&
-    //         endDate &&
-    //         (currentDate.toDateString() === startDate.toDateString() ||
-    //             currentDate.toDateString() === endDate.toDateString())
-    //     );
-    // };
     const isDateSelected = (day) => {
         const currentDate = new Date(date.getFullYear(), date.getMonth(), day);
-    
-        // startDate와 endDate가 null일 경우를 처리
-        const parsedStartDate = startDate ? new Date(startDate) : null;
-        const parsedEndDate = endDate ? new Date(endDate) : null;
-    
-        // startDate와 endDate가 모두 존재할 때만 비교
-        if (parsedStartDate && parsedEndDate) {
-            return (
-                currentDate.toDateString() === parsedStartDate.toDateString() ||
-                currentDate.toDateString() === parsedEndDate.toDateString()
-            );
-        }
-    
-        return false;
+        return (
+            startDate &&
+            endDate &&
+            (currentDate.toDateString() === startDate.toDateString() ||
+                currentDate.toDateString() === endDate.toDateString())
+        );
     };
-    
-    
-      
+
     const isInSelectionRange = (day) => {
         if (!startDate || !endDate) return false;
         const currentDate = new Date(date.getFullYear(), date.getMonth(), day);
         return currentDate >= startDate && currentDate <= endDate;
+    };
+
+    const handleDateClick = (day) => {
+        const selectedDate = new Date(date.getFullYear(), date.getMonth(), day);
+
+        if (!startDate) {
+            setStartDate(selectedDate);
+            setEndDate(null);
+            onStartDateChange(selectedDate); // Start date 변경 알림
+        } else if (!endDate) {
+            if (selectedDate < startDate) {
+                setStartDate(selectedDate);
+                setEndDate(null);
+                onStartDateChange(selectedDate); // Start date 변경 알림
+            } else {
+                setEndDate(selectedDate);
+                onEndDateChange(selectedDate); // End date 변경 알림
+            }
+        } else {
+            setStartDate(selectedDate);
+            setEndDate(null);
+            onStartDateChange(selectedDate); // Start date 변경 알림
+        }
     };
 
     // 이전 달의 날짜 추가
@@ -148,35 +118,34 @@ const Calendar = ({
 
     return (
         <CalendarWrapper>
-        <CalendarWrapper1>
-            <Header>
-                <img src={PrevMonth} alt="Previous Month" onClick={prevMonth} style={{ width: '2em', cursor: 'pointer' }} />
-                <MonthYear>
-                    {`${year}년`} <Color>{`${monthName}`}</Color>
-                </MonthYear>
-                <img src={NextMonth} alt="Next Month" onClick={nextMonth} style={{ width: '2em', cursor: 'pointer' }} />
-            </Header>
-            <Grid>
-                {days.map((day, index) => (
-                    <Day key={index}>{day}</Day>
-                ))}
-                {cells}
-            </Grid>
-        </CalendarWrapper1>
-    </CalendarWrapper>
+            <CalendarWrapper1>
+                <Header>
+                    <StyledPrevMonth onClick={prevMonth} />
+                    <MonthYear>
+                        {`${year}년`} <Color>{`${monthName}`}</Color>
+                    </MonthYear>
+                    <StyledNextMonth onClick={nextMonth} />
+                </Header>
+                <Grid>
+                    {days.map((day, index) => (
+                        <Day key={index}>{day}</Day>
+                    ))}
+                    {cells}
+                </Grid>
+            </CalendarWrapper1>
+        </CalendarWrapper>
     );
 };
 
-export default Calendar;
-
+export default ModifyPortfolioCalendar;
 /* CSS */
 const CalendarWrapper = styled.div`
-    width: 50%;
+  width: 50%;
 
-    @media (max-width: 768px) {
-        height: auto;
-        width: 100%;
-    }
+  @media (max-width: 768px) {
+    height: auto;
+    width: 100%;
+  }
 `;
 
 const CalendarWrapper1 = styled.div`
@@ -201,12 +170,12 @@ const CalendarWrapper1 = styled.div`
 `;
 
 const Header = styled.div`
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 2em;
-    margin-bottom: 0.5em;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2em;
+  margin-bottom: 0.5em;
 `;
 
 // const StyledPrevMonth = styled(PrevMonth)`
@@ -215,10 +184,10 @@ const Header = styled.div`
 // `;
 
 const MonthYear = styled.div`
-    font-size: 0.73em;
-     text-align : center;
-    font-weight: 800;
-    padding : 0 2em;
+  font-size: 0.73em;
+  text-align: center;
+  font-weight: 800;
+  padding: 0 2em;
 `;
 
 // const StyledNextMonth = styled(NextMonth)`
@@ -227,81 +196,89 @@ const MonthYear = styled.div`
 // `;
 
 const Grid = styled.div`
-    row-gap: 0.2em;
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: repeat(7, 1fr);
-    font-size: 1em;
-    place-items: center center;
+  row-gap: 0.2em;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(7, 1fr);
+  font-size: 1em;
+  place-items: center center;
 
-    @media (max-width: 768px) {
-    }
+  @media (max-width: 768px) {
+  }
 `;
 
 const Day = styled.div`
-    text-align: center;
-    box-sizing: border-box;
+  text-align: center;
+  box-sizing: border-box;
 `;
 
 const Cell = styled.div`
-    @media (max-width: 1100px) {
-        font-size: 0.8125em;
-    }
-    @media (max-width: 900px) {
-        font-size: 0.75em;
-    }
+  @media (max-width: 1100px) {
+    font-size: 0.8125em;
+  }
+  @media (max-width: 900px) {
+    font-size: 0.75em;
+  }
 
-    @media (max-width: 768px) {
-        font-size: 1em;
-    }
-    padding: 1em;
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 2.5em;
-    width: 2.5em;
-    cursor: pointer;
-    &.empty {
-        color: #ccc;
-    }
-    transition: all ease 0.3s;
+  @media (max-width: 768px) {
+    font-size: 1em;
+  }
+  padding: 1em;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.5em;
+  width: 2.5em;
+  cursor: pointer;
+  &.empty {
+    color: #ccc;
+  }
+  transition: all ease 0.3s;
 
-    font-weight: ${(props) => (props.isToday ? '600' : '400')};
-    color: ${(props) => (props.isToday || props.isStart || props.isEnd ? '#FFFFFF' : '#000000')};
+  font-weight: ${(props) => (props.isToday ? "600" : "400")};
+  color: ${(props) =>
+    props.isToday || props.isStart || props.isEnd ? "#FFFFFF" : "#000000"};
+  background-color: ${(props) =>
+    props.isToday
+      ? "#CFDDFB"
+      : props.isStart || props.isEnd
+      ? "#0A27A6;"
+      : "transparent"};
+  border-radius: 50%;
+  box-shadow: ${(props) =>
+    props.isToday ? "0px 4px 10px rgba(129, 76, 161, 0.19)" : "none"};
+  position: relative;
+  // z-index: 10;
+
+  @media (max-width: 768px) {
+    height: 2em;
+    width: 2em;
+    padding: 0.4em;
+  }
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background-color: ${(props) =>
-        props.isToday ? '#CFDDFB' : props.isStart || props.isEnd ? '#0A27A6;' : 'transparent'};
-    border-radius: 50%;
-    box-shadow: ${(props) => (props.isToday ? '0px 4px 10px rgba(129, 76, 161, 0.19)' : 'none')};
-    position: relative;
-    // z-index: 10;
-
-    @media (max-width: 768px) {
-        height: 2em;
-        width: 2em;
-        padding: 0.4em;
-    }
-
-    &:before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: ${(props) => (props.isInRange ? '#CFDDFB' : 'transparent')};
-        z-index: -1;
-        transition: all ease 0.3s;
-        border-radius: ${(props) => (props.isStart ? '20px 0 0 20px' : props.isEnd ? '0 20px 20px 0' : '0')};
-        visibility: ${(props) => (props.isInRange ? 'visible' : 'hidden')};
-    }
+      props.isInRange ? "#CFDDFB" : "transparent"};
+    z-index: -1;
+    transition: all ease 0.3s;
+    border-radius: ${(props) =>
+      props.isStart ? "20px 0 0 20px" : props.isEnd ? "0 20px 20px 0" : "0"};
+    visibility: ${(props) => (props.isInRange ? "visible" : "hidden")};
+  }
 `;
 const StyledPrevMonth = styled.img.attrs({ src: PrevMonth })`
-    width: 0.61em;
-    cursor: pointer;
+  width: 0.61em;
+  cursor: pointer;
 `;
 
 const StyledNextMonth = styled.img.attrs({ src: NextMonth })`
-    width: 2em;
-    cursor: pointer;
+  width: 2em;
+  cursor: pointer;
 `;

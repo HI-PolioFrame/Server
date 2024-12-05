@@ -5,163 +5,139 @@ import PrevMonth from "../../assets/icons/Calendar/arrow_left.png";
 import NextMonth from "../../assets/icons/Calendar/arrow_right.png";
 import { Color } from "../CreatePortfolioPage/Color.jsx";
 
-const Calendar = ({
-  startDate: initialStartDate,
-  endDate: initialEndDate,
-  onStartDateChange,
-  onEndDateChange,
-}) => {
-  const [date, setDate] = useState(new Date());
-  const [startDate, setStartDate] = useState(initialStartDate || null);
-  const [endDate, setEndDate] = useState(initialEndDate || null);
+const CreatePortfolioCalendar = ({ onStartDateChange, onEndDateChange }) => {
+    const [date, setDate] = useState(new Date());
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
 
-  useEffect(() => {
-    setStartDate(initialStartDate ? new Date(initialStartDate) : null);
-    setEndDate(initialEndDate ? new Date(initialEndDate) : null);
-  }, [initialStartDate, initialEndDate]);
+    const monthName = date.toLocaleString('default', { month: 'long' });
+    const year = date.getFullYear();
+    const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
-  const handleDateClick = (day) => {
-    const selectedDate = new Date(date.getFullYear(), date.getMonth(), day);
+    const currentMonth = date.getMonth();
+    const currentYear = date.getFullYear();
+    const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
 
-    if (!startDate) {
-      setStartDate(selectedDate);
-      setEndDate(null);
-      onStartDateChange(selectedDate);
-    } else if (!endDate) {
-      if (selectedDate < startDate) {
-        setStartDate(selectedDate);
-        setEndDate(null);
-        onStartDateChange(selectedDate);
-      } else {
-        setEndDate(selectedDate);
-        onEndDateChange(selectedDate);
-      }
-    } else {
-      setStartDate(selectedDate);
-      setEndDate(null);
-      onStartDateChange(selectedDate);
+    const prevMonthLastDate = new Date(currentYear, currentMonth, 0).getDate();
+    const nextMonthStartDay = (firstDayOfMonth + daysInMonth) % 7;
+
+    const cells = [];
+    const today = new Date();
+
+    const isDateSelected = (day) => {
+        const currentDate = new Date(date.getFullYear(), date.getMonth(), day);
+        return (
+            startDate &&
+            endDate &&
+            (currentDate.toDateString() === startDate.toDateString() ||
+                currentDate.toDateString() === endDate.toDateString())
+        );
+    };
+
+    const isInSelectionRange = (day) => {
+        if (!startDate || !endDate) return false;
+        const currentDate = new Date(date.getFullYear(), date.getMonth(), day);
+        return currentDate >= startDate && currentDate <= endDate;
+    };
+
+    const handleDateClick = (day) => {
+        const selectedDate = new Date(date.getFullYear(), date.getMonth(), day);
+
+        if (!startDate) {
+            setStartDate(selectedDate);
+            setEndDate(null);
+            onStartDateChange(selectedDate); // Start date 변경 알림
+        } else if (!endDate) {
+            if (selectedDate < startDate) {
+                setStartDate(selectedDate);
+                setEndDate(null);
+                onStartDateChange(selectedDate); // Start date 변경 알림
+            } else {
+                setEndDate(selectedDate);
+                onEndDateChange(selectedDate); // End date 변경 알림
+            }
+        } else {
+            setStartDate(selectedDate);
+            setEndDate(null);
+            onStartDateChange(selectedDate); // Start date 변경 알림
+        }
+    };
+
+    // 이전 달의 날짜 추가
+    for (let i = firstDayOfMonth; i > 0; i--) {
+        cells.push(
+            <Cell key={`prev-${i}`} className="empty">
+                {prevMonthLastDate - i + 1}
+            </Cell>,
+        );
     }
-  };
-  const monthName = date.toLocaleString("default", { month: "long" });
-  const year = date.getFullYear();
-  const days = ["S", "M", "T", "W", "T", "F", "S"];
 
-  const currentMonth = date.getMonth();
-  const currentYear = date.getFullYear();
-  const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
-  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+    // 현재 달의 날짜 추가
+    for (let day = 1; day <= daysInMonth; day++) {
+        const isToday =
+            today.getDate() === day && today.getMonth() === currentMonth && today.getFullYear() === currentYear;
 
-  const prevMonthLastDate = new Date(currentYear, currentMonth, 0).getDate();
-  const nextMonthStartDay = (firstDayOfMonth + daysInMonth) % 7;
+        cells.push(
+            <Cell
+                key={day}
+                isToday={isToday}
+                isInRange={isInSelectionRange(day)}
+                isSelected={isDateSelected(day)}
+                isStart={
+                    startDate &&
+                    new Date(date.getFullYear(), date.getMonth(), day).toDateString() === startDate.toDateString()
+                }
+                isEnd={
+                    endDate &&
+                    new Date(date.getFullYear(), date.getMonth(), day).toDateString() === endDate.toDateString()
+                }
+                onClick={() => handleDateClick(day)}
+            >
+                {day}
+            </Cell>,
+        );
+    }
 
-  const cells = [];
-  const today = new Date();
+    // 다음 달의 날짜 추가
+    for (let i = 1; i <= (7 - nextMonthStartDay) % 7; i++) {
+        cells.push(
+            <Cell key={`next-${i}`} className="empty">
+                {i}
+            </Cell>,
+        );
+    }
 
-  const isDateSelected = (day) => {
-    const currentDate = new Date(date.getFullYear(), date.getMonth(), day);
+    const prevMonth = () => {
+        setDate(new Date(date.getFullYear(), date.getMonth() - 1, 1));
+    };
+
+    const nextMonth = () => {
+        setDate(new Date(date.getFullYear(), date.getMonth() + 1, 1));
+    };
+
     return (
-      startDate &&
-      endDate &&
-      (currentDate.toDateString() === startDate.toDateString() ||
-        currentDate.toDateString() === endDate.toDateString())
+        <CalendarWrapper>
+            <CalendarWrapper1>
+                <Header>
+                    <StyledPrevMonth onClick={prevMonth} />
+                    <MonthYear>
+                        {`${year}년`} <Color>{`${monthName}`}</Color>
+                    </MonthYear>
+                    <StyledNextMonth onClick={nextMonth} />
+                </Header>
+                <Grid>
+                    {days.map((day, index) => (
+                        <Day key={index}>{day}</Day>
+                    ))}
+                    {cells}
+                </Grid>
+            </CalendarWrapper1>
+        </CalendarWrapper>
     );
-  };
-
-  const isInSelectionRange = (day) => {
-    if (!startDate || !endDate) return false;
-    const currentDate = new Date(date.getFullYear(), date.getMonth(), day);
-    return currentDate >= startDate && currentDate <= endDate;
-  };
-
-  // 이전 달의 날짜 추가
-  for (let i = firstDayOfMonth; i > 0; i--) {
-    cells.push(
-      <Cell key={`prev-${i}`} className="empty">
-        {prevMonthLastDate - i + 1}
-      </Cell>
-    );
-  }
-
-  // 현재 달의 날짜 추가
-  for (let day = 1; day <= daysInMonth; day++) {
-    const isToday =
-      today.getDate() === day &&
-      today.getMonth() === currentMonth &&
-      today.getFullYear() === currentYear;
-
-    cells.push(
-      <Cell
-        key={day}
-        isToday={isToday}
-        isInRange={isInSelectionRange(day)}
-        isSelected={isDateSelected(day)}
-        isStart={
-          startDate &&
-          new Date(date.getFullYear(), date.getMonth(), day).toDateString() ===
-            startDate.toDateString()
-        }
-        isEnd={
-          endDate &&
-          new Date(date.getFullYear(), date.getMonth(), day).toDateString() ===
-            endDate.toDateString()
-        }
-        onClick={() => handleDateClick(day)}
-      >
-        {day}
-      </Cell>
-    );
-  }
-
-  // 다음 달의 날짜 추가
-  for (let i = 1; i <= (7 - nextMonthStartDay) % 7; i++) {
-    cells.push(
-      <Cell key={`next-${i}`} className="empty">
-        {i}
-      </Cell>
-    );
-  }
-
-  const prevMonth = () => {
-    setDate(new Date(date.getFullYear(), date.getMonth() - 1, 1));
-  };
-
-  const nextMonth = () => {
-    setDate(new Date(date.getFullYear(), date.getMonth() + 1, 1));
-  };
-
-  return (
-    <CalendarWrapper>
-      <CalendarWrapper1>
-        <Header>
-          <img
-            src={PrevMonth}
-            alt="Previous Month"
-            onClick={prevMonth}
-            style={{ width: "2em", cursor: "pointer" }}
-          />
-          <MonthYear>
-            {`${year}년`} <Color>{`${monthName}`}</Color>
-          </MonthYear>
-          <img
-            src={NextMonth}
-            alt="Next Month"
-            onClick={nextMonth}
-            style={{ width: "2em", cursor: "pointer" }}
-          />
-        </Header>
-        <Grid>
-          {days.map((day, index) => (
-            <Day key={index}>{day}</Day>
-          ))}
-          {cells}
-        </Grid>
-      </CalendarWrapper1>
-    </CalendarWrapper>
-  );
 };
 
-export default Calendar;
-
+export default CreatePortfolioCalendar;
 /* CSS */
 const CalendarWrapper = styled.div`
   width: 50%;

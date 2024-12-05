@@ -56,9 +56,11 @@ const CreateHackathonPage = () => {
       [name]: value,
     }));
   };
-// YYYY-MM-DD 형식 -> 서버와 연결할 때 오류가 나옴! 수정함
-  const handleDateChange = (name, date) => {
-    const formattedDate = date ? date.toISOString().split('T')[0] : ""; 
+    const handleDateChange = (name, date) => {
+      // 날짜 객체를 복사하고 하루를 더함
+    const newDate = new Date(date);
+    newDate.setDate(newDate.getDate() + 1); // 날짜 +1
+    const formattedDate = newDate ? newDate.toISOString().split('T')[0] : ""; 
     setFormData((prevData) => ({
       ...prevData,
       [name]: formattedDate,
@@ -95,7 +97,7 @@ const CreateHackathonPage = () => {
         "startDate",
         "endDate",
         "link",
-        "memNumber",
+        "maxMemNumber",
         "description",
         "part",
       ];

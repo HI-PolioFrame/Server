@@ -2,14 +2,8 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Calendar from "./Calendar.jsx";
 // import { useDispatch } from 'react-redux';
-import { useParams } from "react-router-dom";
-import {
-  oriProjects,
-  oriComments,
-  initializeData,
-} from "../domain/startProgram.js";
 
-const CalendarInput = ({ startDate, endDate, onDateChange }) => {
+const ModifyHackthonCalendarInput = ({ startDate, endDate, onDateChange }) => {
   // state 관리
   const [recruitmentStartDate, setRecruitmentStartDate] = useState(null);
   const [recruitmentEndDate, setRecruitmentEndDate] = useState(null);
@@ -70,15 +64,13 @@ const CalendarInput = ({ startDate, endDate, onDateChange }) => {
         <PeriodWrapper2>
           <Text>시작</Text>
           <Period>
-            {startDate ? formatDate(new Date(startDate)) : "--"}
-            {/* {portfolioData.startDate ? portfolioData.startDate : "--"} */}
+            {recruitmentStartDate ? formatDate(recruitmentStartDate) : "--"}
           </Period>
         </PeriodWrapper2>
         <PeriodWrapper2>
           <Text>끝</Text>
           <Period>
-            {endDate ? formatDate(new Date(endDate)) : "--"}
-            {/* {portfolioData.endDate? portfolioData.endDate : "--"} */}
+            {recruitmentEndDate ? formatDate(recruitmentEndDate) : "--"}
           </Period>
         </PeriodWrapper2>
       </PeriodWrapper1>
@@ -86,7 +78,7 @@ const CalendarInput = ({ startDate, endDate, onDateChange }) => {
   );
 };
 
-export default CalendarInput;
+export default ModifyHackthonCalendarInput;
 
 const ComponentWrapper = styled.div`
   width: 100%;

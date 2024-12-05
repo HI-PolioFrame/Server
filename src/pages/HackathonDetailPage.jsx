@@ -17,7 +17,9 @@ import { deleteHackathon, isIncludedParticipant } from "../components/features/h
 //logo 이미지
 import logo from "../assets/icons/Logo.png";
 
+import person from "../assets/icons/person.png";
 import Calendar from "../assets/icons/Calendar.png";
+
 import  Link  from "../assets/icons/Link.png";
 import { SiThangs } from "react-icons/si";
 
@@ -26,7 +28,6 @@ import {updateParticipant} from "../components/features/hackathonFeatures";
 const HackathonDetailPage = () => {
   const hackId = Number(useParams().hackId); // URL에서 hackId를 숫자로 변환
   const [HackathonData, setHackathonData] = useState(null);
-  const [comments, setComments] = useState([]);
   const [isOwner, setIsOwner] = useState(false);
   const [isFull, setIsFull] = useState(false);
   const [isUserParticipant, setIsUserParticipant] = useState(false);
@@ -44,13 +45,15 @@ const HackathonDetailPage = () => {
 
   useEffect(() => {
     // hackId를 사용하여 해당 해커톤 데이터를 가져오기
-    const Hackathon = oriHackathons.get(Number(hackId)); // hackId가 숫자로 저장되어 있다면 Number로 변환
+    const Hackathon = oriHackathons.get(Number(hackId)); 
     console.log(typeof hackId);
     if (Hackathon) {
       setHackathonData(Hackathon);
       console.log(Hackathon);
     }
   }, [hackId]);
+
+
   useEffect(() => {
     if (HackathonData && currentUser) {
       
@@ -69,26 +72,34 @@ const HackathonDetailPage = () => {
       const isParticipant = isIncludedParticipant(Number(hackId), userId);
       setIsUserParticipant(isParticipant);
     }
-  }, [HackathonData, userId]); 
+  }, [HackathonData, userId]);
+  
+  
   const handleParticipation = async () => {
-    if (HackathonData.memNumber !== HackathonData.maxMemNumber && !isUserParticipant) {
+    if (HackathonData.participant.length < HackathonData.maxMemNumber && !isUserParticipant) {
       try {
         await updateParticipant(Number(hackId), userId);
   
         // 상태 업데이트
-        setHackathonData(prev => ({
+        setHackathonData((prev) => ({
           ...prev,
           participant: [...prev.participant, userId],
         }));
   
-        setIsUserParticipant(true); // 참여 상태 업데이트
+        setIsUserParticipant(true); // 참여 상태를 바로 업데이트
       } catch (error) {
         console.error("참여 업데이트 중 오류 발생:", error);
       }
     }
   };
   
-
+  useEffect(() => {
+    if (HackathonData && userId) {
+      // 참여 여부를 상태에 반영
+      const isParticipant = HackathonData.participant.includes(userId);
+      setIsUserParticipant(isParticipant);
+    }
+  }, [HackathonData, userId]);
  
   
   // console.log(hackId);
@@ -153,11 +164,11 @@ const HackathonDetailPage = () => {
         <Line></Line>
         <RowWrapper>
           <Mem>모집인원</Mem>
-          <MemTitle>{HackathonData.memNumber || "없습니다."}명</MemTitle>
+          <MemTitle>{HackathonData.maxMemNumber + "명" || "없습니다."}</MemTitle>
           <Mem>모집파트</Mem>
           <MemTitle>{HackathonData.part || "없습니다."}</MemTitle>
-          <Mem2>현재 참여중인 인원</Mem2>
-          <MemTitle>{HackathonData.participant.length || "없습니다."}</MemTitle>
+          {/* <Mem2>현재 참여중인 인원</Mem2>
+          <MemTitle>{HackathonData.participant.length || "없습니다."}</MemTitle> */}
         </RowWrapper>
         <RowWrapper>
         <LinkWrapper>
@@ -248,25 +259,31 @@ const HackathonDetailPage = () => {
               </TimeTitle>
             </RowWrapper>
             <RowWrapper>
+              <PersonImage src={person} alt="사람" />
+              <Mem2>현재 참여중인 인원 : </Mem2>
+              <MemTitle>{HackathonData.participant.length || "없습니다."}</MemTitle>
+            </RowWrapper>
+          
+            {/* <RowWrapper>
               <CalendarImage src={Calendar} alt="달력" />
               <TimeTitle>
                 활동기간 {HackathonData.startDate} - {HackathonData.endDate}
               </TimeTitle>
-            </RowWrapper>
+            </RowWrapper> */}
           </TimeWrapper>
         </RowWrapper>
         <StartButton
-          isFull={HackathonData.participant.length === HackathonData.maxMemNumber}
-          onClick={isOwner ? handlePopupToggle : handleParticipation}
-          disabled={HackathonData.participant.length === HackathonData.maxMemNumber || isUserParticipant}
-        >
-          {isOwner
-            ? "지원현황"
-            : isUserParticipant
-            ? "지원완료"
-            : "지원하기"}
-        </StartButton>
-
+  onClick={() => {
+    if (isOwner) {
+      console.log("팝업 상태를 토글합니다.");
+      handlePopupToggle();
+    } else {
+      handleParticipation();
+    }
+  }}
+>
+  {isOwner ? "지원현황" : isUserParticipant ? "지원완료" : "지원하기"}
+</StartButton>
       </ContentSection1>
 
     </MainWrapper>
@@ -427,14 +444,14 @@ const Mem = styled.p`
 const Mem2 = styled.p`
   width : 8em;
   height : 1.5em;
-  color : #fff;
+  color : #000;
   font-weight: bold;
   font-family: "OTF R";
   font-size : 1em;
-
-  border : 1px solid #ccc;
-  border-radius : 0.2em;
-  background-color : #0a27a6;
+  margin-left : -0.1em;
+  // border : 1px solid #ccc;
+  // border-radius : 0.2em;
+  // background-color : #0a27a6;
  
   display: flex;
   align-items: center; 
@@ -466,8 +483,13 @@ const ChoiceInput = styled.input`
 //css image
 const CalendarImage = styled.img`
   width : 1.5em;
-  height : 1.5em;
+  height : 1.4em;
   margin-top:0.4em;
+`;
+const PersonImage = styled.img`
+  width : 1.5em;
+  height : 1.5em;
+  margin-top: 1em;
 `;
 const Logo = styled.h1`
   width: 6vw;

@@ -62,13 +62,18 @@ const ModifyPortfolioPage = () => {
       [name]: value,
     }));
   };
-
+  
   const handleDateChange = (name, date) => {
+    // 날짜 객체를 복사하고 하루를 더함
+    const newDate = new Date(date);
+    newDate.setDate(newDate.getDate() + 1); // 날짜 +1
+    const formattedDate = newDate ? newDate.toISOString().split('T')[0] : ""; 
     setFormData((prevData) => ({
       ...prevData,
-      [name]: date,
+      [name]: formattedDate,
     }));
   };
+  
 
   const handleSaveProject = () => {
     saveProject(
@@ -97,6 +102,8 @@ const ModifyPortfolioPage = () => {
   
   //이미지, 비디오 업로드
   const handleSavePortfolio = () => {
+      console.log("FormData 확인:", formData); // 디버깅 로그
+
     Object.keys(formData).forEach((field) => {
       const newValue = formData[field];
       if (newValue !== undefined && newValue !== null) {
