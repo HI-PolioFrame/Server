@@ -1,11 +1,13 @@
 import { oriProjects } from "../domain/startProgram";
 
 export const handleImageUpload = async (projectId, field) => {
-  const input = document.createElement("input");
-  input.type = "file";
-  input.accept = "image/*";
+  console.log("handleImageUpload started");
+    // 파일 입력 엘리먼트 생성
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
 
-  input.onchange = async (event) => {
+    input.onchange = async (event) => {
     const file = event.target.files[0];
 
     if (!file || !file.type.startsWith("image/")) {
@@ -13,8 +15,11 @@ export const handleImageUpload = async (projectId, field) => {
       return;
     }
 
+    const filePath = "src/components/commmon/dummydata/projectInfo.jsx";
+
     const formData = new FormData();
     formData.append("photo", file);
+    formData.append('filePath', filePath);
     formData.append("projectId", Number(projectId));
     formData.append("field", field);
 
@@ -46,6 +51,47 @@ export const handleImageUpload = async (projectId, field) => {
 
   input.click();
 };
+
+export const handleImageAdd = async () => {
+
+  // 파일 입력 엘리먼트 생성
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+
+  input.onchange = async (event) => {
+  const file = event.target.files[0];
+
+  if (!file || !file.type.startsWith("image/")) {
+    alert("이미지 파일만 업로드 가능합니다.");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("photo", file);
+
+  try {
+    const response = await fetch("http://localhost:3000/add-project-photo", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error(`서버 오류: ${response.status}`);
+    }
+
+    const result = await response.json();
+
+    return result.uploadedPath;
+
+  } catch (error) {
+    console.error("이미지 업로드 실패", error);
+  }
+};
+
+input.click();
+
+}
 
 
 //수연 언니 코드

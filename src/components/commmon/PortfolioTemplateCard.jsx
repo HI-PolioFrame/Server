@@ -2,42 +2,34 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { oriProjects } from "../domain/startProgram";
+import { oriPortfolios } from "../domain/startProgram";
 import { getCurrentUser } from "../features/currentUser";
 import { patchHits } from "../features/patchHits";
 
 import Logo from "../../assets/icons/Logo.png";
 
-const TemplateCard = ({ portfolioId, templateButton, isButton = true }) => {
+const PortfolioTemplateCard = ({ portfolioId, templateButton }) => {
   const navigate = useNavigate();
   const [portfolioData, setPortfolioData] = useState(null);
   const currentUser = getCurrentUser();
 
   useEffect(() => {
     //프롭스로 받은 포트폴리오 ID 사용해서 oriPortfolios에서 포트폴리오 데이터 가져오기
-    const portfolio = oriProjects.get(portfolioId);
+    const portfolio = oriPortfolios.get(portfolioId);
     if (portfolio) {
       setPortfolioData(portfolio);
     }
+    console.log(portfolio);
   }, [portfolioId]);
 
   const handleViewClick = () => {
-    if (isButton === true) {
-      console.log(currentUser);
-      console.log("patchHits 불러옴.");
-      if (currentUser && portfolioData) {
-        patchHits(currentUser.id, portfolioId); // 조회수 증가 호출
-      }
+    console.log(currentUser);
+    // console.log("patchHits 불러옴.");
+    // if (currentUser && portfolioData) {
+    //   patchHits(currentUser.id, portfolioId); // 조회수 증가 호출
+    // }
 
-      // navigate(`/PortfolioDetailPage/${portfolioId}`);
-      if (portfolioId === 8) {
-        navigate(`/PortfolioDetailPage2/${portfolioId}`);
-      } else if (portfolioId === 7) {
-        navigate(`/PortfolioDetailPage3/${portfolioId}`);
-      } else {
-        navigate(`/PortfolioDetailPage/${portfolioId}`);
-      }
-    }
+    navigate(`/MyProjectsPage/${portfolioId}`);
   };
 
   if (!portfolioData) {
@@ -49,34 +41,14 @@ const TemplateCard = ({ portfolioId, templateButton, isButton = true }) => {
       <ImageContainer>
         <Image src={portfolioData.coverImage || Logo} alt="Template" />
       </ImageContainer>
-      <TemplateName>{portfolioData.projectTitle || "빈 제목"}</TemplateName>
-      <Description>{portfolioData.description || "빈 설명"}</Description>
-      <Button
-        onClick={() => {
-          handleViewClick();
-          // if (portfolioId === 8) {
-          //   navigate(`/PortfolioDetailPage2/${portfolioId}`);
-          // } else if (portfolioId === 7) {
-          //   navigate(`/PortfolioDetailPage3/${portfolioId}`);
-          // } else {
-          //   navigate(`/PortfolioDetailPage/${portfolioId}`);
-          // }
-        }}
-      >
-        {templateButton}
-      </Button>
+      <TemplateName>{portfolioData.portfolioName || "빈 제목"}</TemplateName>
+      <Description>설명설명설명</Description>
+      <Button onClick={handleViewClick}>{templateButton}</Button>
     </Card>
   );
 };
 
-// // TemplateCard의 프롭타입
-// TemplateCard.propTypes = {
-//   templateName: PropTypes.string.isRequired,
-//   description: PropTypes.string.isRequired,
-//   templateThumnail: PropTypes.string.isRequired,
-// };
-
-export default TemplateCard;
+export default PortfolioTemplateCard;
 
 const Loading = styled.div`
   display: flex;

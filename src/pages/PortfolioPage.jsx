@@ -60,9 +60,16 @@ const PortfolioPage = () => {
     const searchedLinkedList = searchSortManager.search(searchTerm);
     setsharedPortfolioList(linkedListToArray(searchedLinkedList));
   };
+
+  const handleCancelSearch = () => {
+    const resetList = searchSortManager.resetToLatest(); // 최신순 정렬된 리스트
+    setsharedPortfolioList(linkedListToArray(resetList));
+  };
+
   const [accessToken, setAccessToken] = useState(
     localStorage.getItem("accessToken")
   );
+
   const currentUser = getCurrentUser();
 
   const handleCreatePortfolioClick = () => {
@@ -76,7 +83,11 @@ const PortfolioPage = () => {
   
   return (
     <TemplatePageContainer className="TemplatePageContainer">
-      <PageHeader pageTitle="Portfolio" onSearch={handleSearchApply} />
+      <PageHeader
+        pageTitle="Portfolio"
+        onSearch={handleSearchApply}
+        onCancelSearch={handleCancelSearch}
+      />
 
       <SelectBoxWrapper>
         <SelectBox onSort={handleSortApply} />

@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
 import { LinkedList } from "../DataStructure/linkedList";
-import { oriUsers, oriProjects, oriHackathons } from "../domain/startProgram.js";
+import {
+  oriUsers,
+  oriProjects,
+  oriHackathons,
+} from "../domain/startProgram.js";
 
 class SearchSortManager {
   constructor() {
@@ -17,6 +21,23 @@ class SearchSortManager {
     this.filterOption = [];
   }
 
+  //검색어 초기화
+  resetToLatest() {
+    this.searchTerm = null;
+    this.category = null;
+    this.sortOption = null;
+    this.filterOption = [];
+    this.state.searchState = false;
+    this.state.sortState = false;
+
+    this.currentPortfolios = new LinkedList();
+    oriProjects.forEach((pofol) => {
+      this.currentPortfolios.append(pofol);
+    });
+    this.currentPortfolios.reverse(); // 최신순 정렬
+    return this.currentPortfolios;
+  }
+
   search(searchTerm) {
     this.searchTerm = searchTerm;
     this.currentPortfolios = this.doSearch();
@@ -31,7 +52,7 @@ class SearchSortManager {
     console.log("currentPofol: ", this.currentPortfolios);
     return this.currentPortfolios;
   }
-  
+
   doSearch() {
     if (!this.searchTerm) {
       return;

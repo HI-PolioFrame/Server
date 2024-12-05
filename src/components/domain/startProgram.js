@@ -68,16 +68,12 @@ export const initializeData = () => {
   portfolioInfo.forEach((data) => {
     let portfolio = new Portfolio(
       data.portfolioId,
-      data.owner,
-      data.email,
-      data.setTemplate,
-      data.title,
-      data.explanation,
-      data.share,
+      data.ownerId,
+      data.ownerEmail,
+      data.portfolioName,
       data.projects,
-      data.category,
-      data.comments,
-      data.likes
+      data.usedLanguage,
+      data.share
     );
     oriPortfolios.set(data.portfolioId, portfolio);
   });
@@ -140,7 +136,7 @@ export const initializeData = () => {
       data.part,
       data.ownerId,
       data.ownerEmail,
-      data.participant,
+      data.participant
     );
     oriHackathons.set(data.hackId, hackathon);
   });

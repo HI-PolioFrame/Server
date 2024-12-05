@@ -23,6 +23,8 @@ import HackathonDetailPage from "./pages/HackathonDetailPage";
 import PortfolioDetailPage3 from "./pages/PortfolioDetailPage3";
 import RecruiterPage from "./pages/RecruiterPage";
 import CreateHackathonPage from "./pages/CreateHackathonPage";
+import MyProjectsPage from "./pages/MyProjectsPage";
+import MergerCreatePortfolioPage from "./pages/MergerCreatePortfolioPage";
 
 import { initializeData } from "./components/domain/startProgram";
 
@@ -67,16 +69,16 @@ function App() {
           />
           <Route
             path="/ModifyPortfolioPage/:portfolioId"
-            element={<ModifyPortfolioPage/>}
+            element={<ModifyPortfolioPage />}
           />
           {/* 해커톤 제작 화면 */}
           <Route
             path="/CreateHackathonPage"
             element={<CreateHackathonPage />}
           />
-           <Route
+          <Route
             path="/ModifyHackathonPage/:hackId"
-            element={<ModifyHackathonPage/>}
+            element={<ModifyHackathonPage />}
           />
           {/* 해커톤 상세 페이지 */}
           <Route
@@ -128,6 +130,15 @@ function App() {
           />
           {/* 채용자 페이지*/}
           <Route path="/RecruiterPage/:userId" element={<RecruiterPage />} />
+          {/* 프로젝트 병합 페이지*/}
+          <Route
+            path="/MyProjectsPage/:portfolioId"
+            element={<MyProjectsPage />}
+          />
+          <Route
+            path="/MergerCreatePortfolioPage"
+            element={<MergerCreatePortfolioPage />}
+          />
         </Route>
       </Route>
     </Routes>
