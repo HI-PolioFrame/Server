@@ -179,10 +179,16 @@ const SignUpRecruiterPage = () => {
             <JoinWrapper>
                 {/* 이름, 생년월일 */}
                 <ColumnWrapper1>
-                    <NameInput placeholder="이름" type="text"></NameInput>
+                    <NameInput 
+                        placeholder="이름" 
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                    ></NameInput>
                     <ColumnWrapper2>
                         <CalendarText>생년월일</CalendarText>
-                        <CalendarInput type="date"></CalendarInput>
+                        <CalendarInput type="date" onChange={(e) => setBirthday(e.target.value.split('-'))} />
+
                     </ColumnWrapper2>
                 </ColumnWrapper1>
 

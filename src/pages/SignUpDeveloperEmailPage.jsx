@@ -115,7 +115,7 @@ const SignUpDeveloperEmailPage = () => {
 
     const handleSignUp = async () => {
         try {
-            await emailSignUpDeveloper(name, birthday, idInput, password, repassword, phone); 
+            await emailSignUpDeveloper(name, birthday, emailInput, password, repassword, phone); 
             navigate("/LoginPage");  
         } catch (error) {
            console.error("회원가입 중 오류 발생:", error);  
@@ -127,10 +127,13 @@ const SignUpDeveloperEmailPage = () => {
             <MainText onClick={() => navigate("/")}>FolioFrame</MainText>
             <JoinWrapper>
                 <ColumnWrapper1>
-                    <NameInput placeholder="이름" type="text" onChange={(e) => setName(e.target.value)} />
-                <ColumnWrapper2>
-                        <CalendarText>생년월일</CalendarText>
-                        <CalendarInput type="date" onChange={(e) => setBirthday(e.target.value.split('-'))} />
+                    <NameInput 
+                        placeholder="이름" 
+                        type="text" 
+                        onChange={(e) => setName(e.target.value)} />
+                    <ColumnWrapper2>
+                            <CalendarText>생년월일</CalendarText>
+                            <CalendarInput type="date" onChange={(e) => setBirthday(e.target.value.split('-'))} />
                     </ColumnWrapper2>
                 </ColumnWrapper1>
                 <RowWrapper>

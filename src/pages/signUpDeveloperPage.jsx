@@ -130,12 +130,14 @@ const signUpDeveloperPage = () => {
           <NameInput
             placeholder="이름"
             type="text"
+            // value={name}
             onChange={(e) => setName(e.target.value)}
           />
           <ColumnWrapper2>
             <CalendarText>생년월일</CalendarText>
             <CalendarInput
               type="date"
+              // value={birthday}
               onChange={(e) => setBirthday(e.target.value.split("-"))}
             />
           </ColumnWrapper2>
