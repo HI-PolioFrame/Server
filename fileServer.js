@@ -13,6 +13,18 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const port = 3000;
 
+////////////////////////////////
+const multer = require('multer');
+const path = require('path');
+const uploadDir = path.join(__dirname, 'uploads');
+
+// uploads 디렉토리가 없으면 생성
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir);
+}
+////////////////////////////////
+
+
 app.use(cors());
 app.use(express.json());
 // app.use(bodyParser.urlencoded({ extended: true })); // URL-encoded 요청 처리
@@ -587,15 +599,23 @@ app.post("/delete-object", (req, res) => {
   });
 });
 
+
+// 업로드 디렉토리가 없으면 생성
+// if (!fs.existsSync(uploadDir)) {
+//   fs.mkdirSync(uploadDir);
+// }
+
 // Multer 스토리지 설정
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/"); // 파일 저장 디렉토리
+      cb(null, 'uploads/'); // 파일이 저장될 경로
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); // 파일명 중복 방지
-  },
+      cb(null, file.originalname); // 파일 이름
+  }
 });
+
+// const upload = multer({ storage: storage });
 
 // 파일 필터 추가
 const fileFilter = (req, file, cb) => {
@@ -608,8 +628,24 @@ const fileFilter = (req, file, cb) => {
 
 const upload = multer({
   storage: storage,
-  fileFilter: fileFilter,
+  fileFilter: (req, file, cb) => {
+    const filetypes = /jpeg|jpg|png|gif/;
+    const mimetype = filetypes.test(file.mimetype);
+    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+
+    if (mimetype && extname) {
+      return cb(null, true);
+    }
+    cb("Error: 파일 형식이 올바르지 않습니다.");
+  },
 });
+
+
+//수연언니 코드
+// const upload = multer({
+//   storage: storage,
+//   fileFilter: fileFilter,
+// });
 
 app.post("/update-project-photo", upload.single("photo"), async (req, res) => {
   var { filePath, projectId, field } = req.body;
@@ -674,20 +710,62 @@ app.post("/update-project-photo", upload.single("photo"), async (req, res) => {
 });
 
 app.post("/add-project-photo", upload.single("photo"), async (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({
+  try {
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        message: "파일이 업로드되지 않았습니다.",
+      });
+    }
+    const imagePath = path.join('/uploads', req.file.filename); // 이미지 경로 생성
+    res.json({ success: true, imagePath: imagePath });
+    
+    const photoPath = req.file.path;
+    res.json({
+      success: true,
+      message: "이미지 업로드 완료",
+      uploadedPath: photoPath,
+    });
+  } catch (error) {
+    console.error("파일 업로드 중 오류 발생:", error);
+    res.status(500).json({
       success: false,
-      message: "파일이 업로드되지 않았습니다.",
+      message: "서버 오류: " + error.message,
     });
   }
-
-  const photoPath = req.file.path;
-  res.json({
-    success: true,
-    message: "이미지 업로드 완료",
-    uploadedPath: photoPath,
-  });
 });
+
+app.post('/upload', upload.single('image'), (req, res) => {
+  if (!req.file) {
+      return res.status(400).json({ success: false, message: '파일이 없습니다.' });
+  }
+
+  const imagePath = path.join('/uploads', req.file.filename); // 이미지 경로 생성
+  res.json({ success: true, imagePath: imagePath });
+});
+
+app.use('/uploads', express.static('uploads')); // 업로드된 파일을 정적 파일로 제공
+
+app.listen(3000, () => {
+  console.log('서버가 3000번 포트에서 실행 중입니다.');
+});
+
+// 수연 언니 코드
+// app.post("/add-project-photo", upload.single("photo"), async (req, res) => {
+//   if (!req.file) {
+//     return res.status(400).json({
+//       success: false,
+//       message: "파일이 업로드되지 않았습니다.",
+//     });
+//   }
+
+//   const photoPath = req.file.path;
+//   res.json({
+//     success: true,
+//     message: "이미지 업로드 완료",
+//     uploadedPath: photoPath,
+//   });
+// });
 
 // Vite 개발 서버 시작
 async function startVite() {

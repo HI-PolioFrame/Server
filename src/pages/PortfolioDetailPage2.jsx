@@ -49,7 +49,6 @@ const PortfolioDetailPage2 = () => {
 
   const [currentUser, setLocalCurrentUser] = useState(getCurrentUser()); // 초기값 가져오기
   const navigate = useNavigate();
-
   useEffect(() => {
     initializeData();
     //project ID 사용해서 포트폴리오 데이터 가져오기
@@ -189,6 +188,8 @@ const PortfolioDetailPage2 = () => {
       );
     }
   };
+
+  // console.log(portfolioData.projectTemplate);
 
   if (!portfolioData) {
     return <Loading>로딩 중...</Loading>;

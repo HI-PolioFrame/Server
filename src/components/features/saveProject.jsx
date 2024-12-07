@@ -142,7 +142,7 @@ export const saveProject = async (
   const string = `
   {
       projectId: ${projectId},
-      usedTemplate: ${projectTemplate},
+      projectTemplate: ${projectTemplate},
       projectTitle: "${projectTitle}", 
       projectOwnerName: "${projectOwnerName}",
       description: "${description || ""}",

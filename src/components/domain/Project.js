@@ -4,7 +4,7 @@ class Project {
     ownerId,
     ownerNickname,
     ownerEmail,
-    usedTemplate,
+    projectTemplate,
     projectId,
     projectTitle,
     description,
@@ -29,7 +29,7 @@ class Project {
     this.ownerId = ownerId;
     this.ownerNickname = ownerNickname;
     this.ownerEmail = ownerEmail;
-    this.usedTemplate = usedTemplate;
+    this.projectTemplate = projectTemplate;
     this.projectId = projectId;
     this.projectTitle = projectTitle;
     this.description = description;

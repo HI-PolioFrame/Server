@@ -219,6 +219,9 @@ const PortfolioDetailPage3 = () => {
     return <Loading>로딩 중...</Loading>;
   }
 
+  console.log(portfolioData.projectTemplate);
+
+
   return (
     <PageContainer>
       <TitleSection>
@@ -392,7 +395,6 @@ const PortfolioDetailPage3 = () => {
     </PageContainer>
   );
 };
-
 export default PortfolioDetailPage3;
 
 // Styled Components
