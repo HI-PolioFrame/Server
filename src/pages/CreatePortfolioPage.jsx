@@ -6,6 +6,7 @@ import CreatePortfolioTemplate from "../components/CreatePortfolioPage/CreatePor
 import saveProject from "../components/features/saveProject";
 import { getCurrentUser } from "../components/features/currentUser";
 import { Navigate, useNavigate } from "react-router-dom";
+import { templateInfo } from "../components/commmon/dummydata/templateInfo.jsx";
 
 
 const CreatePortfolioPage = () => {
@@ -84,7 +85,15 @@ const CreatePortfolioPage = () => {
       [name]: formattedDate,
     }));
   };
-  
+  const setProjectTemplate = (templateId) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      projectTemplate: templateId,
+    }));
+    console.log("Selected templateId:", templateId);
+  };
+
+
   const handleSaveProject = () => {
     console.log("handleSaveProject 호출됨"); // 호출 확인 로그 추가
   
@@ -93,7 +102,7 @@ const CreatePortfolioPage = () => {
       currentUser.id, // 사용자 아이디
       currentUser.nickname, // 사용자 닉네임
       currentUser.email, // 사용자 이메일
-      formData.usedTemplate, // projectTemplate
+      formData.projectTemplate, // projectTemplate
       formData.projectTitle,
       formData.description,
       formData.startDate,
@@ -127,7 +136,10 @@ const CreatePortfolioPage = () => {
           formData={formData}
           onDateChange={handleDateChange}
         />
-        <CreatePortfolioTemplate />
+        <CreatePortfolioTemplate
+          templates={templateInfo} 
+          setProjectTemplate={setProjectTemplate} 
+        />
         <CreateButton  
              disabled={isButtonDisabled}
              onClick={handleSaveProject}

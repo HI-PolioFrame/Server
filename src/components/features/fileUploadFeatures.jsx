@@ -52,6 +52,7 @@ export const handleImageUpload = async (projectId, field) => {
   input.click();
 };
 
+//사진을 유저가 선택하면 그 파일 경로를 string 으로 반환
 export const handleImageAdd = async () => {
 
   // 파일 입력 엘리먼트 생성

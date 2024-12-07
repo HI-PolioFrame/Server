@@ -30,13 +30,13 @@ const TemplateCard = ({ portfolioId, templateButton, isButton = true }) => {
       }
 
       // navigate(`/PortfolioDetailPage/${portfolioId}`);
-      if (portfolioId === 8) {
-        navigate(`/PortfolioDetailPage2/${portfolioId}`);
-      } else if (portfolioId === 7) {
-        navigate(`/PortfolioDetailPage3/${portfolioId}`);
-      } else {
-        navigate(`/PortfolioDetailPage/${portfolioId}`);
-      }
+      // if (portfolioId === 8) {
+      //   navigate(`/PortfolioDetailPage2/${portfolioId}`);
+      // } else if (portfolioId === 7) {
+      //   navigate(`/PortfolioDetailPage3/${portfolioId}`);
+      // } else {
+      //   navigate(`/PortfolioDetailPage/${portfolioId}`);
+      // }
     }
   };
 
@@ -54,13 +54,13 @@ const TemplateCard = ({ portfolioId, templateButton, isButton = true }) => {
       <Button
         onClick={() => {
           handleViewClick();
-          // if (portfolioId === 8) {
-          //   navigate(`/PortfolioDetailPage2/${portfolioId}`);
-          // } else if (portfolioId === 7) {
-          //   navigate(`/PortfolioDetailPage3/${portfolioId}`);
-          // } else {
-          //   navigate(`/PortfolioDetailPage/${portfolioId}`);
-          // }
+          if (portfolioData.projectTemplate === 2) {
+            navigate(`/PortfolioDetailPage2/${portfolioId}`);
+          } else if (portfolioData.projectTemplate === 3) {
+            navigate(`/PortfolioDetailPage3/${portfolioId}`);
+          } else {
+            navigate(`/PortfolioDetailPage/${portfolioId}`);
+          }
         }}
       >
         {templateButton}

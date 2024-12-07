@@ -301,5 +301,5 @@ export const userInfo = [
     link: "",
     career: "없음",
     education: "",
-  },
+  }
 ];

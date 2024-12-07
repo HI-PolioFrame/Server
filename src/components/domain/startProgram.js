@@ -84,7 +84,7 @@ export const initializeData = () => {
       data.ownerId,
       data.ownerNickname,
       data.ownerEmail,
-      data.usedTemplate,
+      data.projectTemplate,
       data.projectId,
       data.projectTitle,
       data.description,

@@ -3,13 +3,14 @@ import styled from "styled-components";
 import { useState } from "react";
 // import Calendar from "./Calendar.jsx";
 import CalendarInput from "./CalendarInput.jsx";
-import {handleImageUpload} from "../features/fileUploadFeatures.jsx";
+import {handleImageAdd} from "../features/fileUploadFeatures.jsx";
 
 const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
   // 업로드 이미지 미리보기 코드
-  const [coverimagePreview, setCoverImagePreview] = useState(null);
+  // const [coverimagePreview, setCoverImagePreview] = useState(null);
   const [LogoPreview, setLogoPreview] = useState(null);
-
+  const [coverImagePreview, setCoverImagePreview] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
   const [photosPreview, setPhotosPreview] = useState([
     null,
     null,
@@ -19,22 +20,47 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
   ]);
   const [isOn, setIsOn] = useState(true);
 
-  const handleCoverImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file && file.type.startsWith("image/")) {
-      const imageURL = URL.createObjectURL(file);
-      setCoverImagePreview(imageURL);
-    }
-    onInputChange(e); // formData에 coverImage 업데이트
-  };
-  const handleCoverImageUpload = () => {
-    const projectId = 1; // 업데이트할 프로젝트 ID
-    const field = "coverImage"; // 업데이트할 필드 이름
-    handleImageUpload(projectId, field);
-  };
+    // 파일 선택 핸들러
+    const handleCoverImageChange = (e) => {
+      const file = e.target.files[0];
+      if (file && file.type.startsWith("image/")) {
+        const imageURL = URL.createObjectURL(file);
+        setCoverImagePreview(imageURL); // 미리보기 업데이트
+        setSelectedFile(file); // 선택된 파일 저장
+      }
+    };
   
+    const [file, setFile] = useState(null);
 
 
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        if (!selectedFile) {
+            alert('파일을 선택해 주세요.');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('photo', selectedFile);
+
+        try {
+            const response = await fetch('http://localhost:3000/add-project-photo', {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (!response.ok) {
+                throw new Error('네트워크 응답이 좋지 않습니다.');
+            }
+
+            const data = await response.json();
+            console.log(data);
+        } catch (error) {
+            console.error('업로드 오류:', error);
+        }
+    };
+    
   const handleLogoChange = (e) => {
     const file = e.target.files[0];
     if (file && file.type.startsWith("image/")) {
@@ -63,7 +89,7 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
     });
   };
   
-  
+
 
   return (
     <>
@@ -223,56 +249,32 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
             ></ChoiceInput>
           </InputWrapper>
           {/* 커버 이미지*/}
-          {/* <InputWrapper>
-            <MainText>커버 이미지</MainText>
-            <ExText>프로젝트를 보여줄 표지 이미지를 업로드해주세요</ExText>
-            <ImageWrapper>
-              <FileInput
-                type="file"
-                id="coverphotos"
-                multiple
-                onChange={handleCoverImageChange}
-              />
-              <FileLabel
-                htmlFor="coverphotos"
-                style={{
-                  backgroundImage: coverimagePreview
-                    ? `url(${coverimagePreview})`
-                    : "none",
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                }}
-              >
-                {" "}
-                {!coverimagePreview && "+"}
-              </FileLabel>
-            </ImageWrapper>
-          </InputWrapper> */}
-          <InputWrapper>
-  <MainText>커버 이미지</MainText>
-  <ExText>프로젝트를 보여줄 표지 이미지를 업로드해주세요</ExText>
-  <ImageWrapper>
-    <FileInput
-      type="file"
-      id="coverphotos"
-      multiple
-      onChange={handleCoverImageChange}
-    />
-    <FileLabel
-      htmlFor="coverphotos"
-      style={{
-        backgroundImage: coverimagePreview
-          ? `url(${coverimagePreview})`
-          : "none",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
-      {!coverimagePreview && "+"}
-    </FileLabel>
-    <button onClick={handleCoverImageUpload}>이미지 업로드</button>
-  </ImageWrapper>
-</InputWrapper>
+        <InputWrapper>
+        <MainText2>커버 이미지</MainText2>
+            <form onSubmit={handleSubmit}>
+                <FileInput 
+                  type="file" 
+                  accept="image/*" 
+                  id="coverphotos"
+                  multiple={false}
+                  onChange={handleCoverImageChange} 
+                  required />
+                <FileLabel
+                  htmlFor="coverphotos"
+                  style={{
+                    backgroundImage: coverImagePreview
+                      ? `url(${coverImagePreview})`
+                      : "none",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                >
+                  {!coverImagePreview && "+"}
+                </FileLabel>
+                <SubmitButton type="submit">업로드</SubmitButton>
+            </form>
+        </InputWrapper>  
+
 
         </ColumnWrapper2>
 
@@ -535,4 +537,24 @@ const Toggle = styled.div`
   position: absolute;
   left: ${(props) => (props.isOn ? "0.2em" : "2.2em")};
   transition: all 0.3s ease-out;
+`;
+
+const SubmitButton = styled.button`
+  border : 1px solid #0a27a6;
+  border-radius : 2em;
+  background-color : #fff;
+  color : #0a27a6;
+  font-size: 1em;
+  font-weight: 800;
+  font-family: "OTF R";
+  margin-top :1em;
+  `;
+
+  const MainText2 = styled.p`
+  font-size: 1.5em;
+  font-weight: 800;
+  color: #0a27a6;
+  // margin-bottom: -0.2em;
+  // display : flex;
+  font-family: "OTF B";
 `;
