@@ -102,7 +102,7 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
   };
 
   const handleToggle = () => {
-    console.log("Toggled! Current share state:", !formData.share);
+    console.log("토글 공유에 위치함:", !formData.share);
     const newShareValue = !formData.share;
     onInputChange({
       target: {

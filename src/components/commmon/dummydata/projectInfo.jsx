@@ -187,26 +187,26 @@ export const projectInfo = [
     ],
     comments: []
   },
-  {
-        projectId: 9,
-        projectTemplate: 2,
-        projectTitle: "gadfg", 
-        projectOwnerName: "김태연",
-        description: "adfg",
-        startDate: "2024-12-17", 
-        endDate: "2024-12-20", 
-        category: "s", 
-        usedLanguage: "agaf", 
-        projectLink: "dsg",
-        solving: "ss", 
-        challenge: "ss",
-        video: "https://samplelib.com/lib/preview/mp4/sample-5s.mp4",
-        coverImage: "uploads\ddddd.jpg", 
-        images: [], 
-        logo: "uploads/dugi.jpg", 
-        share: false,
-  
-        ownerId: "happytree12",
-        ownerEmail: "tylove@naver.com"
-    },
-];
+{
+      projectId: 10,
+      projectTemplate: 1,
+      projectTitle: "ddzzzz", 
+      projectOwnerName: "김태연",
+      description: "dddvfggffd",
+      startDate: "2024-12-17", 
+      endDate: "2024-12-20", 
+      category: "dd", 
+      usedLanguage: "dddddss", 
+      projectLink: "ddssssssssssss",
+      solving: "dss", 
+      challenge: "sss",
+      video: " ",
+      coverImage: "", 
+      images: "", 
+      logo: "", 
+      share: false,
+
+      ownerId: "happytree12",
+      ownerEmail: "tylove@naver.com"
+  },
+];;
