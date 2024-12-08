@@ -96,6 +96,7 @@ const CreatePortfolioPage = () => {
 
   const handleSaveProject = () => {
     console.log("handleSaveProject 호출됨"); // 호출 확인 로그 추가
+    console.log("formData : ", formData);
   
     saveProject(
       currentUser.name, // 사용자 이름

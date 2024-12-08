@@ -53,20 +53,21 @@ export const handleImageUpload = async (projectId, field) => {
 };
 
 //사진을 유저가 선택하면 그 파일 경로를 string 으로 반환
-export const handleImageAdd = async () => {
+export const handleImageAdd = async (file) => {
+  console.log('handleImageAdd started');
 
   // 파일 입력 엘리먼트 생성
-  const input = document.createElement('input');
-  input.type = 'file';
-  input.accept = 'image/*';
+  // const input = document.createElement('input');
+  // input.type = 'file';
+  // input.accept = 'image/*';
 
-  input.onchange = async (event) => {
-  const file = event.target.files[0];
+  // input.onchange = async (event) => {
+  // const file = event.target.files[0];
 
-  if (!file || !file.type.startsWith("image/")) {
-    alert("이미지 파일만 업로드 가능합니다.");
-    return;
-  }
+  // if (!file || !file.type.startsWith("image/")) {
+  //   alert("이미지 파일만 업로드 가능합니다.");
+  //   return;
+  // }
 
   const formData = new FormData();
   formData.append("photo", file);
@@ -82,6 +83,8 @@ export const handleImageAdd = async () => {
     }
 
     const result = await response.json();
+    console.log("result: ", result);
+    console.log("uploadedPath in result: ", result.uploadedPath);
 
     return result.uploadedPath;
 
@@ -90,9 +93,9 @@ export const handleImageAdd = async () => {
   }
 };
 
-input.click();
+// input.click();
 
-}
+// }
 
 
 //수연 언니 코드
