@@ -53,7 +53,7 @@ const HackathonPage = () => {
 
     setsharedHackathonList(sharedHackathonArray); // 상태 업데이트
 
-    const initialList = hackathonSearchSortManeger.search(null);
+    const initialList = hackathonSearchSortManeger.sort(null, null, []);
     setsharedHackathonList(linkedListToArray(initialList));
   }, []);
 

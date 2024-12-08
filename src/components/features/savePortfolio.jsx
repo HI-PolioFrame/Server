@@ -1,36 +1,6 @@
 import { oriPortfolios } from "../domain/startProgram.js";
 import Portfolio from "../domain/Portfolio.js";
 
-// export const removeToAddObj = async (filePath) => {
-//   try {
-//     await fetch("http://localhost:3000/remove-to-add-obj", {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify({ filePath }),
-//     });
-//   } catch (error) {
-//     console.error(
-//       "파일 끝에서 문자열을 제거하는 중 오류가 발생했습니다.",
-//       error
-//     );
-//   }
-// };
-
-// export const appendObj = async (filePath, string) => {
-//   try {
-//     await fetch("http://localhost:3000/append-obj", {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify({ filePath, string }),
-//     });
-//   } catch (error) {
-//     console.error("파일에 문자열을 추가하는 중 오류가 발생했습니다.", error);
-//   }
-// };
 export const updateFile = async (filePath, operation, string = null) => {
   try {
     await fetch("http://localhost:3000/update-file", {
@@ -46,11 +16,14 @@ export const updateFile = async (filePath, operation, string = null) => {
 };
 
 export const savePortfolio = async (
+  portfolioOwnerName, //소유자 이름
   portfolioOwnerId, // 포트폴리오 소유자 ID
   portfolioOwnerEamil,
   portfolioName, // 포트폴리오 이름
   selectedProjects = [], // 포함된 프로젝트 ID들
   usedLanguage = "", // 사용 언어
+  frontend = "",
+  backend = "",
   share = false // 공유 여부
 ) => {
   if (
@@ -71,11 +44,14 @@ export const savePortfolio = async (
   // 포트폴리오 객체 생성
   const newPortfolio = new Portfolio(
     portfolioId, // 포트폴리오 ID
+    portfolioOwnerName, //소유자 이름
     portfolioOwnerId, // 소유자 ID
     portfolioOwnerEamil,
     portfolioName, // 포트폴리오 이름
     selectedProjects, // 포함된 프로젝트들
     usedLanguage, // 사용 언어
+    frontend,
+    backend,
     share // 공유 여부
   );
 
@@ -88,28 +64,19 @@ export const savePortfolio = async (
   {
     portfolioId: ${portfolioId},
     portfolioName: "${portfolioName}",
+    ownerName: "${portfolioOwnerName}",
     ownerId: "${portfolioOwnerId}",
     ownerEmail: "${portfolioOwnerEamil}",
     projects: ${JSON.stringify(selectedProjects)},
     usedLanguage: "${usedLanguage}",
+    frontend: "${frontend}",
+    backend: "${backend}",
     share: ${share}
   }`;
 
   // 파일 경로
   let filePath = "src/components/commmon/dummydata/portfolioInfo.jsx";
 
-  // 기존 파일에서 끝부분 제거 후 새로운 포트폴리오 추가
-  // await removeFromFileEnd(filePath, 4);
-  // await appendStringToFile(filePath, `,${string}\n];`);
-  // try {
-  //   // `];` 제거
-  //   await removeToAddObj(filePath);
-
-  //   // 새 객체 추가
-  //   await appendObj(filePath, string);
-  // } catch (error) {
-  //   console.error("파일 업데이트 중 오류 발생:", error);
-  // }
   try {
     // `];` 제거
     await updateFile(filePath, "remove");

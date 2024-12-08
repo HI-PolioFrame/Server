@@ -29,16 +29,42 @@ const MergerCreatePortfolioPageInput = ({
         />
       </InputWrapper>
 
+      <Line></Line>
+
       <InputWrapper>
         <Label>사용 언어</Label>
         <Input
           type="text"
           name="usedLanguage"
-          placeholder="사용 언어를 입력하세요 (예: JavaScript, Python)"
+          placeholder="예: JavaScript, Python"
           value={formData.usedLanguage}
           onChange={onInputChange}
         />
       </InputWrapper>
+
+      <InputWrapper>
+        <Label>프론트엔드</Label>
+        <Input
+          type="text"
+          name="frontend"
+          placeholder="예: Node.js, Zustand"
+          value={formData.frontend}
+          onChange={onInputChange}
+        />
+      </InputWrapper>
+
+      <InputWrapper>
+        <Label>백엔드</Label>
+        <Input
+          type="text"
+          name="backend"
+          placeholder="예: Django, Firebase"
+          value={formData.backend}
+          onChange={onInputChange}
+        />
+      </InputWrapper>
+
+      <Line></Line>
 
       <ToggleWrapper>
         <Label>공유</Label>
@@ -50,6 +76,8 @@ const MergerCreatePortfolioPageInput = ({
           <ToggleText isOn={!formData.share}>비공개</ToggleText>
         </ToggleContainer>
       </ToggleWrapper>
+
+      <Line></Line>
     </FormContainer>
   );
 };
@@ -132,4 +160,10 @@ const Toggle = styled.div`
   position: absolute;
   left: ${(props) => (props.isOn ? "0.2em" : "2em")};
   transition: all 0.3s ease;
+`;
+
+//hr
+const Line = styled.hr`
+  margin: 1.5vh 0;
+  border: 1px solid #d0d1d9;
 `;
