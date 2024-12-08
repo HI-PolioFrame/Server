@@ -14,8 +14,8 @@ const app = express();
 const port = 3000;
 
 ////////////////////////////////
-const multer = require('multer');
-const path = require('path');
+// const multer = require('multer');
+// const path = require('path');
 const uploadDir = path.join(__dirname, 'uploads');
 
 // uploads 디렉토리가 없으면 생성
@@ -641,7 +641,7 @@ const upload = multer({
 });
 
 
-//수연언니 코드
+// 수연언니 코드
 // const upload = multer({
 //   storage: storage,
 //   fileFilter: fileFilter,
@@ -718,9 +718,10 @@ app.post("/add-project-photo", upload.single("photo"), async (req, res) => {
       });
     }
     const imagePath = path.join('/uploads', req.file.filename); // 이미지 경로 생성
-    res.json({ success: true, imagePath: imagePath });
+    // res.json({ success: true, imagePath: imagePath });
     
     const photoPath = req.file.path;
+    console.log("photoPath: ", photoPath);
     res.json({
       success: true,
       message: "이미지 업로드 완료",
@@ -741,14 +742,14 @@ app.post('/upload', upload.single('image'), (req, res) => {
   }
 
   const imagePath = path.join('/uploads', req.file.filename); // 이미지 경로 생성
-  res.json({ success: true, imagePath: imagePath });
+  res.json({ success: true, imagePath: photoPath });
 });
 
 app.use('/uploads', express.static('uploads')); // 업로드된 파일을 정적 파일로 제공
 
-app.listen(3000, () => {
-  console.log('서버가 3000번 포트에서 실행 중입니다.');
-});
+// app.listen(3000, () => {
+//   console.log('서버가 3000번 포트에서 실행 중입니다.');
+// });
 
 // 수연 언니 코드
 // app.post("/add-project-photo", upload.single("photo"), async (req, res) => {

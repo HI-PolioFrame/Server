@@ -32,6 +32,8 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
   
     const [file, setFile] = useState(null);
 
+    let imagePath = "";
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -41,26 +43,46 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
             return;
         }
 
-        const formData = new FormData();
-        formData.append('photo', selectedFile);
+        // const formData = new FormData();
+        // formData.append('photo', selectedFile);
+
+        // try {
+        //     const response = await fetch('http://localhost:3000/add-project-photo', {
+        //         method: 'POST',
+        //         body: formData,
+        //     });
+
+        //     if (!response.ok) {
+        //         throw new Error('네트워크 응답이 좋지 않습니다.');
+        //     }
+
+        //     const data = await response.json();
+        //     console.log("data in handleSubmit: ", data);
+        //     const imagePath = data.uploadedPath;
+        //     formData.append('coverImage', imagePath);
+        //     console.log("formData: ", formData);
+
+        // } catch (error) {
+        //     console.error('업로드 오류:', error);
+        // }
 
         try {
-            const response = await fetch('http://localhost:3000/add-project-photo', {
-                method: 'POST',
-                body: formData,
-            });
+          console.log("Selected File for Upload:", selectedFile);
 
-            if (!response.ok) {
-                throw new Error('네트워크 응답이 좋지 않습니다.');
+          imagePath = await handleImageAdd(selectedFile);
+          console.log("imagePath ", imagePath);
+          onInputChange({
+            target: {
+                name: 'coverImage',
+                defaultValue: String(imagePath)
             }
-
-            const data = await response.json();
-            console.log(data);
+        });
+    
         } catch (error) {
-            console.error('업로드 오류:', error);
+          console.error('이미지 업로드 오류:', error);
         }
     };
-    
+
   const handleLogoChange = (e) => {
     const file = e.target.files[0];
     if (file && file.type.startsWith("image/")) {
