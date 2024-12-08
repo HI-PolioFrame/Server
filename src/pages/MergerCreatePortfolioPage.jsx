@@ -16,6 +16,8 @@ const MergerCreatePortfolioPage = () => {
   const [formData, setFormData] = useState({
     portfolioName: "",
     usedLanguage: "",
+    frontend: "",
+    backend: "",
     share: false,
   });
 
@@ -53,11 +55,14 @@ const MergerCreatePortfolioPage = () => {
       return;
     }
     savePortfolio(
+      currentUser.name,
       currentUser.id,
       currentUser.email,
       formData.portfolioName,
       selectedProjects,
       formData.usedLanguage,
+      formData.frontend,
+      formData.backend,
       formData.share
     );
     navigate("/MyPage");
@@ -70,42 +75,44 @@ const MergerCreatePortfolioPage = () => {
         <PageHeaderTitle>Portfolio</PageHeaderTitle>
       </HeaderWrapper>
 
-      <ContentWrapper>
+      <ContentWrapper1>
         <MergerCreatePortfolioPageInput
           formData={formData}
           onInputChange={handleInputChange}
           onToggleChange={handleInputChange}
         />
-        <ProjectsGrid>
-          {userProjects.map((project) => (
-            <ProjectCardWrapper
-              key={project.projectId}
-              selected={selectedProjects.includes(project.projectId)}
-              onClick={() => handleSelectProject(project.projectId)}
-            >
-              <TemplateCard
+        <ContentWrapper2>
+          <ProjectsGrid>
+            {userProjects.map((project) => (
+              <ProjectCardWrapper
                 key={project.projectId}
-                portfolioId={project.projectId}
-                templateButton="선택"
-                isButton={false}
-              />
-            </ProjectCardWrapper>
-          ))}
-        </ProjectsGrid>
+                selected={selectedProjects.includes(project.projectId)}
+                onClick={() => handleSelectProject(project.projectId)}
+              >
+                <TemplateCard
+                  key={project.projectId}
+                  portfolioId={project.projectId}
+                  templateButton="선택"
+                  isButton={false}
+                />
+              </ProjectCardWrapper>
+            ))}
+          </ProjectsGrid>
 
-        {/* <SubmitButton onClick={handleSavePortfolio}>포트폴리오 저장</SubmitButton> */}
+          {/* <SubmitButton onClick={handleSavePortfolio}>포트폴리오 저장</SubmitButton> */}
 
-        <CreateButton
-          //disabled={isButtonDisabled}
-          //onClick={handleSavePortfolio}
-          onClick={() => {
-            handleSavePortfolio(); // 프로젝트 저장 함수 호출
-            navigate("/MyPage");
-          }}
-        >
-          제작하기
-        </CreateButton>
-      </ContentWrapper>
+          <CreateButton
+            //disabled={isButtonDisabled}
+            //onClick={handleSavePortfolio}
+            onClick={() => {
+              handleSavePortfolio(); // 프로젝트 저장 함수 호출
+              navigate("/MyPage");
+            }}
+          >
+            제작하기
+          </CreateButton>
+        </ContentWrapper2>
+      </ContentWrapper1>
     </PageContainer>
   );
 };
@@ -127,7 +134,15 @@ const HeaderWrapper = styled.div`
   gap: 1.5em;
   margin-bottom: 5em;
 `;
-const ContentWrapper = styled.div`
+
+const ContentWrapper1 = styled.div`
+  display: flex;
+  flex-direction: column;
+  //align-items: center;
+  justify-content: center;
+  //min-height: 80vh;
+`;
+const ContentWrapper2 = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;

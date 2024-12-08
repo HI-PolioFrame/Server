@@ -68,11 +68,14 @@ export const initializeData = () => {
   portfolioInfo.forEach((data) => {
     let portfolio = new Portfolio(
       data.portfolioId,
+      data.ownerName,
       data.ownerId,
       data.ownerEmail,
       data.portfolioName,
       data.projects,
       data.usedLanguage,
+      data.frontend,
+      data.backend,
       data.share
     );
     oriPortfolios.set(data.portfolioId, portfolio);
