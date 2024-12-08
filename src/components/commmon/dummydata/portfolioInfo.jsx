@@ -21,19 +21,13 @@ export const portfolioInfo = [
 {
     portfolioId: 3,
     portfolioName: "과연",
+    ownerName: "김예은",
     ownerId: "admin1",
     ownerEmail: "nabinabi1110@naver.com",
-    projects: [11,12],
+    projects: [1,2],
     usedLanguage: "쳇쳇",
-    share: false
-  },
-{
-    portfolioId: 4,
-    portfolioName: "과연연",
-    ownerId: "admin1",
-    ownerEmail: "nabinabi1110@naver.com",
-    projects: [9,12],
-    usedLanguage: "쳇쳇",
+    frontend: "Node.js",
+    backend: "Firebase",
     share: false
   },
 ];
