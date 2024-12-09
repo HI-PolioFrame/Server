@@ -641,6 +641,27 @@ const upload = multer({
   },
 });
 
+const uploadMultiple = multer({
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+    const filetypes = /jpeg|jpg|png|gif/;
+    const mimetype = filetypes.test(file.mimetype);
+    const extname = filetypes.test(
+      path.extname(file.originalname).toLowerCase()
+    );
+
+    if (mimetype && extname) {
+      return cb(null, true);
+    }
+    cb("Error: 파일 형식이 올바르지 않습니다.");
+  },
+  // 최대 업로드 파일 수와 파일 크기 제한 (옵션)
+  limits: { 
+    fileSize: 5 * 1024 * 1024, // 5MB 제한
+    files: 4 // 최대 4 파일 제한
+  }
+});
+
 //수연언니 코드
 // const upload = multer({
 //   storage: storage,
@@ -727,6 +748,36 @@ app.post("/add-project-photo", upload.single("photo"), async (req, res) => {
       success: true,
       message: "이미지 업로드 완료",
       uploadedPath: photoPath,
+    });
+  } catch (error) {
+    console.error("파일 업로드 중 오류 발생:", error);
+    res.status(500).json({
+      success: false,
+      message: "서버 오류: " + error.message,
+    });
+  }
+});
+
+app.post("/add-multiple-photos", uploadMultiple.array("photos"), async (req, res) => {
+  try {
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "파일이 업로드되지 않았습니다.",
+      });
+    }
+
+    // 파일 경로들을 정규화하여 저장
+    const uploadedPaths = req.files.map(file => 
+      path.normalize(file.path).replace(/\\/g, '/')
+    );
+
+    console.log("uploadedPaths: ", uploadedPaths);
+
+    res.json({
+      success: true,
+      message: "이미지들 업로드 완료",
+      uploadedPaths: uploadedPaths,
     });
   } catch (error) {
     console.error("파일 업로드 중 오류 발생:", error);
