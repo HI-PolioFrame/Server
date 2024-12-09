@@ -718,10 +718,10 @@ app.post("/add-project-photo", upload.single("photo"), async (req, res) => {
       });
     }
 
-    const imagePath = path.join('/uploads', req.file.filename); // 이미지 경로 생성
+    // const imagePath = path.join('/uploads', req.file.filename); // 이미지 경로 생성
     // res.json({ success: true, imagePath: imagePath });
     
-    const photoPath = req.file.path;
+    const photoPath = path.normalize(req.file.path).replace(/\\/g, '/');
     console.log("photoPath: ", photoPath);
     res.json({
       success: true,

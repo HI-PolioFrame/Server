@@ -1,14 +1,14 @@
 import { oriProjects } from "../domain/startProgram";
 
-export const handleImageUpload = async (projectId, field) => {
+export const handleImageUpload = async (file, projectId, field) => {
   console.log("handleImageUpload started");
     // 파일 입력 엘리먼트 생성
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'image/*';
+    // const input = document.createElement('input');
+    // input.type = 'file';
+    // input.accept = 'image/*';
 
-    input.onchange = async (event) => {
-    const file = event.target.files[0];
+    // input.onchange = async (event) => {
+    // const file = event.target.files[0];
 
     if (!file || !file.type.startsWith("image/")) {
       alert("이미지 파일만 업로드 가능합니다.");
@@ -48,9 +48,6 @@ export const handleImageUpload = async (projectId, field) => {
       console.error("이미지 업로드 실패", error);
     }
   };
-
-  input.click();
-};
 
 //사진을 유저가 선택하면 그 파일 경로를 string 으로 반환
 export const handleImageAdd = async (file) => {

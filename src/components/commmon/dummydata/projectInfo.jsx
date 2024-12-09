@@ -209,4 +209,26 @@ export const projectInfo = [
       ownerId: "happytree12",
       ownerEmail: "tylove@naver.com"
   },
-];;
+{
+      projectId: 11,
+      projectTemplate: null,
+      projectTitle: "포폴", 
+      projectOwnerName: "조수연",
+      description: "설명",
+      startDate: "2024-12-01", 
+      endDate: "2024-12-02", 
+      category: "백엔드", 
+      usedLanguage: "Java", 
+      projectLink: "link",
+      solving: "s", 
+      challenge: "s",
+      video: " ",
+      coverImage: "uploads/5.png", 
+      images: [], 
+      logo: "", 
+      share: true,
+
+      ownerId: "backendDevel1!",
+      ownerEmail: "sylove@naver.com"
+  },
+];
