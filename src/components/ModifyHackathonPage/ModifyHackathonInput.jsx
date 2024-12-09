@@ -12,9 +12,20 @@ import {
 
 const ModifyHackathonInput = ({ onInputChange, formData, onDateChange }) => {
   // 업로드 이미지 미리보기 코드
-  const [coverimagePreview, setCoverImagePreview] = useState(null);
   const [LogoPreview, setLogoPreview] = useState(null);
-  const [photosPreview, setPhotosPreview] = useState([null, null, null, null, null]);
+  const [coverImagePreview, setCoverImagePreview] = useState(null);
+  const [ImagePreview, setImagePreview] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedLogo , setSelectedLogo ] = useState(null);
+  const [selectedImage , setSelectedImage ] = useState(null);
+
+  const [photosPreview, setPhotosPreview] = useState([
+    null,
+    null,
+    null,
+    null,
+    null,
+  ]);
 
   const { hackId } = useParams();
   const [HackathonData, setHackathonData] = useState({}); 
@@ -27,15 +38,6 @@ const ModifyHackathonInput = ({ onInputChange, formData, onDateChange }) => {
     }
   }, [hackId]);
 
-  // `HackathonData`가 변경될 때 `onInputChange` 호출하여 초기값 설정
-  // useEffect(() => {
-  //   if (HackathonData) {
-  //     Object.entries(HackathonData).forEach(([key, value]) => {
-  //       onInputChange({ target: { name: key, value } });
-  //     });
-  //   }
-  // }, [HackathonData, onInputChange]);
-  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setHackathonData((prevData) => ({
@@ -45,30 +47,112 @@ const ModifyHackathonInput = ({ onInputChange, formData, onDateChange }) => {
     onInputChange(e); // 외부 상태 관리 함수 호출
    };
 
+
   const handleCoverImageChange = (e) => {
     const file = e.target.files[0];
     if (file && file.type.startsWith("image/")) {
       const imageURL = URL.createObjectURL(file);
-      setCoverImagePreview(imageURL);
+      setCoverImagePreview(imageURL); 
+      setSelectedFile(file);
     }
-    onInputChange(e);
   };
+
+  const [file, setFile] = useState(null);
+
+  let imagePath = "";
+
+
+  const handleSubmit = async (event) => {
+      event.preventDefault();
+
+      if (!selectedFile) {
+          alert('파일을 선택해 주세요.');
+          return;
+      }
+      try {
+        console.log("Selected File for Upload:", selectedFile);
+
+        imagePath = await handleImageAdd(selectedFile);
+        console.log("imagePath ", imagePath);
+       
+        onInputChange({
+          target: {
+              name: 'coverImage',
+              value: imagePath,
+              // defaultValue: String(imagePath)
+          }
+      });        
+      alert("커버 이미지 업로드 성공!");
+  
+      } catch (error) {
+        console.error('이미지 업로드 오류:', error);
+      }
+  };
+
+  //로고 업데이트
   const handleLogoChange = (e) => {
     const file = e.target.files[0];
     if (file && file.type.startsWith("image/")) {
       const imageURL = URL.createObjectURL(file);
       setLogoPreview(imageURL);
+      setSelectedLogo(file);
     }
-    onInputChange(e);
   };
+
+  const handleSubmit2 = async (event) => {
+    event.preventDefault();
+  
+    if (!selectedLogo) {
+      alert("파일을 선택해 주세요.");
+      return;
+    }
+  
+    try {
+      const uploadedLogoPath = await handleImageAdd(selectedLogo); 
+      onInputChange({
+        target: { name: "logo", value: uploadedLogoPath },
+      });
+      alert("로고 업로드 성공!");
+    } catch (error) {
+      console.error("로고 업로드 오류:", error);
+      alert("로고 업로드 중 문제가 발생했습니다.");
+    }
+  };
+
   const handlePhotosChange = (index) => (e) => {
     const file = e.target.files[0];
     if (file && file.type.startsWith("image/")) {
       const newPhotosPreview = [...photosPreview];
-      newPhotosPreview[index] = URL.createObjectURL(file);
+      newPhotosPreview[index] = file; 
       setPhotosPreview(newPhotosPreview);
+    } else {
+      alert("이미지 파일만 업로드 가능합니다.");
     }
-    // onInputChange(e);
+  };
+  
+  
+  const handleSubmit3 = async (event) => {
+    event.preventDefault();
+  
+    if (!photosPreview.length) {
+      alert("파일을 선택해 주세요.");
+      return;
+    }
+  
+    try {
+      // 사진 업로드 호출
+      const uploadedPaths = await handleMultipleImageAdd(photosPreview);
+      console.log("업로드된 이미지 경로들:", uploadedPaths); // 확인
+
+      onInputChange({
+        target: { name: "pictures", value: uploadedPaths },
+      });
+      console.log("onInputChange 호출 후 formData 확인:", formData); // 상태 확인-> 나오는데 더미 데이터로 안 넘어간다?ㅍ왜지? -> 수연 언니 나온다아아아앙
+
+      alert("사진 업로드 성공!");
+    } catch (error) {
+      console.error("사진 업로드 오류:", error);
+    }
   };
 
 
@@ -168,23 +252,28 @@ const ModifyHackathonInput = ({ onInputChange, formData, onDateChange }) => {
           <InputWrapper>
               <MainText>커버 이미지</MainText>
               <ExText>해커톤을 보여줄 표지 이미지를 업로드해주세요</ExText>
-              <ImageWrapper>
-                <FileInput
-                  type="file"
+              <form onSubmit={handleSubmit}>
+                <FileInput 
+                  type="file" 
+                  accept="image/*" 
                   id="coverphotos"
-                  multiple
+                  multiple={false}
                   onChange={handleCoverImageChange} 
-                />
+                  required />
                 <FileLabel
                   htmlFor="coverphotos"
                   style={{
-                    backgroundImage: coverimagePreview ? `url(${coverimagePreview})` : "none",
+                    backgroundImage: coverImagePreview
+                      ? `url(${coverImagePreview})`
+                      : "none",
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                   }}
-                > {!coverimagePreview && "+"}
+                >
+                  {!coverImagePreview && "+"}
                 </FileLabel>
-              </ImageWrapper>
+                <SubmitButton type="submit">업로드</SubmitButton>
+            </form>
           </InputWrapper>
       </ColumnWrapper2>
 
@@ -193,46 +282,75 @@ const ModifyHackathonInput = ({ onInputChange, formData, onDateChange }) => {
           <InputWrapper>
               <MainText>사진</MainText>
               <ExText>최대 4장의 사진을 업로드하여 해커톤을 소개해주세요</ExText>
+              <form onSubmit={handleSubmit3}>
             <ImageWrapper>
               {photosPreview.map((preview, index) => (
-              <FileLabel
-                key={index}
-                htmlFor={`photos-${index}`}
-                style={{
-                  backgroundImage: preview ? `url(${preview})` : "none",
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                }}
-              >
-                <FileInput type="file" id={`photos-${index}`} onChange={handlePhotosChange(index)} />
-                {!preview && "+"}
-              </FileLabel>
-            ))}
-          </ImageWrapper>
-              
-              {/* <ChoiceInput type="file"></ChoiceInput> */}
+                <FileLabel
+                  key={index}
+                  htmlFor={`photos-${index}`}
+                  style={{
+                    backgroundImage: preview ? `url(${URL.createObjectURL(preview)})` : "none",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                >
+                  <FileInput
+                    type="file"
+                    accept="image/*"
+                    id={`photos-${index}`}
+                    onChange={handlePhotosChange(index)}
+                    required={index === 0}
+                  />
+                  {!preview && "+"}
+                </FileLabel>
+              ))}
+              {photosPreview.length < 5 && (
+                <FileLabel
+                  htmlFor={`photos-${photosPreview.length}`}
+                  style={{
+                    backgroundColor: "#f0f0f0",
+                    border: "1px dashed #d0d0d0",
+                  }}
+                >
+                  <FileInput
+                    type="file"
+                    accept="image/*"
+                    id={`photos-${photosPreview.length}`}
+                    onChange={handlePhotosChange(photosPreview.length)}
+                  />
+                  +
+                </FileLabel>
+              )}
+            </ImageWrapper>
+            <SubmitButton type="submit">업로드</SubmitButton>
+          </form>
           </InputWrapper>
           {/* 로고 */}
           <InputWrapper>
               <MainText>로고</MainText>
               <ExText>해커톤을 나타내는 로고를 업로드해주세요</ExText>
-              <ImageWrapper>
-                <FileInput
-                  type="file"
-                  id="Logo"
-                  multiple
-                  onChange={handleLogoChange} 
-                />
-                <FileLabel
-                  htmlFor="Logo"
-                  style={{
-                    backgroundImage: LogoPreview ? `url(${LogoPreview})` : "none",
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                  }}
-                > {!LogoPreview && "+"}
-                </FileLabel>
-              </ImageWrapper>
+              <form onSubmit={handleSubmit2}>
+              <FileInput
+               type="file" 
+               accept="image/*" 
+               multiple={false}
+               required
+               id="Logo"
+              onChange={handleLogoChange}
+              />
+              <FileLabel
+                htmlFor="Logo"
+                style={{
+                  backgroundImage: LogoPreview ? `url(${LogoPreview})` : "none",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              >
+                {" "}
+                {!LogoPreview && "+"}
+              </FileLabel>
+              <SubmitButton type="submit">업로드</SubmitButton>
+            </form>
           </InputWrapper>
         </ColumnWrapper2>
         
@@ -441,3 +559,14 @@ const Toggle = styled.div`
     left: ${(props) => (props.isOn ? '0.2em' : '2.2em')};
     transition: all 0.3s ease-out;
 `;
+
+const SubmitButton = styled.button`
+  border : 1px solid #0a27a6;
+  border-radius : 2em;
+  background-color : #fff;
+  color : #0a27a6;
+  font-size: 1em;
+  font-weight: 800;
+  font-family: "OTF R";
+  margin-top :1em;
+  `;

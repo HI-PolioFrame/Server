@@ -34,6 +34,7 @@ const CreatePortfolioPage = () => {
   // const [currentUser, setCurrentUser] = useState(null);
   const currentUser = getCurrentUser();
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [uploadedImages, setUploadedImages] = useState([]);
 
   useEffect(() => {
     if (currentUser) {
@@ -69,6 +70,10 @@ const CreatePortfolioPage = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    if (name === "images") {
+      setUploadedImages(value); // 업로드된 이미지를 상태로 저장
+      console.log("업로드된 이미지 경로가 상태에 저장됨:", value);
+    }
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,

@@ -90,6 +90,7 @@ export const handleImageAdd = async (file) => {
   }
 };
 
+
 export const handleMultipleImageAdd = async (files) => {
   console.log('handleMultipleImageAdd started');
 
@@ -120,51 +121,102 @@ export const handleMultipleImageAdd = async (files) => {
   }
 };
 
-export const handleMultipleImageUpload = async (files, projectId, field) => {
-  console.log("handleImageUpload started");
-    // 파일 입력 엘리먼트 생성
-    // const input = document.createElement('input');
-    // input.type = 'file';
-    // input.accept = 'image/*';
 
-    // input.onchange = async (event) => {
-    // const file = event.target.files[0];
+// export const handleMultipleImageUpload = async (files) => {
+//   // console.log("handleImagesAdd started");
 
-    const filePath = "src/components/commmon/dummydata/projectInfo.jsx";
+//   // 업로드 가능한 최대 이미지 개수
+//   const MAX_IMAGES = 5;
 
-    const formData = new FormData();
-    for (let i = 0; i < files.length; i++) {
-      formData.append("photos", files[i]);
-    }
-    formData.append('filePath', filePath);
-    formData.append("projectId", Number(projectId));
-    formData.append("field", field);
+//   // 파일 개수 제한
+//   if (files.length > MAX_IMAGES) {
+//     alert(`최대 ${MAX_IMAGES}개의 이미지만 업로드 가능합니다.`);
+//     return;
+//   }
 
-    try {
-      const response = await fetch("http://localhost:3000/update-project-photo", {
-        method: "POST",
-        body: formData,
-      });
+//   const formData = new FormData();
 
-      if (!response.ok) {
-        throw new Error(`서버 오류: ${response.status}`);
-      }
+//   files.forEach((file, index) => {
+//     if (file && file.type && file.type.startsWith("image/")) {
+//       formData.append(`photo${index + 1}`, file);
+//     } else if (file) {
+//       alert(`유효하지 않은 파일이 포함되어 있습니다. (${index + 1}번째 파일)`);
+//     }
+//   });
 
-      const result = await response.json();
-      console.log("업로드 결과:", result);
+//   try {
+//     // 서버 요청
+//     const response = await fetch("http://localhost:3000/update-project-photo", {
+//       method: "POST",
+//       body: formData,
+//     });
 
-      const project = oriProjects.get(projectId);
-      if (project) {
-        project[field] = result.uploadedPath;
-        oriProjects.set(projectId, project);
-        console.log("프로젝트 데이터 업데이트 완료:", oriProjects.get(projectId));
-      } else {
-        console.error("해당 프로젝트를 찾을 수 없습니다.");
-      }
-    } catch (error) {
-      console.error("이미지 업로드 실패", error);
-    }
-  };
+//     if (!response.ok) {
+//       throw new Error(`서버 오류: ${response.status}`);
+//     }
+
+//     // 서버 응답 처리
+//     const result = await response.json();
+//     console.log("result: ", result);
+
+//     // 결과에서 업로드된 이미지 경로 추출
+//     const uploadedPaths = result.uploadedPaths || [];
+//     console.log("uploadedPaths: ", uploadedPaths);
+
+//     return uploadedPaths;
+
+//   } catch (error) {
+//     console.error("이미지 업로드 실패", error);
+//   }
+// };
+
+
+// export const handleMultipleImageUpload = async (files, projectId, field) => {
+//   console.log("handleImageUpload started");
+//     // 파일 입력 엘리먼트 생성
+//     // const input = document.createElement('input');
+//     // input.type = 'file';
+//     // input.accept = 'image/*';
+
+//     // input.onchange = async (event) => {
+//     // const file = event.target.files[0];
+
+//     const filePath = "src/components/commmon/dummydata/projectInfo.jsx";
+
+
+//     const formData = new FormData();
+//     for (let i = 0; i < files.length; i++) {
+//       formData.append("photos", files[i]);
+//     }
+//     formData.append('filePath', filePath);
+//     formData.append("projectId", Number(projectId));
+//     formData.append("field", field);
+
+//     try {
+//       const response = await fetch("http://localhost:3000/update-project-photo", {
+//         method: "POST",
+//         body: formData,
+//       });
+
+//       if (!response.ok) {
+//         throw new Error(`서버 오류: ${response.status}`);
+//       }
+
+//       const result = await response.json();
+//       console.log("업로드 결과:", result);
+
+//       const project = oriProjects.get(projectId);
+//       if (project) {
+//         project[field] = result.uploadedPath;
+//         oriProjects.set(projectId, project);
+//         console.log("프로젝트 데이터 업데이트 완료:", oriProjects.get(projectId));
+//       } else {
+//         console.error("해당 프로젝트를 찾을 수 없습니다.");
+//       }
+//     } catch (error) {
+//       console.error("이미지 업로드 실패", error);
+//     }
+//   };
 
 // input.click();
 

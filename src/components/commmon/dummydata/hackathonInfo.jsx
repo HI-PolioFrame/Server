@@ -135,5 +135,40 @@ export const hackathonInfo = [
     ownerId: "happytree12",
     ownerEmail: "tylove@naver.com",
     participant: []
-  }
+  }, 
+  {
+    hackId: 11,
+    hackName: "d",
+    startDate: "2024-12-23",
+    endDate: "2024-12-25",
+    link: "dd",
+    maxMemNumber: 333,
+    description: "dd",
+    video: "",
+    pictures: "",
+    coverImage: "uploads/cccc.jpg",
+    logo: "uploads/ddddd.jpg",
+    part: "dddd",
+    ownerId: "happytree12",
+    ownerEmail: "tylove@naver.com",
+    participant: [],
+}
+  
+,    {
+        hackId: 12,
+        hackName: "d",
+        startDate: "2024-12-23",
+        endDate: "2024-12-28",
+        link: "dd",
+        maxMemNumber: 3,
+        description: "ddddd",
+        video: "",
+        pictures: "[]",
+        coverImage: "uploads/sssss.jpg",
+        logo: "uploads/ddddd.jpg",
+        part: "dddd",
+        ownerId: "happytree12",
+        ownerEmail: "tylove@naver.com",
+        participant: [],
+    }
 ];

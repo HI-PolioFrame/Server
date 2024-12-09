@@ -231,7 +231,19 @@ const PortfolioDetailPage3 = () => {
             </Logo>
           )} */}
           <Logo>
-            <img src={logo} alt="projectLogo" />
+              {portfolioData.logo ? (
+                    <img
+                      src={`http://localhost:3000/${portfolioData.logo}`}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        borderRadius: "1em",
+                      }}
+                    />
+                  ) : (
+                    <img src={logo} alt="projectLogo" />
+              )}
           </Logo>
           <ProjectTitle>{portfolioData.projectTitle}</ProjectTitle>
         </TitleWrapper>

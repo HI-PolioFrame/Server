@@ -17,7 +17,7 @@ class Project {
     challenge = null,
     video = null,
     coverImage = null,
-    images = null,
+    images = [],
     logo = null,
     share = false,
     hits = 0,
