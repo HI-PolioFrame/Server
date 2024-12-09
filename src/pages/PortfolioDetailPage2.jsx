@@ -258,15 +258,21 @@ const PortfolioDetailPage2 = () => {
                 <PhotoText>로고</PhotoText>
                 <Image3 src={Notepad12} alt="Notepad12" />
                 <LogoContainer>
-                  {portfolioData.images && portfolioData.images.length > 0 ? (
-                    portfolioData.images.map((image, index) => (
-                      <ImageBox key={index}>
-                        <img src={image} alt={`프로젝트 이미지 ${index + 1}`} />
-                      </ImageBox>
-                    ))
+                <ImageBox>
+                  {portfolioData.logo ? (
+                    <img
+                      src={`http://localhost:3000/${portfolioData.logo}`}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        borderRadius: "1em",
+                      }}
+                    />
                   ) : (
-                    <ImageBox>로고 없음</ImageBox>
+                    <p>로고가 없습니다.</p>
                   )}
+                </ImageBox>
                 </LogoContainer>
               </LogoWrappeer>
 
@@ -544,6 +550,7 @@ const ImageBox = styled.div`
   justify-content: center;
   font-size: 1vw;
   border-radius: 1em;
+  overflow: hidden;
 `;
 const VideoBox = styled.div`
   display: flex;

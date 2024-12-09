@@ -66,13 +66,13 @@ function MyPage() {
       setMyPortfoliosList(userPortfolios);
 
       //
-      myProjectsSearchSortManager.updateUserData(currentUser.id);
-      const initialList = myProjectsSearchSortManager.sort(null, null, []);
-      setmyPortfolioList(linkedListToArray(initialList));
+      // myProjectsSearchSortManager.updateUserData(currentUser.id);
+      // const initialList = myProjectsSearchSortManager.sort(null, null, []);
+      // setmyPortfolioList(linkedListToArray(initialList));
 
-      //해커톤 초기화
-      // hackathonSearchSortManeger.updateUserData(currentUser.id);
-      // // const hackInitialList = hackathonSearchSortManeger.sort(null, null, []);
+      // //해커톤 초기화
+      // // hackathonSearchSortManeger.updateUserData(currentUser.id);
+      // const hackInitialList = hackathonSearchSortManeger.sort(null, null, []);
       // setmyHackathonList(linkedListToArray(hackInitialList));
 
       console.log("User Portfolios:", userPortfolios);

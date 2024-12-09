@@ -13,10 +13,10 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const port = 3000;
 
-////////////////////////////////
-// const multer = require('multer');
-// const path = require('path');
-const uploadDir = path.join(__dirname, 'uploads');
+
+//const multer = require("multer");
+//const path = require("path");
+const uploadDir = path.join(__dirname, "uploads");
 
 // uploads 디렉토리가 없으면 생성
 if (!fs.existsSync(uploadDir)) {
@@ -641,8 +641,7 @@ const upload = multer({
   },
 });
 
-
-// 수연언니 코드
+//수연언니 코드
 // const upload = multer({
 //   storage: storage,
 //   fileFilter: fileFilter,
@@ -718,10 +717,11 @@ app.post("/add-project-photo", upload.single("photo"), async (req, res) => {
         message: "파일이 업로드되지 않았습니다.",
       });
     }
-    const imagePath = path.join('/uploads', req.file.filename); // 이미지 경로 생성
+
+    // const imagePath = path.join('/uploads', req.file.filename); // 이미지 경로 생성
     // res.json({ success: true, imagePath: imagePath });
     
-    const photoPath = req.file.path;
+    const photoPath = path.normalize(req.file.path).replace(/\\/g, '/');
     console.log("photoPath: ", photoPath);
     res.json({
       success: true,
@@ -739,19 +739,38 @@ app.post("/add-project-photo", upload.single("photo"), async (req, res) => {
 
 app.post("/upload", upload.single("image"), (req, res) => {
   if (!req.file) {
-    return res
-      .status(400)
-      .json({ success: false, message: "파일이 없습니다." });
+    return res.status(400).json({
+      success: false,
+      message: "파일이 없습니다.",
+    });
   }
 
-  const imagePath = path.join('/uploads', req.file.filename); // 이미지 경로 생성
-  res.json({ success: true, imagePath: photoPath });
+  // 경로를 템플릿 문자열로 생성
+  const imagePath = `/uploads/${req.file.filename}`; 
+  
+  res.json({
+    success: true,
+    imagePath: imagePath,
+  });
 });
+
+
+// app.post("/upload", upload.single("image"), (req, res) => {
+//   if (!req.file) {
+//     return res
+//       .status(400)
+//       .json({ success: false, message: "파일이 없습니다." });
+//   }
+
+
+//   const imagePath = path.join('/uploads', req.file.filename); // 이미지 경로 생성
+//   res.json({ success: true, imagePath: photoPath });
+// });
 
 app.use("/uploads", express.static("uploads")); // 업로드된 파일을 정적 파일로 제공
 
-// app.listen(3000, () => {
-//   console.log('서버가 3000번 포트에서 실행 중입니다.');
+
+//   console.log("서버가 3000번 포트에서 실행 중입니다.");
 // });
 
 // 수연 언니 코드
