@@ -29,7 +29,7 @@ export const saveHackathon = async (hackName, startDate, endDate, link, maxMemNu
         maxMemNumber: ${maxMemNumber},
         description: "${description}",
         video: "${video || ""}",
-        pictures: "${pictures || ""}",
+        pictures: ${JSON.stringify(pictures || [])},
         coverImage: "${coverImage || ""}",
         logo: "${logo || ""}",
         part: "${part || ""}",

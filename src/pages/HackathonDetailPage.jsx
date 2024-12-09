@@ -186,22 +186,48 @@ const HackathonDetailPage = () => {
       <RowWrapper>
       {/* 사진 */}
       <HackTitle>사진</HackTitle>
-          <ImageWrapper>
-            {(HackathonData.pictures || Array(5).fill(null)).map((preview, index) => (
-              <FileLabel
-                key={index}
-                htmlFor={`photos-${index}`}
-                style={{
-                  backgroundImage: preview ? `url(${preview})` : "none",
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                }}
-              >
-                <FileInput type="file" id={`photos-${index}`} onChange={handlePhotosChange(index)} />
-                {!preview && "+"}
-              </FileLabel>
-            ))}
+        <RowWrapper
+          style={{
+            display: "flex",
+            alignItems: "flex-start", 
+            gap: "20px",
+          }}
+        >
+          <ImageWrapper
+            style={{
+              display: "flex",
+              flexWrap: "wrap", 
+              gap: "10px",
+              flex: "1", 
+            }}
+          >
+            {HackathonData.pictures && HackathonData.pictures.length > 0 ? (
+              HackathonData.pictures.slice(0, 4).map((image, index) => (
+                <ImageBox
+                  key={index}
+                  style={{
+                    width: "100px",
+                    height: "100px",
+                    overflow: "hidden", 
+                  }}
+                >
+                  <img
+                    src={`http://localhost:3000/${image}`}
+                    alt={`프로젝트 이미지 ${index + 1}`}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      borderRadius: "8px",
+                    }}
+                  />
+                </ImageBox>
+              ))
+            ) : (
+              <ImageBox style={{ width: "100px", height: "100px" }}>+</ImageBox>
+            )}
           </ImageWrapper>
+        </RowWrapper>
         </RowWrapper>
 
         <ColumnWrapper2>
@@ -226,20 +252,43 @@ const HackathonDetailPage = () => {
 
           {/* 커버 이미지 */}
           <ColWrapper>
-            <HackTitle>커버 이미지</HackTitle>
+            <HackTitle2>커버 이미지</HackTitle2>
             <ImageWrapper>
-              <FileInput type="file" id="coverphotos" onChange={handleCoverImageChange} />
-              <FileLabel
-                htmlFor="coverphotos"
-                style={{
-                  backgroundImage: HackathonData.coverImage ? `url(${HackathonData.coverImage})` : "none",
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                }}
-              >
-                {!HackathonData.coverImage && "+"}
-              </FileLabel>
+               {HackathonData.coverImage ? (
+            <img
+              src={`http://localhost:3000/${HackathonData.coverImage}`}
+              style={{
+                width: "100px",
+                height: "100px",
+              // width: "100%",
+              // height: "100%",
+              objectFit: "cover",
+              borderRadius: "1em",
+              display: "block", 
+              marginLeft: "auto", 
+              marginRight: "auto", 
+            }}
+            />
+          ) : (
+            <ImageBox>+</ImageBox>
+         )}
             </ImageWrapper>
+            {/* {HackathonData.coverImage ? (
+            <img
+              src={`http://localhost:3000/${HackathonData.coverImage}`}
+              style={{
+              width: "40%",
+              height: "30%",
+              objectFit: "cover",
+              borderRadius: "1em",
+              display: "block", // 중앙 정렬에 도움
+              marginLeft: "auto", // 오른쪽 이동
+              marginRight: "auto", // 중앙 정렬 유지
+            }}
+            />
+          ) : (
+            <ImageBox>+</ImageBox>
+         )} */}
           </ColWrapper>
         </ColumnWrapper2>
       </LeftContent>
@@ -247,7 +296,20 @@ const HackathonDetailPage = () => {
       {/* 오른쪽 사이드 창 */}
       <ContentSection1>
         <Logo>
-          <img src={logo} alt="Logo" />
+          {HackathonData.logo ? (
+            <img
+             src={`http://localhost:3000/${HackathonData.logo}`}
+             style={{
+             width: "100%",
+             height: "100%",
+             objectFit: "cover",
+             borderRadius: "1em",
+            }}
+            />
+          ) : (
+            <img src={logo} alt="Logo" />
+         )}
+
         </Logo>
         <HackTitle>{HackathonData.hackName}</HackTitle>
         <RowWrapper>
@@ -263,27 +325,21 @@ const HackathonDetailPage = () => {
               <Mem2>현재 참여중인 인원 : </Mem2>
               <MemTitle>{HackathonData.participant.length || "없습니다."}</MemTitle>
             </RowWrapper>
-          
-            {/* <RowWrapper>
-              <CalendarImage src={Calendar} alt="달력" />
-              <TimeTitle>
-                활동기간 {HackathonData.startDate} - {HackathonData.endDate}
-              </TimeTitle>
-            </RowWrapper> */}
+           
           </TimeWrapper>
         </RowWrapper>
         <StartButton
-  onClick={() => {
-    if (isOwner) {
-      console.log("팝업 상태를 토글합니다.");
-      handlePopupToggle();
-    } else {
-      handleParticipation();
-    }
-  }}
->
-  {isOwner ? "지원현황" : isUserParticipant ? "지원완료" : "지원하기"}
-</StartButton>
+          onClick={() => {
+            if (isOwner) {
+              console.log("팝업 상태를 토글합니다.");
+              handlePopupToggle();
+            } else {
+              handleParticipation();
+            }
+          }}
+        >
+          {isOwner ? "지원현황" : isUserParticipant ? "지원완료" : "지원하기"}
+        </StartButton>
       </ContentSection1>
 
     </MainWrapper>
@@ -517,6 +573,13 @@ const HackTitle = styled.h1`
   font-family: "OTF B";
   // color : #000;
 `;
+const HackTitle2 = styled.h1`
+  color : #0a27a6;
+  font-weight: bold;
+  font-family: "OTF B";
+  margin-left : 1em;
+  // color : #000;
+`;
 
 const TimeTitle = styled.h1`
   font-weight: bold;
@@ -675,4 +738,32 @@ const CloseButton = styled.button`
   right: 1em;
   cursor: pointer;
   color : #0a27a6;
+`;
+
+const ImageBox = styled.div`
+  // width: 5em;
+  // height: 5em;
+  // border: 1px solid #000;
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
+  // font-size: 1vw;
+  // border-radius: 1em;
+  // overflow: hidden;
+
+  display: inline-block;
+  width: 5em;  
+  height: 5em;
+  color: #d0d1d9;
+  font-size: inherit;
+  line-height: normal;
+  vertical-align: middle;
+  background-color: #fdfdfd;
+  cursor: pointer;
+  border: 1px solid #d0d1d9;
+  border-radius: 1em;  
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
