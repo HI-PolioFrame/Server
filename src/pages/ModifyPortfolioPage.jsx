@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Logo from "../assets/icons/Logo.png";
 import ModifyPortfolioInput from "../components/ModifyPortfolioPage/ModifyPortfolioInput";
-import CreatePortfolioTemplate from "../components/CreatePortfolioPage/CreatePortfolioTemplate";
+import ModifyPortfolioTemplate from "../components/ModifyPortfolioPage/ModifyPortfolioTemplate";
 import { updateProject }  from "../components/features/projectFeatures";
 import { getCurrentUser } from "../components/features/currentUser";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { templateInfo } from "../components/commmon/dummydata/templateInfo.jsx";
 
 const ModifyPortfolioPage = () => {
   const navigate = useNavigate();
@@ -62,7 +63,7 @@ const ModifyPortfolioPage = () => {
       [name]: value,
     }));
   };
-  
+ 
   const handleDateChange = (name, date) => {
     // 날짜 객체를 복사하고 하루를 더함
     const newDate = new Date(date);
@@ -74,6 +75,14 @@ const ModifyPortfolioPage = () => {
     }));
   };
   
+  const setProjectTemplate = (templateId) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      projectTemplate: templateId,
+    }));
+    console.log("Selected templateId:", templateId);
+  };
+
 
   const handleSaveProject = () => {
     saveProject(
@@ -132,7 +141,10 @@ const ModifyPortfolioPage = () => {
           formData={formData}
           onDateChange={handleDateChange}
         />
-        <CreatePortfolioTemplate />
+        <ModifyPortfolioTemplate
+            templates={templateInfo} 
+            setProjectTemplate={setProjectTemplate} 
+        />
         <CreateButton  onClick={() => {
             handleSavePortfolio(); // 프로젝트 저장 함수 호출
             navigate("/MyPage"); // 페이지 이동

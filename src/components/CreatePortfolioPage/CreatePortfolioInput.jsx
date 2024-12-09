@@ -11,6 +11,8 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
   const [LogoPreview, setLogoPreview] = useState(null);
   const [coverImagePreview, setCoverImagePreview] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedLogo , setSelectedLogo ] = useState(null);
+
   const [photosPreview, setPhotosPreview] = useState([
     null,
     null,
@@ -25,12 +27,14 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
       const file = e.target.files[0];
       if (file && file.type.startsWith("image/")) {
         const imageURL = URL.createObjectURL(file);
-        setCoverImagePreview(imageURL); // 미리보기 업데이트
-        setSelectedFile(file); // 선택된 파일 저장
+        setCoverImagePreview(imageURL); 
+        setSelectedFile(file);
       }
     };
   
     const [file, setFile] = useState(null);
+
+    let imagePath = "";
 
 
     const handleSubmit = async (event) => {
@@ -40,35 +44,54 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
             alert('파일을 선택해 주세요.');
             return;
         }
-
-        const formData = new FormData();
-        formData.append('photo', selectedFile);
-
         try {
-            const response = await fetch('http://localhost:3000/add-project-photo', {
-                method: 'POST',
-                body: formData,
-            });
+          console.log("Selected File for Upload:", selectedFile);
 
-            if (!response.ok) {
-                throw new Error('네트워크 응답이 좋지 않습니다.');
+          imagePath = await handleImageAdd(selectedFile);
+          console.log("imagePath ", imagePath);
+         
+          onInputChange({
+            target: {
+                name: 'coverImage',
+                value: imagePath,
+                // defaultValue: String(imagePath)
             }
-
-            const data = await response.json();
-            console.log(data);
+        });
+    
         } catch (error) {
-            console.error('업로드 오류:', error);
+          console.error('이미지 업로드 오류:', error);
         }
     };
+
+    //로고 업데이트
+    const handleLogoChange = (e) => {
+      const file = e.target.files[0];
+      if (file && file.type.startsWith("image/")) {
+        const imageURL = URL.createObjectURL(file);
+        setLogoPreview(imageURL);
+        setSelectedLogo(file);
+      }
+    };
+    const handleSubmit2 = async (event) => {
+      event.preventDefault();
     
-  const handleLogoChange = (e) => {
-    const file = e.target.files[0];
-    if (file && file.type.startsWith("image/")) {
-      const imageURL = URL.createObjectURL(file);
-      setLogoPreview(imageURL);
-    }
-    onInputChange(e); // formData에 coverImage 업데이트
-  };
+      if (!selectedLogo) {
+        alert("파일을 선택해 주세요.");
+        return;
+      }
+    
+      try {
+        const uploadedLogoPath = await handleImageAdd(selectedLogo); // 서버로 업로드
+        onInputChange({
+          target: { name: "logo", value: uploadedLogoPath },
+        });
+        alert("로고 업로드 성공!");
+      } catch (error) {
+        console.error("로고 업로드 오류:", error);
+        alert("로고 업로드 중 문제가 발생했습니다.");
+      }
+    };
+
   const handlePhotosChange = (index) => (e) => {
     const file = e.target.files[0];
     if (file && file.type.startsWith("image/")) {
@@ -79,7 +102,7 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
   };
 
   const handleToggle = () => {
-    console.log("Toggled! Current share state:", !formData.share);
+    console.log("토글 공유에 위치함:", !formData.share);
     const newShareValue = !formData.share;
     onInputChange({
       target: {
@@ -313,11 +336,14 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
             <MainText>로고</MainText>
             <ExText>프로젝트를 나타내는 로고를 업로드해주세요</ExText>
             <ImageWrapper>
+            <form onSubmit={handleSubmit2}>
               <FileInput
-                type="file"
-                id="Logo"
-                multiple
-                onChange={handleLogoChange}
+               type="file" 
+               accept="image/*" 
+               multiple={false}
+               required
+               id="Logo"
+              onChange={handleLogoChange}
               />
               <FileLabel
                 htmlFor="Logo"
@@ -330,6 +356,8 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
                 {" "}
                 {!LogoPreview && "+"}
               </FileLabel>
+              <SubmitButton type="submit">업로드</SubmitButton>
+            </form>
             </ImageWrapper>
           </InputWrapper>
         </ColumnWrapper2>

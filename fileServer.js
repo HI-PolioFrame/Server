@@ -13,7 +13,7 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const port = 3000;
 
-////////////////////////////////
+
 //const multer = require("multer");
 //const path = require("path");
 const uploadDir = path.join(__dirname, "uploads");
@@ -641,6 +641,27 @@ const upload = multer({
   },
 });
 
+const uploadMultiple = multer({
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+    const filetypes = /jpeg|jpg|png|gif/;
+    const mimetype = filetypes.test(file.mimetype);
+    const extname = filetypes.test(
+      path.extname(file.originalname).toLowerCase()
+    );
+
+    if (mimetype && extname) {
+      return cb(null, true);
+    }
+    cb("Error: 파일 형식이 올바르지 않습니다.");
+  },
+  // 최대 업로드 파일 수와 파일 크기 제한 (옵션)
+  limits: { 
+    fileSize: 5 * 1024 * 1024, // 5MB 제한
+    files: 4 // 최대 4 파일 제한
+  }
+});
+
 //수연언니 코드
 // const upload = multer({
 //   storage: storage,
@@ -717,10 +738,12 @@ app.post("/add-project-photo", upload.single("photo"), async (req, res) => {
         message: "파일이 업로드되지 않았습니다.",
       });
     }
-    const imagePath = path.join("/uploads", req.file.filename); // 이미지 경로 생성
-    res.json({ success: true, imagePath: imagePath });
 
-    const photoPath = req.file.path;
+    // const imagePath = path.join('/uploads', req.file.filename); // 이미지 경로 생성
+    // res.json({ success: true, imagePath: imagePath });
+    
+    const photoPath = path.normalize(req.file.path).replace(/\\/g, '/');
+    console.log("photoPath: ", photoPath);
     res.json({
       success: true,
       message: "이미지 업로드 완료",
@@ -735,20 +758,69 @@ app.post("/add-project-photo", upload.single("photo"), async (req, res) => {
   }
 });
 
+app.post("/add-multiple-photos", uploadMultiple.array("photos"), async (req, res) => {
+  try {
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "파일이 업로드되지 않았습니다.",
+      });
+    }
+
+    // 파일 경로들을 정규화하여 저장
+    const uploadedPaths = req.files.map(file => 
+      path.normalize(file.path).replace(/\\/g, '/')
+    );
+
+    console.log("uploadedPaths: ", uploadedPaths);
+
+    res.json({
+      success: true,
+      message: "이미지들 업로드 완료",
+      uploadedPaths: uploadedPaths,
+    });
+  } catch (error) {
+    console.error("파일 업로드 중 오류 발생:", error);
+    res.status(500).json({
+      success: false,
+      message: "서버 오류: " + error.message,
+    });
+  }
+});
+
 app.post("/upload", upload.single("image"), (req, res) => {
   if (!req.file) {
-    return res
-      .status(400)
-      .json({ success: false, message: "파일이 없습니다." });
+    return res.status(400).json({
+      success: false,
+      message: "파일이 없습니다.",
+    });
   }
 
-  const imagePath = path.join("/uploads", req.file.filename); // 이미지 경로 생성
-  res.json({ success: true, imagePath: imagePath });
+  // 경로를 템플릿 문자열로 생성
+  const imagePath = `/uploads/${req.file.filename}`; 
+  
+  res.json({
+    success: true,
+    imagePath: imagePath,
+  });
 });
+
+
+// app.post("/upload", upload.single("image"), (req, res) => {
+//   if (!req.file) {
+//     return res
+//       .status(400)
+//       .json({ success: false, message: "파일이 없습니다." });
+//   }
+
+
+//   const imagePath = path.join('/uploads', req.file.filename); // 이미지 경로 생성
+//   res.json({ success: true, imagePath: photoPath });
+// });
 
 app.use("/uploads", express.static("uploads")); // 업로드된 파일을 정적 파일로 제공
 
-// app.listen(3000, () => {
+
 //   console.log("서버가 3000번 포트에서 실행 중입니다.");
 // });
 
