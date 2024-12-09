@@ -58,6 +58,7 @@ const ModifyPortfolioInput = ({ onInputChange, formData, onDateChange  }) => {
   //     endDate: end,     // endDate 업데이트
   //   }));
   // };
+
   const handleDateChange = (field, date) => {
     console.log(`${field}:`, date);  // 디버깅 로그 추가
     setPortfolioData((prevData) => ({
@@ -68,8 +69,8 @@ const ModifyPortfolioInput = ({ onInputChange, formData, onDateChange  }) => {
   
  
   
-  console.log('portfolioData:', portfolioData);
-  console.log('formData:', formData);
+  // console.log('portfolioData:', portfolioData);
+  // console.log('formData:', formData);
   
   useEffect(() => {
     initializeData();
@@ -138,7 +139,9 @@ return (
             <ExText>자신만의 포트폴리오 이름을 작성해주세요</ExText>
             <VitalInput
               name="projectTitle"
-              value={portfolioData.projectTitle || '비었습니다.'}
+              value={portfolioData.projectTitle
+                ? portfolioData.projectTitle
+                : ""}
               onChange={handleInputChange}
             />
           </InputWrapper>
@@ -149,7 +152,9 @@ return (
             <VitalInput
               type="text"
               name="description"
-              value={portfolioData.description}
+              value={portfolioData.description
+                ? portfolioData.description
+                : ""}
               onChange={handleInputChange}
             ></VitalInput>
           </InputWrapper>
@@ -165,7 +170,7 @@ return (
               name="usedLanguage"
               value={portfolioData.usedLanguage
                 ? portfolioData.usedLanguage
-                : "사용 언어 없음."}
+                : ""}
               onChange={handleInputChange}
             ></VitalInput>
           </InputWrapper>
@@ -180,7 +185,7 @@ return (
               type="url"
               name="projectLink"
               value={portfolioData.projectLink  ? portfolioData.projectLink
-                : "프로젝트 링크 없음."}
+                : ""}
               onChange={handleInputChange}
             ></VitalInput>
           </InputWrapper>
@@ -199,7 +204,7 @@ return (
               name="solving"
               value={portfolioData.solving
                 ? portfolioData.solving
-                : "문제 해결 내용 없음."}
+                : ""}
               onChange={handleInputChange}
             ></VitalInput2>
           </InputWrapper>
@@ -214,7 +219,7 @@ return (
               name="challenge"
               value={portfolioData.challenge
                 ? portfolioData.challenge
-                : "배운 점 없음."}
+                : ""}
               onChange={handleInputChange}
             ></VitalInput2>
           </InputWrapper>
@@ -256,7 +261,9 @@ return (
                   <VitalInput
                     type="text"
                     name="category"
-                    value={portfolioData.category}
+                    value={portfolioData.category
+                      ? portfolioData.category
+                      : ""}
                     onChange={handleInputChange}
                   ></VitalInput>
             </InputWrapper>
@@ -277,7 +284,7 @@ return (
               name="video"
               value={portfolioData.video 
                 ? portfolioData.video
-                : "비디오 없음."}
+                : ""}
               onChange={handleInputChange }
             ></ChoiceInput>
           </InputWrapper>

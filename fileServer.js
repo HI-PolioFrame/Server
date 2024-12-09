@@ -739,14 +739,33 @@ app.post("/add-project-photo", upload.single("photo"), async (req, res) => {
 
 app.post("/upload", upload.single("image"), (req, res) => {
   if (!req.file) {
-    return res
-      .status(400)
-      .json({ success: false, message: "파일이 없습니다." });
+    return res.status(400).json({
+      success: false,
+      message: "파일이 없습니다.",
+    });
   }
 
+  // 경로를 템플릿 문자열로 생성
+  const imagePath = `/uploads/${req.file.filename}`; 
+  
+  res.json({
+    success: true,
+    imagePath: imagePath,
+  });
+});
 
-  const imagePath = path.join('/uploads', req.file.filename); // 이미지 경로 생성
-  res.json({ success: true, imagePath: photoPath });
+
+// app.post("/upload", upload.single("image"), (req, res) => {
+//   if (!req.file) {
+//     return res
+//       .status(400)
+//       .json({ success: false, message: "파일이 없습니다." });
+//   }
+
+
+//   const imagePath = path.join('/uploads', req.file.filename); // 이미지 경로 생성
+//   res.json({ success: true, imagePath: photoPath });
+// });
 
 app.use("/uploads", express.static("uploads")); // 업로드된 파일을 정적 파일로 제공
 

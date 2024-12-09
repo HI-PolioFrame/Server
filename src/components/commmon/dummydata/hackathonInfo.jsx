@@ -122,9 +122,9 @@ export const hackathonInfo = [
   {
     hackId: 10,
     hackName: "ss",
-    startDate: "2024-12-17",
-    endDate: "2024-12-27",
-    link: "ss",
+    startDate: "2024-12-16",
+    endDate: "2024-12-20",
+    link: "",
     maxMemNumber: 2,
     description: "ss",
     video: "",

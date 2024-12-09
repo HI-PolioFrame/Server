@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Calendar from "./Calendar.jsx";
 // import { useDispatch } from 'react-redux';
 
-const ModifyCalendarInput = ({ startDate, endDate, onDateChange }) => {
+const ModifyPortfolioCalendarInput = ({ startDate, endDate, onDateChange }) => {
   // state 관리
   const [recruitmentStartDate, setRecruitmentStartDate] = useState(null);
   const [recruitmentEndDate, setRecruitmentEndDate] = useState(null);
@@ -78,7 +78,7 @@ const ModifyCalendarInput = ({ startDate, endDate, onDateChange }) => {
   );
 };
 
-export default ModifyCalendarInput;
+export default ModifyPortfolioCalendarInput;
 
 const ComponentWrapper = styled.div`
   width: 100%;

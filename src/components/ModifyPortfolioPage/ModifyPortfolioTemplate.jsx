@@ -1,3 +1,4 @@
+import { templateInfo } from "../commmon/dummydata/templateInfo.jsx";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -10,17 +11,18 @@ import { Navigation, Pagination, A11y, Autoplay, Scrollbar } from 'swiper/module
 import Logo from "../../assets/icons/Logo.png";
 
 
-
-const CreatePortfolioSlide = ({ templates  }) => {
-    // const postIds = new Array(6).fill(null).map((_, index) => `post${index + 1}`);
-    const [activeTemplateId, setActiveTemplateId] = useState(null); // Track active template ID
+const ModifyPortfolioTemplate = ({ templates, setProjectTemplate  }) => {
+    const [activeTemplateId, setActiveTemplateId] = useState(null); 
 
     function handleClick(templateId) {
-      setActiveTemplateId(templateId); // Set the clicked template as active
-    }
+        setActiveTemplateId(templateId);
+        setProjectTemplate(templateId);
+      }
     
-    return (
-      <StyledSwiper
+    return(
+        <>
+        <MainWrapper>
+        <StyledSwiper
         spaceBetween={100}
         slidesPerView={3}  
         modules={[ A11y, Scrollbar]}
@@ -49,10 +51,30 @@ const CreatePortfolioSlide = ({ templates  }) => {
           </SwiperSlide>
         ))}
       </StyledSwiper>
+            {/* <CreatePortfolioSlide templates={templateInfo}/> */}
+        </MainWrapper>
+        </>
+       
     );
-  };
+};
+
+export default ModifyPortfolioTemplate;
+
+const MainWrapper = styled.div`
+  width: 80%;
+  padding: 40px 40px;
+  margin: 0;
+
+  border : 1.5px solid #d0d1d9;
+  border-radius : 2em;
+  height : 30em;
   
-  export default CreatePortfolioSlide;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+`;
+
 
 const StyledSwiper = styled(Swiper)`
   display: flex;
