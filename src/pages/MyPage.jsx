@@ -72,8 +72,8 @@ function MyPage() {
 
       //해커톤 초기화
       // hackathonSearchSortManeger.updateUserData(currentUser.id);
-      const hackInitialList = hackathonSearchSortManeger.sort(null, null, []);
-      setmyHackathonList(linkedListToArray(hackInitialList));
+      //const hackInitialList = hackathonSearchSortManeger.sort(null, null, []);
+      //setmyHackathonList(linkedListToArray(hackInitialList));
 
       console.log("User Portfolios:", userPortfolios);
     }
