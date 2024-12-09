@@ -5,7 +5,6 @@ import {
   oriProjects,
   oriHackathons,
 } from "../domain/startProgram.js";
-
 class SearchSortManager {
   constructor() {
     this.currentPortfolios = new LinkedList();
