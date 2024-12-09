@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { oriHackathons } from "../domain/startProgram";
 import { getCurrentUser } from "../features/currentUser";
-import { patchHits } from "../features/patchHits";
+import { patchHackHits } from "../features/patchHackHits";
 
 import Logo from "../../assets/icons/Logo.png";
 
@@ -25,13 +25,12 @@ const HackTemplateCard = ({ hackId, templateButton }) => {
     console.log(currentUser);
     console.log("patchHits 불러옴.");
     if (currentUser && hackData) {
-      patchHits(currentUser.id, hackId); 
+      patchHackHits(currentUser.id, hackId);
     }
 
     // 해커톤 상세 페이지로 이동
     navigate(`/HackathonDetailPage/${hackId}`);
     // navigate(`/PortfolioDetailPage2/${portfolioId}`);
-
   };
 
   if (!hackData) {
@@ -49,8 +48,6 @@ const HackTemplateCard = ({ hackId, templateButton }) => {
     </Card>
   );
 };
-
-
 
 export default HackTemplateCard;
 
