@@ -20,10 +20,9 @@ const uploadDir = path.join(__dirname, 'uploads');
 
 // uploads 디렉토리가 없으면 생성
 if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir);
+  fs.mkdirSync(uploadDir);
 }
 ////////////////////////////////
-
 
 app.use(cors());
 app.use(express.json());
@@ -110,6 +109,7 @@ app.post("/append-string", (req, res) => {
   });
 });
 
+//파일 뒤에 객체 붙이기
 app.post("/update-file", (req, res) => {
   const { filePath, operation, string } = req.body; // operation 추가
   const absolutePath = path.resolve(__dirname, filePath);
@@ -599,7 +599,6 @@ app.post("/delete-object", (req, res) => {
   });
 });
 
-
 // 업로드 디렉토리가 없으면 생성
 // if (!fs.existsSync(uploadDir)) {
 //   fs.mkdirSync(uploadDir);
@@ -608,11 +607,11 @@ app.post("/delete-object", (req, res) => {
 // Multer 스토리지 설정
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-      cb(null, 'uploads/'); // 파일이 저장될 경로
+    cb(null, "uploads/"); // 파일이 저장될 경로
   },
   filename: (req, file, cb) => {
-      cb(null, file.originalname); // 파일 이름
-  }
+    cb(null, file.originalname); // 파일 이름
+  },
 });
 
 // const upload = multer({ storage: storage });
@@ -631,7 +630,9 @@ const upload = multer({
   fileFilter: (req, file, cb) => {
     const filetypes = /jpeg|jpg|png|gif/;
     const mimetype = filetypes.test(file.mimetype);
-    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+    const extname = filetypes.test(
+      path.extname(file.originalname).toLowerCase()
+    );
 
     if (mimetype && extname) {
       return cb(null, true);
@@ -736,16 +737,18 @@ app.post("/add-project-photo", upload.single("photo"), async (req, res) => {
   }
 });
 
-app.post('/upload', upload.single('image'), (req, res) => {
+app.post("/upload", upload.single("image"), (req, res) => {
   if (!req.file) {
-      return res.status(400).json({ success: false, message: '파일이 없습니다.' });
+    return res
+      .status(400)
+      .json({ success: false, message: "파일이 없습니다." });
   }
 
   const imagePath = path.join('/uploads', req.file.filename); // 이미지 경로 생성
   res.json({ success: true, imagePath: photoPath });
 });
 
-app.use('/uploads', express.static('uploads')); // 업로드된 파일을 정적 파일로 제공
+app.use("/uploads", express.static("uploads")); // 업로드된 파일을 정적 파일로 제공
 
 // app.listen(3000, () => {
 //   console.log('서버가 3000번 포트에서 실행 중입니다.');
