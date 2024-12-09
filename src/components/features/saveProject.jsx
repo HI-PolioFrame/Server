@@ -65,7 +65,7 @@ export const saveProject = async (
   challenge,
   video = null,
   coverImage = null,
-  images = null,
+  images = [],
   logo = null,
   // video = "없음",
   // coverImage = "없음",

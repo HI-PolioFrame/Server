@@ -187,26 +187,26 @@ export const projectInfo = [
     ],
     comments: []
   },
-{
-      projectId: 10,
-      projectTemplate: 1,
-      projectTitle: "ddzzzz", 
-      projectOwnerName: "김태연",
-      description: "dddvfggffd",
-      startDate: "2024-12-17", 
-      endDate: "2024-12-20", 
-      category: "dd", 
-      usedLanguage: "dddddss", 
-      projectLink: "ddssssssssssss",
-      solving: "dss", 
-      challenge: "sss",
-      video: " ",
-      coverImage: "", 
-      images: "", 
-      logo: "", 
-      share: false,
-
-      ownerId: "happytree12",
-      ownerEmail: "tylove@naver.com"
-  }
+  {
+        projectId: 9,
+        projectTemplate: 3,
+        projectTitle: "ㅋssss", 
+        projectOwnerName: "김태연",
+        description: "z",
+        startDate: "2024-12-18", 
+        endDate: "2024-12-20", 
+        category: "z", 
+        usedLanguage: "ㅋ", 
+        projectLink: "z",
+        solving: "ㅋ", 
+        challenge: "ㅋ",
+        video: " ",
+        coverImage: "uploads/kkkkk.jpg", 
+        images: "", 
+        logo: "uploads/sssss.jpg", 
+        share: false,
+  
+        ownerId: "happytree12",
+        ownerEmail: "tylove@naver.com"
+    },
 ];
