@@ -245,7 +245,6 @@ const PortfolioDetailPage2 = () => {
                   {portfolioData.images && portfolioData.images.length > 0 ? (
                     portfolioData.images.slice(0, 4).map((image, index) => (
                       <ImageBox key={index}>
-                        {/* 이미지 경로를 src에 설정 */}
                         <img
                           src={`http://localhost:3000/${image}`}
                           alt={`프로젝트 이미지 ${index + 1}`}

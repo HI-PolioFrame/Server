@@ -63,20 +63,6 @@ const ModifyPortfolioInput = ({ onInputChange, formData, onDateChange  }) => {
     onInputChange(e); // 외부 상태 관리 함수 호출
    };
   
-   // const handleDateChange = (dates) => {
-  //   const [start, end] = dates; // dates 배열에서 start와 end 추출
-  //   setPortfolioData((prevData) => ({
-  //     ...prevData,
-  //     startDate: start, // startDate 업데이트
-  //     endDate: end,     // endDate 업데이트
-  //   }));
-  // };
-
- 
- 
-  
-  // console.log('portfolioData:', portfolioData);
-  // console.log('formData:', formData);
   
   useEffect(() => {
     initializeData();
@@ -93,31 +79,7 @@ const ModifyPortfolioInput = ({ onInputChange, formData, onDateChange  }) => {
     setComments(filteredComments);
   }, [portfolioId, portfolioData?.contacts.length, portfolioData?.hits]);
 
-  
-  // const handleCoverImageChange = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file && file.type.startsWith("image/")) {
-  //     const imageURL = URL.createObjectURL(file);
-  //     setCoverImagePreview(imageURL);
-  //   }
-  //   onInputChange(e); 
-  // };
-  // const handleLogoChange = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file && file.type.startsWith("image/")) {
-  //     const imageURL = URL.createObjectURL(file);
-  //     setLogoPreview(imageURL);
-  //   }
-  //   onInputChange(e);
-  // };
-  // const handlePhotosChange = (index) => (e) => {
-  //   const file = e.target.files[0];
-  //   if (file && file.type.startsWith("image/")) {
-  //     const newPhotosPreview = [...photosPreview];
-  //     newPhotosPreview[index] = URL.createObjectURL(file);
-  //     setPhotosPreview(newPhotosPreview);
-  //   }
-  // };
+
   const handleCoverImageChange = (e) => {
     const file = e.target.files[0];
     if (file && file.type.startsWith("image/")) {
@@ -217,7 +179,7 @@ const ModifyPortfolioInput = ({ onInputChange, formData, onDateChange  }) => {
       onInputChange({
         target: { name: "images", value: uploadedPaths },
       });
-      console.log("onInputChange 호출 후 formData 확인:", formData); // 상태 확인-> 나오는데 더미 데이터로 안 넘어간다?ㅍ왜지? -> 수연 언니 나온다아아아앙
+      console.log("onInputChange 호출 후 formData 확인:", formData); 
 
       alert("사진 업로드 성공!");
     } catch (error) {
