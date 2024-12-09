@@ -559,3 +559,14 @@ const Toggle = styled.div`
     left: ${(props) => (props.isOn ? '0.2em' : '2.2em')};
     transition: all 0.3s ease-out;
 `;
+
+const SubmitButton = styled.button`
+  border : 1px solid #0a27a6;
+  border-radius : 2em;
+  background-color : #fff;
+  color : #0a27a6;
+  font-size: 1em;
+  font-weight: 800;
+  font-family: "OTF R";
+  margin-top :1em;
+  `;
