@@ -18,12 +18,13 @@ const MyPageSection = ({
   onSort,
   userId,
   userEmail,
+  userNickname,
 }) => {
   const navigate = useNavigate();
 
   const handleCreatePortfolioClick = () => {
     if (buttonKey == "프로젝트") {
-      if (!userEmail) {
+      if (!userEmail || !userNickname) {
         alert("이메일과 닉네임을 등록해 주세요");
       } else {
         navigate("/CreatePortfolioPage");
