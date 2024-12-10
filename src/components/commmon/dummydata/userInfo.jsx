@@ -307,11 +307,11 @@ export const userInfo = [
       pageId: 28,
       password: "ff7d22ed655ae8ce05119d723e5de80ca8b0287d5fae6c2dce8aec5e54d4d8bf",
       name: "조수연",
-      phoneNumber: "010-6203-5718",
+      phoneNumber: "010-6203-5712",
       birthday: "2024-12-09",
       recruiter: false,
       email: "",
-      nickname: "",
+      nickname: "두리안",
       link: "",
       career: "없음",
       education: ""

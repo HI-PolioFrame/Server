@@ -17,9 +17,10 @@ export const hackathonInfo = [
     participant: [
       "admin1",
       "happytree12",
-      "backendDevel1!"
+      "backendDevel1!",
+      "whynot"
     ],
-    part: "프론트"
+    part: "프론트엔드"
   },
   {
     hackId: 2,
@@ -37,8 +38,9 @@ export const hackathonInfo = [
     ownerId: "backendDevel1!",
     ownerEmail: "sylove@naver.com",
     participant: [
-      "happytree12"
+      "happytree12",
+      "whynot"
     ],
-    part: "프론트"
+    part: "프론트엔드"
   }
-];  
+];
