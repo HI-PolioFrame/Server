@@ -13,7 +13,6 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const port = 3000;
 
-
 //const multer = require("multer");
 //const path = require("path");
 const uploadDir = path.join(__dirname, "uploads");
@@ -193,6 +192,60 @@ app.post("/patch-hits", async (req, res) => {
     // hits 업데이트
     const updatedProjects = projectsObj.map((project) => {
       if (project.projectId === projectId) {
+        return { ...project, hits: newHits };
+      }
+      return project;
+    });
+
+    // 다시 파일에 쓸 때는 원래 형식으로 변환
+    const updatedContent =
+      "export const projectInfo = " +
+      JSON.stringify(updatedProjects, null, 2)
+        .replace(/"([^"]+)":/g, "$1:") // 속성 이름의 따옴표 제거
+        .replace(/}]/g, "}\n]") +
+      ";\n";
+
+    // 파일 쓰기
+    await fs.writeFile(filePath, updatedContent, "utf8");
+    res.json({ success: true, hits: newHits });
+  } catch (error) {
+    console.error("서버 에러:", error);
+    res.status(500).json({
+      error: "파일 처리 중 오류가 발생했습니다.",
+      details: error.message,
+    });
+  }
+});
+
+//해커톤 조회수
+app.post("/patch-hack-hits", async (req, res) => {
+  try {
+    const { filePath, hackId, newHits } = req.body;
+
+    // 파일 읽기
+    const data = await fs.readFile(filePath, "utf8");
+
+    // JavaScript 객체 문자열을 JSON으로 변환하기 위한 전처리
+    let contentWithoutExport = data.replace("export const projectInfo = ", "");
+    contentWithoutExport = contentWithoutExport.replace(/;\s*$/, ""); // 끝에 있는 세미콜론 제거
+
+    // JavaScript 객체를 JSON으로 변환하기 위한 함수
+    function convertToValidJSON(jsString) {
+      try {
+        // eval을 안전하게 사용하기 위한 Function 생성
+        return Function(`"use strict"; return (${jsString})`)();
+      } catch (error) {
+        console.error("JavaScript 객체 파싱 에러:", error);
+        throw error;
+      }
+    }
+
+    // JavaScript 객체 문자열을 실제 객체로 변환
+    const projectsObj = convertToValidJSON(contentWithoutExport);
+
+    // hits 업데이트
+    const updatedProjects = projectsObj.map((project) => {
+      if (project.hackId === hackId) {
         return { ...project, hits: newHits };
       }
       return project;
@@ -519,6 +572,77 @@ app.post("/patch-participant", async (req, res) => {
   }
 });
 
+app.post("/delete-object", (req, res) => {
+  const { filePath, idField, id } = req.body;
+  const absolutePath = path.resolve(__dirname, filePath);
+
+  fs.readFile(absolutePath, "utf8", (err, data) => {
+    if (err) {
+      console.error("파일을 읽는 중 오류가 발생했습니다:", err);
+      return res
+        .status(500)
+        .json({ error: "파일을 읽는 중 오류가 발생했습니다." });
+    }
+
+    // 객체 삭제를 위한 정규식
+    const pattern = new RegExp(
+      `(,?\\s*\\{[^}]*${idField}:\\s*['"]?${id}['"]?[^}]*\\},?)`,
+      "g"
+    );
+    let newData = data.replace(pattern, "");
+
+    // 연속된 쉼표 제거
+    newData = newData.replace(/,\s*,/g, ",");
+
+    // 배열의 시작과 끝 쉼표 정리
+    newData = newData.replace(/\[\s*,/g, "[");
+    newData = newData.replace(/,\s*]/g, "]");
+
+    // 객체 사이의 불필요한 공백 및 개행 정리
+    newData = newData.replace(/}\s*{/g, "},\n  {");
+
+    fs.writeFile(absolutePath, newData, "utf8", (err) => {
+      if (err) {
+        console.error("파일을 저장하는 중 오류가 발생했습니다:", err);
+        return res
+          .status(500)
+          .json({ error: "파일을 저장하는 중 오류가 발생했습니다." });
+      }
+      res.json({ success: true });
+    });
+  });
+});
+
+//뒤에서 4번째 문자가 }인지 확인
+app.post("/check-fourth-last-char", (req, res) => {
+  const { filePath } = req.body;
+  const absolutePath = path.resolve(__dirname, filePath);
+
+  fs.readFile(absolutePath, "utf8", (err, data) => {
+    if (err) {
+      console.error("파일을 읽는 중 오류가 발생했습니다:", err);
+      return res
+        .status(500)
+        .json({ error: "파일을 읽는 중 오류가 발생했습니다." });
+    }
+
+    try {
+      // 데이터에서 마지막 네 번째 문자를 확인
+      const trimmedData = data.trim(); // 앞뒤 공백 제거
+      if (trimmedData.length < 4) {
+        return res.status(200).json({ result: false }); // 4자 이하인 경우 false 반환
+      }
+
+      const fourthLastChar = trimmedData[trimmedData.length - 4]; // 네 번째 문자
+      const isClosingBrace = fourthLastChar === "}"; // 네 번째 문자가 }인지 확인
+
+      return res.status(200).json({ result: isClosingBrace });
+    } catch (error) {
+      console.error("처리 중 오류가 발생했습니다:", error);
+      res.status(500).json({ error: "데이터 처리 중 오류가 발생했습니다." });
+    }
+  });
+});
 // app.post("/update-field", (req, res) => {
 //   const { filePath, idField, id, field, newValue } = req.body;
 //   const absolutePath = path.resolve(__dirname, filePath);
@@ -570,18 +694,21 @@ app.post("/update-field", (req, res) => {
     try {
       const pattern = new RegExp(
         `({[\\s\\S]*?projectId: *${id}[\\s\\S]*?${field}: *)((?:\\[[^\\]]*\\])|(?:["'].*?["'])|(?:\\d+)|(?:true|false))([,}])`,
-        'g'
+        "g"
       );
 
       const formatValue = (value) => {
         if (Array.isArray(value)) return `[]`;
-        if (typeof value === 'string') return `"${value}"`;
+        if (typeof value === "string") return `"${value}"`;
         return value;
       };
 
-      const updatedData = data.replace(pattern, (match, before, oldValue, endChar) => {
-        return `${before}${formatValue(newValue)}${endChar}`;
-      });
+      const updatedData = data.replace(
+        pattern,
+        (match, before, oldValue, endChar) => {
+          return `${before}${formatValue(newValue)}${endChar}`;
+        }
+      );
 
       fs.writeFile(absolutePath, updatedData, "utf8", (err) => {
         if (err) {
@@ -589,9 +716,8 @@ app.post("/update-field", (req, res) => {
         }
         res.json({ success: true });
       });
-
     } catch (error) {
-      console.error('업데이트 중 오류:', error);
+      console.error("업데이트 중 오류:", error);
       res.status(500).json({ error: "데이터 처리 중 오류가 발생했습니다." });
     }
   });
@@ -654,10 +780,10 @@ const uploadMultiple = multer({
     cb("Error: 파일 형식이 올바르지 않습니다.");
   },
   // 최대 업로드 파일 수와 파일 크기 제한 (옵션)
-  limits: { 
+  limits: {
     fileSize: 5 * 1024 * 1024, // 5MB 제한
-    files: 4 // 최대 4 파일 제한
-  }
+    files: 4, // 최대 4 파일 제한
+  },
 });
 
 //수연언니 코드
@@ -739,8 +865,8 @@ app.post("/add-project-photo", upload.single("photo"), async (req, res) => {
 
     // const imagePath = path.join('/uploads', req.file.filename); // 이미지 경로 생성
     // res.json({ success: true, imagePath: imagePath });
-    
-    const photoPath = path.normalize(req.file.path).replace(/\\/g, '/');
+
+    const photoPath = path.normalize(req.file.path).replace(/\\/g, "/");
     console.log("photoPath: ", photoPath);
     res.json({
       success: true,
@@ -756,35 +882,39 @@ app.post("/add-project-photo", upload.single("photo"), async (req, res) => {
   }
 });
 
-app.post("/add-multiple-photos", uploadMultiple.array("photos"), async (req, res) => {
-  try {
-    if (!req.files || req.files.length === 0) {
-      return res.status(400).json({
+app.post(
+  "/add-multiple-photos",
+  uploadMultiple.array("photos"),
+  async (req, res) => {
+    try {
+      if (!req.files || req.files.length === 0) {
+        return res.status(400).json({
+          success: false,
+          message: "파일이 업로드되지 않았습니다.",
+        });
+      }
+
+      // 파일 경로들을 정규화하여 저장
+      const uploadedPaths = req.files.map((file) =>
+        path.normalize(file.path).replace(/\\/g, "/")
+      );
+
+      console.log("uploadedPaths: ", uploadedPaths);
+
+      res.json({
+        success: true,
+        message: "이미지들 업로드 완료",
+        uploadedPaths: uploadedPaths,
+      });
+    } catch (error) {
+      console.error("파일 업로드 중 오류 발생:", error);
+      res.status(500).json({
         success: false,
-        message: "파일이 업로드되지 않았습니다.",
+        message: "서버 오류: " + error.message,
       });
     }
-
-    // 파일 경로들을 정규화하여 저장
-    const uploadedPaths = req.files.map(file => 
-      path.normalize(file.path).replace(/\\/g, '/')
-    );
-
-    console.log("uploadedPaths: ", uploadedPaths);
-
-    res.json({
-      success: true,
-      message: "이미지들 업로드 완료",
-      uploadedPaths: uploadedPaths,
-    });
-  } catch (error) {
-    console.error("파일 업로드 중 오류 발생:", error);
-    res.status(500).json({
-      success: false,
-      message: "서버 오류: " + error.message,
-    });
   }
-});
+);
 
 app.post("/upload", upload.single("image"), (req, res) => {
   if (!req.file) {
@@ -795,14 +925,13 @@ app.post("/upload", upload.single("image"), (req, res) => {
   }
 
   // 경로를 템플릿 문자열로 생성
-  const imagePath = `/uploads/${req.file.filename}`; 
-  
+  const imagePath = `/uploads/${req.file.filename}`;
+
   res.json({
     success: true,
     imagePath: imagePath,
   });
 });
-
 
 // app.post("/upload", upload.single("image"), (req, res) => {
 //   if (!req.file) {
@@ -811,13 +940,11 @@ app.post("/upload", upload.single("image"), (req, res) => {
 //       .json({ success: false, message: "파일이 없습니다." });
 //   }
 
-
 //   const imagePath = path.join('/uploads', req.file.filename); // 이미지 경로 생성
 //   res.json({ success: true, imagePath: photoPath });
 // });
 
 app.use("/uploads", express.static("uploads")); // 업로드된 파일을 정적 파일로 제공
-
 
 //   console.log("서버가 3000번 포트에서 실행 중입니다.");
 // });
