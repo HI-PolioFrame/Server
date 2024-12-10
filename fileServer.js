@@ -519,83 +519,81 @@ app.post("/patch-participant", async (req, res) => {
   }
 });
 
+// app.post("/update-field", (req, res) => {
+//   const { filePath, idField, id, field, newValue } = req.body;
+//   const absolutePath = path.resolve(__dirname, filePath);
+
+//   fs.readFile(absolutePath, "utf8", (err, data) => {
+//     if (err) {
+//       console.error("파일을 읽는 중 오류가 발생했습니다:", err);
+//       return res
+//         .status(500)
+//         .json({ error: "파일을 읽는 중 오류가 발생했습니다." });
+//     }
+
+//     const pattern = new RegExp(
+//       `(${idField}: *['"]?)${id}(['"]?[^}]*\\b${field}\\b: *)['"']?.*?['"']?(?=,|})`,
+//       "g"
+//     );
+
+//     const updatedData = data.replace(pattern, (match, prefix1, prefix2) => {
+//       // newValue의 타입에 따라 다르게 처리
+//       if (typeof newValue === "number") {
+//         return `${prefix1}${id}${prefix2}${newValue}`;
+//       } else {
+//         const quote = match.includes('"') ? '"' : "'";
+//         return `${prefix1}${id}${prefix2}${quote}${newValue}${quote}`;
+//       }
+//     });
+
+//     fs.writeFile(absolutePath, updatedData, "utf8", (err) => {
+//       if (err) {
+//         console.error("파일을 저장하는 중 오류가 발생했습니다:", err);
+//         return res
+//           .status(500)
+//           .json({ error: "파일을 저장하는 중 오류가 발생했습니다." });
+//       }
+//       res.json({ success: true });
+//     });
+//   });
+// });
+
 app.post("/update-field", (req, res) => {
   const { filePath, idField, id, field, newValue } = req.body;
   const absolutePath = path.resolve(__dirname, filePath);
 
   fs.readFile(absolutePath, "utf8", (err, data) => {
     if (err) {
-      console.error("파일을 읽는 중 오류가 발생했습니다:", err);
-      return res
-        .status(500)
-        .json({ error: "파일을 읽는 중 오류가 발생했습니다." });
+      return res.status(500).json({ error: "파일을 읽을 수 없습니다." });
     }
 
-    const pattern = new RegExp(
-      `(${idField}: *['"]?)${id}(['"]?[^}]*\\b${field}\\b: *)['"']?.*?['"']?(?=,|})`,
-      "g"
-    );
+    try {
+      const pattern = new RegExp(
+        `({[\\s\\S]*?projectId: *${id}[\\s\\S]*?${field}: *)((?:\\[[^\\]]*\\])|(?:["'].*?["'])|(?:\\d+)|(?:true|false))([,}])`,
+        'g'
+      );
 
-    const updatedData = data.replace(pattern, (match, prefix1, prefix2) => {
-      // newValue의 타입에 따라 다르게 처리
-      if (typeof newValue === "number") {
-        return `${prefix1}${id}${prefix2}${newValue}`;
-      } else {
-        const quote = match.includes('"') ? '"' : "'";
-        return `${prefix1}${id}${prefix2}${quote}${newValue}${quote}`;
-      }
-    });
+      const formatValue = (value) => {
+        if (Array.isArray(value)) return `[]`;
+        if (typeof value === 'string') return `"${value}"`;
+        return value;
+      };
 
-    fs.writeFile(absolutePath, updatedData, "utf8", (err) => {
-      if (err) {
-        console.error("파일을 저장하는 중 오류가 발생했습니다:", err);
-        return res
-          .status(500)
-          .json({ error: "파일을 저장하는 중 오류가 발생했습니다." });
-      }
-      res.json({ success: true });
-    });
-  });
-});
+      const updatedData = data.replace(pattern, (match, before, oldValue, endChar) => {
+        return `${before}${formatValue(newValue)}${endChar}`;
+      });
 
-app.post("/delete-object", (req, res) => {
-  const { filePath, idField, id } = req.body;
-  const absolutePath = path.resolve(__dirname, filePath);
+      fs.writeFile(absolutePath, updatedData, "utf8", (err) => {
+        if (err) {
+          return res.status(500).json({ error: "파일을 저장할 수 없습니다." });
+        }
+        res.json({ success: true });
+      });
 
-  fs.readFile(absolutePath, "utf8", (err, data) => {
-    if (err) {
-      console.error("파일을 읽는 중 오류가 발생했습니다:", err);
-      return res
-        .status(500)
-        .json({ error: "파일을 읽는 중 오류가 발생했습니다." });
+    } catch (error) {
+      console.error('업데이트 중 오류:', error);
+      res.status(500).json({ error: "데이터 처리 중 오류가 발생했습니다." });
     }
-
-    // 객체 삭제를 위한 정규식
-    const pattern = new RegExp(
-      `(,?\\s*\\{[^}]*${idField}:\\s*['"]?${id}['"]?[^}]*\\},?)`,
-      "g"
-    );
-    let newData = data.replace(pattern, "");
-
-    // 연속된 쉼표 제거
-    newData = newData.replace(/,\s*,/g, ",");
-
-    // 배열의 시작과 끝 쉼표 정리
-    newData = newData.replace(/\[\s*,/g, "[");
-    newData = newData.replace(/,\s*]/g, "]");
-
-    // 객체 사이의 불필요한 공백 및 개행 정리
-    newData = newData.replace(/}\s*{/g, "},\n  {");
-
-    fs.writeFile(absolutePath, newData, "utf8", (err) => {
-      if (err) {
-        console.error("파일을 저장하는 중 오류가 발생했습니다:", err);
-        return res
-          .status(500)
-          .json({ error: "파일을 저장하는 중 오류가 발생했습니다." });
-      }
-      res.json({ success: true });
-    });
   });
 });
 
