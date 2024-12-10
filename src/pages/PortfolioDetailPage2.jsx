@@ -258,7 +258,7 @@ const PortfolioDetailPage2 = () => {
                       </ImageBox>
                     ))
                   ) : (
-                    <ImageBox>사진 없음</ImageBox>
+                    <ImageBox>+</ImageBox>
                   )}
                 </ImageContainer>
               </PhotoWrappeer>
@@ -280,7 +280,7 @@ const PortfolioDetailPage2 = () => {
                       }}
                     />
                   ) : (
-                    <p>로고가 없습니다.</p>
+                    <p>+</p>
                   )}
                 </ImageBox>
                 </LogoContainer>
