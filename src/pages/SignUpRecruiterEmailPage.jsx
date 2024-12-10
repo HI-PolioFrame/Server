@@ -165,14 +165,15 @@ const SignUpRecruiterEmailPage= () => {
     //시작하기
     const handleSignUp = async () => {
         try {
+          
             // 기본약관 동의 여부 확인
             if (!agree) {
                 alert("가입 기본약관에 동의해야 회원가입이 가능합니다.");
-                return;
+                return; 
             }
     
             const result = await emailSignUpRecruiter(name, birthday, emailInput, password, repassword, phone);
-    
+
             // 회원가입 결과 처리
             if (result && result.success) {
                 alert("회원가입이 성공!");

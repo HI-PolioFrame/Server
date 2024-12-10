@@ -40,24 +40,5 @@ export const hackathonInfo = [
       "happytree12"
     ],
     part: "프론트"
-  },
-  {
-    hackId: 3,
-    hackName: "d",
-    startDate: "2024-12-19",
-    endDate: "2024-12-26",
-    link: "d",
-    maxMemNumber: 6,
-    description: "d",
-    video: "",
-    pictures: [],
-    coverImage: "",
-    logo: "",
-    part: "d",
-    ownerId: "admin1",
-    ownerEmail: "nabinabi1110@naver.com",
-    participant: [
-      "happytree12"
-    ]
   }
-];
+];  
