@@ -643,44 +643,44 @@ app.post("/check-fourth-last-char", (req, res) => {
     }
   });
 });
-// app.post("/update-field", (req, res) => {
-//   const { filePath, idField, id, field, newValue } = req.body;
-//   const absolutePath = path.resolve(__dirname, filePath);
+app.post("/update-user-field", (req, res) => {
+  const { filePath, idField, id, field, newValue } = req.body;
+  const absolutePath = path.resolve(__dirname, filePath);
 
-//   fs.readFile(absolutePath, "utf8", (err, data) => {
-//     if (err) {
-//       console.error("파일을 읽는 중 오류가 발생했습니다:", err);
-//       return res
-//         .status(500)
-//         .json({ error: "파일을 읽는 중 오류가 발생했습니다." });
-//     }
+  fs.readFile(absolutePath, "utf8", (err, data) => {
+    if (err) {
+      console.error("파일을 읽는 중 오류가 발생했습니다:", err);
+      return res
+        .status(500)
+        .json({ error: "파일을 읽는 중 오류가 발생했습니다." });
+    }
 
-//     const pattern = new RegExp(
-//       `(${idField}: *['"]?)${id}(['"]?[^}]*\\b${field}\\b: *)['"']?.*?['"']?(?=,|})`,
-//       "g"
-//     );
+    const pattern = new RegExp(
+      `(${idField}: *['"]?)${id}(['"]?[^}]*\\b${field}\\b: *)['"']?.*?['"']?(?=,|})`,
+      "g"
+    );
 
-//     const updatedData = data.replace(pattern, (match, prefix1, prefix2) => {
-//       // newValue의 타입에 따라 다르게 처리
-//       if (typeof newValue === "number") {
-//         return `${prefix1}${id}${prefix2}${newValue}`;
-//       } else {
-//         const quote = match.includes('"') ? '"' : "'";
-//         return `${prefix1}${id}${prefix2}${quote}${newValue}${quote}`;
-//       }
-//     });
+    const updatedData = data.replace(pattern, (match, prefix1, prefix2) => {
+      // newValue의 타입에 따라 다르게 처리
+      if (typeof newValue === "number") {
+        return `${prefix1}${id}${prefix2}${newValue}`;
+      } else {
+        const quote = match.includes('"') ? '"' : "'";
+        return `${prefix1}${id}${prefix2}${quote}${newValue}${quote}`;
+      }
+    });
 
-//     fs.writeFile(absolutePath, updatedData, "utf8", (err) => {
-//       if (err) {
-//         console.error("파일을 저장하는 중 오류가 발생했습니다:", err);
-//         return res
-//           .status(500)
-//           .json({ error: "파일을 저장하는 중 오류가 발생했습니다." });
-//       }
-//       res.json({ success: true });
-//     });
-//   });
-// });
+    fs.writeFile(absolutePath, updatedData, "utf8", (err) => {
+      if (err) {
+        console.error("파일을 저장하는 중 오류가 발생했습니다:", err);
+        return res
+          .status(500)
+          .json({ error: "파일을 저장하는 중 오류가 발생했습니다." });
+      }
+      res.json({ success: true });
+    });
+  });
+});
 
 app.post("/update-field", (req, res) => {
   const { filePath, idField, id, field, newValue } = req.body;

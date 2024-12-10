@@ -55,4 +55,39 @@ export const commentInfo = [
     text: "## dkdkdkdkdkdkk**ddddddd*sssssssss~~tttttttt",
     date: "2024-12-03",
   },
+{
+    commentId: 10,
+    portfolioId: 5,
+    userId: "suyeonnie2",
+    text: "댓글",
+    date: "2024-12-10"
+  },
+{
+    commentId: 11,
+    portfolioId: 5,
+    userId: "suyeonnie2",
+    text: "###### ",
+    date: "2024-12-10"
+  },
+{
+    commentId: 12,
+    portfolioId: 5,
+    userId: "suyeonnie2",
+    text: "~~댓글~~",
+    date: "2024-12-10"
+  },
+{
+    commentId: 13,
+    portfolioId: 5,
+    userId: "suyeonnie2",
+    text: "##### 댓글",
+    date: "2024-12-10"
+  },
+{
+    commentId: 14,
+    portfolioId: 5,
+    userId: "suyeonnie2",
+    text: "###### 댓글",
+    date: "2024-12-10"
+  },
 ];

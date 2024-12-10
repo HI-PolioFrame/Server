@@ -28,7 +28,7 @@ export const updateName = async (userId, newValue) => {
     const filePath = "src/components/commmon/dummydata/userInfo.jsx";
 
     // 필드를 업데이트하는 API 호출
-    await fetch("http://localhost:3000/update-field", {
+    await fetch("http://localhost:3000/update-user-field", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -74,7 +74,7 @@ export const updateNickname = async (userId, newValue) => {
     const filePath = "src/components/commmon/dummydata/userInfo.jsx";
 
     // 필드를 업데이트하는 API 호출
-    await fetch("http://localhost:3000/update-field", {
+    await fetch("http://localhost:3000/update-user-field", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -122,7 +122,7 @@ export const updateId = async (userId, newValue) => {
     const filePath = "src/components/commmon/dummydata/userInfo.jsx";
 
     // 필드를 업데이트하는 API 호출
-    await fetch("http://localhost:3000/update-field", {
+    await fetch("http://localhost:3000/update-user-field", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -171,7 +171,7 @@ export const updateEmail = async (userId, newValue) => {
     const filePath = "src/components/commmon/dummydata/userInfo.jsx";
 
     // 필드를 업데이트하는 API 호출
-    await fetch("http://localhost:3000/update-field", {
+    await fetch("http://localhost:3000/update-user-field", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -227,7 +227,7 @@ export const updatePassword = async (userId, newValue) => {
     const filePath = "src/components/commmon/dummydata/userInfo.jsx";
 
     // 필드를 업데이트하는 API 호출
-    await fetch("http://localhost:3000/update-field", {
+    await fetch("http://localhost:3000/update-user-field", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -282,7 +282,7 @@ export const updatePhoneNumber = async (userId, newValue) => {
     const filePath = "src/components/commmon/dummydata/userInfo.jsx";
 
     // 필드를 업데이트하는 API 호출
-    await fetch("http://localhost:3000/update-field", {
+    await fetch("http://localhost:3000/update-user-field", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
