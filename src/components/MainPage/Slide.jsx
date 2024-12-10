@@ -273,7 +273,7 @@ const PointText2 = styled.p`
 `;
 
 const PointText3 = styled.p`
-  font-size: 1em;
+  font-size: 0.8em;
   font-weight: 600;
   color: #000;
   margin-bottom: -1em;

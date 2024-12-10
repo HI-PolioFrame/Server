@@ -115,13 +115,18 @@ const signUpDeveloperPage = () => {
 
   const handleSignUp = async () => {
     try {
-        await idSignUpDeveloper(name, birthday, idInput, password, repassword, phone); 
-        navigate("/LoginPage");  
+      const result =  await idSignUpDeveloper(name, birthday, idInput, password, repassword, phone); 
+
+      // 성공적으로 끝났다는 것을 확인
+      if (result.success) {
+        alert('회원가입이 성공!');
+        navigate("/LoginPage"); 
+      }
     } catch (error) {
-       console.error("회원가입 중 오류 발생:", error);  
+      console.error("회원가입 중 오류 발생:", error)
     }
-  };
-  
+};
+
   return (
     <LoginWrapper>
       <MainText onClick={() => navigate("/")}>FolioFrame</MainText>

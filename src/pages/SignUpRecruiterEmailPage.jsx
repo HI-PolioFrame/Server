@@ -165,14 +165,29 @@ const SignUpRecruiterEmailPage= () => {
     //시작하기
     const handleSignUp = async () => {
         try {
-            await emailSignUpRecruiter(name, birthday, emailInput, password, repassword, phone); 
-            navigate("/LoginPage");  
+          
+            // 기본약관 동의 여부 확인
+            if (!agree) {
+                alert("가입 기본약관에 동의해야 회원가입이 가능합니다.");
+                return; 
+            }
+    
+            const result = await emailSignUpRecruiter(name, birthday, emailInput, password, repassword, phone);
+
+            // 회원가입 결과 처리
+            if (result && result.success) {
+                alert("회원가입이 성공!");
+                navigate("/LoginPage");
+            } else {
+                alert(result?.message || "회원가입에 실패했습니다.");
+            }
         } catch (error) {
-            console.error("회원가입 중 오류 발생:", error);  
-            
+            console.error("회원가입 중 오류 발생:", error);
+            alert("회원가입 처리 중 문제가 발생했습니다.");
         }
     };
-
+    
+    
     return (
         <LoginWrapper>
             <MainText onClick={() => navigate("/")}>FolioFrame</MainText>
@@ -261,8 +276,8 @@ const SignUpRecruiterEmailPage= () => {
                         </PhonecheckWrapper>
                 </RowWrapper>
 
-  {/* 회사인증 */}
-  <RowWrapper>
+            {/* 회사인증 */}
+            <RowWrapper>
                     <CertificInput 
                         placeholder="회사인증" 
                         type="Comemail" 
