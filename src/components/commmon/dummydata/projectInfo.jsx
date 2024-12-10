@@ -208,5 +208,5 @@ export const projectInfo = [
 
       ownerId: "happytree12",
       ownerEmail: "tylove@naver.com"
-  }
+  },
 ];
