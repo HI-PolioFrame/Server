@@ -276,7 +276,7 @@ const PortfolioDetailPage2 = () => {
                         width: "100%",
                         height: "100%",
                         objectFit: "cover",
-                        borderRadius: "1em",
+                        borderRadius: "8px",
                       }}
                     />
                   ) : (

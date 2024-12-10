@@ -9,7 +9,7 @@ const TemplateCard = () => {
   const navigate = useNavigate();
   const currentUser = getCurrentUser();
 
-  const templateName = ["템플릿", "해커톤", "채용"];
+  const templateName = ["포트폴리오", "해커톤", "채용"];
   const description = ["나만의 포토폴리오 만들기", "함께 경험 쌓는 프로젝트", "나에게 맞는 채용 정보"];
   const pages = ["/PortfolioPage","/HackathonPage", "/RecruiterPage"];
   // const handleButtonClick = (index) => {

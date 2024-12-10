@@ -41,22 +41,4 @@ export const hackathonInfo = [
     ],
     part: "프론트"
   }
-,    {
-        hackId: 3,
-        hackName: "d",
-        startDate: "2024-12-19",
-        endDate: "2024-12-26",
-        link: "d",
-        maxMemNumber: 6,
-        description: "d",
-        // video: "https://tv.naver.com/v/66037262",
-        video: "",
-        pictures: [],
-        coverImage: "",
-        logo: "",
-        part: "d",
-        ownerId: "happytree12",
-        ownerEmail: "tylove@naver.com",
-        participant: [],
-    }
-];
+];  

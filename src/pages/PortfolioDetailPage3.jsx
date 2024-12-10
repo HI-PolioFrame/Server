@@ -231,19 +231,19 @@ const PortfolioDetailPage3 = () => {
             </Logo>
           )} */}
           <Logo>
-              {portfolioData.logo ? (
-                    <img
-                      src={`http://localhost:3000/${portfolioData.logo}`}
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                        borderRadius: "1em",
-                      }}
-                    />
-                  ) : (
-                    <img src={logo} alt="projectLogo" />
-              )}
+            {portfolioData.logo ? (
+              <img
+                src={`http://localhost:3000/${portfolioData.logo}`}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  borderRadius: "1em",
+                }}
+              />
+            ) : (
+              <img src={logo} alt="projectLogo" />
+            )}
           </Logo>
           <ProjectTitle>{portfolioData.projectTitle}</ProjectTitle>
         </TitleWrapper>
@@ -298,29 +298,6 @@ const PortfolioDetailPage3 = () => {
             <Arrow src={lessThanSign} alt="Scroll Left" />
           </ArrowButton>
           <MediaSection ref={mediaRef}>
-            {/* {(portfolioData.video || (portfolioData.images && portfolioData.images.length > 0)) && (
-      <MediaSection ref={mediaRef}>
-        {portfolioData.video && (
-        <VideoContainer>
-          <DemoVideo>
-            <video width="100%" height="100%" controls>
-              <source src={portfolioData.video} type="video/mp4" />
-              비디오를 지원하지 않는 브라우저입니다.
-            </video>
-          </DemoVideo>
-          </VideoContainer>
-        )}
-        {portfolioData.images && portfolioData.images.length > 0 && (
-          <ImageContainer>
-            {portfolioData.images.map((image, index) => (
-              <ImageBox onClick={() => setEnlargedImage(sample)}>
-                <img src={image} alt={`프로젝트 이미지 ${index + 1}`} />
-              </ImageBox>
-            ))}
-          </ImageContainer>
-        )}
-      </MediaSection>
-    )} */}
             <VideoContainer>
               <DemoVideo>
                 <video width="100%" height="100%" controls>

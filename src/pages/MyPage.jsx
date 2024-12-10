@@ -136,6 +136,7 @@ function MyPage() {
             onSearch={handleMyProjectSearchApply}
             onSort={handleMyProjectSortApply}
             userId={currentUser?.id}
+            userEmail={currentUser?.email}
           />
 
           <MyPageSection
