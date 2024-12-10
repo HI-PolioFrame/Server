@@ -186,5 +186,27 @@ export const projectInfo = [
       "admin4"
     ],
     comments: []
-  }
+  },
+  {
+        projectId: 9,
+        projectTemplate: 2,
+        projectTitle: "안녕", 
+        projectOwnerName: "김태연",
+        description: "안녕ddd",
+        startDate: "2024-12-17", 
+        endDate: "2024-12-21", 
+        category: "프론트", 
+        usedLanguage: "안녕", 
+        projectLink: "dkddd",
+        solving: "안녕", 
+        challenge: "안녕ddd",
+        video: " ",
+        coverImage: "", 
+        images: "", 
+        logo: "", 
+        share: false,
+  
+        ownerId: "happytree12",
+        ownerEmail: "tylove@naver.com"
+    }
 ];

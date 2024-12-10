@@ -234,20 +234,22 @@ const HackathonDetailPage = () => {
           {/* 홍보 비디오 */}
           <ColWrapper>
             <HackTitle>홍보 비디오</HackTitle>
-            <ChoiceInput
-              type="url"
-              value={HackathonData.video || ""}
-              placeholder="비디오 URL을 입력하세요"
-              onChange={handleVideoChange}
-            />
-            {HackathonData.video && (
+           {!HackathonData.video ? (
+              <ChoiceInput
+                type="url"
+                value={HackathonData.video || ""}
+                placeholder="비디오 URL을 입력하세요"
+                onChange={handleVideoChange}
+              />
+            ) : (
               <VideoWrapper>
                 <video controls width="100%">
                   <source src={HackathonData.video} type="video/mp4" />
                   <p>비디오 재생을 지원하지 않는 브라우저입니다.</p>
                 </video>
               </VideoWrapper>
-            )}          
+            )}
+              
           </ColWrapper>
 
           {/* 커버 이미지 */}
@@ -766,4 +768,56 @@ const ImageBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+
+const VideoText = styled.p`
+  position: absolute;
+  left: 2em;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #000;
+  font-family: "OTF R";
+  // left: 2.5em;
+  // font-size: 1.5em;
+
+  @media (max-width: 768px) {
+    font-size: 1em;
+    top: 72%;
+    left: 5%;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.9em;
+    top: 75%;
+    left: 5%;
+  }
+`;
+const VideoBox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center; 
+
+  border-radius: 1em;
+  font-size: 1vw;
+  width: 40em;
+  height: 15em;
+
+`;
+
+const VideoWrappeer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 1em;
+
+  border: 1px solid #d0d1d9;
+  border-radius: 2em;
+  outline: none;
+  width: 30em;
+  height: 15em;
+  text-indent: 1em;
+  &::placeholder {
+    text-indent: 1em;
+  }
 `;
