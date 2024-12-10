@@ -8,7 +8,7 @@ class Hackathon {
         maxMemNumber,
         description,
         video = null,
-        pictures = null,
+        pictures = [],
         coverImage = null,
         logo = null,
         part,

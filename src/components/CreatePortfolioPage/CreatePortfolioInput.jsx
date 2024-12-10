@@ -3,15 +3,17 @@ import styled from "styled-components";
 import { useState } from "react";
 // import Calendar from "./Calendar.jsx";
 import CalendarInput from "./CalendarInput.jsx";
-import {handleImageAdd} from "../features/fileUploadFeatures.jsx";
+import {handleImageAdd, handleMultipleImageAdd } from "../features/fileUploadFeatures.jsx";
 
 const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
   // 업로드 이미지 미리보기 코드
   // const [coverimagePreview, setCoverImagePreview] = useState(null);
   const [LogoPreview, setLogoPreview] = useState(null);
   const [coverImagePreview, setCoverImagePreview] = useState(null);
+  const [ImagePreview, setImagePreview] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedLogo , setSelectedLogo ] = useState(null);
+  const [selectedImage , setSelectedImage ] = useState(null);
 
   const [photosPreview, setPhotosPreview] = useState([
     null,
@@ -56,7 +58,8 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
                 value: imagePath,
                 // defaultValue: String(imagePath)
             }
-        });
+        });        
+        alert("커버 이미지 업로드 성공!");
     
         } catch (error) {
           console.error('이미지 업로드 오류:', error);
@@ -72,6 +75,7 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
         setSelectedLogo(file);
       }
     };
+
     const handleSubmit2 = async (event) => {
       event.preventDefault();
     
@@ -81,7 +85,7 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
       }
     
       try {
-        const uploadedLogoPath = await handleImageAdd(selectedLogo); // 서버로 업로드
+        const uploadedLogoPath = await handleImageAdd(selectedLogo); 
         onInputChange({
           target: { name: "logo", value: uploadedLogoPath },
         });
@@ -92,14 +96,41 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
       }
     };
 
-  const handlePhotosChange = (index) => (e) => {
-    const file = e.target.files[0];
-    if (file && file.type.startsWith("image/")) {
-      const newPhotosPreview = [...photosPreview];
-      newPhotosPreview[index] = URL.createObjectURL(file);
-      setPhotosPreview(newPhotosPreview);
-    }
-  };
+    const handlePhotosChange = (index) => (e) => {
+      const file = e.target.files[0];
+      if (file && file.type.startsWith("image/")) {
+        const newPhotosPreview = [...photosPreview];
+        newPhotosPreview[index] = file; 
+        setPhotosPreview(newPhotosPreview);
+      } else {
+        alert("이미지 파일만 업로드 가능합니다.");
+      }
+    };
+    
+    
+    const handleSubmit3 = async (event) => {
+      event.preventDefault();
+    
+      if (!photosPreview.length) {
+        alert("파일을 선택해 주세요.");
+        return;
+      }
+    
+      try {
+        // 사진 업로드 호출
+        const uploadedPaths = await handleMultipleImageAdd(photosPreview);
+        console.log("업로드된 이미지 경로들:", uploadedPaths); // 확인
+
+        onInputChange({
+          target: { name: "images", value: uploadedPaths },
+        });
+        console.log("onInputChange 호출 후 formData 확인:", formData); // 상태 확인-> 나오는데 더미 데이터로 안 넘어간다?ㅍ왜지? -> 수연 언니 나온다아아아앙
+
+        alert("사진 업로드 성공!");
+      } catch (error) {
+        console.error("사진 업로드 오류:", error);
+      }
+    };
 
   const handleToggle = () => {
     console.log("토글 공유에 위치함:", !formData.share);
@@ -304,33 +335,51 @@ const CreatePortfolioInput = ({ onInputChange, formData, onDateChange }) => {
         <ColumnWrapper2>
           {/* 사진 */}
           <InputWrapper>
-            <MainText>사진</MainText>
-            <ExText>
-              최대 4장의 사진을 업로드하여 프로젝트를 소개해주세요
-            </ExText>
+          <MainText2>사진</MainText2>
+          <form onSubmit={handleSubmit3}>
             <ImageWrapper>
               {photosPreview.map((preview, index) => (
                 <FileLabel
                   key={index}
                   htmlFor={`photos-${index}`}
                   style={{
-                    backgroundImage: preview ? `url(${preview})` : "none",
+                    backgroundImage: preview ? `url(${URL.createObjectURL(preview)})` : "none",
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                   }}
                 >
                   <FileInput
                     type="file"
+                    accept="image/*"
                     id={`photos-${index}`}
                     onChange={handlePhotosChange(index)}
+                    required={index === 0}
                   />
                   {!preview && "+"}
                 </FileLabel>
               ))}
+              {photosPreview.length < 5 && (
+                <FileLabel
+                  htmlFor={`photos-${photosPreview.length}`}
+                  style={{
+                    backgroundColor: "#f0f0f0",
+                    border: "1px dashed #d0d0d0",
+                  }}
+                >
+                  <FileInput
+                    type="file"
+                    accept="image/*"
+                    id={`photos-${photosPreview.length}`}
+                    onChange={handlePhotosChange(photosPreview.length)}
+                  />
+                  +
+                </FileLabel>
+              )}
             </ImageWrapper>
+            <SubmitButton type="submit">업로드</SubmitButton>
+          </form>
+        </InputWrapper>
 
-            {/* <ChoiceInput type="file"></ChoiceInput> */}
-          </InputWrapper>
           {/* 로고 */}
           <InputWrapper>
             <MainText>로고</MainText>

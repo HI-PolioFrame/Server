@@ -245,7 +245,16 @@ const PortfolioDetailPage2 = () => {
                   {portfolioData.images && portfolioData.images.length > 0 ? (
                     portfolioData.images.slice(0, 4).map((image, index) => (
                       <ImageBox key={index}>
-                        <img src={image} alt={`프로젝트 이미지 ${index + 1}`} />
+                        <img
+                          src={`http://localhost:3000/${image}`}
+                          alt={`프로젝트 이미지 ${index + 1}`}
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "cover",
+                            borderRadius: "8px",
+                          }}
+                        />
                       </ImageBox>
                     ))
                   ) : (
@@ -253,6 +262,7 @@ const PortfolioDetailPage2 = () => {
                   )}
                 </ImageContainer>
               </PhotoWrappeer>
+
               {/* 로고 */}
               <LogoWrappeer>
                 <PhotoText>로고</PhotoText>
@@ -621,7 +631,7 @@ const LearnedText = styled.p`
   font-weight: bold;
   color: #000;
   margin-top: -2%;
-  margin-left: 45%;
+  margin-left: 42.5%;
   font-family: "OTF R";
 `;
 
@@ -632,7 +642,7 @@ const ProblemText = styled.p`
   font-weight: bold;
   color: #000;
   margin-top: -2%;
-  margin-left: 45%;
+  margin-left: 42.5%;
   font-family: "OTF R";
 `;
 

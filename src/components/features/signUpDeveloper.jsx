@@ -76,94 +76,133 @@ let phoneNumCheck = false;
 
 // 아이디 중복 검사
 export const idSignUpDeveloper = async (name, birthday, id, password, rePassword, phoneNumber) => {
-    if (name === null || birthday === null || phoneNumber.length === 0) {
+    try {
+      // 필수 항목 확인
+      if (!name || !birthday || !phoneNumber) {
         alert('모든 항목을 입력하세요.');
-        return;
-    }
-    if (!isIdChecked()) return;
-    if (!isPhoneNumberChecked()) return;
-    if (!isPassword(password, rePassword)) return;
-
-    // 파일에서 pageId를 가져오고 다음 ID를 업데이트
-    const filePath = 'src/components/commmon/dummydata/nextPageId.jsx';
-    const pageId = await fetchFileData(filePath);
-
-    if (pageId === null) {
+        return { success: false, message: '모든 항목을 입력하세요.' };
+      }
+      if (!isIdChecked()) {
+        return { success: false, message: '아이디 중복 확인이 필요합니다.' };
+      }
+      if (!isPhoneNumberChecked()) {
+        return { success: false, message: '전화번호 중복 확인이 필요합니다.' };
+      }
+      if (!isPassword(password, rePassword)) {
+        return { success: false, message: '비밀번호 확인이 필요합니다.' };
+      }
+  
+      // 페이지 ID 가져오기
+      const filePath = 'src/components/commmon/dummydata/nextPageId.jsx';
+      const pageId = await fetchFileData(filePath);
+      if (pageId === null) {
         alert('페이지 아이디를 읽는 데 오류가 발생했습니다.');
-        return;
+        return { success: false, message: '페이지 아이디를 읽는 데 오류가 발생했습니다.' };
+      }
+  
+      // 페이지 ID 업데이트
+      await truncateFile(filePath);
+      await appendStringToFile(filePath, String(pageId + 1));
+  
+      // 비밀번호 해싱
+      const hashPwd = await hashFunction(password);
+  
+      // 사용자 객체 생성 및 저장
+      const user = new User(id, pageId, hashPwd, name, phoneNumber, birthday);
+      oriUsers.set(id, user);
+  
+      // userInfo.jsx 업데이트
+      const userInfoPath = 'src/components/commmon/dummydata/userInfo.jsx';
+      const userInfoString = `
+    {
+      id: "${id}",
+      pageId: ${pageId},
+      password: "${hashPwd}",
+      name: "${name}",
+      phoneNumber: "${phoneNumber}",
+      birthday: "${birthday[0]}-${birthday[1]}-${birthday[2]}",
+      recruiter: false,
+      email: "",
+      nickname: "",
+      link: "",
+      career: "없음",
+      education: ""
+    }`;
+      await removeFromFileEnd(userInfoPath, 3); // 기존 파일 끝에서 제거
+      await appendStringToFile(userInfoPath, `,${userInfoString}\n];`); // 새 정보 추가
+  
+      return { success: true, message: '회원가입이 완료되었습니다.' };
+    } catch (error) {
+      console.error('회원가입 중 오류 발생:', error);
+      return { success: false, message: '회원가입 중 오류가 발생했습니다.' };
     }
-
-    await truncateFile(filePath);  // 기존 페이지 ID 파일을 비우기
-    await appendStringToFile(filePath, String(pageId + 1));  // 새로운 페이지 ID 추가
-
-    const hashPwd = await hashFunction(password);
-    const user = new User(id, pageId, hashPwd, name, phoneNumber, birthday);
-    oriUsers.set(id, user);
-
-    // userInfo.jsx에 해당 유저를 추가한다.
-    const userInfoPath = 'src/components/commmon/dummydata/userInfo.jsx';
-    const userInfoString = `
-  {
-    id: "${id}",
-    pageId: ${pageId},
-    password: "${hashPwd}",
-    name: "${name}",
-    phoneNumber: "${phoneNumber}",
-    birthday: "${birthday[0]}-${birthday[1]}-${birthday[2]}",
-    recruiter: false,
-    email: "",
-    nickname: "",
-    link: "",
-    career: "없음",
-    education: ""
-  }`;
-    await removeFromFileEnd(userInfoPath, 3);  // 기존 유저 정보를 파일 끝에서 
-    await appendStringToFile(userInfoPath, `,${userInfoString}\n];`);  // 새 유저 정보 추가
-};
+ };
+  
 
 export const emailSignUpDeveloper = async (name, birthday, email, password, rePassword, phoneNumber) => {
-    if (name === null || birthday === null || phoneNumber.length === 0) {
+    try {
+      // 입력값 검증
+      if (!name || !birthday || !phoneNumber) {
         alert('모든 항목을 입력하세요.');
-        return;
+        return { success: false, message: "모든 항목을 입력하세요." };
+      }
+      if (!isEmailChecked()) {
+        return { success: false, message: "이메일 확인이 필요합니다." };
+      }
+      if (!isPhoneNumberChecked()) {
+        return { success: false, message: "전화번호 확인이 필요합니다." };
+      }
+      if (!isPassword(password, rePassword)) {
+        return { success: false, message: "비밀번호 확인이 필요합니다." };
+      }
+  
+      // 파일에서 pageId를 가져오고 다음 ID 업데이트
+      const filePath = 'src/components/commmon/dummydata/nextPageId.jsx';
+      const pageId = await fetchFileData(filePath);
+      await truncateFile(filePath);
+      await appendStringToFile(filePath, String(pageId + 1));
+  
+      // 랜덤 ID 생성 및 중복 확인
+      let randomId = getRandomId();
+      while (isIdExists(randomId)) {
+        randomId = getRandomId();
+      }
+  
+      // 비밀번호 해싱
+      const hashPwd = await hashFunction(password);
+  
+      // 사용자 생성
+      const user = new User(randomId, pageId, hashPwd, name, phoneNumber, birthday, email);
+      oriUsers.set(randomId, user);
+  
+      // userInfo.jsx 파일 업데이트
+      const userInfoPath = 'src/components/commmon/dummydata/userInfo.jsx';
+      const userInfoString = `
+    {
+      id: "${randomId}",
+      pageId: ${pageId},
+      password: "${hashPwd}",
+      name: "${name}",
+      phoneNumber: "${phoneNumber}",
+      birthday: "${birthday[0]}-${birthday[1]}-${birthday[2]}",
+      recruiter: false,
+      email: "${email}",
+      nickname: "",
+      link: "",
+      career: "없음",
+      education: ""
+    }`;
+      await removeFromFileEnd(userInfoPath, 3); // 기존 유저 정보를 파일 끝에서 제거
+      await appendStringToFile(userInfoPath, `,${userInfoString}\n];`); // 새 유저 정보 추가
+  
+      // 성공 반환
+      return { success: true, message: "회원가입이 완료되었습니다." };
+    } catch (error) {
+      console.error("회원가입 중 오류 발생:", error);
+      return { success: false, message: "회원가입 중 오류가 발생했습니다." };
     }
-    if (!isEmailChecked()) return;
-    if (!isPhoneNumberChecked()) return;
-    if (!isPassword(password, rePassword)) return;
-
-    // 파일에서 pageId를 가져오고 다음 ID를 업데이트
-    const filePath = 'src/components/commmon/dummydata/nextPageId.jsx';
-    const pageId = await fetchFileData(filePath);
-    await truncateFile(filePath);
-    await appendStringToFile(filePath, String(pageId + 1));
-
-    // 아이디를 생성하지 않았으므로 랜덤 문자열 생성
-    let randomId = getRandomId();
-    while (isIdExists(randomId)) randomId = getRandomId();
-
-    const hashPwd = await hashFunction(password);
-    const user = new User(randomId, pageId, hashPwd, name, phoneNumber, birthday, email);
-    oriUsers.set(randomId, user);
-
-    // userInfo.jsx에 해당 유저를 추가한다.
-    const userInfoPath = 'src/components/commmon/dummydata/userInfo.jsx';
-    const userInfoString = `
-  {
-    id: "${randomId}",
-    pageId: ${pageId},
-    password: "${hashPwd}",
-    name: "${name}",
-    phoneNumber: "${phoneNumber}",
-    birthday: "${birthday[0]}-${birthday[1]}-${birthday[2]}",
-    recruiter: false,
-    email: "${email}",
-    nickname: "",
-    link: "",
-    career: "없음",
-    education: ""
-  }`;
-    await removeFromFileEnd(userInfoPath, 3);  // 기존 유저 정보를 파일 끝에서 제거
-    await appendStringToFile(userInfoPath, `,${userInfoString}\n];`);  // 새 유저 정보 추가
-};
+  };
+  
 
 export const setId = (id) => {
     idCheck = false;

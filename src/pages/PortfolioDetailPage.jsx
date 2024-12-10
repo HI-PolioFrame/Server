@@ -181,7 +181,19 @@ const PortfolioDetailPage = () => {
             </Logo>
           )} */}
           <Logo>
-            <img src={logo} alt="projectLogo" />
+              {portfolioData.logo ? (
+                <img
+                  src={`http://localhost:3000/${portfolioData.logo}`}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    borderRadius: "1em",
+                  }}
+                  />
+                ) : (
+                  <img src={logo} alt="projectLogo" />
+                )}
           </Logo>
           <ProjectTitle>{portfolioData.projectTitle}</ProjectTitle>
         </TitleWrapper>
@@ -281,16 +293,25 @@ const PortfolioDetailPage = () => {
           <ImagesField>
             <Label>사진</Label>
             <ImageContainer>
-              {portfolioData.images && portfolioData.images.length > 0 ? (
-                portfolioData.images.map((image, index) => (
-                  <ImageBox key={index}>
-                    <img src={image} alt={`프로젝트 이미지 ${index + 1}`} />
-                  </ImageBox>
-                ))
-              ) : (
-                <ImageBox>사진 없음</ImageBox>
-              )}
-            </ImageContainer>
+                  {portfolioData.images && portfolioData.images.length > 0 ? (
+                    portfolioData.images.slice(0, 4).map((image, index) => (
+                      <ImageBox key={index}>
+                        <img
+                          src={`http://localhost:3000/${image}`}
+                          alt={`프로젝트 이미지 ${index + 1}`}
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "cover",
+                            borderRadius: "8px",
+                          }}
+                        />
+                      </ImageBox>
+                    ))
+                  ) : (
+                    <ImageBox>사진 없음</ImageBox>
+                  )}
+                </ImageContainer>
           </ImagesField>
         </OtherInfoSection>
       </ContentSection>

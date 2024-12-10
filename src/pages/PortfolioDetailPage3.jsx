@@ -221,7 +221,6 @@ const PortfolioDetailPage3 = () => {
 
   console.log(portfolioData.projectTemplate);
 
-
   return (
     <PageContainer>
       <TitleSection>
@@ -232,7 +231,19 @@ const PortfolioDetailPage3 = () => {
             </Logo>
           )} */}
           <Logo>
-            <img src={logo} alt="projectLogo" />
+              {portfolioData.logo ? (
+                    <img
+                      src={`http://localhost:3000/${portfolioData.logo}`}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        borderRadius: "1em",
+                      }}
+                    />
+                  ) : (
+                    <img src={logo} alt="projectLogo" />
+              )}
           </Logo>
           <ProjectTitle>{portfolioData.projectTitle}</ProjectTitle>
         </TitleWrapper>
@@ -317,27 +328,25 @@ const PortfolioDetailPage3 = () => {
                 </video>
               </DemoVideo>
             </VideoContainer>
-            <ImageContainer>
-              {/* {portfolioData.images && portfolioData.images.length > 0
-            ? portfolioData.images.map((image, index) => (
-                <ImageBox key={index} onClick={() => setEnlargedImage(image)}>
-                  <img src={image} alt={`프로젝트 이미지 ${index + 1}`} />
-                </ImageBox>
-              ))
-            : "사진 없음"} */}
-              <ImageBox onClick={() => setEnlargedImage(sample)}>
-                <img src={sample} alt="sample 이미지" />
-              </ImageBox>
-              <ImageBox onClick={() => setEnlargedImage(sample)}>
-                <img src={sample} alt="sample 이미지" />
-              </ImageBox>
-              <ImageBox onClick={() => setEnlargedImage(sample)}>
-                <img src={sample} alt="sample 이미지" />
-              </ImageBox>
-              <ImageBox onClick={() => setEnlargedImage(sample)}>
-                <img src={sample} alt="sample 이미지" />
-              </ImageBox>
-            </ImageContainer>
+
+            {portfolioData.images &&
+              portfolioData.images.length > 0 &&
+              portfolioData.images.slice(0, 4).map((image, index) => (
+                <ImageContainer>
+                  <ImageBox key={index}>
+                    <img
+                      src={`http://localhost:3000/${image}`}
+                      alt={`프로젝트 이미지 ${index + 1}`}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        borderRadius: "8px",
+                      }}
+                    />
+                  </ImageBox>
+                </ImageContainer>
+              ))}
           </MediaSection>
           <ArrowButton onClick={scrollRight}>
             <Arrow src={greaterThanSign} alt="Scroll Right" />
