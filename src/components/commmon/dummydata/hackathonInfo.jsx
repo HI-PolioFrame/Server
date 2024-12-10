@@ -14,12 +14,8 @@ export const hackathonInfo = [
     logo: "",
     ownerId: "happytree12",
     ownerEmail: "tylove@naver.com",
-    participant: [
-      "admin1",
-      "happytree12",
-      "backendDevel1!"
-    ],
-    part: "프론트"
+    participant: ["admin1", "happytree12", "backendDevel1!"],
+    part: "프론트엔드",
   },
   {
     hackId: 2,
@@ -36,9 +32,7 @@ export const hackathonInfo = [
     logo: "",
     ownerId: "backendDevel1!",
     ownerEmail: "sylove@naver.com",
-    participant: [
-      "happytree12"
-    ],
-    part: "프론트"
-  }
-];  
+    participant: ["happytree12"],
+    part: "백엔드",
+  },
+];
