@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Logo from "../../assets/icons/Logo.png";
 import HackSearchBar from "./HackSearchBar";
 
-const PageHeader = ({ pageTitle, large, onSearch }) => {
+const PageHeader = ({ pageTitle, large, onSearch, onCancelSearch }) => {
   return (
     <>
       <Header pageTitle={pageTitle} $large={large}>
@@ -13,6 +13,7 @@ const PageHeader = ({ pageTitle, large, onSearch }) => {
           onChange={(e) => console.log(e.target.value)}
           onClick={() => console.log("검색 버튼 클릭")}
           onSearch={onSearch}
+          onCancelSearch={onCancelSearch}
         />
       </Header>
     </>

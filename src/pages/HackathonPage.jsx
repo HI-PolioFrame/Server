@@ -4,7 +4,8 @@ import styled from "styled-components";
 import HackPageHeader from "../components/commmon/HackPageHeader.jsx";
 import HackTemplateCard from "../components/commmon/HackTemplateCard.jsx";
 import { dummydata } from "../components/commmon/dummydata/dummydata";
-import SelectBox from "../components/commmon/SelectBox.jsx";
+//import SelectBox from "../components/commmon/SelectBox.jsx";
+import SelectBox_NoFilter from "../components/commmon/SelectBox _NoFilter.jsx";
 import HackSearchBar from "../components/commmon/HackSearchBar";
 import StyledButton from "../components/commmon/StyledButton";
 import HackathonPageSlide from "../components/HackathonPage/HackathonPageSlide.jsx";
@@ -36,14 +37,6 @@ const HackathonPage = () => {
     return array;
   };
 
-  // 페이지 최초 로드 시 oriProjects를 순회하여 상태에 설정
-  // useEffect(() => {
-  //   initializeData(); // 데이터를 초기화
-  //   const sharedHackathonList = Array.from(oriHackathons.values()).filter(
-  //     (Hackathon) => Hackathon.share === true
-  //   ); // Map을 배열로 변환
-  //   setsharedHackathonList(sharedHackathonList); // 초기 포트폴리오 목록을 상태로 설정
-  // }, []);
   useEffect(() => {
     initializeData(); // 데이터를 초기화
     console.log("oriHackathons 값:", oriHackathons); //-> O
@@ -53,31 +46,40 @@ const HackathonPage = () => {
 
     setsharedHackathonList(sharedHackathonArray); // 상태 업데이트
 
-    //const initialList = hackathonSearchSortManeger.sort(null, null, []);
-    //setsharedHackathonList(linkedListToArray(initialList));
+    const initialList = hackathonSearchSortManeger.sort(null, null);
+    setsharedHackathonList(linkedListToArray(initialList));
   }, []);
 
-  const handleSortApply = (category, sortOption, filterOption) => {
+  const handleSortApply = (category, sortOption) => {
     const sortedLinkedList = hackathonSearchSortManeger.sort(
       category,
-      sortOption,
-      filterOption
+      sortOption
     );
-    setsharedPortfolioList(linkedListToArray(sortedLinkedList));
+    setsharedHackathonList(linkedListToArray(sortedLinkedList));
   };
 
   const handleSearchApply = (searchTerm) => {
     const searchedLinkedList = hackathonSearchSortManeger.search(searchTerm);
-    setsharedPortfolioList(linkedListToArray(searchedLinkedList));
+    setsharedHackathonList(linkedListToArray(searchedLinkedList));
   };
+
+  const handleCancelSearch = () => {
+    const resetList = hackathonSearchSortManeger.resetToLatest(); // 최신순 정렬된 리스트
+    setsharedHackathonList(linkedListToArray(resetList));
+  };
+
   const currentUser = getCurrentUser();
 
   return (
     <>
-      <HackPageHeader pageTitle="Hackathon" />
+      <HackPageHeader
+        pageTitle="Hackathon"
+        onSearch={handleSearchApply}
+        onCancelSearch={handleCancelSearch}
+      />
       <MainWrapper>
         <SelectBoxWrapper>
-          <SelectBox onSort={handleSortApply} />
+          <SelectBox_NoFilter onSort={handleSortApply} />
         </SelectBoxWrapper>
         <Line></Line>
 
