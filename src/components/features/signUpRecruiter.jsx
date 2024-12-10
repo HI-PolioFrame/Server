@@ -40,82 +40,115 @@ let phoneNumCheck = false;
 let companyCheck = false;
 
 export const idSignUpRecruiter = async (name, birthday, id, password, rePassword, phoneNumber) => {
-    if (name === null || birthday === null || phoneNumber.length === 0){
+    try {
+      // 필수 항목 검증
+      if (!name || !birthday || !phoneNumber) {
         alert('모든 항목을 입력하세요.');
+        return { success: false, message: '모든 항목을 입력하세요.' };
+      }
+      if (!isIdChecked()) {
+        return { success: false, message: '아이디 중복 확인이 필요합니다.' };
+      }
+      if (!isPhoneNumberChecked()) {
+        return { success: false, message: '전화번호 중복 확인이 필요합니다.' };
+      }
+      if (!isCompanyChecked()) {
+        return { success: false, message: '기업 정보 확인이 필요합니다.' };
+      }
+      if (!isPassword(password, rePassword)) {
+        return { success: false, message: '비밀번호 확인이 필요합니다.' };
+      }
+  
+      // 비밀번호 해싱 및 사용자 생성
+      const hashPwd = await hashFunction(password);
+      const user = new User(id, null, hashPwd, name, phoneNumber, birthday, true);
+      oriUsers.set(id, user);
+      oriRecruiters.set(id, user);
+  
+      // userInfo.jsx 업데이트
+      const filePath = 'src/components/commmon/dummydata/userInfo.jsx';
+      const string = `
+      {
+        id: "${id}",
+        pageId: null,
+        password: "${hashPwd}",
+        name: "${name}",
+        phoneNumber: "${phoneNumber}",
+        birthday: "${birthday[0]}-${birthday[1]}-${birthday[2]}",
+        recruiter: true,
+        email: "",
+        nickname: "",
+        link: "",
+        career: "없음",
+        education: ""
+      }`;
+      await removeFromFileEnd(filePath, 3); // 기존 정보 제거
+      await appendStringToFile(filePath, `,${string}\n];`); // 새 정보 추가
+  
+      return { success: true, message: '기업 회원가입이 완료되었습니다.' };
+    } catch (error) {
+      console.error('회원가입 중 오류 발생:', error);
+      return { success: false, message: '회원가입 중 오류가 발생했습니다.' };
     }
-    if (!isIdChecked()) return;
-    if (!isPhoneNumberChecked()) return;
-    if (!isCompanyChecked()) return;
-    if (!isPassword(password, rePassword)) return;
-
-    // oriUsers, oriRecruiters 링크드 리스트와 userInfo.jsx에 유저(기업회원) 추가
-    const hashPwd = await hashFunction(password);
-    const user = new User(id, null, hashPwd, name, phoneNumber, birthday, true);
-    oriUsers.set(id, user);
-    oriRecruiters.set(id, user);
-
-    // userInfo.jsx에 해당 유저를 추가한다.
-    const filePath = 'src/components/commmon/dummydata/userInfo.jsx';
-    const string = `
-        {
-            id: "${id}",
-            pageId: null,
-            password: "${hashPwd}",
-            name: "${name}",
-            phoneNumber: "${phoneNumber}",
-            birthday: "${birthday[0]}-${birthday[1]}-${birthday[2]}",
-            recruiter: true,
-            email: "",
-            nickname: "",
-            link: "",
-            career: "없음",
-            education: ""
-        }`;
-    await removeFromFileEnd(filePath, 3);
-    await appendStringToFile(filePath, `,${string}\n];`);
-}
-
-export const emailSignUpRecruiter = async (name, birthday, email, password, rePassword, phoneNumber) => {
-    if (name === null || birthday === null || phoneNumber.length === 0){
+  };
+  
+  export const emailSignUpRecruiter = async (name, birthday, email, password, rePassword, phoneNumber) => {
+    try {
+      // 필수 항목 검증
+      if (!name || !birthday || !phoneNumber) {
         alert('모든 항목을 입력하세요.');
+        return { success: false, message: '모든 항목을 입력하세요.' };
+      }
+      if (!isEmailChecked()) {
+        return { success: false, message: '이메일 중복 확인이 필요합니다.' };
+      }
+      if (!isPhoneNumberChecked()) {
+        return { success: false, message: '전화번호 중복 확인이 필요합니다.' };
+      }
+      if (!isCompanyChecked()) {
+        return { success: false, message: '기업 정보 확인이 필요합니다.' };
+      }
+      if (!isPassword(password, rePassword)) {
+        return { success: false, message: '비밀번호 확인이 필요합니다.' };
+      }
+  
+      // 랜덤 아이디 생성 및 중복 확인
+      let randomId = getRandomId();
+      while (isIdExists(randomId)) randomId = getRandomId();
+  
+      // 비밀번호 해싱 및 사용자 생성
+      const hashPwd = await hashFunction(password);
+      const user = new User(randomId, null, hashPwd, name, phoneNumber, birthday, true, email);
+      oriUsers.set(randomId, user);
+      oriRecruiters.set(randomId, user);
+  
+      // userInfo.jsx 업데이트
+      const filePath = 'src/components/commmon/dummydata/userInfo.jsx';
+      const string = `
+      {
+        id: "${randomId}",
+        pageId: null,
+        password: "${hashPwd}",
+        name: "${name}",
+        phoneNumber: "${phoneNumber}",
+        birthday: "${birthday[0]}-${birthday[1]}-${birthday[2]}",
+        recruiter: true,
+        email: "${email}",
+        nickname: "",
+        link: "",
+        career: "없음",
+        education: ""
+      }`;
+      await removeFromFileEnd(filePath, 3); // 기존 정보 제거
+      await appendStringToFile(filePath, `,${string}\n];`); // 새 정보 추가
+  
+      return { success: true, message: '기업 회원가입이 완료되었습니다.' };
+    } catch (error) {
+      console.error('회원가입 중 오류 발생:', error);
+      return { success: false, message: '회원가입 중 오류가 발생했습니다.' };
     }
-    if (!isEmailChecked()) return;
-    if (!isPhoneNumberChecked()) return;
-    if (!isCompanyChecked()) return;
-    if (!isPassword(password, rePassword)) return;
-
-    // oriUsers, oriRecruiters 링크드 리스트와 userInfo.jsx에 유저(기업회원) 추가
-
-    // 아이디를 생성하지 않았으므로 랜덤 문자열 생성
-    // 기존 아이디와 비교하여 존재하지 않는 경우에만 설정
-    let randomId = getRandomId();
-    while (isIdExists(randomId)) randomId = getRandomId();
-
-    const hashPwd = await hashFunction(password);
-    const user = new User(randomId, null, hashPwd, name, phoneNumber, birthday, true, email);
-    oriUsers.set(randomId, user);
-    oriRecruiters.set(randomId, user);
-
-    // userInfo.jsx에 해당 유저를 추가한다.
-    const filePath = 'src/components/commmon/dummydata/userInfo.jsx';
-    const string = `
-        {
-            id: "${randomId}",
-            pageId: null,
-            password: "${hashPwd}",
-            name: "${name}",
-            phoneNumber: "${phoneNumber}",
-            birthday: "${birthday[0]}-${birthday[1]}-${birthday[2]}",
-            recruiter: true,
-            email: "${email}",
-            nickname: "",
-            link: "",
-            career: "없음",
-            education: ""
-        }`;
-    await removeFromFileEnd(filePath, 3);
-    await appendStringToFile(filePath, `,${string}\n];`);
-}
+  };
+  
 
 //현혜찡 코드
 export const setId = (id) => {
