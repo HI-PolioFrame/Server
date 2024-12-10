@@ -5,9 +5,9 @@ import StyledButton from "./StyledButton";
 //sort 함수 import
 
 const categories = ["프론트엔드", "백엔드", "디자인"];
-const sortOptions = ["인기순", "댓글순"];
+const sortOptions = ["인기순"];
 
-const SelectBox_NoFilter = () => {
+const SelectBox_NoFilter = ({ onSort }) => {
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [isSortOpen, setIsSortOpen] = useState(false);
 
@@ -82,7 +82,7 @@ const SelectBox_NoFilter = () => {
         <StyledButton
           text={"적용"}
           onClick={() => {
-            console.log(selectedCategory, selectedSort);
+            onSort(selectedCategory, selectedSort);
             // 기능구현으로 선택된 카테고리, 정렬, 필터 보냄.
             //sort(selectedCategory, selectedSort);
           }}
