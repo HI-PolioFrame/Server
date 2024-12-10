@@ -141,7 +141,7 @@ export const updateParticipant = async (hackId, userId) => {
 
     if (hackathon["participant"].includes(userId)) {
         console.log("이미 참여하는 해커톤에 지원할 수 없음");
-        alert("이미 참여하는 해커톤에 지원할 수 없습니다."); 
+        // alert("이미 참여하는 해커톤에 지원할 수 없습니다."); 
         return;
     }
 

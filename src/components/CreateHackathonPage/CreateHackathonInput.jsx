@@ -188,8 +188,8 @@ const CreateHackathonInput = ({ onInputChange, formData, onDateChange }) => {
         <ColumnWrapper3>
           {/* 참여기간 */}
           <InputWrapper>
-              <MainText>참여기간</MainText>
-              <ExText>이 프로젝트에 참여한 기간을 선택해주세요. </ExText>
+              <MainText>모집기간</MainText>
+              <ExText>이 해커톤에 참여한 기간을 선택해주세요. </ExText>
               <CalendarInput
                 startDate={formData.startDate}
                 endDate={formData.endDate}
