@@ -25,7 +25,7 @@ export const userInfo = [
     birthday: "1990-01-01",
     recruiter: false,
     email: "tylove@naver.com",
-    nickname: "탱구리",
+    nickname: "짠asdf",
     link: "",
     career: "없음",
     education: "학사",

@@ -379,7 +379,7 @@ const PortfolioDetailPage2 = () => {
           setComments={setComments}
           portfolioId={portfolioId}
         /> */}
-        <CommentList comments={comments} setComments={setComments} />
+        <CommentList comments={comments} setComments={setComments} portfolioId={portfolioId}/>
       </CommentsSection>
     </>
   );

@@ -30,4 +30,64 @@ export const portfolioInfo = [
     backend: "Firebase",
     share: false
   },
+{
+    portfolioId: 4,
+    portfolioName: "asdffs",
+    ownerName: "김태연",
+    ownerId: "happytree12",
+    ownerEmail: "tylove@naver.com",
+    projects: [3],
+    usedLanguage: "JavaScriptd",
+    frontend: "dfsf",
+    backend: "sdf",
+    share: false
+  },
+{
+    portfolioId: 5,
+    portfolioName: "asas",
+    ownerName: "김태연",
+    ownerId: "happytree12",
+    ownerEmail: "tylove@naver.com",
+    projects: [3,4,10],
+    usedLanguage: "asa",
+    frontend: "asas",
+    backend: "asas",
+    share: false
+  },
+{
+    portfolioId: 6,
+    portfolioName: "asdfsf",
+    ownerName: "김태연",
+    ownerId: "happytree12",
+    ownerEmail: "tylove@naver.com",
+    projects: [3,10,11],
+    usedLanguage: "sfsdf",
+    frontend: "sdfsdf",
+    backend: "asdfs",
+    share: false
+  },
+{
+    portfolioId: 7,
+    portfolioName: "ㅁㅇㄹ",
+    ownerName: "김태연",
+    ownerId: "happytree12",
+    ownerEmail: "tylove@naver.com",
+    projects: [3,13,10],
+    usedLanguage: "ㄴㅇㄹㄴㄹ",
+    frontend: "ㄴㅇㄹㅇㄴ",
+    backend: "ㄴㅇㄹㅇㄹ",
+    share: false
+  },
+{
+    portfolioId: 8,
+    portfolioName: "ㅇㅇ",
+    ownerName: "김태연",
+    ownerId: "happytree12",
+    ownerEmail: "tylove@naver.com",
+    projects: [11,4],
+    usedLanguage: "ㅇㅇ",
+    frontend: "ㅇㅇㅇㅇ",
+    backend: "ㅇㅇ",
+    share: false
+  },
 ];

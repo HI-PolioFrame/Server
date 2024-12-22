@@ -16,9 +16,11 @@ export const projectInfo = [
     usedLanguage: "Java",
     category: "백엔드",
     hits: 78,
-    likes: ["happytree12"],
+    likes: [
+      "happytree12"
+    ],
     contacts: [],
-    comments: [],
+    comments: []
   },
   {
     projectId: 2,
@@ -38,8 +40,13 @@ export const projectInfo = [
     category: "백엔드",
     hits: 59,
     likes: [],
-    contacts: ["admin4"],
-    comments: [10, 11],
+    contacts: [
+      "admin4"
+    ],
+    comments: [
+      10,
+      11
+    ]
   },
   {
     projectId: 3,
@@ -59,8 +66,10 @@ export const projectInfo = [
     category: "프론트엔드",
     hits: 17,
     likes: [],
-    contacts: ["admin4"],
-    comments: [],
+    contacts: [
+      "admin4"
+    ],
+    comments: []
   },
   {
     projectId: 4,
@@ -81,7 +90,7 @@ export const projectInfo = [
     hits: 8,
     likes: [],
     contacts: [],
-    comments: [],
+    comments: []
   },
   {
     projectId: 5,
@@ -99,10 +108,21 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Python",
     category: "백엔드",
-    hits: 21,
-    likes: ["suyeonnie2"],
-    contacts: ["admin4"],
-    comments: [10, 11, 12, 13, 14],
+    hits: 25,
+    likes: [
+      "suyeonnie2",
+      "happytree12"
+    ],
+    contacts: [
+      "admin4"
+    ],
+    comments: [
+      10,
+      11,
+      12,
+      13,
+      14
+    ]
   },
   {
     projectId: 6,
@@ -122,8 +142,10 @@ export const projectInfo = [
     category: "백엔드",
     hits: 63,
     likes: [],
-    contacts: ["admin4"],
-    comments: [],
+    contacts: [
+      "admin4"
+    ],
+    comments: []
   },
   {
     projectId: 7,
@@ -141,10 +163,14 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 89,
+    hits: 93,
     likes: [],
-    contacts: ["admin1"],
-    comments: [],
+    contacts: [
+      "admin1"
+    ],
+    comments: [
+      18
+    ]
   },
   {
     projectId: 8,
@@ -162,31 +188,180 @@ export const projectInfo = [
     share: true,
     usedLanguage: "Java",
     category: "백엔드",
-    hits: 33,
-    likes: [7],
-    contacts: ["admin1", "admin4"],
-    comments: [],
+    hits: 38,
+    likes: [
+      7
+    ],
+    contacts: [
+      "admin1",
+      "admin4"
+    ],
+    comments: [
+      15
+    ]
   },
-{
-      projectId: 9,
-      projectTemplate: 2,
-      projectTitle: "낭", 
-      projectOwnerName: "f",
-      description: "낭",
-      startDate: "2024-12-04", 
-      endDate: "2024-12-31", 
-      category: "ㄷㅎㄴ", 
-      usedLanguage: "안", 
-      projectLink: "http",
-      solving: "ㅇㅎㅈㄷㅎㅁㄴ", 
-      challenge: "ㅎ마ㅣㅇ롷맨ㅅ;",
-      video: " ",
-      coverImage: "uploads/sssss.jpg", 
-      images: ["uploads/ddddd.jpg","uploads/dugi.jpg"], 
-      logo: "uploads/kkkkk.jpg", 
-      share: false,
-
-      ownerId: "te4939",
-      ownerEmail: "teeeg@nabet"
+  {
+    projectId: 9,
+    projectTemplate: 2,
+    projectTitle: "낭",
+    projectOwnerName: "f",
+    description: "낭",
+    startDate: "2024-12-04",
+    endDate: "2024-12-31",
+    category: "ㄷㅎㄴ",
+    usedLanguage: "안",
+    projectLink: "http",
+    solving: "ㅇㅎㅈㄷㅎㅁㄴ",
+    challenge: "ㅎ마ㅣㅇ롷맨ㅅ;",
+    video: " ",
+    coverImage: "uploads/sssss.jpg",
+    images: [
+      "uploads/ddddd.jpg",
+      "uploads/dugi.jpg"
+    ],
+    logo: "uploads/kkkkk.jpg",
+    share: false,
+    ownerId: "te4939",
+    ownerEmail: "teeeg@nabet"
   },
+  {
+    projectId: 10,
+    projectTemplate: null,
+    projectTitle: "asadsds",
+    projectOwnerName: "김태연",
+    description: "assd",
+    startDate: "2024-12-01",
+    endDate: "2024-12-09",
+    category: "ㄴ",
+    usedLanguage: "dsds",
+    projectLink: "asad",
+    solving: "asas",
+    challenge: "asas",
+    video: " ",
+    coverImage: "",
+    images: [],
+    logo: "",
+    share: true,
+    ownerId: "happytree12",
+    ownerEmail: "tylove@naver.com"
+  },
+  {
+    projectId: 11,
+    projectTemplate: 2,
+    projectTitle: "뫄",
+    projectOwnerName: "김태연",
+    description: "뫄",
+    startDate: "2024-12-16",
+    endDate: "2024-12-24",
+    category: "뫙",
+    usedLanguage: "뫄",
+    projectLink: "http",
+    solving: "ㅇ호마",
+    challenge: "활",
+    video: " ",
+    coverImage: "uploads/dugi.jpg",
+    images: [],
+    logo: "",
+    share: true,
+    ownerId: "happytree12",
+    ownerEmail: "tylove@naver.com",
+    likes: [
+      "happytree12"
+    ],
+    comments: []
+  },
+  {
+    projectId: 12,
+    projectTemplate: 1,
+    projectTitle: "ㅁㄹㄴㄹ",
+    projectOwnerName: "김태연",
+    description: "ㅁㄴㄹㄴㅇㄹ",
+    startDate: "2024-12-01",
+    endDate: "2024-12-09",
+    category: "asfsfd",
+    usedLanguage: "ㄴㄹㄴㅇㄹㅇ",
+    projectLink: "sfdsf",
+    solving: "asdfsf",
+    challenge: "asdfsdf",
+    video: " ",
+    coverImage: "uploads/sssss.jpg",
+    images: [
+      "uploads/cccc.jpg"
+    ],
+    logo: "",
+    share: false,
+    ownerId: "happytree12",
+    ownerEmail: "tylove@naver.com",
+    comments: [
+      17
+    ]
+  },
+  {
+    projectId: 13,
+    projectTemplate: null,
+    projectTitle: "ㄴㄴ",
+    projectOwnerName: "김태연",
+    description: "ㅋㅋㅋ",
+    startDate: "2024-12-17",
+    endDate: "2024-12-20",
+    category: "프론트엔드,백엔드",
+    usedLanguage: "ㅋㅋㅋ",
+    projectLink: "zz",
+    solving: "zz",
+    challenge: "zzz",
+    video: " ",
+    coverImage: "",
+    images: [],
+    logo: "",
+    share: false,
+    ownerId: "happytree12",
+    ownerEmail: "tylove@naver.com"
+  },
+  {
+    projectId: 14,
+    projectTemplate: 1,
+    projectTitle: "ㅁㄴㅇㄹ",
+    projectOwnerName: "김태연",
+    description: "ㅁㄴㅇㄹ",
+    startDate: "2024-12-01",
+    endDate: "2024-12-09",
+    category: "백엔드",
+    usedLanguage: "ㅁㄴㅇㄹ",
+    projectLink: "asdf",
+    solving: "asdf",
+    challenge: "asdf",
+    video: " ",
+    coverImage: "uploads/cccc.jpg",
+    images: [
+      "uploads/sssss.jpg"
+    ],
+    logo: "",
+    share: true,
+    ownerId: "happytree12",
+    ownerEmail: "tylove@naver.com"
+  },
+  {
+    projectId: 15,
+    projectTemplate: 2,
+    projectTitle: "d",
+    projectOwnerName: "김태연",
+    description: "a",
+    startDate: "2024-12-01",
+    endDate: "2024-12-02",
+    category: "",
+    usedLanguage: "a",
+    projectLink: "d",
+    solving: "sdf",
+    challenge: "saf",
+    video: " ",
+    coverImage: "",
+    images: [],
+    logo: "",
+    share: true,
+    ownerId: "happytree12",
+    ownerEmail: "tylove@naver.com",
+    likes: [
+      "happytree12"
+    ]
+  }
 ];

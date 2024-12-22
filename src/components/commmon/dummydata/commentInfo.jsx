@@ -90,4 +90,33 @@ export const commentInfo = [
     text: "###### 댓글",
     date: "2024-12-10"
   },
+  {
+    commentId: 15,
+    portfolioId: 8,
+    userId: "happytree12",
+    text: "**eisjhfk**",
+    date: "2024-12-10"
+  },
+{
+    commentId: 16,
+    portfolioId: 12,
+    userId: "happytree12",
+    text: "**대사너**",
+    date: "2024-12-10"
+  },
+{
+    commentId: 17,
+    portfolioId: 12,
+    userId: "happytree12",
+    text: "**etjs**",
+    date: "2024-12-10"
+  },
+{
+    commentId: 18,
+    portfolioId: 7,
+    userId: "happytree12",
+    text: "**쟈거농**",
+    date: "2024-12-10"
+  }
+
 ];
